@@ -115,6 +115,25 @@ main{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}
 }
 .hint{font-size:clamp(14px,2.8vmin,18px);font-weight:600;color:var(--bgtext);opacity:.8}
 .visualcar svg{width:clamp(150px,38vmin,250px);height:auto;display:block;margin:0 auto}
+.carphoto{max-width:min(86%,520px);max-height:clamp(150px,34vh,360px);width:auto;height:auto;border:5px solid var(--ink);border-radius:26px;box-shadow:0 6px 0 var(--ink);background:var(--paper);object-fit:cover;display:block;margin:0 auto;-webkit-user-drag:none;pointer-events:none}
+.opt{overflow:hidden}
+.optphoto{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
+html{height:100%;height:-webkit-fill-available}
+body{height:100vh;height:100dvh}
+@media (min-width:760px){
+  #app{max-width:1080px;padding-left:max(28px,env(safe-area-inset-left));padding-right:max(28px,env(safe-area-inset-right))}
+  .opts{gap:22px}
+  .promptcard{padding:14px 18px 14px 26px}
+  .top{min-height:72px}
+}
+@media (orientation:landscape) and (max-height:520px){
+  .top{min-height:44px}
+  .stage{gap:6px;padding:2px}
+  .opt{height:clamp(84px,34vh,140px)}
+  .bigemoji{font-size:clamp(56px,20vh,110px)}
+  .nextrow{height:60px}
+}
+@media (hover:none){.opt:hover,.next:hover,.bubble:hover{filter:none}}
 .bubble{
   background:var(--paper);border:4px solid var(--ink);border-radius:36px;box-shadow:0 6px 0 var(--ink);
   padding:12px 26px;font-size:clamp(34px,9vmin,64px);font-weight:800;line-height:1.1;
@@ -353,10 +372,16 @@ var _utts=[];
 var AUD={idx:{},buf:{},gen:0,src:null};
 function clipId(t,l){var h=2166136261,b;try{b=new TextEncoder().encode(l+'|'+String(t).trim())}catch(e){return ''}for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,16777619)>>>0}return ('00000000'+h.toString(16)).slice(-8)}
 try{fetch('audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){AUD.idx=(m&&m.clips)||{}}).catch(function(){})}catch(e){}
+function fetchClip(id){
+  var u='audio/'+id+'.mp3';
+  function once(){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()})}
+  return once().catch(function(){return new Promise(function(res){setTimeout(res,300)}).then(once)});
+}
+function preload(list){try{list.forEach(function(it){if(!it||!it[0])return;var id=clipId(it[0],it[1]);if(AUD.idx[id]&&!AUD.buf[id])loadClip(id,function(){})})}catch(e){}}
 function loadClip(id,cb){
   if(AUD.buf[id]){cb(AUD.buf[id]);return}
   var ac=ensureAC();if(!ac){cb(null);return}
-  try{fetch('audio/'+id+'.mp3').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()}).then(function(ab){
+  try{fetchClip(id).then(function(ab){
     var done=false;function ok(buf){if(done)return;done=true;AUD.buf[id]=buf;cb(buf)}function no(){if(done)return;done=true;cb(null)}
     var pr=ac.decodeAudioData(ab,ok,no);if(pr&&pr.catch)pr.catch(no);
   }).catch(function(){cb(null)})}catch(e){cb(null)}
@@ -620,8 +645,30 @@ function carWheelsRound(){
     win:{vi:'Xe ô tô có bốn bánh.',en:'A car has four wheels.'}
   };
 }
+/* ---- Ảnh ô tô thật: thư mục cars/ (danh sách tự tạo trong cars/cars.json) ---- */
+var PHOTOS=[];
+try{fetch('cars/cars.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){PHOTOS=(m&&m.cars)||[];PHOTOS.forEach(function(p){try{var im=new Image();im.src='cars/'+encodeURIComponent(p.file)}catch(e){}});preload(PHOTOS.reduce(function(a,p){return a.concat([[p.winvi,'vi'],[p.winen,'en']])},[]))}).catch(function(){})}catch(e){}
+function photoImg(p,cls){return '<img class="'+cls+'" src="cars/'+encodeURIComponent(p.file)+'" alt="" draggable="false">'}
+function carPhotoNameRound(){
+  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,3,function(x){return x.vi});
+  return {
+    type:'veh',vi:'Đây là xe gì?',en:'What car is this?',
+    visual:'<div class="visualphoto">'+photoImg(a,'carphoto')+'</div>',
+    opts:set.map(function(x){return {label:x.vi,html:'<span class="nm">'+x.vi+(x.en?'<i>'+x.en+'</i>':'')+'</span>'}}),
+    correct:set.indexOf(a),win:{vi:a.winvi,en:a.winen}
+  };
+}
+function carPhotoPickRound(){
+  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,3,function(x){return x.vi});
+  return {
+    type:'veh',vi:a.pickvi,en:a.picken,
+    visual:'<div class="bigemoji">🔍</div>',
+    opts:set.map(function(x){return {label:x.vi,html:photoImg(x,'optphoto')}}),
+    correct:set.indexOf(a),win:{vi:a.winvi,en:a.winen}
+  };
+}
 function animalAny(){var f=[animalRound,animalRiddleRound,animalNameRound];return pick(f)()}
-function vehicleAny(){var f=[vehicleRound,carRiddleRound,carRiddleRound,carWheelsRound];return pick(f)()}
+function vehicleAny(){var f=[vehicleRound,carRiddleRound,carRiddleRound,carWheelsRound];if(PHOTOS.length>=3)f=f.concat([carPhotoNameRound,carPhotoNameRound,carPhotoPickRound,carPhotoPickRound]);return pick(f)()}
 var BUILD={num:numberRound,col:colorOrShape,let:letterRound,ani:animalAny,veh:vehicleAny};
 
 /* ---------- Views ---------- */
@@ -688,6 +735,8 @@ function renderRound(r){
     +'<div class="nextrow"><button class="next" id="next" hidden>Tiếp tục ▶<small>Next</small></button></div>'
     +'</section>';
   setTimeout(function(){speakNow(sayPrompt(r))},250);
+  /* tải trước giọng đọc phần trả lời để lúc bấm đáp án đọc ngay, không bị đổi sang giọng của máy */
+  preload([[r.win.vi,'vi'],[r.win.en,'en'],['Ồ, thử lại nhé!','vi'],['Oops, try again!','en']].concat(PRAISE.map(function(p){return [p[0],'vi']}),PRAISE.map(function(p){return [p[1],'en']})));
 }
 function answer(i,el){
   var r=S.cur;

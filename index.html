@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bé Vui Học</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bé Vui Học">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#8FD3F8">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
@@ -29,11 +35,12 @@ body{
   background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 100%);
   -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation;overflow:hidden;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-touch-callout:none;overscroll-behavior:none;
 }
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 
-#app{height:100%;display:flex;flex-direction:column;max-width:920px;margin:0 auto;padding:10px 14px 14px}
+#app{height:100%;display:flex;flex-direction:column;max-width:920px;margin:0 auto;padding:max(10px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
 .top{display:flex;align-items:center;gap:10px;min-height:60px}
 .icon{
   min-width:56px;height:56px;border-radius:18px;background:var(--paper);
@@ -318,7 +325,15 @@ function stkHTML(s){return s.indexOf('car:')===0?carSVG(s.slice(4)):s}
 /* ---------- Speech ---------- */
 var VOICES=[];var hasSpeech='speechSynthesis' in window;
 function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){}checkNote()}
-if(hasSpeech){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}}
+if(hasSpeech){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}
+  /* iOS/iPadOS Safari nạp giọng đọc chậm và hay không báo sự kiện: hỏi lại vài lần */
+  var _vt=0,_vi=setInterval(function(){if(VOICES.length||++_vt>20){clearInterval(_vi);return}loadVoices()},250);}
+var IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+var _unl=false;
+function unlockSpeech(){/* iOS chỉ cho đọc sau khi bé chạm màn hình: đọc 1 câu im lặng để mở khoá */
+  if(!hasSpeech||_unl)return;_unl=true;
+  try{var u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}
+}
 function normLang(v){return String(v.lang||'').toLowerCase().replace('_','-')}
 function isViVoice(v){return normLang(v).indexOf('vi')===0||/vietnam|việt/i.test(v.name||'')}
 function voiceFor(l){
@@ -326,7 +341,8 @@ function voiceFor(l){
   var m;
   if(l==='vi'){
     m=VOICES.filter(isViVoice);
-    return m.filter(function(v){return v.localService})[0]||m[0]||null;
+    var q=m.filter(function(v){return /enhanced|premium/i.test(v.name||'')})[0];/* ưu tiên giọng chất lượng cao nếu đã tải */
+    return q||m.filter(function(v){return v.localService})[0]||m[0]||null;
   }
   m=VOICES.filter(function(v){return normLang(v).indexOf('en')===0});
   return m.filter(function(v){return /en-us/.test(normLang(v))})[0]||m[0]||null;
@@ -347,15 +363,16 @@ function speakNow(list){
       _utts.push(u);/* giữ tham chiếu để trình duyệt không thu hồi giữa chừng */
       try{speechSynthesis.speak(u)}catch(e){}
     });
-    try{speechSynthesis.resume()}catch(e){}
+    try{if(speechSynthesis.paused)speechSynthesis.resume()}catch(e){}
   }
-  if(busy)setTimeout(go,80);else go();
+  if(busy)setTimeout(go,IS_IOS?150:80);else go();
 }
 function stopSpeech(){if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;
   var hasVi=VOICES.some(isViVoice);
   n.hidden=!(VOICES.length&&!hasVi);
+  if(IS_IOS&&!n.hidden)n.textContent='Ba mẹ vào Cài đặt > Trợ năng > Nội dung được đọc > Giọng nói > Tiếng Việt, tải giọng "Linh" để bé nghe tiếng Việt nhé.';
 }
 
 /* ---------- Sound effects ---------- */
@@ -631,6 +648,9 @@ $('#langBtn').addEventListener('click',function(){
   if(S.cur){renderRound(S.cur)}else if(!S.mode&&view.querySelector('.home')){showHome()}
 });
 document.addEventListener('pointerdown',function(){ensureAC()},{once:true});
+['touchend','click'].forEach(function(ev){document.addEventListener(ev,function(){unlockSpeech();ensureAC()},{once:true,capture:true})});
+document.addEventListener('visibilitychange',function(){if(document.hidden)stopSpeech();else ensureAC()});
+window.addEventListener('pagehide',stopSpeech);
 
 showHome();
 })();

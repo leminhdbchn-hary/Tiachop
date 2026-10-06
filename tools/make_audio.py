@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Tạo giọng đọc AI cho game Bé Vui Học.
 Đọc tools/phrases.json -> tạo audio/<mã>.mp3 (bỏ qua file đã có) -> ghi audio/manifest.json.
-Giọng: tiếng Việt vi-VN-NamMinhNeural (chậm, hơi cao), tiếng Anh en-GB-MaisieNeural (giọng trẻ em, giọng Anh).
+Giọng: tiếng Việt vi-VN-NamMinhNeural (chậm, hơi cao), tiếng Anh en-US-AnaNeural (giọng bé gái).
 Chạy: pip install edge-tts && python3 tools/make_audio.py
 Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại."""
 import asyncio, json, os, re, sys
 import edge_tts
 
-VOICES = {"vi": ("vi-VN-NamMinhNeural", "-12%", "+6Hz"), "en": ("en-GB-MaisieNeural", "-5%", "+0Hz")}
-SIG = json.dumps(VOICES, sort_keys=True) + "|v2"  # đổi giọng/cách đọc -> tự tạo lại toàn bộ file
+VOICES = {"vi": ("vi-VN-NamMinhNeural", "-12%", "+6Hz"), "en": ("en-US-AnaNeural", "-5%", "+0Hz")}
+SIG = json.dumps(VOICES, sort_keys=True) + "|v3"  # đổi giọng/cách đọc -> tự tạo lại toàn bộ file
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "audio")
 
@@ -46,6 +46,15 @@ async def make(sem, text, lang, path):
 async def main():
     os.makedirs(OUT, exist_ok=True)
     phrases = json.load(open(os.path.join(ROOT, "tools", "phrases.json"), encoding="utf-8"))
+    try:  # câu đọc cho ảnh ô tô trong cars/cars.json
+        cj = json.load(open(os.path.join(ROOT, "cars", "cars.json"), encoding="utf-8"))["cars"]
+    except Exception:
+        cj = []
+    phrases = [list(p) for p in phrases] + [["Đây là xe gì?", "vi"], ["What car is this?", "en"]]
+    for c in cj:
+        for k, lg in (("pickvi", "vi"), ("picken", "en"), ("winvi", "vi"), ("winen", "en")):
+            if c.get(k):
+                phrases.append([c[k], lg])
     sem = asyncio.Semaphore(4)
     try:
         old_sig = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8")).get("sig")

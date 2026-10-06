@@ -1,5 +1,5 @@
 {
-"sig": "{\"en\": [\"en-GB-MaisieNeural\", \"-5%\", \"+0Hz\"], \"vi\": [\"vi-VN-NamMinhNeural\", \"-12%\", \"+6Hz\"]}|v2",
+"sig": "{\"en\": [\"en-US-AnaNeural\", \"-5%\", \"+0Hz\"], \"vi\": [\"vi-VN-NamMinhNeural\", \"-12%\", \"+6Hz\"]}|v3",
 "clips": {
 "b051c3b8": "Awesome!",
 "ce16e2a1": "Bim is purple. Honk honk!",
@@ -593,6 +593,8 @@
 "2e5c5367": "Đó là con hổ!",
 "4916e198": "It is a tiger!",
 "aad7710f": "Đây là con sư tử.",
-"d097732d": "This is a lion."
+"d097732d": "This is a lion.",
+"b67377d5": "Đây là xe gì?",
+"a399b5a7": "What car is this?"
 }
 }

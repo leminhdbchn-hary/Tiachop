@@ -649,8 +649,11 @@ function carWheelsRound(){
 var PHOTOS=[];
 try{fetch('cars/cars.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){PHOTOS=(m&&m.cars)||[];PHOTOS.forEach(function(p){try{var im=new Image();im.src='cars/'+encodeURIComponent(p.file)}catch(e){}});preload(PHOTOS.reduce(function(a,p){return a.concat([[p.winvi,'vi'],[p.winen,'en']])},[]))}).catch(function(){})}catch(e){}
 function photoImg(p,cls){return '<img class="'+cls+'" src="cars/'+encodeURIComponent(p.file)+'" alt="" draggable="false">'}
+var CAR_FILL=[{vi:'xe buýt',en:'bus'},{vi:'xe tải',en:'truck'},{vi:'xe máy',en:'motorbike'},{vi:'xe đạp',en:'bicycle'},{vi:'xe cứu hỏa',en:'fire truck'},{vi:'xe cảnh sát',en:'police car'}];
 function carPhotoNameRound(){
-  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,3,function(x){return x.vi});
+  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,3,function(x){return x.vi}),t=0;
+  while(set.length<3&&t++<50){var f=pick(CAR_FILL);if(!set.some(function(x){return x.vi===f.vi}))set.push(f)}
+  set=shuffle(set);
   return {
     type:'veh',vi:'Đây là xe gì?',en:'What car is this?',
     visual:'<div class="visualphoto">'+photoImg(a,'carphoto')+'</div>',
@@ -668,7 +671,7 @@ function carPhotoPickRound(){
   };
 }
 function animalAny(){var f=[animalRound,animalRiddleRound,animalNameRound];return pick(f)()}
-function vehicleAny(){var f=[vehicleRound,carRiddleRound,carRiddleRound,carWheelsRound];if(PHOTOS.length>=3)f=f.concat([carPhotoNameRound,carPhotoNameRound,carPhotoPickRound,carPhotoPickRound]);return pick(f)()}
+function vehicleAny(){var f=[vehicleRound,carRiddleRound,carRiddleRound,carWheelsRound];if(PHOTOS.length>=1)f=f.concat([carPhotoNameRound,carPhotoNameRound,carPhotoNameRound]);if(PHOTOS.length>=3)f=f.concat([carPhotoPickRound,carPhotoPickRound]);return pick(f)()}
 var BUILD={num:numberRound,col:colorOrShape,let:letterRound,ani:animalAny,veh:vehicleAny};
 
 /* ---------- Views ---------- */

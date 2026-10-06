@@ -1,3 +1,13 @@
 {
- "cars": []
+ "cars": [
+  {
+   "file": "xe đua__race car.jpg",
+   "vi": "xe đua",
+   "en": "race car",
+   "pickvi": "Đâu là xe đua?",
+   "picken": "Which one is the race car?",
+   "winvi": "Đây là xe đua.",
+   "winen": "This is a race car."
+  }
+ ]
 }

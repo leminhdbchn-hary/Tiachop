@@ -319,29 +319,42 @@ function stkHTML(s){return s.indexOf('car:')===0?carSVG(s.slice(4)):s}
 var VOICES=[];var hasSpeech='speechSynthesis' in window;
 function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){}checkNote()}
 if(hasSpeech){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}}
+function normLang(v){return String(v.lang||'').toLowerCase().replace('_','-')}
+function isViVoice(v){return normLang(v).indexOf('vi')===0||/vietnam|việt/i.test(v.name||'')}
 function voiceFor(l){
-  var p=l==='vi'?'vi':'en';
-  var m=VOICES.filter(function(v){return String(v.lang).toLowerCase().replace('_','-').indexOf(p)===0});
-  return m.filter(function(v){return /en-us/i.test(v.lang)})[0]||m[0]||null;
+  if(!VOICES.length)loadVoices();
+  var m;
+  if(l==='vi'){
+    m=VOICES.filter(isViVoice);
+    return m.filter(function(v){return v.localService})[0]||m[0]||null;
+  }
+  m=VOICES.filter(function(v){return normLang(v).indexOf('en')===0});
+  return m.filter(function(v){return /en-us/.test(normLang(v))})[0]||m[0]||null;
 }
+var _utts=[];
 function speakNow(list){
   if(!S.sound||!hasSpeech)return;
-  try{speechSynthesis.cancel()}catch(e){}
+  var busy=false;
+  try{busy=speechSynthesis.speaking||speechSynthesis.pending;speechSynthesis.cancel()}catch(e){}
   var items=(list||[]).filter(function(x){return x&&(x[1]==='vi'||S.lang==='both')});
-  setTimeout(function(){
+  function go(){
+    _utts=[];
     items.forEach(function(it){
       var u=new SpeechSynthesisUtterance(it[0]);
       u.lang=it[1]==='vi'?'vi-VN':'en-US';
-      var v=voiceFor(it[1]);if(v)u.voice=v;
-      u.rate=.85;u.pitch=1.1;
+      var v=voiceFor(it[1]);if(v){u.voice=v;u.lang=v.lang||u.lang}
+      u.rate=it[1]==='vi'?.8:.85;u.pitch=1.1;
+      _utts.push(u);/* giữ tham chiếu để trình duyệt không thu hồi giữa chừng */
       try{speechSynthesis.speak(u)}catch(e){}
     });
-  },60);
+    try{speechSynthesis.resume()}catch(e){}
+  }
+  if(busy)setTimeout(go,80);else go();
 }
 function stopSpeech(){if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;
-  var hasVi=VOICES.some(function(v){return String(v.lang).toLowerCase().indexOf('vi')===0});
+  var hasVi=VOICES.some(isViVoice);
   n.hidden=!(VOICES.length&&!hasVi);
 }
 

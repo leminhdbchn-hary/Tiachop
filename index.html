@@ -348,11 +348,39 @@ function voiceFor(l){
   return m.filter(function(v){return /en-us/.test(normLang(v))})[0]||m[0]||null;
 }
 var _utts=[];
-function speakNow(list){
-  if(!S.sound||!hasSpeech)return;
+/* ---- Giọng AI thu sẵn: audio/<mã>.mp3, danh sách trong audio/manifest.json. Câu nào chưa có file thì dùng giọng đọc của máy ---- */
+var AUD={idx:{},buf:{},gen:0,src:null};
+function clipId(t,l){var h=2166136261,b;try{b=new TextEncoder().encode(l+'|'+String(t).trim())}catch(e){return ''}for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,16777619)>>>0}return ('00000000'+h.toString(16)).slice(-8)}
+try{fetch('audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){AUD.idx=(m&&m.clips)||{}}).catch(function(){})}catch(e){}
+function loadClip(id,cb){
+  if(AUD.buf[id]){cb(AUD.buf[id]);return}
+  var ac=ensureAC();if(!ac){cb(null);return}
+  try{fetch('audio/'+id+'.mp3').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()}).then(function(ab){
+    var done=false;function ok(buf){if(done)return;done=true;AUD.buf[id]=buf;cb(buf)}function no(){if(done)return;done=true;cb(null)}
+    var pr=ac.decodeAudioData(ab,ok,no);if(pr&&pr.catch)pr.catch(no);
+  }).catch(function(){cb(null)})}catch(e){cb(null)}
+}
+function stopAudio(){AUD.gen++;if(AUD.src){try{AUD.src.onended=null;AUD.src.stop()}catch(e){}AUD.src=null}}
+function playClips(items){
+  var gen=++AUD.gen,ids=items.map(function(it){return clipId(it[0],it[1])}),bufs=[],left=ids.length,failed=false;
+  ids.forEach(function(id,i){loadClip(id,function(b){
+    if(!b)failed=true;bufs[i]=b;
+    if(--left>0)return;
+    if(gen!==AUD.gen)return;
+    if(failed){speakSynth(items);return}
+    var ac=ensureAC(),k=0;
+    (function step(){
+      if(gen!==AUD.gen||k>=bufs.length)return;
+      var src=ac.createBufferSource();src.buffer=bufs[k++];src.connect(ac.destination);
+      src.onended=function(){if(AUD.src===src)AUD.src=null;setTimeout(step,120)};
+      AUD.src=src;try{src.start(0)}catch(e){speakSynth(items);return}
+    })();
+  })});
+}
+function speakSynth(items){
+  if(!hasSpeech)return;
   var busy=false;
   try{busy=speechSynthesis.speaking||speechSynthesis.pending;speechSynthesis.cancel()}catch(e){}
-  var items=(list||[]).filter(function(x){return x&&(x[1]==='vi'||S.lang==='both')});
   function go(){
     _utts=[];
     items.forEach(function(it){
@@ -367,7 +395,15 @@ function speakNow(list){
   }
   if(busy)setTimeout(go,IS_IOS?150:80);else go();
 }
-function stopSpeech(){if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
+function speakNow(list){
+  if(!S.sound)return;
+  var items=(list||[]).filter(function(x){return x&&x[0]&&(x[1]==='vi'||S.lang==='both')});
+  stopAudio();
+  if(!items.length)return;
+  var all=items.every(function(it){return AUD.idx[clipId(it[0],it[1])]});
+  if(all)playClips(items);else speakSynth(items);
+}
+function stopSpeech(){stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;
   var hasVi=VOICES.some(isViVoice);
@@ -582,7 +618,7 @@ function answer(i,el){
     document.querySelectorAll('.opt').forEach(function(o){if(o!==el)o.classList.add('dim')});
     var b=el.getBoundingClientRect();confetti(b.left+b.width/2,b.top+b.height/2,false);
     var p=pick(PRAISE);
-    speakNow([[p[0]+' '+r.win.vi,'vi'],[p[1]+' '+r.win.en,'en']]);
+    speakNow([[p[0],'vi'],[r.win.vi,'vi'],[p[1],'en'],[r.win.en,'en']]);
     S.round++;setProgress(S.round,S.total);
     var nb=$('#next');if(nb)nb.hidden=false;
     S.timer=setTimeout(goNext,5500);
@@ -619,7 +655,7 @@ function showEnd(){
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
   confetti(w*.3,h*.35,true);confetti(w*.7,h*.35,true);
-  speakNow([['Hoan hô! Bé giỏi quá! '+gotVi+(car?' '+car.honk:''),'vi'],['Hooray! You did it! '+gotEn,'en']]);
+  speakNow([['Hoan hô! Bé giỏi quá!','vi'],[gotVi,'vi']].concat(car?[[car.honk,'vi']]:[],[['Hooray! You did it!','en'],[gotEn,'en']]));
 }
 
 /* ---------- Events ---------- */

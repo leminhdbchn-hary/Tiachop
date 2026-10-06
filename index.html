@@ -114,6 +114,7 @@ main{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column}
   animation:pop .3s cubic-bezier(.3,1.8,.5,1);
 }
 .hint{font-size:clamp(14px,2.8vmin,18px);font-weight:600;color:var(--bgtext);opacity:.8}
+.visualcar svg{width:clamp(150px,38vmin,250px);height:auto;display:block;margin:0 auto}
 .bubble{
   background:var(--paper);border:4px solid var(--ink);border-radius:36px;box-shadow:0 6px 0 var(--ink);
   padding:12px 26px;font-size:clamp(34px,9vmin,64px);font-weight:800;line-height:1.1;
@@ -384,7 +385,7 @@ function speakSynth(items){
   function go(){
     _utts=[];
     items.forEach(function(it){
-      var u=new SpeechSynthesisUtterance(it[0]);
+      var u=new SpeechSynthesisUtterance(String(it[0]).replace(/[“”"«»]/g,''));
       u.lang=it[1]==='vi'?'vi-VN':'en-US';
       var v=voiceFor(it[1]);if(v){u.voice=v;u.lang=v.lang||u.lang}
       u.rate=it[1]==='vi'?.8:.85;u.pitch=1.1;
@@ -543,7 +544,85 @@ function vehicleRound(){
          en:byColor?c.name+' is '+c.cen+'. Honk honk!':'This is the '+c.en+'. Honk honk!'}
   };
 }
-var BUILD={num:numberRound,col:colorOrShape,let:letterRound,ani:animalRound,veh:vehicleRound};
+/* ---- Câu hỏi & câu đố mới: động vật và ô tô ---- */
+var ANI_EXTRA=[
+ {e:'🐘',vi:'con voi',en:'elephant'},{e:'🦒',vi:'hươu cao cổ',en:'giraffe'},{e:'🐰',vi:'con thỏ',en:'rabbit'},
+ {e:'🐵',vi:'con khỉ',en:'monkey'},{e:'🐟',vi:'con cá',en:'fish'},{e:'🐢',vi:'con rùa',en:'turtle'},
+ {e:'🐻',vi:'con gấu',en:'bear'},{e:'🐯',vi:'con hổ',en:'tiger'}];
+var ANI_ALL=ANIMALS.concat(ANI_EXTRA);
+function aEn(a){return (/^[aeiou]/.test(a.en)?'an ':'a ')+a.en}
+var ANI_RIDDLES=[
+ ['Con gì có cái vòi rất dài?','Which animal has a long trunk?','con voi'],
+ ['Con gì có cái cổ rất dài?','Which animal has a very long neck?','hươu cao cổ'],
+ ['Con gì thích ăn cà rốt và nhảy tưng tưng?','Which animal loves carrots and hops?','con thỏ'],
+ ['Con gì thích ăn chuối và leo cây?','Which animal loves bananas and climbing trees?','con khỉ'],
+ ['Con gì sống dưới nước và biết bơi?','Which animal lives in water and can swim?','con cá'],
+ ['Con gì có cái mai trên lưng và đi rất chậm?','Which animal has a shell and walks very slowly?','con rùa'],
+ ['Con gì to, lông dày và thích ăn mật ong?','Which animal is big, furry and loves honey?','con gấu'],
+ ['Con gì có sọc vằn và rất khỏe?','Which animal has stripes and is very strong?','con hổ'],
+ ['Con gì có bờm và là chúa tể rừng xanh?','Which animal has a mane and is the king of the jungle?','con sư tử'],
+ ['Con gì gáy ò ó o vào buổi sáng?','Which animal crows in the morning?','con gà'],
+ ['Con gì thích bắt chuột?','Which animal loves to catch mice?','con mèo'],
+ ['Con gì biết bơi, đi lạch bạch và kêu cạp cạp?','Which animal swims, waddles and quacks?','con vịt'],
+ ['Con gì vo ve và làm ra mật ong?','Which animal buzzes and makes honey?','con ong'],
+ ['Con gì cho chúng ta sữa?','Which animal gives us milk?','con bò'],
+ ['Con gì biết bay và hót líu lo?','Which animal can fly and sing?','con chim']];
+function animalRiddleRound(){
+  var q=pick(ANI_RIDDLES),a=ANI_ALL.filter(function(x){return x.vi===q[2]})[0];
+  var set=distinctWith(ANI_ALL,a,3,function(x){return x.vi});
+  return {
+    type:'ani',vi:q[0],en:q[1],
+    visual:'<div class="bigemoji">🤔</div><div class="hint">Câu đố · Riddle</div>',
+    opts:set.map(function(x){return {label:x.vi,html:'<span class="emo">'+x.e+'</span><span class="nm">'+x.vi+'<i>'+x.en+'</i></span>'}}),
+    correct:set.indexOf(a),
+    win:{vi:'Đó là '+a.vi+'!',en:'It is '+aEn(a)+'!'}
+  };
+}
+function animalNameRound(){
+  var a=pick(ANI_ALL),set=distinctWith(ANI_ALL,a,3,function(x){return x.vi});
+  return {
+    type:'ani',vi:'Đây là con gì?',en:'What animal is this?',
+    visual:'<div class="bigemoji">'+a.e+'</div>',
+    opts:set.map(function(x){return {label:x.vi,html:'<span class="nm">'+x.vi+'<i>'+x.en+'</i></span>'}}),
+    correct:set.indexOf(a),
+    win:{vi:'Đây là '+a.vi+'.',en:'This is '+aEn(a)+'.'}
+  };
+}
+var CAR_RIDDLES=[
+ ['Xe nào chạy rất nhanh trên đường đua?','Which car races very fast on the track?','bim'],
+ ['Xe nào chở khách đi chơi, đi chợ?','Which car takes passengers around town?','bon'],
+ ['Xe nào của chú cảnh sát?','Which car belongs to the police officer?','tit'],
+ ['Xe nào đi dập tắt đám cháy?','Which car puts out fires?','pu'],
+ ['Xe nào chở đất, cát và đá?','Which car carries soil, sand and rocks?','ro'],
+ ['Xe nào không có mái, đón gió mát?','Which car has no roof and enjoys the breeze?','mit']];
+function carRiddleRound(){
+  var id,vi,en;
+  if(rand(3)===0){
+    id=pick(CARIDS);var h=CARS[id].honk.replace(/!$/,'');
+    vi='Xe nào kêu “'+h+'”?';en='Which car goes “'+h.toLowerCase()+'”?';
+  }else{var q=pick(CAR_RIDDLES);id=q[2];vi=q[0];en=q[1]}
+  var c=CARS[id],set=distinctWith(CARIDS,id,3,function(x){return x});
+  return {
+    type:'veh',vi:vi,en:en,
+    visual:'<div class="bigemoji">🤔</div><div class="hint">Câu đố · Riddle</div>',
+    opts:set.map(function(x){return {label:CARS[x].vi,html:carSVG(x)}}),
+    correct:set.indexOf(id),
+    win:{vi:'Đây là '+c.vi+' tên '+c.name+'. '+c.honk,en:'This is the '+c.en+'. Honk honk!'}
+  };
+}
+function carWheelsRound(){
+  var id=pick(CARIDS),set=[3,4,5];
+  return {
+    type:'veh',vi:'Xe ô tô có mấy bánh?',en:'How many wheels does a car have?',
+    visual:'<div class="visualcar">'+carSVG(id)+'</div>',
+    opts:set.map(function(k){return {label:String(k),html:'<span class="digit">'+k+'</span><span class="nm">'+NUM_VI[k]+'<i>'+NUM_EN[k]+'</i></span>'}}),
+    correct:1,
+    win:{vi:'Xe ô tô có bốn bánh.',en:'A car has four wheels.'}
+  };
+}
+function animalAny(){var f=[animalRound,animalRiddleRound,animalNameRound];return pick(f)()}
+function vehicleAny(){var f=[vehicleRound,carRiddleRound,carRiddleRound,carWheelsRound];return pick(f)()}
+var BUILD={num:numberRound,col:colorOrShape,let:letterRound,ani:animalAny,veh:vehicleAny};
 
 /* ---------- Views ---------- */
 var view=$('#view');

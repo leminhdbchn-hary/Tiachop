@@ -1,0 +1,886 @@
+{
+"items": {
+"dog": {
+"f": "dog.jpg",
+"t": "File:Dhole(Asiatic wild dog).jpg",
+"a": "Davidvraju",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Dhole(Asiatic_wild_dog).jpg"
+},
+"cat": {
+"f": "cat.jpg",
+"t": "File:Felis catus-cat on snow.jpg",
+"a": "Von.grzanka",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg"
+},
+"cow": {
+"f": "cow.jpg",
+"t": "File:Cow (Fleckvieh breed) Oeschinensee Slaunger 2009-07-07.jpg",
+"a": "Kim Hansen",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Cow_(Fleckvieh_breed)_Oeschinensee_Slaunger_2009-07-07.jpg"
+},
+"chicken": {
+"f": "chicken.jpg",
+"t": "File:Hen chicken.jpg",
+"a": "Thegreenj",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Hen_chicken.jpg"
+},
+"duck": {
+"f": "duck.jpg",
+"t": "File:Male mallard duck 2.jpg",
+"a": "Acarpentier",
+"l": "CC BY 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Male_mallard_duck_2.jpg"
+},
+"pig": {
+"f": "pig.jpg",
+"t": "File:Pot-bellied pigs in Lisbon Zoo 2008.jpg",
+"a": "Alvesgaspar",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pot-bellied_pigs_in_Lisbon_Zoo_2008.jpg"
+},
+"frog": {
+"f": "frog.jpg",
+"t": "File:Golden-eyed tree frog (Agalychnis annae).jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Golden-eyed_tree_frog_(Agalychnis_annae).jpg"
+},
+"sheep": {
+"f": "sheep.jpg",
+"t": "File:Swaledale Sheep, Lake District, England - June 2009.jpg",
+"a": "User:Diliff",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Swaledale_Sheep,_Lake_District,_England_-_June_2009.jpg"
+},
+"horse": {
+"f": "horse.jpg",
+"t": "File:Horse December 2014-1.jpg",
+"a": "Alvesgaspar",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Horse_December_2014-1.jpg"
+},
+"bee": {
+"f": "bee.jpg",
+"t": "File:Common crab spider (Xysticus cristatus) female with prey Carniolan honey bee (Apis melifera carnica).jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Common_crab_spider_(Xysticus_cristatus)_female_with_prey_Carniolan_honey_bee_(Apis_melifera_carnica).jpg"
+},
+"bird": {
+"f": "bird.jpg",
+"t": "File:Mourning dove perched (61179).jpg",
+"a": "Rhododendrites",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Mourning_dove_perched_(61179).jpg"
+},
+"lion": {
+"f": "lion.jpg",
+"t": "File:Lion (Panthera leo) male 6y.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Lion_(Panthera_leo)_male_6y.jpg"
+},
+"elephant": {
+"f": "elephant.jpg",
+"t": "File:Elephant running.jpg",
+"a": "Byrdyak",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Elephant_running.jpg"
+},
+"rabbit": {
+"f": "rabbit.jpg",
+"t": "File:Rabbit den hole in Parco Alto Milanese - Busto Arsizio, Lombardy, Italy - 2021-04-05.jpg",
+"a": "Mænsard vokser",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Rabbit_den_hole_in_Parco_Alto_Milanese_-_Busto_Arsizio,_Lombardy,_Italy_-_2021-04-05.jpg"
+},
+"butterfly": {
+"f": "butterfly.jpg",
+"t": "File:Common brimstone butterfly (Gonepteryx rhamni) male.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Common_brimstone_butterfly_(Gonepteryx_rhamni)_male.jpg"
+},
+"fish": {
+"f": "fish.jpg",
+"t": "File:Pacific double-saddle butterflyfish (Chaetodon ulietensis) and other Chaetodon Moorea.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pacific_double-saddle_butterflyfish_(Chaetodon_ulietensis)_and_other_Chaetodon_Moorea.jpg"
+},
+"dolphin": {
+"f": "dolphin.jpg",
+"t": "File:010 Atlantic bottlenose dolphin jumping at Pelican point Photo by Giles Laurent.jpg",
+"a": "Giles Laurent",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:010_Atlantic_bottlenose_dolphin_jumping_at_Pelican_point_Photo_by_Giles_Laurent.jpg"
+},
+"whale": {
+"f": "whale.jpg",
+"t": "File:Humpback whale (Megaptera novaeangliae) calf Moorea 2.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Humpback_whale_(Megaptera_novaeangliae)_calf_Moorea_2.jpg"
+},
+"eagle": {
+"f": "eagle.jpg",
+"t": "File:Bald Eagle Head sq.jpg",
+"a": "Martin Falbisoner",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bald_Eagle_Head_sq.jpg"
+},
+"tiger": {
+"f": "tiger.jpg",
+"t": "File:Bengal tiger (Panthera tigris tigris) female 3.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bengal_tiger_(Panthera_tigris_tigris)_female_3.jpg"
+},
+"monkey": {
+"f": "monkey.jpg",
+"t": "File:Golden monkey (Cercopithecus kandti) eating.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Golden_monkey_(Cercopithecus_kandti)_eating.jpg"
+},
+"turtle": {
+"f": "turtle.jpg",
+"t": "File:Green sea turtle (Chelonia mydas) Moorea.jpg",
+"a": "Charles J. Sharp",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg"
+},
+"apple": {
+"f": "apple.jpg",
+"t": "File:Apple II at Musée Bolo.jpg",
+"a": "Rama & Musée Bolo",
+"l": "CC BY-SA 2.0 fr",
+"u": "https://commons.wikimedia.org/wiki/File:Apple_II_at_Mus%C3%A9e_Bolo.jpg"
+},
+"banana": {
+"f": "banana.jpg",
+"t": "File:Cavendish banana from Maracaibo.jpg",
+"a": "Wilfredor",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Cavendish_banana_from_Maracaibo.jpg"
+},
+"orange": {
+"f": "orange.jpg",
+"t": "File:Orange-Fruit-Pieces.jpg",
+"a": "Evan-Amos",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Orange-Fruit-Pieces.jpg"
+},
+"grapes": {
+"f": "grapes.jpg",
+"t": "File:Wine grapes baja.jpg",
+"a": "Tomás Castelazo",
+"l": "CC BY-SA 2.5",
+"u": "https://commons.wikimedia.org/wiki/File:Wine_grapes_baja.jpg"
+},
+"strawberry": {
+"f": "strawberry.jpg",
+"t": "File:Garden strawberry (Fragaria × ananassa) single2.jpg",
+"a": "Ivar Leidus",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Garden_strawberry_(Fragaria_%C3%97_ananassa)_single2.jpg"
+},
+"watermelon": {
+"f": "watermelon.jpg",
+"t": "File:Taiwan 2009 Tainan City Organic Farm Watermelon FRD 7962.jpg",
+"a": "Fred Hsu (Wikipedia:User:Fred Hsu on en.wikipedia)",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg"
+},
+"pineapple": {
+"f": "pineapple.jpg",
+"t": "File:Ananas comosus, Dole Pineapple Plantation, Oahu, Hawaii, USA2.jpg",
+"a": "Diego Delso",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Ananas_comosus,_Dole_Pineapple_Plantation,_Oahu,_Hawaii,_USA2.jpg"
+},
+"mango": {
+"f": "mango.jpg",
+"t": "File:Khairdeen, alias Pritam, relishing a mango at the dusk of his life 05.jpg",
+"a": "Satdeep Gill",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Khairdeen,_alias_Pritam,_relishing_a_mango_at_the_dusk_of_his_life_05.jpg"
+},
+"pear": {
+"f": "pear.jpg",
+"t": "File:Pear DS.jpg",
+"a": "Augustus Binu : flickr",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pear_DS.jpg"
+},
+"peach": {
+"f": "peach.jpg",
+"t": "File:Apricots Oranges and Saturn Peaches at Broadstairs Kent England.jpg",
+"a": "Acabashi",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Apricots_Oranges_and_Saturn_Peaches_at_Broadstairs_Kent_England.jpg"
+},
+"lemon": {
+"f": "lemon.jpg",
+"t": "File:Lemon - whole and split.jpg",
+"a": "Ivar Leidus",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Lemon_-_whole_and_split.jpg"
+},
+"carrot": {
+"f": "carrot.jpg",
+"t": "File:Carrots at Ljubljana Central Market.JPG",
+"a": "domdomegg",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Carrots_at_Ljubljana_Central_Market.JPG"
+},
+"corn": {
+"f": "corn.jpg",
+"t": "File:Boiled corn cob in Araku Valley, Andhra Pradesh 03.jpg",
+"a": "Satdeep Gill",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Boiled_corn_cob_in_Araku_Valley,_Andhra_Pradesh_03.jpg"
+},
+"tomato": {
+"f": "tomato.jpg",
+"t": "File:Organic home-grown tomatoes - unripe to ripe.jpg",
+"a": "Michal Klajban",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Organic_home-grown_tomatoes_-_unripe_to_ripe.jpg"
+},
+"broccoli": {
+"f": "broccoli.jpg",
+"t": "File:Romanesco broccoli 2025 G2.jpg",
+"a": "George Chernilevsky",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Romanesco_broccoli_2025_G2.jpg"
+},
+"bed": {
+"f": "bed.jpg",
+"t": "File:Astley Hall Oak Bedroom.jpg",
+"a": "Michael D Beckwith",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Astley_Hall_Oak_Bedroom.jpg"
+},
+"chair": {
+"f": "chair.jpg",
+"t": "File:Santorin (GR), Fira -- 2017 -- 2598.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Santorin_(GR),_Fira_--_2017_--_2598.jpg"
+},
+"table": {
+"f": "table.jpg",
+"t": "File:Carved wooden bench furniture and crafts at Heuan Chan heritage house in Luang Prabang Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Carved_wooden_bench_furniture_and_crafts_at_Heuan_Chan_heritage_house_in_Luang_Prabang_Laos.jpg"
+},
+"door": {
+"f": "door.jpg",
+"t": "File:Wooden gate with open double door leading to the garden of Isshinin Buddhist temple in the compounds of Chion-in Kyoto Japan.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Wooden_gate_with_open_double_door_leading_to_the_garden_of_Isshinin_Buddhist_temple_in_the_compounds_of_Chion-in_Kyoto_Japan.jpg"
+},
+"window": {
+"f": "window.jpg",
+"t": "File:Wooden house (window shutters), Riga.jpg",
+"a": "Photograph:  Radomianin",
+"l": "Public domain",
+"u": "https://commons.wikimedia.org/wiki/File:Wooden_house_(window_shutters),_Riga.jpg"
+},
+"sofa": {
+"f": "sofa.jpg",
+"t": "File:Lobby hall with couches and chandelier at The Fullerton Bay Hotel Singapore.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Lobby_hall_with_couches_and_chandelier_at_The_Fullerton_Bay_Hotel_Singapore.jpg"
+},
+"TV": {
+"f": "tv.jpg",
+"t": "File:Nordmende Ultrasonic Remote Control Unit Assembly for Color TV Sets.jpg",
+"a": "Mister rf",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Nordmende_Ultrasonic_Remote_Control_Unit_Assembly_for_Color_TV_Sets.jpg"
+},
+"light": {
+"f": "light.jpg",
+"t": "File:Lamp with lit incandescent light bulb and black background.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Lamp_with_lit_incandescent_light_bulb_and_black_background.jpg"
+},
+"mirror": {
+"f": "mirror.jpg",
+"t": "File:Ambigram Magic Dream - mirror symmetry with a handheld pattern giving a reversed shadow on a blue wall.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Ambigram_Magic_Dream_-_mirror_symmetry_with_a_handheld_pattern_giving_a_reversed_shadow_on_a_blue_wall.jpg"
+},
+"toilet": {
+"f": "toilet.jpg",
+"t": "File:Avocado toilet bowl June 22.jpg",
+"a": "Secretlondon",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Avocado_toilet_bowl_June_22.jpg"
+},
+"bathtub": {
+"f": "bathtub.jpg",
+"t": "File:Bathtub of Khan Pool Suite in Amantaka luxury Resort & Hotel in Luang Prabang Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bathtub_of_Khan_Pool_Suite_in_Amantaka_luxury_Resort_%26_Hotel_in_Luang_Prabang_Laos.jpg"
+},
+"shower": {
+"f": "shower.jpg",
+"t": "File:Country Shower in LO.jpg",
+"a": "Florstein (Telegram:WikiPhoto.Space)",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Country_Shower_in_LO.jpg"
+},
+"toothbrush": {
+"f": "toothbrush.jpg",
+"t": "File:Toothpasteonbrush.jpg",
+"a": "Thegreenj",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg"
+},
+"soap": {
+"f": "soap.jpg",
+"t": "File:Nizza-Soap-4070848.jpg",
+"a": "Ermell",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Nizza-Soap-4070848.jpg"
+},
+"fridge": {
+"f": "fridge.jpg",
+"t": "File:Open refrigerator with food at night.jpg",
+"a": "W.carter",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Open_refrigerator_with_food_at_night.jpg"
+},
+"pan": {
+"f": "pan.jpg",
+"t": "File:Frying pan Naxos NAMA20935.jpg",
+"a": "Jebulon",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Frying_pan_Naxos_NAMA20935.jpg"
+},
+"bowl": {
+"f": "bowl.jpg",
+"t": "File:Golden bowl in the form of the bird with precious stones from Munich Project.jpg",
+"a": "Wilfredor",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Golden_bowl_in_the_form_of_the_bird_with_precious_stones_from_Munich_Project.jpg"
+},
+"spoon": {
+"f": "spoon.jpg",
+"t": "File:Yellow dragon fruit with spoon (50847s).jpg",
+"a": "Rhododendrites",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Yellow_dragon_fruit_with_spoon_(50847s).jpg"
+},
+"wardrobe": {
+"f": "wardrobe.jpg",
+"t": "File:Infinity mirror, hand-washing sink and wardrobes in the spa of Amantaka luxury Resort & Hotel in Luang Prabang Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Infinity_mirror,_hand-washing_sink_and_wardrobes_in_the_spa_of_Amantaka_luxury_Resort_%26_Hotel_in_Luang_Prabang_Laos.jpg"
+},
+"broom": {
+"f": "broom.jpg",
+"t": "File:Hue Vietnam Broom-in-Càn-Thành-Palace-01.jpg",
+"a": "CEphoto, Uwe Aranas",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Hue_Vietnam_Broom-in-C%C3%A0n-Th%C3%A0nh-Palace-01.jpg"
+},
+"book": {
+"f": "book.jpg",
+"t": "File:The owner of a old book selling store at Golpark, South Kolkata.jpg",
+"a": "Sayantan Sarkar",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:The_owner_of_a_old_book_selling_store_at_Golpark,_South_Kolkata.jpg"
+},
+"pencil": {
+"f": "pencil.jpg",
+"t": "File:Colored pencils (1), USSR 1979.jpg",
+"a": "Till Niermann",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Colored_pencils_(1),_USSR_1979.jpg"
+},
+"crayon": {
+"f": "crayon.jpg",
+"t": "File:Pastellkreide -- 2025 -- 8665.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pastellkreide_--_2025_--_8665.jpg"
+},
+"school bag": {
+"f": "school_bag.jpg",
+"t": "File:Backpacks in Quebec.jpg",
+"a": "Wilfredor",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Backpacks_in_Quebec.jpg"
+},
+"ruler": {
+"f": "ruler.jpg",
+"t": "File:Blue tape measure.jpg",
+"a": "Clément Bucco-Lechat",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Blue_tape_measure.jpg"
+},
+"scissors": {
+"f": "scissors.jpg",
+"t": "File:Pair of scissors with black handle, 2015-06-07.jpg",
+"a": "Crisco 1492",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pair_of_scissors_with_black_handle,_2015-06-07.jpg"
+},
+"notebook": {
+"f": "notebook.jpg",
+"t": "File:Spiralbinderücken -- 2022 -- 9739 (bw).jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Spiralbinder%C3%BCcken_--_2022_--_9739_(bw).jpg"
+},
+"bell": {
+"f": "bell.jpg",
+"t": "File:Perth (AU), The Bell Tower -- 2019 -- 0320-4.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Perth_(AU),_The_Bell_Tower_--_2019_--_0320-4.jpg"
+},
+"school": {
+"f": "school.jpg",
+"t": "File:Charles Page High School building Sand Springs OK 2024-03-02 13-47-15.jpg",
+"a": "G. Edward Johnson",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Charles_Page_High_School_building_Sand_Springs_OK_2024-03-02_13-47-15.jpg"
+},
+"teacher": {
+"f": "teacher.jpg",
+"t": "File:Münster, Freilichtmuseum Mühlenhof, Landschule -- 2018 -- 2233.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:M%C3%BCnster,_Freilichtmuseum_M%C3%BChlenhof,_Landschule_--_2018_--_2233.jpg"
+},
+"board": {
+"f": "board.jpg",
+"t": "File:JCRG – Klassenzimmer 20240830 HOF0294 RAW-Export.jpg",
+"a": "PantheraLeo1359531",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:JCRG_%E2%80%93_Klassenzimmer_20240830_HOF0294_RAW-Export.jpg"
+},
+"doctor": {
+"f": "doctor.jpg",
+"t": "File:Doctor using stethoscope on a computer hard drive.jpg",
+"a": "Shixart1985",
+"l": "CC BY 2.0",
+"u": "https://commons.wikimedia.org/wiki/File:Doctor_using_stethoscope_on_a_computer_hard_drive.jpg"
+},
+"firefighter": {
+"f": "firefighter.jpg",
+"t": "File:Firefighter, Ashton Bay, March 2017.jpg",
+"a": "StevenTerblanche",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Firefighter,_Ashton_Bay,_March_2017.jpg"
+},
+"police officer": {
+"f": "police_officer.jpg",
+"t": "File:Jakarta Indonesia Police-officers-01.jpg",
+"a": "CEphoto, Uwe Aranas",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Jakarta_Indonesia_Police-officers-01.jpg"
+},
+"chef": {
+"f": "chef.jpg",
+"t": "File:Steelport 6-Inch Chef Knife (2026)-104A7331.jpg",
+"a": "Frank Schulenburg",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Steelport_6-Inch_Chef_Knife_(2026)-104A7331.jpg"
+},
+"farmer": {
+"f": "farmer.jpg",
+"t": "File:Two farmers driving a tractor and towing a raft loaded with green rice sheaves to be planted in a paddy field of Vang Vieng Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Two_farmers_driving_a_tractor_and_towing_a_raft_loaded_with_green_rice_sheaves_to_be_planted_in_a_paddy_field_of_Vang_Vieng_Laos.jpg"
+},
+"pilot": {
+"f": "pilot.jpg",
+"t": "File:23 0067987 Convair Negative Image - Pilot in cockpit window of Convair 990 American Airlines 01-12-1962 (54182196992).jpg",
+"a": "San Diego Air & Space Museum Archives",
+"l": "Public domain",
+"u": "https://commons.wikimedia.org/wiki/File:23_0067987_Convair_Negative_Image_-_Pilot_in_cockpit_window_of_Convair_990_American_Airlines_01-12-1962_(54182196992).jpg"
+},
+"mechanic": {
+"f": "mechanic.jpg",
+"t": "File:Car exhaust repair - greek style - Santorini - Greece.jpg",
+"a": "Norbert Nagel",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Car_exhaust_repair_-_greek_style_-_Santorini_-_Greece.jpg"
+},
+"artist": {
+"f": "artist.jpg",
+"t": "File:Street art stencil painting of a sitting teenager by German artist Tona in Vang Vieng Laos.jpg",
+"a": "Tona",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Street_art_stencil_painting_of_a_sitting_teenager_by_German_artist_Tona_in_Vang_Vieng_Laos.jpg"
+},
+"builder": {
+"f": "builder.jpg",
+"t": "File:Worker erecting a construction crane, Lisbon, Portugal (PPL1-Corrected) julesvernex2-2.jpg",
+"a": "Jules Verne Times Two",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Worker_erecting_a_construction_crane,_Lisbon,_Portugal_(PPL1-Corrected)_julesvernex2-2.jpg"
+},
+"astronaut": {
+"f": "astronaut.jpg",
+"t": "File:Astronaut, Barcelona (P1170757-RR).jpg",
+"a": "Matti Blume",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Astronaut,_Barcelona_(P1170757-RR).jpg"
+},
+"driver": {
+"f": "driver.jpg",
+"t": "File:Eluru - Jangareddygudem bus near Mundur (May 2019) 1.jpg",
+"a": "IM3847",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Eluru_-_Jangareddygudem_bus_near_Mundur_(May_2019)_1.jpg"
+},
+"bedroom": {
+"f": "bedroom.jpg",
+"t": "File:Palacio Pitti, Florencia, Italia, 2022-09-18, DD 163-165 HDR.jpg",
+"a": "Diego Delso",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Palacio_Pitti,_Florencia,_Italia,_2022-09-18,_DD_163-165_HDR.jpg"
+},
+"kitchen": {
+"f": "kitchen.jpg",
+"t": "File:Interior view of a submerged kitchen in the muddy water of the Mekong, at night, during a flood in Don Det, Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Interior_view_of_a_submerged_kitchen_in_the_muddy_water_of_the_Mekong,_at_night,_during_a_flood_in_Don_Det,_Laos.jpg"
+},
+"bathroom": {
+"f": "bathroom.jpg",
+"t": "File:Bathroom of Khan Pool Suite in Amantaka luxury Resort & Hotel in Luang Prabang Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bathroom_of_Khan_Pool_Suite_in_Amantaka_luxury_Resort_%26_Hotel_in_Luang_Prabang_Laos.jpg"
+},
+"living room": {
+"f": "living_room.jpg",
+"t": "File:Living room of a typical rural house in northeast Brazil.jpg",
+"a": "Wilfredor",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Living_room_of_a_typical_rural_house_in_northeast_Brazil.jpg"
+},
+"dining room": {
+"f": "dining_room.jpg",
+"t": "File:Dining room at the inn Dans les bras de Morphée, located on Île d'Orléans.jpg",
+"a": "Wilfredor",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Dining_room_at_the_inn_Dans_les_bras_de_Morph%C3%A9e,_located_on_%C3%8Ele_d%27Orl%C3%A9ans.jpg"
+},
+"garden": {
+"f": "garden.jpg",
+"t": "File:DSC07729 Sommerblumenschau Pavilion, Flower Gardens Hirschstetten, 2025-07.jpg",
+"a": "Aciarium",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:DSC07729_Sommerblumenschau_Pavilion,_Flower_Gardens_Hirschstetten,_2025-07.jpg"
+},
+"car": {
+"f": "car.jpg",
+"t": "File:Dülmen, Sportzentrum Süd, Parkplatz -- 2026 -- 0223.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Sportzentrum_S%C3%BCd,_Parkplatz_--_2026_--_0223.jpg"
+},
+"bus": {
+"f": "bus.jpg",
+"t": "File:Bus on a Quebec City street.jpg",
+"a": "Wilfredor",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bus_on_a_Quebec_City_street.jpg"
+},
+"police car": {
+"f": "police_car.jpg",
+"t": "File:Swedish police car with lights on.jpg",
+"a": "ThibautRe",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Swedish_police_car_with_lights_on.jpg"
+},
+"fire truck": {
+"f": "fire_truck.jpg",
+"t": "File:MAN TGM fire engine at night, Warsaw, Poland.jpg",
+"a": "LoMit",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:MAN_TGM_fire_engine_at_night,_Warsaw,_Poland.jpg"
+},
+"taxi": {
+"f": "taxi.jpg",
+"t": "File:Public transport share taxi in Maracaibo city, Zulia, Venezuela.jpg",
+"a": "Wilfredor",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:Public_transport_share_taxi_in_Maracaibo_city,_Zulia,_Venezuela.jpg"
+},
+"tractor": {
+"f": "tractor.jpg",
+"t": "File:Tractor New Holland T6.165 plowing (Zadobrova, Ljubljana).jpg",
+"a": "Petar Milošević",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Tractor_New_Holland_T6.165_plowing_(Zadobrova,_Ljubljana).jpg"
+},
+"race car": {
+"f": "race_car.jpg",
+"t": "File:Porsche race car Verschuur amk.jpg",
+"a": "user:AngMoKio",
+"l": "CC BY-SA 2.5",
+"u": "https://commons.wikimedia.org/wiki/File:Porsche_race_car_Verschuur_amk.jpg"
+},
+"train": {
+"f": "train.jpg",
+"t": "File:NSW XPT passenger train Galong, NSW.jpg",
+"a": "Tomoyn",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:NSW_XPT_passenger_train_Galong,_NSW.jpg"
+},
+"airplane": {
+"f": "airplane.jpg",
+"t": "File:A beautiful sunset with the silhoutte of an airplane flying across the image frame.jpg",
+"a": "Subhrajyoti07",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:A_beautiful_sunset_with_the_silhoutte_of_an_airplane_flying_across_the_image_frame.jpg"
+},
+"boat": {
+"f": "boat.jpg",
+"t": "File:Pilot boat at Landsort April 2012.jpg",
+"a": "Arild Vågen",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Pilot_boat_at_Landsort_April_2012.jpg"
+},
+"bike": {
+"f": "bike.jpg",
+"t": "File:Parked bicycle with graffitied building facade and doors in Amsterdam.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Parked_bicycle_with_graffitied_building_facade_and_doors_in_Amsterdam.jpg"
+},
+"helicopter": {
+"f": "helicopter.jpg",
+"t": "File:Tengboche, Helicopter in flight, Mountains of Nepal.jpg",
+"a": "Vyacheslav Argenberg",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Tengboche,_Helicopter_in_flight,_Mountains_of_Nepal.jpg"
+},
+"rocket": {
+"f": "rocket.jpg",
+"t": "File:Volgograd Panorama Museum BM-13NMM Rocket Launcher 2023-07-16 6587.jpg",
+"a": "Mike1979 Russia",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Volgograd_Panorama_Museum_BM-13NMM_Rocket_Launcher_2023-07-16_6587.jpg"
+},
+"truck": {
+"f": "truck.jpg",
+"t": "File:20141025 Shockwave Truck Alliance Air Show 2014-3.jpg",
+"a": "Balon Greyjoy",
+"l": "CC0",
+"u": "https://commons.wikimedia.org/wiki/File:20141025_Shockwave_Truck_Alliance_Air_Show_2014-3.jpg"
+},
+"ball": {
+"f": "ball.jpg",
+"t": "File:Austria national under-21 football team - Teamcamp November 2015 (075).jpg",
+"a": "Steindy (talk) 23:12, 10 November 2015 (UTC)",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Austria_national_under-21_football_team_-_Teamcamp_November_2015_(075).jpg"
+},
+"teddy bear": {
+"f": "teddy_bear.jpg",
+"t": "File:Handmade teddy bear.jpg",
+"a": "Clément Bucco-Lechat",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Handmade_teddy_bear.jpg"
+},
+"bag": {
+"f": "bag.jpg",
+"t": "File:Lederarbeiten 001 2014 03 19.jpg",
+"a": "Friedrich Haag",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Lederarbeiten_001_2014_03_19.jpg"
+},
+"key": {
+"f": "key.jpg",
+"t": "File:Vachette Radial NT key.jpg",
+"a": "D4m1en",
+"l": "CC BY-SA 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Vachette_Radial_NT_key.jpg"
+},
+"umbrella": {
+"f": "umbrella.jpg",
+"t": "File:The Umbrella Workshop.jpg",
+"a": "Sopyaylynn",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:The_Umbrella_Workshop.jpg"
+},
+"clock": {
+"f": "clock.jpg",
+"t": "File:Cape Town (ZA), Waterfront, Clock Tower, Detail -- 2024 -- 2911.jpg",
+"a": "Dietmar Rabich",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Cape_Town_(ZA),_Waterfront,_Clock_Tower,_Detail_--_2024_--_2911.jpg"
+},
+"hat": {
+"f": "hat.jpg",
+"t": "File:Photographic silhouette of the face of a woman wearing a conical hat made of repurposed bags of laundry detergent in Don Det Laos.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Photographic_silhouette_of_the_face_of_a_woman_wearing_a_conical_hat_made_of_repurposed_bags_of_laundry_detergent_in_Don_Det_Laos.jpg"
+},
+"shoe": {
+"f": "shoe.jpg",
+"t": "File:Reebok Royal Glide Ripple Clip shoe.jpg",
+"a": "Petar Milošević",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Reebok_Royal_Glide_Ripple_Clip_shoe.jpg"
+},
+"socks": {
+"f": "socks.jpg",
+"t": "File:Open wing position of Vindula erota (Fabricius, 1793) - Cruiser butterfly sucking sweat from human socks ANK6537.jpg",
+"a": "Ankit0908",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Open_wing_position_of_Vindula_erota_(Fabricius,_1793)_-_Cruiser_butterfly_sucking_sweat_from_human_socks_ANK6537.jpg"
+},
+"shirt": {
+"f": "shirt.jpg",
+"t": "File:Bodysuit worn with sheer tights (pantyhose) and Shirt worn with opaque tights.jpg",
+"a": "Tobias ToMar Maier",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Bodysuit_worn_with_sheer_tights_(pantyhose)_and_Shirt_worn_with_opaque_tights.jpg"
+},
+"glasses": {
+"f": "glasses.jpg",
+"t": "File:2023 Okulary korekcyjne.jpg",
+"a": "Jacek Halicki",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:2023_Okulary_korekcyjne.jpg"
+},
+"gift": {
+"f": "gift.jpg",
+"t": "File:Caja de regalos - Festival de Luces, Chile 2023 - 'Lantern Festival' - A741967.jpg",
+"a": "Rjcastillo",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Caja_de_regalos_-_Festival_de_Luces,_Chile_2023_-_%27Lantern_Festival%27_-_A741967.jpg"
+},
+"bread": {
+"f": "bread.jpg",
+"t": "File:Breads of Russia.jpg",
+"a": "Dmitry Makeev",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Breads_of_Russia.jpg"
+},
+"egg": {
+"f": "egg.jpg",
+"t": "File:Chicken Egg without Eggshell 5859.jpg",
+"a": "Biswarup Ganguly",
+"l": "CC BY 3.0",
+"u": "https://commons.wikimedia.org/wiki/File:Chicken_Egg_without_Eggshell_5859.jpg"
+},
+"cake": {
+"f": "cake.jpg",
+"t": "File:Chocolate cake and Victoria sponge.jpg",
+"a": "Acabashi",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Chocolate_cake_and_Victoria_sponge.jpg"
+},
+"cookie": {
+"f": "cookie.jpg",
+"t": "File:Illuminated wooden shelf with many glass jars containing cookies for sale in Tokyo.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Illuminated_wooden_shelf_with_many_glass_jars_containing_cookies_for_sale_in_Tokyo.jpg"
+},
+"milk": {
+"f": "milk.jpg",
+"t": "File:Icecream seller in Bangladesh DSC02398.jpg",
+"a": "ROCKY",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Icecream_seller_in_Bangladesh_DSC02398.jpg"
+},
+"house": {
+"f": "house.jpg",
+"t": "File:Adam Thoroughgood House - South LR.jpg",
+"a": "PumpkinSky",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Adam_Thoroughgood_House_-_South_LR.jpg"
+},
+"sun": {
+"f": "sun.jpg",
+"t": "File:084 Sun setting in the Namib desert Photo by Giles Laurent.jpg",
+"a": "Giles Laurent",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:084_Sun_setting_in_the_Namib_desert_Photo_by_Giles_Laurent.jpg"
+},
+"moon": {
+"f": "moon.jpg",
+"t": "File:042 Full Moon rising behind Chasseral during sunset Photo by Giles Laurent.jpg",
+"a": "Giles Laurent",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:042_Full_Moon_rising_behind_Chasseral_during_sunset_Photo_by_Giles_Laurent.jpg"
+},
+"cloud": {
+"f": "cloud.jpg",
+"t": "File:Cirrus uncinus clouds in the morning sky.jpg",
+"a": "ADARSHluck",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Cirrus_uncinus_clouds_in_the_morning_sky.jpg"
+},
+"rain": {
+"f": "rain.jpg",
+"t": "File:Four versions of a floodlight through rain on a window.jpg",
+"a": "W.carter",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Four_versions_of_a_floodlight_through_rain_on_a_window.jpg"
+},
+"rainbow": {
+"f": "rainbow.jpg",
+"t": "File:Ring-billed gull and a rainbow (52910).jpg",
+"a": "Rhododendrites",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Ring-billed_gull_and_a_rainbow_(52910).jpg"
+},
+"tree": {
+"f": "tree.jpg",
+"t": "File:Flooded Albizia Saman (rain tree) in the Mekong.jpg",
+"a": "Basile Morin",
+"l": "CC BY-SA 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Flooded_Albizia_Saman_(rain_tree)_in_the_Mekong.jpg"
+},
+"flower": {
+"f": "flower.jpg",
+"t": "File:Halictus bee on flower-2.jpg",
+"a": "Alvesgaspar",
+"l": "CC BY 2.5",
+"u": "https://commons.wikimedia.org/wiki/File:Halictus_bee_on_flower-2.jpg"
+},
+"snow": {
+"f": "snow.jpg",
+"t": "File:Mountains in snow, Mountain lake, Chola Valley, Nepal, Himalayas.jpg",
+"a": "Vyacheslav Argenberg",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Mountains_in_snow,_Mountain_lake,_Chola_Valley,_Nepal,_Himalayas.jpg"
+},
+"mountain": {
+"f": "mountain.jpg",
+"t": "File:Mountains in snow, Mountain lake, Chola Valley, Nepal, Himalayas.jpg",
+"a": "Vyacheslav Argenberg",
+"l": "CC BY 4.0",
+"u": "https://commons.wikimedia.org/wiki/File:Mountains_in_snow,_Mountain_lake,_Chola_Valley,_Nepal,_Himalayas.jpg"
+}
+}
+}

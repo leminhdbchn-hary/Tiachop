@@ -33,7 +33,7 @@ Game học tập song ngữ **Việt - Anh** cho trẻ **3-5 tuổi**, chủ đ�
 
 **Dành cho bé chưa biết chữ:** mọi câu hỏi đều được đọc bằng giọng nói (Việt rồi Anh). Mỗi đáp án có nút loa 🔊 riêng để nghe tên trước khi chọn. Chọn sai chỉ rung nhẹ và được thử lại, không bị trừ điểm.
 
-**Phần thưởng:** một chú xe chạy trên đường đua theo tiến độ. Chơi xong nhận **sticker** (6 chú xe nhân vật, 16 sticker con vật, 1 siêu xe vàng bí mật khi sưu tập đủ 6 xe). Chạm vào xe trong album để xem **xe 3D**: xoay, đổi màu, bấm còi.
+**Phần thưởng:** một chú xe chạy trên đường đua theo tiến độ. Chơi xong nhận 1 sticker mới trong album 189 sticker chia theo nhóm: 40 chú xe nhân vật (xe cứu thương, xe buýt, xe cẩu, xe ủi, máy cày, xe tên lửa...), 8 bạn siêu nhân vẽ riêng (Nhện Nhí, Mèo Siêu Nhân, Rô-bốt, Rồng Con...), hơn 130 sticker thú vật, biển cả, côn trùng, món ngon, phương tiện, đồ chơi, thiên nhiên, và 1 siêu xe vàng bí mật khi sưu tập đủ 10 chú xe. Chạm vào xe trong album để xem xe 3D.
 
 ## Chạy thử trên máy
 
@@ -72,8 +72,8 @@ Toàn bộ mã nằm trong `index.html`. Dữ liệu bài học nằm ở phần
 | `WORDS`, `LN`, `LET_POOL` | từ, chữ cái đầu, cách đọc tên chữ, chữ theo từng mức |
 | `ANI`, `JOBS`, `LIGHTS` | con vật, việc của xe, đèn giao thông |
 | `BODY`, `FOOD`, `EMO`, `SITS` | cơ thể, trái cây và rau, cảm xúc và tình huống |
-| `CARS` | 6 chú xe nhân vật (+ siêu xe vàng Kim) |
-| `ALBUM` | danh sách sticker |
+| `CARS`, `addCar()` | 40 chú xe nhân vật (+ siêu xe vàng Kim); thêm xe mới bằng một dòng addCar |
+| `HEROES`, `SECTIONS` | bạn siêu nhân và các nhóm sticker trong album |
 
 Thêm một dòng vào mảng tương ứng là có thêm câu hỏi. Mỗi dạng câu hỏi là một hàm `...Round()` trong phần `QUESTION BUILDERS`. Bảng `POOL` quyết định chủ đề nào dùng dạng câu nào ở mỗi mức, nên bạn thêm dạng câu mới chỉ cần viết hàm rồi thêm tên vào `POOL`.
 

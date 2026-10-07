@@ -231,6 +231,9 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .atitle{margin:0;font-size:clamp(26px,6vmin,42px);font-weight:800;line-height:1.05;color:var(--bgtext);display:flex;flex-direction:column}
 .atitle small{font-size:.5em;font-weight:600;opacity:.8}
 .ahint{margin:0;font-size:clamp(14px,2.8vmin,18px);font-weight:600;color:var(--bgtext);opacity:.85}
+.asec{margin:16px 2px 0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;color:var(--bgtext);font-size:clamp(20px,4.4vmin,28px);font-weight:800;line-height:1.1}
+.asec i{font-size:.6em;font-weight:600;opacity:.8}
+.asec b{margin-left:auto;font-size:.6em;background:rgba(255,255,255,.75);color:#25234A;padding:2px 10px;border-radius:12px}
 .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px}
 .acell{
   position:relative;background:linear-gradient(180deg,#fff,#EEF5FF);border:3px solid var(--line);border-radius:22px;box-shadow:0 5px 0 var(--line),0 10px 16px var(--soft);
@@ -464,9 +467,6 @@ var REALSH=[
 var PRAISE=[['Đúng rồi!','Yes!'],['Giỏi quá!','Great job!'],['Tuyệt vời!','Awesome!'],['Hoan hô!','Hooray!']];
 var LOGO=['#FF5A5F','#FFB400','#35C9B5','#FFFFFF','#B9A2FF','#FFB400','#FF5A5F','#FFFFFF','#35C9B5','#B9A2FF'];
 
-/* Sticker album: 6 car friends + 1 secret golden car + animals */
-var ALBUM=['car:bim','car:bon','car:tit','car:pu','car:ro','car:mit','car:kim',
-  '🦄','🐯','🐼','🦊','🐨','🐙','🦋','🐞','🐳','🦕','🐧','🦉','🐢','🦀','🐬','🐿️'];
 
 /* =====================================================================
    ORIGINAL CAR CHARACTERS (own design, drawn in code)
@@ -483,6 +483,52 @@ var CARS={
 var CARIDS=['bim','bon','tit','pu','ro','mit'];
 /* silhouette family: taxi and police look alike in shadow */
 var SIL={race:'race',taxi:'sedan',police:'sedan',fire:'fire',dump:'dump',conv:'conv'};
+
+/* ---- 34 more car friends. fam = body family (drawn in famSVG, built in make3DCar) ---- */
+function addCar(id,name,kind,fam,color,iris,cvi,cen,vi,en,jvi,jen){
+  CARS[id]={name:name,kind:kind,fam:fam,color:color,iris:iris,cvi:cvi,cen:cen,vi:vi,en:en,honk:name+' '+name.toLowerCase()+'!'};
+  JOBS[kind]={vi:jvi,en:jen};CARIDS.push(id);
+}
+/* box family: vans, buses and trucks */
+addCar('su','Su','ambulance','box','#F4F7FF','#2BA8E0','trắng','white','xe cứu thương','ambulance','chở người bệnh','carries sick people');
+addCar('beo','Béo','schoolbus','box','#FFB400','#6B3F1D','vàng','yellow','xe buýt trường học','school bus','đưa các bạn đến trường','takes kids to school');
+addCar('bong','Bông','bus','box','#FF4D4D','#2E7D4F','đỏ','red','xe buýt','bus','chở thật nhiều người','carries lots of people');
+addCar('thu','Thư','mailvan','box','#3F8CFF','#7A4A22','xanh dương','blue','xe đưa thư','mail van','đưa thư','delivers letters');
+addCar('kem','Kem','icecream','box','#FF8CC0','#8E4DFF','hồng','pink','xe kem','ice cream truck','bán kem','sells ice cream');
+addCar('xoi','Xôi','foodtruck','box','#FF8A1F','#2BA8E0','cam','orange','xe bán đồ ăn','food truck','bán đồ ăn ngon','sells yummy food');
+addCar('hop','Hộp','deliveryvan','box','#B07A45','#2BA8E0','nâu','brown','xe giao hàng','delivery van','giao hàng','delivers packages');
+addCar('nam','Nấm','camper','box','#4CCB6E','#6B3F1D','xanh lá','green','xe cắm trại','camper van','đi cắm trại','goes camping');
+addCar('sach','Sạch','garbage','box','#2FBF5B','#7A4A22','xanh lá','green','xe chở rác','garbage truck','thu gom rác','collects the trash');
+addCar('xoay','Xoay','mixer','box','#FFB000','#2BA8E0','vàng','yellow','xe trộn bê tông','cement mixer','trộn bê tông','mixes concrete');
+addCar('bon2','Bồn','tanker','box','#C9D2E4','#2E7D4F','bạc','silver','xe bồn','tanker truck','chở nước','carries water');
+addCar('cau','Cẩu','crane','box','#FF8A1F','#6B3F1D','cam','orange','xe cẩu','crane truck','nhấc đồ thật nặng','lifts heavy things');
+addCar('tuyet','Tuyết','snowplow','box','#FF6A3D','#2BA8E0','cam','orange','xe dọn tuyết','snowplow','dọn tuyết','clears the snow');
+addCar('keo','Kéo','tow','box','#3B3F58','#FFC93C','đen','black','xe kéo','tow truck','kéo xe bị hỏng','tows broken cars');
+/* jeep family: tall windows, big lights */
+addCar('li','Lì','offroad','jeep','#5FAE3E','#6B3F1D','xanh lá','green','xe địa hình','off-road car','đi trên đường gồ ghề','drives on bumpy roads');
+addCar('dau','Đậu','suv','jeep','#8E4DFF','#2BA8E0','tím','purple','xe gia đình','family car','chở cả nhà đi chơi','takes the whole family out');
+addCar('van','Vằn','safari','jeep','#E0B34A','#7A4A22','vàng','yellow','xe ngắm thú','safari car','đi ngắm thú rừng','goes to see wild animals');
+addCar('boc','Bốc','pickup','jeep','#E8453C','#2E7D4F','đỏ','red','xe bán tải','pickup truck','chở đồ ở thùng sau','carries things in the back');
+addCar('khung','Khủng','monster','jeep','#2FBF5B','#2BA8E0','xanh lá','green','xe bánh khủng','monster truck','nhảy qua dốc cao','jumps over big ramps');
+addCar('toc','Tốc','rally','jeep','#FF8A1F','#2BA8E0','cam','orange','xe đua đường đất','rally car','đua trên đường đất','races on dirt roads');
+addCar('sang','Sang','limo','jeep','#2B2B3A','#FFC93C','đen','black','xe limousine','limousine','chở khách sang trọng','carries fancy guests');
+/* small family: round little cars */
+addCar('tron','Tròn','round','small','#FFD21F','#6B3F1D','vàng','yellow','xe tròn','round car','chạy rong chơi','cruises around town');
+addCar('bi','Bi','bubble','small','#FF8CC0','#2BA8E0','hồng','pink','xe tí hon','tiny car','đỗ vừa chỗ thật nhỏ','parks in tiny spots');
+addCar('dien','Điện','electric','small','#2FBF5B','#2BA8E0','xanh lá','green','xe điện','electric car','chạy bằng điện','runs on electricity');
+addCar('co','Cổ','vintage','small','#C73E4B','#6B3F1D','đỏ','red','xe cổ','vintage car','đi diễu hành','drives in the parade');
+addCar('ti','Tí','mini','small','#35C9D8','#7A4A22','xanh dương','blue','xe đi biển','beach car','chở ván lướt sóng','carries surfboards');
+addCar('may','Mây','hover','small','#D6DDEB','#35C9D8','bạc','silver','xe tương lai','future car','lướt đi nhẹ như mây','glides like a cloud');
+addCar('go','Gô','gokart','small','#E8453C','#2BA8E0','đỏ','red','xe đua nhỏ','go-kart','đua vòng quanh sân','races around the track');
+addCar('sao','Sao','rocket','small','#F4F7FF','#8E4DFF','trắng','white','xe tên lửa','rocket car','phóng nhanh như tên lửa','zooms like a rocket');
+/* heavy family: building and farm machines */
+addCar('ui','Ủi','bulldozer','heavy','#FFC21A','#6B3F1D','vàng','yellow','xe ủi','bulldozer','ủi đất','pushes the soil');
+addCar('dao','Đào','excavator','heavy','#FF8A1F','#2BA8E0','cam','orange','xe múc','excavator','đào đất','digs holes');
+addCar('nang','Nâng','forklift','heavy','#FFB000','#2E7D4F','vàng','yellow','xe nâng','forklift','nâng hàng trong kho','lifts boxes in the warehouse');
+addCar('cay','Cày','tractor','heavy','#3FA34D','#6B3F1D','xanh lá','green','máy cày','tractor','cày ruộng','plows the field');
+addCar('lan','Lăn','roller','heavy','#FFD21F','#2BA8E0','vàng','yellow','xe lu','road roller','lăn phẳng mặt đường','flattens the road');
+addCar('xuc','Xúc','loader','heavy','#FF9A2E','#2E7D4F','cam','orange','xe xúc','loader','xúc cát','scoops up sand');
+function silOf(id){var k=CARS[id].kind;return SIL[k]||k}
 
 /* ---- colour helpers ---- */
 function shade(hex,p){
@@ -532,7 +578,12 @@ function carSVG(id,colorOverride){
   var bumper='<rect x="28" y="126" width="144" height="18" rx="9" fill="'+M+'" stroke="#7C8399" stroke-width="2"/>'+plate;
   var gloss='<path d="M34 74 Q100 58 166 74 Q100 68 34 82 Z" fill="#fff" opacity=".32"/>';
   var iris=c.iris||'#2BA8E0',eyes='',front='',top='',extra='';
-  if(k==='taxi'||k==='police'){
+  var behind='';
+  if(c.fam){
+    var R=famSVG(c,col,u,dk,B,G,M,iris);
+    if(R.tires!==null)tires=R.tires;
+    behind=R.behind;top=R.top;front=R.front;eyes=R.eyes;extra=R.extra;
+  }else if(k==='taxi'||k==='police'){
     front='<path d="M24 76 Q24 62 42 62 L158 62 Q176 62 176 76 L182 118 Q184 142 164 144 L36 144 Q16 142 18 118 Z" fill="'+B+'"'+st+'/>'
       +'<path d="M50 66 Q52 30 100 28 Q148 30 150 66 Z" fill="'+B+'"'+st+'/>'
       +'<path d="M58 64 Q60 38 100 36 Q140 38 142 64 Z" fill="'+G+'" stroke="'+dk+'" stroke-width="2"/>'
@@ -603,9 +654,335 @@ function carSVG(id,colorOverride){
       +'<rect x="28" y="128" width="144" height="16" rx="8" fill="'+M+'" stroke="#7C8399" stroke-width="2"/>';
   }
   return '<svg class="carsvg" viewBox="0 0 200 160" role="img" aria-label="'+c.vi+' '+c.name+'">'
-    +defs+shadow+tires+top+front+eyes+extra+'</svg>';
+    +defs+shadow+behind+tires+top+front+eyes+extra+'</svg>';
 }
-function stkHTML(s){return s.indexOf('car:')===0?carSVG(s.slice(4)):'<span class="em">'+s+'</span>'}
+/* ---- drawing for the new car families (front view, viewBox 200x160) ---- */
+function famSVG(c,col,u,dk,B,G,M,iris){
+  var k=c.kind,f=c.fam,S1='url(#'+u+'s)',T='url(#'+u+'t)',H='url(#'+u+'h)';
+  var R={tires:null,behind:'',top:'',front:'',eyes:'',extra:''},pre='',post='',my=100,i,x;
+  function sh(d,fill,w){return '<path d="'+d+'" fill="'+fill+'" stroke="'+dk+'" stroke-width="'+(w||2.5)+'" stroke-linejoin="round"/>'}
+  function rc(x,y,w,h,r,fill,sw){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+r+'" fill="'+fill+'" stroke="'+dk+'" stroke-width="'+(sw===undefined?2:sw)+'"/>'}
+  function ci(x,y,r,fill,sw){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+fill+'" stroke="'+dk+'" stroke-width="'+(sw===undefined?2:sw)+'"/>'}
+  function tx(x,y,s,t,fill){return '<text x="'+x+'" y="'+y+'" font-size="'+s+'" font-weight="800" text-anchor="middle" fill="'+(fill||'#25234A')+'" font-family="Arial,sans-serif">'+t+'</text>'}
+  function ln(d,w,stroke,cap){return '<path d="'+d+'" fill="none" stroke="'+stroke+'" stroke-width="'+w+'" stroke-linecap="'+(cap||'round')+'" stroke-linejoin="round"/>'}
+  function bumper(x1,x2){return '<rect x="'+x1+'" y="128" width="'+(x2-x1)+'" height="17" rx="8" fill="'+M+'" stroke="#7C8399" stroke-width="2"/>'}
+  function trk(x){var s=rc(x,96,36,58,13,T,2);for(var j=0;j<5;j++)s+='<rect x="'+(x+4)+'" y="'+(104+j*10)+'" width="28" height="3" rx="1.5" fill="#fff" opacity=".18"/>';return s}
+  var shine='<path d="M28 48 Q100 40 172 48 L172 52 Q100 46 28 54 Z" fill="#fff" opacity=".28"/>';
+  var beacon=function(cx,cy,r,fill){return '<path d="M'+(cx-r)+' '+cy+' a'+r+' '+r+' 0 0 1 '+(2*r)+' 0z" fill="'+fill+'" stroke="'+dk+'" stroke-width="2.5" stroke-linejoin="round"/>'};
+
+  if(f==='box'){
+    R.front=sh('M26 36 L174 36 Q180 36 180 44 L184 124 Q186 144 164 146 L36 146 Q14 144 16 124 L20 44 Q20 36 26 36 Z',B)
+      +sh('M32 44 L168 44 L164 86 L36 86 Z',G,2)+shine;
+    R.eyes=eyeSVG(u,74,65,15,iris)+eyeSVG(u,126,65,15,iris);
+    var stripe=function(fill,h){return '<rect x="16" y="88" width="168" height="'+(h||6)+'" fill="'+fill+'"/>'};
+    var bars=function(a,b,y,h){var s='';for(var j=0;j<12;j++)s+='<rect x="'+(16+j*14)+'" y="'+y+'" width="14" height="'+h+'" fill="'+(j%2?a:b)+'"/>';return s};
+    switch(k){
+      case 'ambulance':
+        pre=stripe('#FF3B3B');
+        R.top=rc(70,12,60,24,7,'#fff')+'<rect x="97" y="16" width="6" height="16" rx="1.5" fill="#FF3B3B"/><rect x="92" y="21" width="16" height="6" rx="1.5" fill="#FF3B3B"/>'+beacon(48,36,9,'#FF3B3B')+beacon(152,36,9,'#2F7BFF');break;
+      case 'schoolbus':
+        pre=stripe('#25234A',5);
+        R.top=rc(64,12,72,24,7,'#fff')+tx(100,29,11,'SCHOOL')+ci(44,30,6,'#FF8A1F')+ci(156,30,6,'#FF8A1F');break;
+      case 'bus':
+        pre=stripe('#fff');
+        R.top=rc(52,14,96,22,9,'#fff')+tx(100,30,13,'BUS')+ci(36,30,5,'#FFD21F')+ci(164,30,5,'#FFD21F');break;
+      case 'mailvan':
+        pre=stripe('#FFD21F');
+        R.top=rc(72,12,56,24,6,'#fff')+'<rect x="82" y="17" width="36" height="14" rx="2.5" fill="none" stroke="#3F8CFF" stroke-width="3"/><path d="M82 18 L100 28 L118 18" fill="none" stroke="#3F8CFF" stroke-width="3" stroke-linejoin="round"/>';break;
+      case 'icecream':
+        pre=bars('#fff','#FF5FA2',88,6);
+        R.top=sh('M84 36 L116 36 L100 12 Z','#E8B25A',2.5)+ci(100,12,15,'#FFC1DB',2.5)+'<ellipse cx="94" cy="7" rx="5" ry="3" fill="#fff" opacity=".8"/>'+ci(100,-1,3.5,'#FF3B3B',1.5)
+          +'<circle cx="106" cy="14" r="1.8" fill="#8E4DFF"/><circle cx="96" cy="17" r="1.8" fill="#35C9B5"/>';break;
+      case 'foodtruck':
+        pre=bars('#fff','#FF3B3B',86,8);
+        R.top=ci(84,24,10,'#fff')+ci(100,16,13,'#fff')+ci(116,24,10,'#fff')+rc(82,24,36,12,4,'#fff');break;
+      case 'deliveryvan':
+        pre=stripe('#fff');
+        R.top=rc(66,8,68,28,3,'#E0A862')+'<rect x="96" y="8" width="8" height="28" fill="#F5DDAE"/><path d="M72 14 h18 M110 14 h18" stroke="'+dk+'" stroke-width="2" opacity=".5"/>';break;
+      case 'camper':
+        pre=stripe('#fff');
+        R.top=sh('M62 36 L100 4 L138 36 Z','#FF8A1F',2.5)+sh('M90 36 L100 16 L110 36 Z','#B35A00',2)+'<circle cx="100" cy="4" r="3" fill="#FFD21F"/>';break;
+      case 'garbage':
+        pre=stripe('#FFD21F');
+        R.top=rc(28,4,144,32,9,shade(col,-.22))+ln('M60 10 V32 M100 10 V32 M140 10 V32',3,dk)+'<rect x="40" y="8" width="120" height="5" rx="2.5" fill="#fff" opacity=".35"/>';break;
+      case 'mixer':
+        pre=stripe('#25234A',5);
+        R.top='<clipPath id="'+u+'k"><ellipse cx="100" cy="20" rx="50" ry="21"/></clipPath><ellipse cx="100" cy="20" rx="50" ry="21" fill="#FF8A1F"/>'
+          +'<g clip-path="url(#'+u+'k)"><path d="M50 40 L84 0 M72 40 L106 0 M94 40 L128 0 M116 40 L150 0 M138 40 L172 0" stroke="#fff" stroke-width="7"/></g>'
+          +'<ellipse cx="100" cy="20" rx="50" ry="21" fill="none" stroke="'+dk+'" stroke-width="2.5"/>';break;
+      case 'tanker':
+        pre=stripe('#fff');
+        R.top=rc(24,6,152,30,15,S1,2.5)+ln('M62 8 V34 M138 8 V34',2.5,'#8E96AC','butt')+'<rect x="40" y="10" width="120" height="6" rx="3" fill="#fff" opacity=".7"/>'
+          +'<path d="M100 14 Q91 25 100 31 Q109 25 100 14Z" fill="#2F7BFF"/>';break;
+      case 'crane':
+        pre=stripe('#25234A',5);
+        R.top=ln('M44 36 L152 8',15,dk)+ln('M44 36 L152 8',9,'#FFC21A')+ln('M152 8 V32',3.5,'#4A4F66','butt')+ln('M152 32 V38 Q152 46 145 46 Q140 46 140 41',3.5,'#4A4F66');break;
+      case 'snowplow':
+        pre=stripe('#fff');my=92;
+        R.top=beacon(100,36,17,'#FFB400')+'<ellipse cx="94" cy="26" rx="6" ry="3" fill="#fff" opacity=".6"/>';
+        post=sh('M4 120 L196 120 L188 150 L12 150 Z','#FFB000',3);
+        for(i=0;i<6;i++){x=20+i*32;post+='<path d="M'+x+' 122 h14 l-8 26 h-14 z" fill="#25234A"/>'}
+        post+='<path d="M10 124 H190" stroke="#fff" stroke-width="3" opacity=".5"/>';break;
+      case 'tow':
+        pre=stripe('#FFB400');
+        R.top=rc(56,16,88,18,7,'#FFB400')+ci(72,25,6,'#FFF3B0')+ci(100,25,6,'#FFF3B0')+ci(128,25,6,'#FFF3B0');
+        post=ln('M100 130 V144',4.5,'#4A4F66','butt')+ln('M100 144 Q100 156 90 156 Q82 156 82 149',4.5,'#4A4F66');break;
+    }
+    R.front+=pre;
+    R.extra=mouthSVG(100,my)+headlightSVG(u,36,112,11,11)+headlightSVG(u,164,112,11,11)+bumper(26,174)+post;
+  }
+  else if(f==='jeep'){
+    R.front=sh('M18 84 Q20 68 44 64 L156 64 Q180 68 182 84 L186 124 Q188 144 166 146 L34 146 Q12 144 14 124 Z',B)
+      +sh('M54 66 L64 26 L136 26 L146 66 Z',G,3)+'<path d="M62 32 L138 32 L139 37 L61 40 Z" fill="#fff" opacity=".3"/>';
+    R.eyes=eyeSVG(u,84,48,11.5,iris)+eyeSVG(u,116,48,11.5,iris);
+    var bmp=bumper(24,176),hl=headlightSVG(u,38,100,15,15)+headlightSVG(u,162,100,15,15),mo=mouthSVG(100,98);
+    switch(k){
+      case 'offroad':
+        R.top=ln('M58 30 Q100 2 142 30',10,dk)+ln('M58 30 Q100 2 142 30',5,'#B8C0D4');
+        post=ci(100,124,0,'none',0);break;
+      case 'suv':
+        R.top=rc(44,18,112,7,3,'#B8C0D4')+rc(62,4,76,16,7,shade(col,-.28));break;
+      case 'safari':
+        R.top=rc(32,8,136,18,8,'#fff');for(i=0;i<7;i++)R.top+='<rect x="'+(40+i*18)+'" y="8" width="8" height="18" fill="#25234A"/>';
+        R.top+='<rect x="32" y="8" width="136" height="18" rx="8" fill="none" stroke="'+dk+'" stroke-width="2.5"/>';break;
+      case 'pickup':
+        R.behind=rc(24,8,152,56,9,shade(col,-.28))+rc(34,-2,34,30,4,'#E0A862')+rc(132,2,34,26,4,'#B98CFF')+ci(100,16,13,'#FF5A5F');break;
+      case 'monster':
+        R.tires='';hl=headlightSVG(u,66,106,11,11)+headlightSVG(u,134,106,11,11);bmp=bumper(52,148);
+        R.top=ci(66,16,6,'#FFF3B0')+ci(86,16,6,'#FFF3B0')+ci(114,16,6,'#FFF3B0')+ci(134,16,6,'#FFF3B0');
+        post=rc(0,78,52,78,24,T,2.5)+rc(148,78,52,78,24,T,2.5)+ci(26,117,13,'#B8C0D4',2)+ci(174,117,13,'#B8C0D4',2)+ci(26,117,5,'#fff',0)+ci(174,117,5,'#fff',0)
+          +'<rect x="8" y="90" width="6" height="44" rx="3" fill="#fff" opacity=".16"/><rect x="154" y="90" width="6" height="44" rx="3" fill="#fff" opacity=".16"/>';break;
+      case 'rally':
+        R.top=rc(84,8,32,16,5,'#25234A')+ci(60,18,7,'#FFF3B0')+ci(140,18,7,'#FFF3B0');
+        R.front+='<rect x="92" y="66" width="6" height="62" fill="#fff" opacity=".92"/><rect x="102" y="66" width="6" height="62" fill="#fff" opacity=".92"/>'+ci(154,82,12,'#fff',2)+tx(154,88,16,'7');break;
+      case 'limo':
+        R.front+='<rect x="14" y="116" width="172" height="5" fill="#FFC93C"/>';
+        R.top=ln('M30 62 V34',3.5,'#6B7390','butt')+sh('M30 34 L48 41 L30 48 Z','#FFC93C',2)+ln('M170 62 V34',3.5,'#6B7390','butt')+sh('M170 34 L152 41 L170 48 Z','#FFC93C',2);break;
+    }
+    R.extra=hl+mo+bmp+post;
+  }
+  else if(f==='small'){
+    var bub=function(){R.tires=rc(20,112,32,40,11,T,2)+rc(148,112,32,40,11,T,2);
+      R.front=sh('M28 112 Q22 52 100 40 Q178 52 172 112 Q176 144 150 146 L50 146 Q24 144 28 112 Z',B)
+        +sh('M50 98 Q48 58 100 54 Q152 58 150 98 Z',G,2.5)+'<path d="M52 68 Q100 46 148 68 Q100 54 52 76Z" fill="#fff" opacity=".3"/>';
+      R.eyes=eyeSVG(u,78,76,14,iris)+eyeSVG(u,122,76,14,iris);
+      R.extra=mouthSVG(100,108)+headlightSVG(u,40,122,10,10)+headlightSVG(u,160,122,10,10)+'<rect x="48" y="134" width="104" height="12" rx="6" fill="'+M+'" stroke="#7C8399" stroke-width="2"/>'};
+    switch(k){
+      case 'round':
+        bub();R.top=ln('M100 46 V28',3.5,'#3FA34D','butt');
+        for(i=0;i<5;i++)R.top+=ci((100+10*Math.cos(i*1.2566-1.57)).toFixed(1),(20+10*Math.sin(i*1.2566-1.57)).toFixed(1),6.5,'#FF7EB6',1.5);
+        R.top+=ci(100,20,5.5,'#FFD21F',1.5);break;
+      case 'bubble':
+        bub();R.top=ln('M100 46 V8',3.5,'#6B7390','butt')+sh('M100 8 L126 16 L100 24 Z','#FF3B3B',2);break;
+      case 'electric':
+        bub();R.top=ci(100,22,15,'#fff',2.5)+sh('M104 8 L92 24 L99 24 L95 36 L109 19 L102 19 Z','#FFC93C',1.8);break;
+      case 'mini':
+        bub();R.top='<ellipse cx="100" cy="24" rx="13" ry="38" transform="rotate(22 100 24)" fill="#FF8A1F" stroke="'+dk+'" stroke-width="2.5"/>'
+          +'<path d="M92 -6 L108 52" stroke="#fff" stroke-width="4" transform="rotate(22 100 24) translate(0 -6)" opacity=".9"/>';break;
+      case 'hover':
+        bub();R.tires='<ellipse cx="38" cy="148" rx="27" ry="8" fill="#6FE7FF" opacity=".85"/><ellipse cx="162" cy="148" rx="27" ry="8" fill="#6FE7FF" opacity=".85"/>'
+          +'<ellipse cx="38" cy="147" rx="16" ry="4" fill="#fff" opacity=".9"/><ellipse cx="162" cy="147" rx="16" ry="4" fill="#fff" opacity=".9"/>';
+        R.top=ln('M100 46 V26',3.5,'#8E96AC','butt')+'<ellipse cx="100" cy="22" rx="28" ry="8" fill="none" stroke="#35C9D8" stroke-width="5"/><ellipse cx="100" cy="22" rx="28" ry="8" fill="none" stroke="'+dk+'" stroke-width="1" opacity=".5"/>';break;
+      case 'rocket':
+        bub();R.behind=sh('M34 92 L6 132 L38 128 Z','#FF3B3B',2.5)+sh('M166 92 L194 132 L162 128 Z','#FF3B3B',2.5);
+        R.top=sh('M78 50 Q100 -6 122 50 Z','#FF3B3B',2.5)+'<path d="M90 28 Q100 12 110 28" fill="none" stroke="#fff" stroke-width="4" opacity=".8"/>';break;
+      case 'vintage':
+        R.front=sh('M30 78 Q32 58 54 54 L146 54 Q168 58 170 78 L176 124 Q178 144 160 146 L40 146 Q22 144 24 124 Z',B)
+          +sh('M62 56 L68 28 L132 28 L138 56 Z',G,3)+'<path d="M66 34 L134 34 L135 39 L65 42 Z" fill="#fff" opacity=".3"/>';
+        R.eyes=eyeSVG(u,86,43,10.5,iris)+eyeSVG(u,114,43,10.5,iris);
+        R.top=sh('M54 32 Q100 2 146 32 L136 32 Q100 14 64 32 Z',shade(col,-.3),2.5);
+        R.extra=headlightSVG(u,36,94,17,17)+headlightSVG(u,164,94,17,17)+mouthSVG(100,98)+bumper(30,170)
+          +rc(80,126,40,8,3,'#F4F7FF',1.5);break;
+      case 'gokart':
+        R.front=sh('M30 104 Q30 84 56 82 L144 82 Q170 84 170 104 L172 132 Q172 146 152 146 L48 146 Q28 146 28 132 Z',B)
+          +'<path d="M40 92 Q100 80 160 92 Q100 88 40 100Z" fill="#fff" opacity=".3"/>';
+        R.top=ci(100,56,24,'#FF3B3B',2.5)+'<path d="M78 56 Q100 40 122 56 L122 66 Q100 74 78 66Z" fill="'+G+'" stroke="'+dk+'" stroke-width="2"/>'+'<ellipse cx="90" cy="48" rx="7" ry="3.5" fill="#fff" opacity=".6"/>';
+        R.eyes=eyeSVG(u,80,104,13,iris)+eyeSVG(u,120,104,13,iris);
+        R.extra=ln('M82 126 Q100 140 118 126',4.5,'#4A1D2E')+ci(100,142,0,'none',0);break;
+    }
+  }
+  else if(f==='heavy'){
+    var cabBody=function(){
+      R.front=sh('M36 46 L164 46 Q170 46 170 54 L172 124 Q172 142 152 144 L48 144 Q28 142 28 124 L30 54 Q30 46 36 46 Z',B)
+        +sh('M40 54 L160 54 L156 96 L44 96 Z',G,2)+'<path d="M34 56 Q100 48 166 56 L166 60 Q100 53 34 62Z" fill="#fff" opacity=".28"/>';
+      R.eyes=eyeSVG(u,76,75,14,iris)+eyeSVG(u,124,75,14,iris)};
+    var exh=rc(42,18,12,32,3,'#4A4F66',2)+'<ellipse cx="48" cy="14" rx="9" ry="4" fill="#fff" opacity=".7"/>';
+    var lamps=ci(40,50,6,H,2)+ci(160,50,6,H,2);
+    switch(k){
+      case 'bulldozer':
+        cabBody();R.tires=trk(4)+trk(160);R.top=exh;
+        R.extra=lamps+sh('M2 124 L198 124 L192 152 L8 152 Z',S1,3)+'<rect x="12" y="128" width="176" height="5" rx="2.5" fill="#fff" opacity=".6"/>'+ci(22,141,3,'#6B7390',1)+ci(178,141,3,'#6B7390',1)+mouthSVG(100,100);break;
+      case 'excavator':
+        cabBody();R.tires=trk(4)+trk(160);
+        R.top=ln('M148 58 L172 30 L138 12',14,dk)+ln('M148 58 L172 30 L138 12',9,col)+sh('M120 6 L150 10 L144 30 L118 24 Z','#8E96AC',2.5)+exh;
+        R.extra=lamps+mouthSVG(100,98)+bumper(34,166);break;
+      case 'forklift':
+        R.behind=rc(60,2,13,142,3,S1,2)+rc(127,2,13,142,3,S1,2)+rc(60,28,80,9,3,S1,2);
+        R.top=ln('M46 62 L54 34 L146 34 L154 62',9,dk)+ln('M46 62 L54 34 L146 34 L154 62',4,'#B8C0D4');
+        R.front=sh('M40 60 L160 60 Q168 60 168 68 L172 124 Q174 142 156 144 L44 144 Q26 142 28 124 L32 68 Q32 60 40 60Z',B)
+          +sh('M44 68 L156 68 L152 100 L48 100 Z',G,2);
+        R.eyes=eyeSVG(u,78,84,12.5,iris)+eyeSVG(u,122,84,12.5,iris);
+        R.extra=mouthSVG(100,100)+headlightSVG(u,40,116,9,9)+headlightSVG(u,160,116,9,9)+rc(58,126,16,28,3,S1,2)+rc(126,126,16,28,3,S1,2);break;
+      case 'tractor':
+        R.behind=ci(28,98,44,T,3)+ci(172,98,44,T,3)+ci(28,98,20,'#C9CED9',2)+ci(172,98,20,'#C9CED9',2)+ci(28,98,6,'#fff',0)+ci(172,98,6,'#fff',0);
+        R.tires=rc(36,112,26,40,11,T,2)+rc(138,112,26,40,11,T,2);
+        R.top=rc(146,0,9,36,3,'#25234A',1.5)+rc(50,12,100,14,7,B,2.5);
+        R.front=sh('M56 64 L144 64 Q150 64 150 72 L152 126 Q153 144 138 146 L62 146 Q47 144 48 126 L50 72 Q50 64 56 64Z',B)
+          +sh('M58 26 L142 26 L148 64 L52 64 Z',G,2.5);
+        R.eyes=eyeSVG(u,82,45,13.5,iris)+eyeSVG(u,118,45,13.5,iris);
+        R.extra=mouthSVG(100,92)+headlightSVG(u,62,82,8,8)+headlightSVG(u,138,82,8,8)+bumper(56,144);break;
+      case 'roller':
+        R.tires='';
+        R.top=rc(34,28,132,13,6,B,2.5)+beacon(100,28,9,'#FFB400');
+        R.front=sh('M46 40 L154 40 Q160 40 160 48 L162 104 L38 104 L40 48 Q40 40 46 40Z',B)+sh('M50 48 L150 48 L146 88 L54 88Z',G,2);
+        R.eyes=eyeSVG(u,80,67,13,iris)+eyeSVG(u,120,67,13,iris);
+        R.extra=rc(12,92,176,60,30,S1,3)+'<rect x="30" y="98" width="140" height="8" rx="4" fill="#fff" opacity=".7"/>'+ln('M52 106 V148 M148 106 V148',2.5,'#8E96AC','butt')+mouthSVG(100,108);break;
+      case 'loader':
+        cabBody();R.tires=rc(0,90,46,66,19,T,2)+rc(154,90,46,66,19,T,2);R.top=exh;
+        R.extra=lamps+sh('M6 114 Q100 98 194 114 L186 146 L14 146 Z',S1,3)+'<path d="M18 118 Q100 104 182 118" fill="none" stroke="#fff" stroke-width="4" opacity=".6"/>';
+        for(i=0;i<8;i++)R.extra+=rc(18+i*22,144,12,10,2,'#6B7390',1.5);
+        R.extra+=mouthSVG(100,114);break;
+    }
+  }
+  return R;
+}
+/* =====================================================================
+   STICKERS: cars, hero friends (own designs, drawn in code) and emoji
+   ===================================================================== */
+var HEROES={
+ nhen:{vi:'bé Nhện Nhí siêu nhân',en:'Pip the Super Spider'},
+ meo:{vi:'Mèo Siêu Nhân',en:'Super Cat'},
+ robot:{vi:'Rô-bốt Bạn Thân',en:'Buddy the Robot'},
+ rong:{vi:'Rồng Con Dũng Cảm',en:'the Brave Little Dragon'},
+ gau:{vi:'Gấu Du Hành Vũ Trụ',en:'Astronaut Bear'},
+ tho:{vi:'Thỏ Tia Chớp',en:'Lightning Bunny'},
+ ech:{vi:'Ếch Hoàng Tử',en:'Prince Frog'},
+ cu:{vi:'Cú Phù Thủy',en:'Wizard Owl'}};
+function heroSVG(id){
+  var u='h'+(++uidN)+'_',P='stroke="'+INK+'" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"',o='';
+  function grad(n,a,b){return '<linearGradient id="'+u+n+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient>'}
+  function eye(x,y,r,ir){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="#fff" '+P+'/><circle cx="'+(x+r*.12)+'" cy="'+(y+r*.1)+'" r="'+(r*.55)+'" fill="'+(ir||'#25234A')+'"/><circle cx="'+(x+r*.3)+'" cy="'+(y-r*.25)+'" r="'+(r*.22)+'" fill="#fff"/>'}
+  function star(cx,cy,r,fill){var p='',a;for(var i=0;i<10;i++){a=-Math.PI/2+i*Math.PI/5;var rr=i%2?r*.45:r;p+=(cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1)+' '}return '<polygon points="'+p+'" fill="'+fill+'" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'}
+  var d='';
+  if(id==='nhen'){
+    d=grad('b','#5FF0DC','#16A596')+grad('c','#FFB347','#FF7A1F');
+    var leg=function(p){return '<path d="'+p+'" fill="none" stroke="'+INK+'" stroke-width="13" stroke-linecap="round"/><path d="'+p+'" fill="none" stroke="#6A4FC4" stroke-width="7" stroke-linecap="round"/>'};
+    var L=['M78 116 Q44 96 26 114 Q16 126 22 144','M76 130 Q38 128 24 150 Q20 160 28 168','M80 144 Q52 156 50 180','M86 152 Q74 172 80 190'];
+    o=L.map(leg).join('')+L.map(function(p){return leg(p.replace(/(\d+) (\d+)/g,function(m,a,b){return (200-a)+' '+b}))}).join('')
+     +'<path d="M70 98 Q26 134 34 192 Q100 172 166 192 Q174 134 130 98 Z" fill="url(#'+u+'c)" '+P+'/>'
+     +'<path d="M58 150 Q100 162 142 150" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>'
+     +'<ellipse cx="100" cy="138" rx="40" ry="38" fill="url(#'+u+'b)" '+P+'/>'+star(100,140,18,'#FFD21F')
+     +'<circle cx="100" cy="78" r="38" fill="url(#'+u+'b)" '+P+'/>'
+     +'<path d="M62 70 Q100 56 138 70 L138 90 Q100 78 62 90 Z" fill="#FFD21F" '+P+'/>'
+     +eye(84,78,14)+eye(116,78,14)
+     +'<path d="M88 100 Q100 110 112 100" fill="none" '+P+'/><circle cx="68" cy="98" r="6" fill="#FF8CC0" opacity=".8"/><circle cx="132" cy="98" r="6" fill="#FF8CC0" opacity=".8"/>'
+     +'<path d="M100 6 V40" stroke="#9AA3B8" stroke-width="3" stroke-linecap="round"/><path d="M100 2 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z" fill="#FFD21F" stroke="'+INK+'" stroke-width="1.5"/>';
+  }else if(id==='meo'){
+    d=grad('b','#FFC47A','#FF9333');
+    o='<path d="M54 118 Q18 170 40 196 L160 196 Q182 170 146 118 Z" fill="#8E4DFF" '+P+'/>'
+     +'<ellipse cx="100" cy="170" rx="38" ry="28" fill="url(#'+u+'b)" '+P+'/>'+star(100,172,15,'#FFD21F')
+     +'<path d="M52 78 L54 30 L92 56 Z" fill="url(#'+u+'b)" '+P+'/><path d="M148 78 L146 30 L108 56 Z" fill="url(#'+u+'b)" '+P+'/>'
+     +'<path d="M60 62 L61 44 L77 56Z" fill="#FF9EC4"/><path d="M140 62 L139 44 L123 56Z" fill="#FF9EC4"/>'
+     +'<circle cx="100" cy="100" r="54" fill="url(#'+u+'b)" '+P+'/>'
+     +'<ellipse cx="100" cy="126" rx="28" ry="20" fill="#fff" stroke="'+INK+'" stroke-width="3"/>'
+     +'<path d="M48 92 Q100 72 152 92 L150 114 Q100 98 50 114Z" fill="#2F7BFF" '+P+'/>'
+     +eye(78,98,12)+eye(122,98,12)
+     +'<path d="M93 118 L107 118 L100 128Z" fill="#FF6FA4" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'
+     +'<path d="M100 128 Q92 138 84 132 M100 128 Q108 138 116 132" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'
+     +'<path d="M50 120 L72 124 M50 132 L72 130 M150 120 L128 124 M150 132 L128 130" stroke="'+INK+'" stroke-width="2.5" stroke-linecap="round"/>';
+  }else if(id==='robot'){
+    d=grad('b','#F4F7FF','#A9B4CE')+grad('c','#6FB2FF','#2F7BFF');
+    o='<path d="M100 40 V20" stroke="'+INK+'" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="16" r="9" fill="#FFD21F" '+P+'/>'
+     +'<rect x="64" y="124" width="72" height="58" rx="18" fill="url(#'+u+'c)" '+P+'/>'
+     +'<path d="M100 166 C86 156 84 146 91 144 C95 143 98 145 100 148 C102 145 105 143 109 144 C116 146 114 156 100 166Z" fill="#FF8CC0" stroke="'+INK+'" stroke-width="2.5"/>'
+     +'<path d="M64 134 Q40 140 36 162" fill="none" stroke="'+INK+'" stroke-width="11" stroke-linecap="round"/><path d="M64 134 Q40 140 36 162" fill="none" stroke="#A9B4CE" stroke-width="5" stroke-linecap="round"/>'
+     +'<path d="M136 134 Q160 140 164 162" fill="none" stroke="'+INK+'" stroke-width="11" stroke-linecap="round"/><path d="M136 134 Q160 140 164 162" fill="none" stroke="#A9B4CE" stroke-width="5" stroke-linecap="round"/>'
+     +'<rect x="76" y="180" width="18" height="12" rx="5" fill="#4A4F66" '+P+'/><rect x="106" y="180" width="18" height="12" rx="5" fill="#4A4F66" '+P+'/>'
+     +'<circle cx="44" cy="82" r="11" fill="#A9B4CE" '+P+'/><circle cx="156" cy="82" r="11" fill="#A9B4CE" '+P+'/>'
+     +'<rect x="50" y="40" width="100" height="86" rx="26" fill="url(#'+u+'b)" '+P+'/>'
+     +'<rect x="62" y="58" width="76" height="42" rx="15" fill="#25234A"/>'
+     +'<ellipse cx="82" cy="78" rx="9" ry="12" fill="#6FEFFF"/><ellipse cx="118" cy="78" rx="9" ry="12" fill="#6FEFFF"/><circle cx="85" cy="73" r="3.5" fill="#fff"/><circle cx="121" cy="73" r="3.5" fill="#fff"/>'
+     +'<path d="M84 110 Q100 120 116 110" fill="none" stroke="'+INK+'" stroke-width="4.5" stroke-linecap="round"/>';
+  }else if(id==='rong'){
+    d=grad('b','#7BE06A','#2FA74A');
+    var wing=function(m){var f=function(x){return m?200-x:x};return '<path d="M'+f(56)+' 108 Q'+f(8)+' 76 '+f(12)+' 128 Q'+f(32)+' 118 '+f(38)+' 140 Q'+f(46)+' 128 '+f(60)+' 136Z" fill="#FF9A3D" '+P+'/>'};
+    o=wing(0)+wing(1)
+     +'<path d="M146 164 Q192 164 184 124" fill="none" stroke="'+INK+'" stroke-width="20" stroke-linecap="round"/><path d="M146 164 Q192 164 184 124" fill="none" stroke="#3FBF55" stroke-width="12" stroke-linecap="round"/>'+star(184,118,12,'#FF9A3D')
+     +'<ellipse cx="100" cy="132" rx="48" ry="50" fill="url(#'+u+'b)" '+P+'/>'
+     +'<ellipse cx="100" cy="146" rx="30" ry="36" fill="#FFF1B8" stroke="'+INK+'" stroke-width="3"/>'
+     +'<path d="M70 126 H130 M72 142 H128 M76 158 H124" stroke="#E8CF7A" stroke-width="3" stroke-linecap="round"/>'
+     +'<ellipse cx="74" cy="176" rx="16" ry="10" fill="#3FBF55" '+P+'/><ellipse cx="126" cy="176" rx="16" ry="10" fill="#3FBF55" '+P+'/>'
+     +'<path d="M72 44 L66 14 L88 34Z" fill="#FF9A3D" '+P+'/><path d="M128 44 L134 14 L112 34Z" fill="#FF9A3D" '+P+'/>'
+     +'<circle cx="100" cy="70" r="38" fill="url(#'+u+'b)" '+P+'/>'
+     +'<path d="M90 36 L100 22 L110 36Z" fill="#FF9A3D" stroke="'+INK+'" stroke-width="3" stroke-linejoin="round"/>'
+     +'<ellipse cx="100" cy="88" rx="22" ry="14" fill="#B8F0A0" stroke="'+INK+'" stroke-width="3"/><circle cx="92" cy="86" r="2.8" fill="'+INK+'"/><circle cx="108" cy="86" r="2.8" fill="'+INK+'"/>'
+     +'<path d="M92 94 Q100 100 108 94" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'
+     +eye(82,62,10)+eye(118,62,10);
+  }else if(id==='gau'){
+    d=grad('b','#B9794A','#8A5530')+grad('g','#F4FCFF','#9AD2F2');
+    o='<ellipse cx="100" cy="164" rx="48" ry="36" fill="#fff" '+P+'/><rect x="62" y="140" width="76" height="14" rx="7" fill="#C9D2E4" '+P+'/>'+star(100,172,13,'#FFD21F')
+     +'<circle cx="46" cy="162" r="13" fill="#fff" '+P+'/><circle cx="154" cy="162" r="13" fill="#fff" '+P+'/>'
+     +'<path d="M100 32 V12" stroke="'+INK+'" stroke-width="4"/><circle cx="100" cy="10" r="6" fill="#FF5A5F" '+P+'/>'
+     +'<circle cx="100" cy="88" r="58" fill="url(#'+u+'g)" '+P+'/>'
+     +'<circle cx="66" cy="60" r="15" fill="url(#'+u+'b)" '+P+'/><circle cx="134" cy="60" r="15" fill="url(#'+u+'b)" '+P+'/>'
+     +'<circle cx="100" cy="94" r="40" fill="url(#'+u+'b)" '+P+'/><circle cx="66" cy="60" r="7" fill="#E8B58A"/><circle cx="134" cy="60" r="7" fill="#E8B58A"/>'
+     +'<ellipse cx="100" cy="108" rx="20" ry="15" fill="#F2D2AE" stroke="'+INK+'" stroke-width="3"/><ellipse cx="100" cy="102" rx="7" ry="5" fill="'+INK+'"/>'
+     +'<path d="M92 114 Q100 121 108 114" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'
+     +eye(82,86,8)+eye(118,86,8)
+     +'<path d="M62 60 Q82 40 118 40" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>';
+  }else if(id==='tho'){
+    d=grad('b','#FFFFFF','#E4E9F5');
+    o='<path d="M136 148 Q178 134 192 168 Q168 158 140 166Z" fill="#FF8A1F" '+P+'/>'
+     +'<ellipse cx="100" cy="170" rx="34" ry="28" fill="url(#'+u+'b)" '+P+'/>'+'<polygon points="104,150 92,170 100,170 94,190 110,166 102,166" fill="#FFD21F" stroke="'+INK+'" stroke-width="2.5" stroke-linejoin="round"/>'
+     +'<ellipse cx="78" cy="40" rx="15" ry="42" fill="url(#'+u+'b)" '+P+'/><ellipse cx="78" cy="44" rx="7" ry="28" fill="#FFB3D1"/>'
+     +'<ellipse cx="122" cy="40" rx="15" ry="42" fill="url(#'+u+'b)" transform="rotate(10 122 40)" '+P+'/><ellipse cx="122" cy="44" rx="7" ry="28" fill="#FFB3D1" transform="rotate(10 122 40)"/>'
+     +'<circle cx="100" cy="104" r="46" fill="url(#'+u+'b)" '+P+'/>'
+     +'<path d="M58 140 Q100 160 142 140 L146 156 Q100 178 54 156Z" fill="#FF8A1F" '+P+'/>'
+     +eye(82,98,9)+eye(118,98,9)
+     +'<ellipse cx="100" cy="114" rx="6" ry="4.5" fill="#FF6FA4" stroke="'+INK+'" stroke-width="2.5"/>'
+     +'<path d="M100 118 Q92 128 84 122 M100 118 Q108 128 116 122" fill="none" stroke="'+INK+'" stroke-width="3" stroke-linecap="round"/>'
+     +'<circle cx="68" cy="116" r="7" fill="#FF8CC0" opacity=".75"/><circle cx="132" cy="116" r="7" fill="#FF8CC0" opacity=".75"/>';
+  }else if(id==='ech'){
+    d=grad('b','#8BE86B','#35B04F');
+    o='<ellipse cx="100" cy="162" rx="50" ry="32" fill="url(#'+u+'b)" '+P+'/><ellipse cx="100" cy="168" rx="30" ry="22" fill="#E6FFC9" stroke="'+INK+'" stroke-width="3"/>'
+     +'<ellipse cx="62" cy="186" rx="22" ry="9" fill="#35B04F" '+P+'/><ellipse cx="138" cy="186" rx="22" ry="9" fill="#35B04F" '+P+'/>'
+     +'<ellipse cx="100" cy="112" rx="64" ry="48" fill="url(#'+u+'b)" '+P+'/>'
+     +'<circle cx="66" cy="70" r="24" fill="url(#'+u+'b)" '+P+'/><circle cx="134" cy="70" r="24" fill="url(#'+u+'b)" '+P+'/>'
+     +eye(66,70,17)+eye(134,70,17)
+     +'<path d="M64 120 Q100 156 136 120" fill="#6B1F3A" stroke="'+INK+'" stroke-width="4" stroke-linejoin="round"/><path d="M80 134 Q100 150 120 134 Q100 140 80 134Z" fill="#FF7A90"/>'
+     +'<circle cx="92" cy="104" r="3" fill="'+INK+'"/><circle cx="108" cy="104" r="3" fill="'+INK+'"/>'
+     +'<circle cx="56" cy="112" r="8" fill="#FF8CC0" opacity=".75"/><circle cx="144" cy="112" r="8" fill="#FF8CC0" opacity=".75"/>'
+     +'<path d="M78 56 L82 30 L92 44 L100 24 L108 44 L118 30 L122 56 Z" fill="#FFD21F" '+P+'/><circle cx="82" cy="30" r="4" fill="#FF5A5F"/><circle cx="100" cy="24" r="4" fill="#2F7BFF"/><circle cx="118" cy="30" r="4" fill="#FF5A5F"/>';
+  }else{
+    d=grad('b','#C58A57','#8E5A34')+grad('c','#B58CFF','#6F3FD8');
+    o='<ellipse cx="100" cy="124" rx="54" ry="58" fill="url(#'+u+'b)" '+P+'/>'
+     +'<ellipse cx="100" cy="146" rx="32" ry="34" fill="#FFEBC9" stroke="'+INK+'" stroke-width="3"/><path d="M80 138 q6 6 12 0 M96 138 q6 6 12 0 M112 138 q6 6 12 0 M88 152 q6 6 12 0 M104 152 q6 6 12 0" fill="none" stroke="#D9B98A" stroke-width="3" stroke-linecap="round"/>'
+     +'<path d="M50 112 Q34 140 52 164 Q62 140 58 114Z" fill="#9A6A42" '+P+'/><path d="M150 112 Q166 140 148 164 Q138 140 142 114Z" fill="#9A6A42" '+P+'/>'
+     +'<path d="M84 182 l-6 10 M84 182 l4 10 M116 182 l6 10 M116 182 l-4 10" stroke="#FF9A3D" stroke-width="5" stroke-linecap="round"/>'
+     +'<circle cx="80" cy="98" r="23" fill="#FFF3C9" '+P+'/><circle cx="120" cy="98" r="23" fill="#FFF3C9" '+P+'/>'
+     +eye(80,98,15,'#E08A00')+eye(120,98,15,'#E08A00')
+     +'<path d="M92 112 L108 112 L100 128Z" fill="#FF9A3D" stroke="'+INK+'" stroke-width="3" stroke-linejoin="round"/>'
+     +'<ellipse cx="100" cy="74" rx="56" ry="13" fill="url(#'+u+'c)" '+P+'/>'
+     +'<path d="M66 72 Q84 40 100 6 Q118 42 134 72 Z" fill="url(#'+u+'c)" '+P+'/>'+star(100,50,12,'#FFD21F')+'<circle cx="78" cy="64" r="3" fill="#FFD21F"/><circle cx="124" cy="62" r="3" fill="#FFD21F"/>';
+  }
+  return '<svg class="carsvg herosvg" viewBox="0 0 200 200" role="img" aria-label="'+HEROES[id].vi+'"><defs>'+d+'</defs>'+o+'</svg>';
+}
+
+var SECTIONS=[
+ {vi:'Xe ô tô',en:'Cars',items:CARIDS.map(function(c){return 'car:'+c}).concat(['car:kim'])},
+ {vi:'Bạn siêu nhân',en:'Hero friends',items:Object.keys(HEROES).map(function(h){return 'hero:'+h})},
+ {vi:'Thú vật',en:'Animals',items:['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳']},
+ {vi:'Thú cưng và nông trại',en:'Pets and farm',items:['🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥']},
+ {vi:'Biển cả',en:'Ocean',items:['🐠','🐟','🦈','🐡','🦭','🦑','🦞','🐚','🐋']},
+ {vi:'Côn trùng',en:'Bugs',items:['🦋','🐞','🐝','🐛','🐌','🦗','🐜','🕷️','🕸️']},
+ {vi:'Phép thuật và vũ trụ',en:'Magic and space',items:['🐉','🦖','🧚','🧜','🧙','🤖','👽','🦸','🚀','🛸','🌙','⭐','🪐','🌈','☄️','🌟']},
+ {vi:'Món ngon',en:'Yummy food',items:['🍎','🍌','🍓','🍉','🍇','🍊','🍍','🥭','🍒','🍑','🥕','🌽','🍦','🍰','🍪','🍩','🧁','🍕','🍔','🍭','🍫','🍿']},
+ {vi:'Phương tiện',en:'Vehicles',items:['🚒','🚑','🚓','🚌','🚜','🚂','✈️','🚁','🚲','🛵','🚢','🛶','🏎️','🚤','⛵']},
+ {vi:'Đồ chơi và vui nhộn',en:'Toys and fun',items:['⚽','🏀','🎈','🎁','🧸','🪁','🎨','🎸','🥁','🎺','🎠','🎡','🎂','🎉','👑','🏆','💎','❤️']},
+ {vi:'Thiên nhiên',en:'Nature',items:['🌻','🌸','🌷','🌳','🍄','☀️','☁️','⛄','❄️','🌵','🌊']}];
+var ALBUM=[];
+SECTIONS.forEach(function(sec){sec.items.forEach(function(x){if(ALBUM.indexOf(x)<0)ALBUM.push(x)})});
+function stkHTML(s){return s.indexOf('car:')===0?carSVG(s.slice(4)):(s.indexOf('hero:')===0?heroSVG(s.slice(5)):'<span class="em">'+s+'</span>')}
 function shapeSVG(sh,hex){
   return '<svg viewBox="0 0 100 100" fill="'+hex+'" stroke="'+INK+'" stroke-width="5">'+sh.svg+'</svg>';
 }
@@ -899,7 +1276,7 @@ function shadowRound(){
       opts:set.map(function(x){return {label:x.vi,say:sp(x.vi,x.en),html:'<span class="emo">'+x.e+'</span>'}}),correct:set.indexOf(a),
       win:{vi:'Đó là '+a.vi+'!',en:'It is a '+a.en+'!'}};
   }
-  var id=pick(CARIDS),set2=distinctWith(CARIDS,id,nopt(),function(x){return SIL[CARS[x].kind]});
+  var id=pick(CARIDS),set2=distinctWith(CARIDS,id,nopt(),silOf);
   var c=CARS[id];
   return {type:'shadow',key:'shadow:'+id,
     vi:'Bóng này là của chú xe nào?',en:'Whose shadow is this?',
@@ -1012,14 +1389,14 @@ function vehNameRound(){
     win:{vi:'Đây là '+c.vi+' tên '+c.name+'. '+c.honk,en:'This is the '+c.en+'. Honk honk!'}};
 }
 function vehColorRound(){
-  var a=pick(CARIDS),c=CARS[a],set=distinctWith(CARIDS,a,nopt(),function(x){return x});
+  var a=pick(CARIDS),c=CARS[a],set=distinctWith(CARIDS,a,nopt(),function(x){return CARS[x].cvi});
   return {type:'vehcolor',key:'vehcolor:'+a,
     vi:'Chú xe nào màu '+c.cvi+'?',en:'Which car is '+c.cen+'?',visual:'',
     opts:set.map(function(id){return carOpt(id,true)}),correct:set.indexOf(a),
     win:{vi:'Xe màu '+c.cvi+' là bạn '+c.name+'. '+c.honk,en:c.name+' is '+c.cen+'. Honk honk!'}};
 }
 function vehJobRound(){
-  var a=pick(CARIDS),c=CARS[a],j=JOBS[c.kind],set=distinctWith(CARIDS,a,nopt(),function(x){return x});
+  var a=pick(CARIDS),c=CARS[a],j=JOBS[c.kind],set=distinctWith(CARIDS,a,nopt(),function(x){return JOBS[CARS[x].kind].vi});
   return {type:'vehjob',key:'vehjob:'+a,
     vi:'Xe nào '+j.vi+'?',en:'Which one '+j.en+'?',visual:'',
     opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf(a),
@@ -1122,6 +1499,44 @@ function rbox(T,w,h,d,r,mat){
   g.center();
   return new T.Mesh(g,mat);
 }
+/* 3D recipes of the new cars: [base, extras, wheelScale]; extra = [shape, material, size, position, rotation, rounding] */
+var V3={
+ ambulance:['van',[['b','r',[.5,.2,.3],[0,2.4,1.3]],['b','r',[2.04,.14,3.4],[0,1.2,-.2]]]],
+ schoolbus:['van',[['b','k',[2.04,.12,4.2],[0,1.25,0]],['s','o',[.14],[-.8,2.35,1.8]],['s','o',[.14],[.8,2.35,1.8]]]],
+ bus:['van',[['b','w',[2.04,.12,4.2],[0,1.25,0]],['b','w',[1.2,.22,2.2],[0,2.42,-.2]]]],
+ mailvan:['van',[['b','w',[.9,.3,.5],[0,2.45,1.2]],['b','u',[.7,.1,.3],[0,2.62,1.2]]]],
+ icecream:['van',[['c','t',[.5,1.0,16],[0,2.85,.2],3.1416],['s','p',[.62],[0,3.45,.2]],['s','r',[.14],[0,4.05,.2]]]],
+ foodtruck:['van',[['b','w',[1.0,.3,.6],[0,2.4,.6]],['s','w',[.5],[0,2.75,.6]]]],
+ deliveryvan:['van',[['b','t',[1.4,.9,1.6],[0,2.7,-.2],0,.05]]],
+ camper:['van',[['c','o',[1.1,1.1,4],[0,2.85,-.2],[0,.785,0]]]],
+ garbage:['truck',[['b','n',[2,1.3,2.5],[0,1.6,-.95],0,.16]]],
+ mixer:['truck',[['b','s',[1.4,.3,2.4],[0,.9,-.95]],['y','o',[.95,2.6],[0,2.05,-.95],1.5708]]],
+ tanker:['truck',[['y','s',[.9,2.8],[0,1.85,-.95],1.5708]]],
+ crane:['truck',[['b','s',[1.6,.5,2],[0,1.0,-1]],['b','y',[.35,.35,3.2],[0,2.5,-.6],.55]]],
+ snowplow:['truck',[['b','s',[1.9,.7,2.4],[0,1.0,-1]],['b','o',[2.5,.7,.3],[0,.8,2.35],0,.05],['b','y',[.5,.22,.3],[0,2.12,1.3]]]],
+ tow:['truck',[['b','d',[1.9,.3,2.6],[0,.95,-1.1]],['b','y',[.9,.2,.3],[0,2.1,1.3]]]],
+ offroad:['jeep',[['b','s',[1.9,.12,.12],[0,2.3,.2]],['y','d',[.45,.3],[0,1.3,-2.1],1.5708]]],
+ suv:['jeep',[['b','s',[1.7,.1,1.6],[0,2.28,.15]],['b','d',[1.2,.3,1.2],[0,2.45,.15]]]],
+ safari:['jeep',[['b','w',[1.9,.18,2.1],[0,2.4,.15]],['b','k',[.3,.19,2.12],[-.4,2.4,.15]],['b','k',[.3,.19,2.12],[.4,2.4,.15]]]],
+ pickup:['jeep',[['b','d',[1.9,.5,1.6],[0,1.05,-1.35],0,.06],['b','t',[.9,.7,.9],[0,1.6,-1.4]]]],
+ monster:['jeep',[['b','d',[1.8,.2,.2],[0,.9,1.3]]],1.55],
+ rally:['jeep',[['b','k',[.9,.3,.6],[0,2.35,-.2]],['b','w',[.2,.04,3.9],[-.15,1.32,0],0,.02],['b','w',[.2,.04,3.9],[.15,1.32,0],0,.02]]],
+ limo:['jeep',[['b','y',[2.04,.1,4],[0,1.0,0]]]],
+ round:['small',[['s','p',[.25],[0,2.3,.1]]]],
+ bubble:['small',[['b','d',[.06,.8,.06],[0,2.4,.1]],['b','r',[.4,.25,.05],[.2,2.65,.1]]]],
+ electric:['small',[['s','n',[.28],[0,2.3,.1]],['s','y',[.15],[0,2.3,.35]]]],
+ vintage:['small',[['b','d',[1.6,.12,1.7],[0,2.0,.1]]]],
+ mini:['small',[['b','o',[.35,.06,2.2],[0,2.25,.1],0,.03]]],
+ hover:['small',[['y','s',[.7,.05],[0,2.3,.1]]]],
+ gokart:['small',[['s','r',[.4],[0,2.1,.1]]]],
+ rocket:['small',[['c','r',[.55,1.0,16],[0,2.4,.1]],['b','r',[.1,.7,.6],[-1.0,.9,-1.0]],['b','r',[.1,.7,.6],[1.0,.9,-1.0]]]],
+ bulldozer:['heavy',[['b','s',[2.6,.9,.3],[0,.8,1.95]],['b','d',[.3,.9,.3],[-.6,2.8,0]]]],
+ excavator:['heavy',[['b','b',[.35,.35,2.2],[.6,2.7,1.2],-.5],['b','s',[.7,.5,.5],[.6,3.3,2.2]]]],
+ forklift:['heavy',[['b','s',[.2,2.4,.2],[-.5,1.6,2.0]],['b','s',[.2,2.4,.2],[.5,1.6,2.0]],['b','s',[.2,.1,1.2],[-.5,.5,2.6]],['b','s',[.2,.1,1.2],[.5,.5,2.6]]]],
+ tractor:['heavy',[['y','d',[.95,.5],[1.15,.95,-.9],[0,0,1.5708]],['y','d',[.95,.5],[-1.15,.95,-.9],[0,0,1.5708]],['y','d',[.1,.8],[.6,2.9,.7]]]],
+ roller:['heavy',[['y','s',[.8,2.0],[0,.8,1.5],[0,0,1.5708]]]],
+ loader:['heavy',[['b','s',[2.6,.7,.9],[0,.7,2.1],0,.1]],1.25]
+};
 function make3DCar(id,hex){
   var T=THREE,c=CARS[id],g=new T.Group();
   function mat(col,sh){return new T.MeshPhongMaterial({color:col,shininess:sh||70,specular:0x777777})}
@@ -1129,7 +1544,7 @@ function make3DCar(id,hex){
   var yellow=new T.MeshPhongMaterial({color:0xffe27a,emissive:0x554400,shininess:80}),red=new T.MeshPhongMaterial({color:0xff3b3b,emissive:0x550000,shininess:60});
   var irisM=mat(new T.Color(c.iris||'#2BA8E0').getHex(),40);
   function rb(w,h,d,x,y,z,m,r){var o=rbox(T,w,h,d,r===undefined?.14:r,m);o.position.set(x,y,z);g.add(o);return o}
-  var k=c.kind,fz=2.0,mouthY=.55,hlY=.82,wz1=1.35,wz2=-1.35,eye={x:.42,y:1.5,z:.86,r:.3};
+  var k=c.kind,fz=2.0,mouthY=.55,hlY=.82,wz1=1.35,wz2=-1.35,eye={x:.42,y:1.5,z:.86,r:.3};var ws=1,rzv=null;
   if(k==='race'){
     rb(2,.55,4.2,0,.7,0,bodyMat,.2);rb(1.5,.5,1.5,0,1.2,-.3,bodyMat,.2);rb(1.5,.3,.06,0,1.22,.47,glass,.02);
     rb(2,.1,.6,0,1.42,-1.95,dark,.04);rb(.1,.4,.1,-.6,1.2,-1.95,dark,.03);rb(.1,.4,.1,.6,1.2,-1.95,dark,.03);
@@ -1147,6 +1562,37 @@ function make3DCar(id,hex){
   }else if(k==='dump'){
     rb(2,.4,4,0,.6,0,dark,.1);rb(1.9,1.4,1.4,0,1.3,1.3,bodyMat,.18);rb(1.8,.5,.06,0,1.72,2.0,glass,.02);rb(2,.9,2.4,0,1.2,-.95,grey,.14);
     mouthY=.95;eye={x:.45,y:1.72,z:2.02,r:.3};wz1=1.4;wz2=-1.2;
+  }else if(c.fam){
+    var MM={b:bodyMat,g:glass,d:dark,w:white,s:grey,y:yellow,r:red,o:mat(0xff8a1f,70),n:mat(0x2fbf5b,70),u:mat(0x2f7bff,70),k:mat(0x25234a,40),p:mat(0xffa6cc,70),t:mat(0xe0a862,40)};
+    var X=function(t,m,s,p,rot,r){
+      var o;
+      if(t==='b')o=rbox(T,s[0],s[1],s[2],r===undefined?.1:r,MM[m]);
+      else if(t==='c')o=new T.Mesh(new T.ConeGeometry(s[0],s[1],s[2]||16),MM[m]);
+      else if(t==='s')o=new T.Mesh(new T.SphereGeometry(s[0],18,14),MM[m]);
+      else o=new T.Mesh(new T.CylinderGeometry(s[0],s[0],s[1],22),MM[m]);
+      o.position.set(p[0],p[1],p[2]);
+      if(rot){if(typeof rot==='number')o.rotation.x=rot;else o.rotation.set(rot[0],rot[1],rot[2])}
+      g.add(o);return o;
+    };
+    var V=V3[k]||['van',[]],base=V[0],H=Math.PI/2;
+    if(base==='van'){
+      rb(2,1.7,4.2,0,1.45,0,bodyMat,.2);rb(1.8,.6,.06,0,1.85,2.1,glass,.02);
+      fz=2.1;mouthY=.95;hlY=.9;wz1=1.4;wz2=-1.4;eye={x:.45,y:1.85,z:2.12,r:.3};rzv=-2.12;
+    }else if(base==='truck'){
+      rb(2,.4,4.2,0,.6,0,dark,.1);rb(1.9,1.4,1.4,0,1.3,1.3,bodyMat,.18);rb(1.8,.5,.06,0,1.72,2.0,glass,.02);
+      fz=2.0;mouthY=.95;hlY=.8;wz1=1.4;wz2=-1.3;eye={x:.45,y:1.72,z:2.02,r:.3};rzv=-2.12;
+    }else if(base==='jeep'){
+      rb(2,.8,4,0,.9,0,bodyMat,.2);rb(1.8,.9,1.9,0,1.75,.15,bodyMat,.18);rb(1.7,.5,.06,0,1.85,1.12,glass,.02);
+      fz=2.0;mouthY=.65;hlY=.85;wz1=1.35;wz2=-1.35;eye={x:.42,y:1.8,z:1.14,r:.28};rzv=-2.02;
+    }else if(base==='small'){
+      rb(1.8,.9,3.0,0,.85,0,bodyMat,.35);rb(1.5,.8,1.5,0,1.55,.1,bodyMat,.3);rb(1.4,.5,.06,0,1.6,.88,glass,.02);
+      fz=1.5;mouthY=.6;hlY=.8;wz1=.95;wz2=-.95;eye={x:.36,y:1.55,z:.9,r:.26};rzv=-1.52;
+    }else{
+      rb(2,.9,3.6,0,.95,0,bodyMat,.14);rb(1.7,1.3,1.5,0,1.9,.3,bodyMat,.14);rb(1.6,.6,.06,0,2.0,1.06,glass,.02);
+      fz=1.8;mouthY=.8;hlY=.95;wz1=1.2;wz2=-1.2;eye={x:.4,y:2.0,z:1.08,r:.28};rzv=-1.82;
+    }
+    ws=V[2]||1;
+    V[1].forEach(function(e){X(e[0],e[1],e[2],e[3],e[4],e[5])});
   }else{
     rb(2,.6,4,0,.75,0,bodyMat,.2);
     var ws=rb(1.9,.5,.1,0,1.2,.5,glass,.03);ws.rotation.x=-.5;
@@ -1156,7 +1602,7 @@ function make3DCar(id,hex){
   var wheels=[];
   [[1.05,wz1],[-1.05,wz1],[1.05,wz2],[-1.05,wz2]].forEach(function(p){
     var geo=new T.CylinderGeometry(.5,.5,.34,22);geo.rotateZ(Math.PI/2);
-    var w=new T.Mesh(geo,dark);w.position.set(p[0],.5,p[1]);
+    var w=new T.Mesh(geo,dark);w.position.set(p[0],.5*ws,p[1]);w.scale.set(1,ws,ws);
     var hg=new T.CylinderGeometry(.24,.24,.36,14);hg.rotateZ(Math.PI/2);
     w.add(new T.Mesh(hg,white));g.add(w);wheels.push(w);
   });
@@ -1171,7 +1617,7 @@ function make3DCar(id,hex){
   smile.position.set(0,mouthY,fz+.03);smile.rotation.z=Math.PI;g.add(smile);
   sph(.16,-.85,hlY,fz-.04,yellow);sph(.16,.85,hlY,fz-.04,yellow);
   /* rear lights (seen while driving) */
-  var rz=(k==='dump'?-2.16:-2.02);
+  var rz=rzv!==null?rzv:(k==='dump'?-2.16:-2.02);
   rb(.42,.2,.08,-.7,.85,rz,red,.03);rb(.42,.2,.08,.7,.85,rz,red,.03);
   g.userData={wheels:wheels,body:bodyMat};
   return g;
@@ -1449,15 +1895,20 @@ function showHome(){
 function showAlbum(){
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;
   setProgress(0,0);syncControls();
-  var n=ALBUM.filter(function(x){return S.stickers.indexOf(x)>=0}).length;
-  var cells=ALBUM.map(function(s){
-    var own=S.stickers.indexOf(s)>=0,isCar=s.indexOf('car:')===0;
-    return '<button class="acell'+(own?'':' lock')+(s==='car:kim'?' special':'')+(own&&isCar?' new':'')+'"'
-      +(own&&isCar?' data-car="'+s.slice(4)+'"':'')+' aria-label="'+(own?'Nhãn dán':'Chưa có')+'">'+stkHTML(s)+'</button>';
+  var has=function(x){return S.stickers.indexOf(x)>=0};
+  var n=ALBUM.filter(has).length;
+  var secs=SECTIONS.map(function(sec){
+    var got=sec.items.filter(has).length;
+    var cells=sec.items.map(function(x){
+      var own=has(x),isCar=x.indexOf('car:')===0;
+      return '<button class="acell'+(own?'':' lock')+(x==='car:kim'?' special':'')+(own&&isCar?' new':'')+'"'
+        +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+' aria-label="'+(own?'Nhãn dán':'Chưa có')+'">'+stkHTML(x)+'</button>';
+    }).join('');
+    return '<h3 class="asec"><span>'+sec.vi+'</span><i>'+sec.en+'</i><b>'+got+'/'+sec.items.length+'</b></h3><div class="agrid">'+cells+'</div>';
   }).join('');
   view.innerHTML='<section class="albumv"><h2 class="atitle">📒 Album sticker của bé<small>My sticker book · '+n+'/'+ALBUM.length+'</small></h2>'
-    +'<p class="ahint">Chạm vào chú xe để xem xe 3D. Sưu tập đủ 6 chú xe sẽ mở khóa siêu xe vàng! · Tap a car to see it in 3D. Collect all 6 to unlock the golden car!</p>'
-    +'<div class="agrid">'+cells+'</div></section>';
+    +'<p class="ahint">Chạm vào chú xe để xem xe 3D. Sưu tập 10 chú xe sẽ mở khóa siêu xe vàng! · Tap a car to see it in 3D. Collect 10 cars to unlock the golden car!</p>'
+    +secs+'</section>';
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
@@ -1528,14 +1979,14 @@ function showEnd(){
   stop3D();clearTimeout(S.timer);S.cur=null;
   S.stars+=S.total;
   var owned=function(x){return S.stickers.indexOf(x)>=0};
-  var cars6=CARIDS.map(function(c){return 'car:'+c});
-  var st;
-  if(cars6.every(owned)&&!owned('car:kim')){st='car:kim'}
-  else{
-    var freshCars=cars6.filter(function(x){return !owned(x)});
-    var pool=ALBUM.filter(function(x){return x!=='car:kim'&&!owned(x)});
-    st=freshCars.length?pick(freshCars):(pool.length?pick(pool):pick(ALBUM.filter(function(x){return x!=='car:kim'})));
-  }
+  var isCarSt=function(x){return x.indexOf('car:')===0};
+  var nCars=ALBUM.filter(function(x){return isCarSt(x)&&x!=='car:kim'&&owned(x)}).length;
+  var fresh=ALBUM.filter(function(x){return x!=='car:kim'&&!owned(x)});
+  var freshCars=fresh.filter(isCarSt),st;
+  if(nCars>=10&&!owned('car:kim')){st='car:kim'}
+  else if(!fresh.length){st=pick(ALBUM.filter(function(x){return x!=='car:kim'}))}
+  else if(freshCars.length&&rand(100)<45){st=pick(freshCars)}
+  else{st=pick(fresh)}
   var isNew=!owned(st);
   if(isNew)S.stickers.push(st);
   save();
@@ -1545,6 +1996,7 @@ function showEnd(){
   var gotVi,gotEn;
   if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
+  else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}
   else{gotVi='Bé nhận được nhãn dán mới!';gotEn='You won a new sticker!'}
   var btns='<button class="next" data-act="again">Chơi tiếp ▶<small>Play again</small></button>';
   if(car)btns+='<button class="next blue" data-act="show3d" data-car="'+st.slice(4)+'">🚗 Xem xe 3D<small>See it in 3D</small></button>';
@@ -1624,7 +2076,7 @@ document.addEventListener('click',wake,{once:true});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-if(/[?&]debug/.test(location.search)){window.__bvh={carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
+if(/[?&]debug/.test(location.search)){window.__bvh={make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
 showHome();
 })();
 </script>

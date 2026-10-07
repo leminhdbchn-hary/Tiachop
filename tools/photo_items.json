@@ -1,0 +1,758 @@
+[
+ {
+  "key": "dog",
+  "vi": "con chó",
+  "q": "dog",
+  "cat": "ani"
+ },
+ {
+  "key": "cat",
+  "vi": "con mèo",
+  "q": "cat",
+  "cat": "ani"
+ },
+ {
+  "key": "cow",
+  "vi": "con bò",
+  "q": "cow",
+  "cat": "ani"
+ },
+ {
+  "key": "chicken",
+  "vi": "con gà",
+  "q": "chicken hen",
+  "cat": "ani"
+ },
+ {
+  "key": "duck",
+  "vi": "con vịt",
+  "q": "duck",
+  "cat": "ani"
+ },
+ {
+  "key": "pig",
+  "vi": "con heo",
+  "q": "pig",
+  "cat": "ani"
+ },
+ {
+  "key": "frog",
+  "vi": "con ếch",
+  "q": "frog",
+  "cat": "ani"
+ },
+ {
+  "key": "sheep",
+  "vi": "con cừu",
+  "q": "sheep",
+  "cat": "ani"
+ },
+ {
+  "key": "horse",
+  "vi": "con ngựa",
+  "q": "horse",
+  "cat": "ani"
+ },
+ {
+  "key": "bee",
+  "vi": "con ong",
+  "q": "honey bee",
+  "cat": "ani"
+ },
+ {
+  "key": "bird",
+  "vi": "con chim",
+  "q": "bird perched",
+  "cat": "ani"
+ },
+ {
+  "key": "lion",
+  "vi": "con sư tử",
+  "q": "lion",
+  "cat": "ani"
+ },
+ {
+  "key": "elephant",
+  "vi": "con voi",
+  "q": "elephant",
+  "cat": "ani"
+ },
+ {
+  "key": "rabbit",
+  "vi": "con thỏ",
+  "q": "rabbit",
+  "cat": "ani"
+ },
+ {
+  "key": "butterfly",
+  "vi": "con bướm",
+  "q": "butterfly",
+  "cat": "ani"
+ },
+ {
+  "key": "fish",
+  "vi": "con cá",
+  "q": "fish underwater",
+  "cat": "ani"
+ },
+ {
+  "key": "dolphin",
+  "vi": "con cá heo",
+  "q": "dolphin",
+  "cat": "ani"
+ },
+ {
+  "key": "whale",
+  "vi": "con cá voi",
+  "q": "humpback whale",
+  "cat": "ani"
+ },
+ {
+  "key": "eagle",
+  "vi": "con đại bàng",
+  "q": "bald eagle",
+  "cat": "ani"
+ },
+ {
+  "key": "tiger",
+  "vi": "con hổ",
+  "q": "tiger",
+  "cat": "ani"
+ },
+ {
+  "key": "monkey",
+  "vi": "con khỉ",
+  "q": "monkey",
+  "cat": "ani"
+ },
+ {
+  "key": "turtle",
+  "vi": "con rùa",
+  "q": "turtle",
+  "cat": "ani"
+ },
+ {
+  "key": "apple",
+  "vi": "quả táo",
+  "q": "apple",
+  "cat": "food"
+ },
+ {
+  "key": "banana",
+  "vi": "quả chuối",
+  "q": "banana",
+  "cat": "food"
+ },
+ {
+  "key": "orange",
+  "vi": "quả cam",
+  "q": "orange fruit",
+  "cat": "food"
+ },
+ {
+  "key": "grapes",
+  "vi": "quả nho",
+  "q": "grapes bunch",
+  "cat": "food"
+ },
+ {
+  "key": "strawberry",
+  "vi": "quả dâu",
+  "q": "strawberry",
+  "cat": "food"
+ },
+ {
+  "key": "watermelon",
+  "vi": "quả dưa hấu",
+  "q": "watermelon",
+  "cat": "food"
+ },
+ {
+  "key": "pineapple",
+  "vi": "quả dứa",
+  "q": "pineapple",
+  "cat": "food"
+ },
+ {
+  "key": "mango",
+  "vi": "quả xoài",
+  "q": "mango",
+  "cat": "food"
+ },
+ {
+  "key": "pear",
+  "vi": "quả lê",
+  "q": "pear fruit",
+  "cat": "food"
+ },
+ {
+  "key": "peach",
+  "vi": "quả đào",
+  "q": "peach fruit",
+  "cat": "food"
+ },
+ {
+  "key": "lemon",
+  "vi": "quả chanh",
+  "q": "lemon fruit",
+  "cat": "food"
+ },
+ {
+  "key": "carrot",
+  "vi": "củ cà rốt",
+  "q": "carrot",
+  "cat": "food"
+ },
+ {
+  "key": "corn",
+  "vi": "bắp ngô",
+  "q": "corn on the cob",
+  "cat": "food"
+ },
+ {
+  "key": "tomato",
+  "vi": "quả cà chua",
+  "q": "tomato",
+  "cat": "food"
+ },
+ {
+  "key": "broccoli",
+  "vi": "cây bông cải",
+  "q": "broccoli",
+  "cat": "food"
+ },
+ {
+  "key": "bed",
+  "vi": "cái giường",
+  "q": "bed bedroom",
+  "cat": "obj"
+ },
+ {
+  "key": "chair",
+  "vi": "cái ghế",
+  "q": "chair",
+  "cat": "obj"
+ },
+ {
+  "key": "table",
+  "vi": "cái bàn",
+  "q": "wooden table furniture",
+  "cat": "obj"
+ },
+ {
+  "key": "door",
+  "vi": "cửa ra vào",
+  "q": "wooden door",
+  "cat": "obj"
+ },
+ {
+  "key": "window",
+  "vi": "cửa sổ",
+  "q": "window house",
+  "cat": "obj"
+ },
+ {
+  "key": "sofa",
+  "vi": "ghế sofa",
+  "q": "sofa couch",
+  "cat": "obj"
+ },
+ {
+  "key": "TV",
+  "vi": "cái tivi",
+  "q": "television set",
+  "cat": "obj"
+ },
+ {
+  "key": "light",
+  "vi": "bóng đèn",
+  "q": "light bulb",
+  "cat": "obj"
+ },
+ {
+  "key": "mirror",
+  "vi": "cái gương",
+  "q": "wall mirror",
+  "cat": "obj"
+ },
+ {
+  "key": "toilet",
+  "vi": "bồn cầu",
+  "q": "toilet bowl",
+  "cat": "obj"
+ },
+ {
+  "key": "bathtub",
+  "vi": "bồn tắm",
+  "q": "bathtub",
+  "cat": "obj"
+ },
+ {
+  "key": "shower",
+  "vi": "vòi hoa sen",
+  "q": "shower head",
+  "cat": "obj"
+ },
+ {
+  "key": "toothbrush",
+  "vi": "bàn chải đánh răng",
+  "q": "toothbrush",
+  "cat": "obj"
+ },
+ {
+  "key": "soap",
+  "vi": "xà phòng",
+  "q": "bar of soap",
+  "cat": "obj"
+ },
+ {
+  "key": "fridge",
+  "vi": "tủ lạnh",
+  "q": "refrigerator kitchen",
+  "cat": "obj"
+ },
+ {
+  "key": "pan",
+  "vi": "cái chảo",
+  "q": "frying pan",
+  "cat": "obj"
+ },
+ {
+  "key": "bowl",
+  "vi": "cái bát",
+  "q": "bowl",
+  "cat": "obj"
+ },
+ {
+  "key": "spoon",
+  "vi": "cái thìa",
+  "q": "spoon",
+  "cat": "obj"
+ },
+ {
+  "key": "wardrobe",
+  "vi": "tủ quần áo",
+  "q": "wardrobe furniture",
+  "cat": "obj"
+ },
+ {
+  "key": "broom",
+  "vi": "cái chổi",
+  "q": "broom",
+  "cat": "obj"
+ },
+ {
+  "key": "book",
+  "vi": "quyển sách",
+  "q": "book",
+  "cat": "sch"
+ },
+ {
+  "key": "pencil",
+  "vi": "bút chì",
+  "q": "pencil",
+  "cat": "sch"
+ },
+ {
+  "key": "crayon",
+  "vi": "bút sáp màu",
+  "q": "crayons",
+  "cat": "sch"
+ },
+ {
+  "key": "school bag",
+  "vi": "cặp sách",
+  "q": "school backpack",
+  "cat": "sch"
+ },
+ {
+  "key": "ruler",
+  "vi": "cây thước",
+  "q": "ruler",
+  "cat": "sch"
+ },
+ {
+  "key": "scissors",
+  "vi": "cái kéo",
+  "q": "scissors",
+  "cat": "sch"
+ },
+ {
+  "key": "notebook",
+  "vi": "quyển vở",
+  "q": "notebook",
+  "cat": "sch"
+ },
+ {
+  "key": "bell",
+  "vi": "cái chuông",
+  "q": "hand bell",
+  "cat": "sch"
+ },
+ {
+  "key": "school",
+  "vi": "ngôi trường",
+  "q": "school building",
+  "cat": "sch"
+ },
+ {
+  "key": "teacher",
+  "vi": "cô giáo",
+  "q": "teacher in classroom",
+  "cat": "sch"
+ },
+ {
+  "key": "board",
+  "vi": "cái bảng",
+  "q": "blackboard classroom",
+  "cat": "sch"
+ },
+ {
+  "key": "doctor",
+  "vi": "bác sĩ",
+  "q": "doctor stethoscope",
+  "cat": "pro"
+ },
+ {
+  "key": "firefighter",
+  "vi": "chú lính cứu hỏa",
+  "q": "firefighter",
+  "cat": "pro"
+ },
+ {
+  "key": "police officer",
+  "vi": "chú công an",
+  "q": "police officer",
+  "cat": "pro"
+ },
+ {
+  "key": "chef",
+  "vi": "đầu bếp",
+  "q": "chef cooking",
+  "cat": "pro"
+ },
+ {
+  "key": "farmer",
+  "vi": "bác nông dân",
+  "q": "farmer",
+  "cat": "pro"
+ },
+ {
+  "key": "pilot",
+  "vi": "phi công",
+  "q": "airline pilot cockpit",
+  "cat": "pro"
+ },
+ {
+  "key": "mechanic",
+  "vi": "bác thợ sửa xe",
+  "q": "car mechanic",
+  "cat": "pro"
+ },
+ {
+  "key": "artist",
+  "vi": "họa sĩ",
+  "q": "painter artist painting",
+  "cat": "pro"
+ },
+ {
+  "key": "builder",
+  "vi": "chú công nhân xây dựng",
+  "q": "construction worker",
+  "cat": "pro"
+ },
+ {
+  "key": "astronaut",
+  "vi": "phi hành gia",
+  "q": "astronaut",
+  "cat": "pro"
+ },
+ {
+  "key": "driver",
+  "vi": "bác tài xế",
+  "q": "bus driver",
+  "cat": "pro"
+ },
+ {
+  "key": "bedroom",
+  "vi": "phòng ngủ",
+  "q": "bedroom interior",
+  "cat": "room"
+ },
+ {
+  "key": "kitchen",
+  "vi": "nhà bếp",
+  "q": "kitchen interior",
+  "cat": "room"
+ },
+ {
+  "key": "bathroom",
+  "vi": "phòng tắm",
+  "q": "bathroom interior",
+  "cat": "room"
+ },
+ {
+  "key": "living room",
+  "vi": "phòng khách",
+  "q": "living room interior",
+  "cat": "room"
+ },
+ {
+  "key": "dining room",
+  "vi": "phòng ăn",
+  "q": "dining room interior",
+  "cat": "room"
+ },
+ {
+  "key": "garden",
+  "vi": "khu vườn",
+  "q": "flower garden",
+  "cat": "room"
+ },
+ {
+  "key": "car",
+  "vi": "chiếc xe",
+  "q": "car",
+  "cat": "veh"
+ },
+ {
+  "key": "bus",
+  "vi": "chiếc xe buýt",
+  "q": "city bus",
+  "cat": "veh"
+ },
+ {
+  "key": "police car",
+  "vi": "xe cảnh sát",
+  "q": "police car",
+  "cat": "veh"
+ },
+ {
+  "key": "fire truck",
+  "vi": "xe cứu hỏa",
+  "q": "fire engine",
+  "cat": "veh"
+ },
+ {
+  "key": "taxi",
+  "vi": "chiếc taxi",
+  "q": "taxi",
+  "cat": "veh"
+ },
+ {
+  "key": "tractor",
+  "vi": "chiếc máy kéo",
+  "q": "tractor",
+  "cat": "veh"
+ },
+ {
+  "key": "race car",
+  "vi": "xe đua",
+  "q": "race car",
+  "cat": "veh"
+ },
+ {
+  "key": "train",
+  "vi": "tàu hỏa",
+  "q": "passenger train",
+  "cat": "veh"
+ },
+ {
+  "key": "airplane",
+  "vi": "máy bay",
+  "q": "airplane in flight",
+  "cat": "veh"
+ },
+ {
+  "key": "boat",
+  "vi": "thuyền",
+  "q": "boat",
+  "cat": "veh"
+ },
+ {
+  "key": "bike",
+  "vi": "xe đạp",
+  "q": "bicycle",
+  "cat": "veh"
+ },
+ {
+  "key": "helicopter",
+  "vi": "trực thăng",
+  "q": "helicopter",
+  "cat": "veh"
+ },
+ {
+  "key": "rocket",
+  "vi": "tên lửa",
+  "q": "rocket launch",
+  "cat": "veh"
+ },
+ {
+  "key": "truck",
+  "vi": "xe tải",
+  "q": "truck",
+  "cat": "veh"
+ },
+ {
+  "key": "ball",
+  "vi": "quả bóng",
+  "q": "football ball",
+  "cat": "home"
+ },
+ {
+  "key": "teddy bear",
+  "vi": "gấu bông",
+  "q": "teddy bear",
+  "cat": "home"
+ },
+ {
+  "key": "bag",
+  "vi": "cái cặp",
+  "q": "bag handbag",
+  "cat": "home"
+ },
+ {
+  "key": "key",
+  "vi": "chìa khóa",
+  "q": "key",
+  "cat": "home"
+ },
+ {
+  "key": "umbrella",
+  "vi": "cái ô",
+  "q": "umbrella",
+  "cat": "home"
+ },
+ {
+  "key": "clock",
+  "vi": "đồng hồ",
+  "q": "clock",
+  "cat": "home"
+ },
+ {
+  "key": "hat",
+  "vi": "cái mũ",
+  "q": "hat",
+  "cat": "home"
+ },
+ {
+  "key": "shoe",
+  "vi": "chiếc giày",
+  "q": "shoe",
+  "cat": "home"
+ },
+ {
+  "key": "socks",
+  "vi": "đôi tất",
+  "q": "socks",
+  "cat": "home"
+ },
+ {
+  "key": "shirt",
+  "vi": "cái áo",
+  "q": "shirt",
+  "cat": "home"
+ },
+ {
+  "key": "glasses",
+  "vi": "kính",
+  "q": "eyeglasses",
+  "cat": "home"
+ },
+ {
+  "key": "gift",
+  "vi": "món quà",
+  "q": "gift box",
+  "cat": "home"
+ },
+ {
+  "key": "bread",
+  "vi": "bánh mì",
+  "q": "bread loaf",
+  "cat": "home"
+ },
+ {
+  "key": "egg",
+  "vi": "quả trứng",
+  "q": "egg",
+  "cat": "home"
+ },
+ {
+  "key": "cake",
+  "vi": "bánh sinh nhật",
+  "q": "cake",
+  "cat": "home"
+ },
+ {
+  "key": "cookie",
+  "vi": "bánh quy",
+  "q": "cookie",
+  "cat": "home"
+ },
+ {
+  "key": "milk",
+  "vi": "sữa",
+  "q": "glass of milk",
+  "cat": "home"
+ },
+ {
+  "key": "house",
+  "vi": "ngôi nhà",
+  "q": "house",
+  "cat": "home"
+ },
+ {
+  "key": "sun",
+  "vi": "mặt trời",
+  "q": "sun",
+  "cat": "nature"
+ },
+ {
+  "key": "moon",
+  "vi": "mặt trăng",
+  "q": "full moon",
+  "cat": "nature"
+ },
+ {
+  "key": "cloud",
+  "vi": "đám mây",
+  "q": "cloud sky",
+  "cat": "nature"
+ },
+ {
+  "key": "rain",
+  "vi": "mưa",
+  "q": "rain",
+  "cat": "nature"
+ },
+ {
+  "key": "rainbow",
+  "vi": "cầu vồng",
+  "q": "rainbow",
+  "cat": "nature"
+ },
+ {
+  "key": "tree",
+  "vi": "cái cây",
+  "q": "tree",
+  "cat": "nature"
+ },
+ {
+  "key": "flower",
+  "vi": "bông hoa",
+  "q": "flower",
+  "cat": "nature"
+ },
+ {
+  "key": "snow",
+  "vi": "tuyết",
+  "q": "snow",
+  "cat": "nature"
+ },
+ {
+  "key": "mountain",
+  "vi": "ngọn núi",
+  "q": "mountain",
+  "cat": "nature"
+ }
+]

@@ -1,0 +1,1 @@
+# Chọn ảnh bằng tay: tên_khoá = File:Ten anh.jpg  (ví dụ: cat = File:Cat November 2010-1a.jpg)

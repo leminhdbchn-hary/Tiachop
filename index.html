@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-title" content="Bé Vui Học">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#8FD3F8">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="description" content="Bé Vui Học - game học tập song ngữ Việt - Anh cho bé 3-5 tuổi">
 <title>Bé Vui Học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,16 +22,17 @@
   --line:#BCD0F0; --lineD:#9DB8E6; --soft:rgba(40,70,140,.14);
   --yellow:#FFC93C; --green:#4CD07D; --blue:#6BB8FF;
   --bgtext:#25234A;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  padding:var(--sat) var(--sar) var(--sab) var(--sal);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ --sky:#2B2766; --sky2:#4A44A8; --bgtext:#FFFFFF; --line:#8E9FD8; --lineD:#6C7DC0; }
 }
 :root[data-theme="dark"]{ --sky:#2B2766; --sky2:#4A44A8; --bgtext:#FFFFFF; --line:#8E9FD8; --lineD:#6C7DC0; }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+html{scroll-padding-top:var(--sat);height:100%;-webkit-text-size-adjust:100%}
 body{
   margin:0;height:100%;
   font-family:"Baloo 2","Nunito","Arial Rounded MT Bold",system-ui,-apple-system,sans-serif;
@@ -43,7 +47,7 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 
 #city{position:fixed;left:0;right:0;bottom:0;height:36vh;max-height:340px;pointer-events:none;z-index:0}
 #city svg{width:100%;height:100%;display:block}
-#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:980px;margin:0 auto;padding:10px 14px 14px}
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:980px;margin:0 auto;padding:max(10px,calc(var(--sat) * .25)) 14px max(14px,calc(var(--sab) * .35))}
 .top{display:flex;align-items:center;gap:10px;min-height:60px}
 .icon{
   min-width:56px;height:56px;border-radius:18px;background:linear-gradient(180deg,#fff,#EEF5FF);
@@ -297,7 +301,7 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
 .cf{position:fixed;font-size:28px;line-height:1;animation:burst 1.2s ease-out forwards}
 .emo svg.ico,.bigemoji svg.ico{width:1em;height:1em;display:inline-block;vertical-align:top;overflow:visible}
-.chatov{position:fixed;inset:0;z-index:50;background:rgba(30,28,70,.55);display:flex;align-items:center;justify-content:center;padding:14px;animation:hop .25s ease both}
+.chatov{position:fixed;inset:0;padding:var(--sat) var(--sar) var(--sab) var(--sal);z-index:50;background:rgba(30,28,70,.55);display:flex;align-items:center;justify-content:center;animation:hop .25s ease both}
 .chatcard{width:min(560px,100%);background:#fff;border:4px solid var(--line);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;box-shadow:0 8px 0 rgba(0,0,0,.18)}
 .cbub{position:relative;display:flex;gap:12px;align-items:center;background:#FFF8DC;border:3px solid var(--line);border-radius:22px;padding:10px 14px;width:100%;min-height:96px;cursor:pointer}
 .cexp{font-size:clamp(46px,12vmin,72px);line-height:1;animation:pop .35s ease both}
@@ -314,6 +318,19 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 @keyframes spin1{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
 .cbtns{display:flex;gap:10px;width:100%;flex-wrap:wrap}.cbtns .next{flex:1 1 150px;margin:0}
 @media (prefers-reduced-motion:reduce){.cart{animation:none!important}}
+.visualphoto{display:flex;justify-content:center}
+.carphoto{max-width:min(86%,520px);max-height:clamp(150px,34vh,360px);width:auto;height:auto;border:5px solid var(--ink);border-radius:26px;box-shadow:0 6px 0 var(--ink);background:var(--paper);object-fit:cover;display:block;margin:0 auto;-webkit-user-drag:none;pointer-events:none}
+.opt{overflow:hidden}
+.optphoto{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
+.emo.hasph,.bigemoji.hasph{filter:none;line-height:0;display:block}
+.pimg{display:block;margin:0 auto;object-fit:cover;border-radius:18px;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.22);background:#EEF3FB;pointer-events:none;-webkit-user-drag:none}
+.emo .pimg{width:clamp(78px,24vmin,150px);height:clamp(78px,24vmin,150px)}
+.bigemoji .pimg{width:clamp(150px,42vmin,300px);height:clamp(150px,42vmin,300px);border-radius:26px;border-width:5px}
+.crbtn{align-self:center;font-size:13px;font-weight:700;color:var(--bgtext);opacity:.8;padding:6px 12px;border-radius:12px;background:rgba(255,255,255,.55)}
+.crbtn i{display:block;font-weight:600;font-size:.9em;opacity:.8}
+.crlist{margin:6px 0 16px;padding:10px 14px 10px 30px;background:rgba(255,255,255,.92);border-radius:16px;font-size:13px;font-weight:600;line-height:1.5;color:var(--ink)}
+.crlist a{color:#2F6FD0}
+
 @keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 280px)) rotate(var(--r)) scale(1);opacity:0}}
 @keyframes bounce{0%{transform:scale(1)}30%{transform:scale(1.14) rotate(-2deg)}55%{transform:scale(.95)}75%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
@@ -1045,35 +1062,93 @@ function shapeSVG(sh,hex){
    ===================================================================== */
 var VOICES=[];var hasSpeech='speechSynthesis' in window;
 function loadVoices(){try{VOICES=speechSynthesis.getVoices()||[]}catch(e){}checkNote()}
-if(hasSpeech){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}}
+if(hasSpeech){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices}catch(e){}
+  /* iOS/iPadOS Safari nạp giọng đọc chậm và hay không báo sự kiện: hỏi lại vài lần */
+  var _vt=0,_vi=setInterval(function(){if(VOICES.length||++_vt>20){clearInterval(_vi);return}loadVoices()},250);}
+var IS_IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+var _unl=false,_utts=[];
+function normLang(v){return String(v.lang||'').toLowerCase().replace('_','-')}
+function isViVoice(v){return normLang(v).indexOf('vi')===0||/vietnam|việt/i.test(v.name||'')}
 function voiceFor(l){
-  var p=l==='vi'?'vi':'en';
-  var m=VOICES.filter(function(v){return String(v.lang).toLowerCase().replace('_','-').indexOf(p)===0});
-  return m.filter(function(v){return /en-us/i.test(v.lang)})[0]||m[0]||null;
+  if(!VOICES.length)loadVoices();
+  var m;
+  if(l==='vi'){
+    m=VOICES.filter(isViVoice);
+    var q=m.filter(function(v){return /enhanced|premium|natural|neural/i.test(v.name||'')})[0];/* ưu tiên giọng chất lượng cao nếu đã tải */
+    return q||m.filter(function(v){return v.localService})[0]||m[0]||null;
+  }
+  m=VOICES.filter(function(v){return normLang(v).indexOf('en')===0});
+  var q2=m.filter(function(v){return /enhanced|premium|natural|neural/i.test(v.name||'')&&/en-us/.test(normLang(v))})[0];
+  return q2||m.filter(function(v){return /en-us/.test(normLang(v))})[0]||m[0]||null;
+}
+/* ---- Giọng AI thu sẵn (Nam Minh): audio/<mã>.mp3, danh sách trong audio/manifest.json.
+   Câu nào chưa có file thì tạm dùng giọng đọc của máy ---- */
+var AUD={idx:{},buf:{},gen:0,src:null};
+function clipId(t,l){var h=2166136261,b;try{b=new TextEncoder().encode(l+'|'+String(t).trim())}catch(e){return ''}for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,16777619)>>>0}return ('00000000'+h.toString(16)).slice(-8)}
+try{fetch('audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){AUD.idx=(m&&m.clips)||{}}).catch(function(){})}catch(e){}
+function fetchClip(id){
+  var u='audio/'+id+'.mp3';
+  function once(){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()})}
+  return once().catch(function(){return new Promise(function(res){setTimeout(res,300)}).then(once)});
+}
+function loadClip(id,cb){
+  if(AUD.buf[id]){cb(AUD.buf[id]);return}
+  var ac=ensureAC();if(!ac){cb(null);return}
+  try{fetchClip(id).then(function(ab){
+    var done=false;function ok(buf){if(done)return;done=true;AUD.buf[id]=buf;cb(buf)}function no(){if(done)return;done=true;cb(null)}
+    var pr=ac.decodeAudioData(ab,ok,no);if(pr&&pr.catch)pr.catch(no);
+  }).catch(function(){cb(null)})}catch(e){cb(null)}
+}
+function preload(list){try{(list||[]).forEach(function(it){if(!it||!it[0])return;var id=clipId(it[0],it[1]);if(AUD.idx[id]&&!AUD.buf[id])loadClip(id,function(){})})}catch(e){}}
+function stopAudio(){AUD.gen++;if(AUD.src){try{AUD.src.onended=null;AUD.src.stop()}catch(e){}AUD.src=null}}
+function synthOne(it,next,gen){
+  if(!hasSpeech){next();return}
+  var done=false;function fin(){if(done)return;done=true;if(gen===AUD.gen)setTimeout(next,80)}
+  var u=new SpeechSynthesisUtterance(String(it[0]).replace(/[“”"«»]/g,''));
+  u.lang=it[1]==='vi'?'vi-VN':'en-US';
+  var v=voiceFor(it[1]);if(v){u.voice=v;u.lang=v.lang||u.lang}
+  u.rate=it[1]==='vi'?.8:.85;u.pitch=1.1;
+  u.onend=fin;u.onerror=fin;
+  _utts.push(u);if(_utts.length>12)_utts.shift();/* giữ tham chiếu để trình duyệt không thu hồi giữa chừng */
+  try{speechSynthesis.speak(u);if(speechSynthesis.paused)speechSynthesis.resume()}catch(e){fin();return}
+  setTimeout(fin,1500+String(it[0]).length*170);
+}
+function playSeq(items){
+  var gen=++AUD.gen,k=0;
+  items.forEach(function(it){var id=clipId(it[0],it[1]);if(AUD.idx[id])loadClip(id,function(){})});
+  (function step(){
+    if(gen!==AUD.gen||k>=items.length)return;
+    var it=items[k++],id=clipId(it[0],it[1]);
+    if(AUD.idx[id]){
+      loadClip(id,function(b){
+        if(gen!==AUD.gen)return;
+        if(!b){synthOne(it,step,gen);return}
+        var ac=ensureAC(),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);
+        src.onended=function(){if(AUD.src===src)AUD.src=null;setTimeout(step,120)};
+        AUD.src=src;try{src.start(0)}catch(e){synthOne(it,step,gen)}
+      });
+    }else synthOne(it,step,gen);
+  })();
 }
 function speakNow(list){
-  if(!S.sound||!hasSpeech)return;
-  try{speechSynthesis.cancel()}catch(e){}
+  try{if(window.__bvhSpeak)window.__bvhSpeak(list)}catch(e){}
+  if(!S.sound)return;
   var items=(list||[]).filter(function(x){return x&&x[0]&&(x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi'))});
-  setTimeout(function(){
-    items.forEach(function(it){
-      var u=new SpeechSynthesisUtterance(it[0]);
-      u.lang=it[1]==='vi'?'vi-VN':'en-US';
-      var v=voiceFor(it[1]);if(v)u.voice=v;
-      u.rate=.85;u.pitch=1.1;
-      try{speechSynthesis.speak(u)}catch(e){}
-    });
-  },60);
+  stopAudio();
+  if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}
+  if(!items.length)return;
+  setTimeout(function(){playSeq(items)},IS_IOS?150:60);
 }
-function stopSpeech(){if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
+function stopSpeech(){stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;if(S.lang==='en'){n.hidden=true;return}
-  var hasVi=VOICES.some(function(v){return String(v.lang).toLowerCase().indexOf('vi')===0});
-  n.hidden=!(VOICES.length&&!hasVi);
+  var hasVi=VOICES.some(isViVoice);
+  n.hidden=!(VOICES.length&&!hasVi&&!Object.keys(AUD.idx).length);
+  if(IS_IOS&&!n.hidden)n.textContent='Ba mẹ vào Cài đặt > Trợ năng > Nội dung được đọc > Giọng nói > Tiếng Việt, tải giọng "Linh" để bé nghe tiếng Việt nhé.';
 }
 /* iPhone / iPad only allow speech after a touch: "wake it up" on the first tap */
 function unlockSpeech(){
-  if(!hasSpeech)return;
+  if(!hasSpeech||_unl)return;_unl=true;
   try{var u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u)}catch(e){}
 }
 var AC=null;
@@ -1676,6 +1751,7 @@ var ICO={
  wardrobe:ico('<rect x="16" y="8" width="68" height="84" rx="8" fill="#B98350" '+ST+'/><path d="M50 8 V92" '+ST+' fill="none"/><circle cx="43" cy="52" r="3.5" fill="#FFE08A"/><circle cx="57" cy="52" r="3.5" fill="#FFE08A"/>'),
  board:ico('<rect x="8" y="14" width="84" height="56" rx="6" fill="#2F7D5B" stroke="#B98350" stroke-width="6"/><path d="M22 34 Q32 24 40 34 T58 34" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M24 54 H62" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M30 70 V90 M70 70 V90" '+ST+' fill="none"/>')
 };
+['table','fridge','wardrobe','board'].forEach(function(k){ICO[k]=ICO[k].replace('<svg','<svg data-pk="'+k+'"')});
 var OBJ=[
  {e:'🛏️',vi:'cái giường',en:'bed',use:{vi:'ngủ',en:'sleep'},room:'bed'},
  {e:'🪑',vi:'cái ghế',en:'chair',use:{vi:'ngồi',en:'sit'},room:'dine'},
@@ -1806,6 +1882,29 @@ function proToolRound(){
     opts:set.map(function(x){return emoOpt(x.tool,x.tvi,x.ten)}),correct:set.indexOf(p),
     win:{vi:cap(p.vi)+' dùng '+p.tvi+'.',en:'A '+p.en+' uses a '+p.ten+'.'}};
 }
+/* ---- Ảnh ô tô thật: thư mục cars/ (danh sách tự tạo trong cars/cars.json) ---- */
+var PHOTOS=[];
+try{fetch('cars/cars.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){PHOTOS=(m&&m.cars)||[];PHOTOS.forEach(function(p){try{var im=new Image();im.src='cars/'+encodeURIComponent(p.file)}catch(e){}});preload(PHOTOS.reduce(function(a,p){return a.concat([[p.winvi,'vi'],[p.winen,'en']])},[]))}).catch(function(){})}catch(e){}
+function photoImg(p,cls){return '<img class="'+cls+'" src="cars/'+encodeURIComponent(p.file)+'" alt="" draggable="false">'}
+var CAR_FILL=[{vi:'xe buýt',en:'bus'},{vi:'xe tải',en:'truck'},{vi:'xe máy',en:'motorbike'},{vi:'xe đạp',en:'bicycle'},{vi:'xe cứu hỏa',en:'fire truck'},{vi:'xe cảnh sát',en:'police car'}];
+function carPhotoNameRound(){
+  if(!PHOTOS.length)return vehNameRound();
+  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,Math.min(3,nopt()),function(x){return x.vi}),t=0;
+  while(set.length<3&&t++<50){var f=pick(CAR_FILL);if(!set.some(function(x){return x.vi===f.vi}))set.push(f)}
+  set=shuffle(set);
+  return {type:'carphoto',key:'carph:'+a.vi,vi:'Đây là xe gì?',en:'What car is this?',
+    visual:'<div class="visualphoto">'+photoImg(a,'carphoto')+'</div>',
+    opts:set.map(function(x){return {label:x.vi,say:sp(x.vi,x.en||''),html:'<span class="nm">'+x.vi+(x.en?'<i>'+x.en+'</i>':'')+'</span>'}}),
+    correct:set.indexOf(a),win:{vi:a.winvi,en:a.winen}};
+}
+function carPhotoPickRound(){
+  if(PHOTOS.length<3)return carPhotoNameRound();
+  var a=pick(PHOTOS),set=distinctWith(PHOTOS,a,3,function(x){return x.vi});
+  return {type:'carpick',key:'carpick:'+a.vi,vi:a.pickvi,en:a.picken,
+    visual:'<div class="bigemoji">🔍</div>',
+    opts:set.map(function(x){return {label:x.vi,html:photoImg(x,'optphoto')}}),
+    correct:set.indexOf(a),win:{vi:a.winvi,en:a.winen}};
+}
 var POOL={
  num:{1:[numberRound,giveRound,numFindRound],2:[numberRound,giveRound,numFindRound,addRound],3:[numberRound,giveRound,numFindRound,nextNumRound,addRound]},
  cmp:{1:[sizeRound,lengthRound,moreRound],2:[sizeRound,lengthRound,heightRound,moreRound],3:[sizeRound,lengthRound,heightRound,moreRound]},
@@ -1821,7 +1920,7 @@ var POOL={
  room:{1:[roomNameRound],2:[roomNameRound,roomActRound],3:[roomNameRound,roomActRound,objRoomRound]},
  school:{1:[schNameRound],2:[schNameRound,schUseRound],3:[schNameRound,schUseRound]},
  job:{1:[proNameRound],2:[proNameRound,proWhoRound],3:[proNameRound,proWhoRound,proToolRound]}};
-[1,2,3].forEach(function(l){POOL.num[l].push(chopCountRound);POOL.veh[l].push(chopFindRound)});
+[1,2,3].forEach(function(l){POOL.num[l].push(chopCountRound);POOL.veh[l].push(chopFindRound,carPhotoNameRound,carPhotoPickRound)});
 POOL.eng={1:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound],
  2:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound],
  3:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound,engSpellRound,engOppRound]};
@@ -2145,7 +2244,7 @@ function openShowroom(id){
     gl.addEventListener('pointermove',function(e){if(!st.drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);car.rotation.y+=dx*.012});
     gl.addEventListener('pointerup',function(){
       st.drag=false;
-      if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,S.lang==='en'?'en':'vi']])}
+      if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,'vi',true]])}
     });
     var last=performance.now();
     function frame(now){
@@ -2157,7 +2256,7 @@ function openShowroom(id){
     }
     st.raf=requestAnimationFrame(frame);
     st.car=car;
-    setTimeout(function(){speakNow([['Xin chào bé! Mình là '+c.name+'. '+c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']])},300);
+    setTimeout(function(){speakNow([['Xin chào bé! Mình là '+c.name+'.','vi'],[c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']])},300);
   }catch(e){noGL()}
 }
 
@@ -2179,7 +2278,7 @@ function setProgress(done,total){
 }
 function syncControls(){
   $('#soundBtn').textContent=S.sound?'🔊':'🔇';
-  $('#langBtn').textContent=S.lang==='en'?'English':(S.lang==='vi'?'Chỉ Việt':'Việt + Anh');
+  $('#langBtn').textContent=S.lang==='en'?'English':(S.lang==='vi'?'Tiếng Việt':'Việt + Anh');
   document.body.setAttribute('data-lang',S.lang);document.documentElement.lang=S.lang==='en'?'en':'vi';
   document.title=S.lang==='en'?'Little Learners':'Bé Vui Học';
   $('#homeBtn').hidden=!S.mode;
@@ -2259,6 +2358,7 @@ function showHome(){
     +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +'<div class="tiles">'+tiles+'</div>'
+    +'<button class="crbtn" data-act="credits">ℹ️ Giới thiệu &amp; nguồn ảnh<i>About &amp; photo credits</i></button>'
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
   checkNote();
@@ -2335,6 +2435,7 @@ function renderRound(r){
     +'<div class="nextrow"><button class="next" id="next" hidden>Tiếp tục ▶<small>Next</small></button></div>'
     +'</section>';
   setTimeout(function(){if(S.cur===r)speakNow(sayPrompt(r))},250);
+  setTimeout(function(){if(S.cur!==r)return;var l=[];r.opts.forEach(function(o){if(o.say)l=l.concat(o.say)});l=l.concat([[r.win.vi,'vi'],[r.win.en,'en']],PRAISE.reduce(function(a,p){return a.concat([[p[0],'vi'],[p[1],'en']])},[]),r.wx||[]);preload(l.filter(function(x){return x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi')}))},700);
 }
 function succeed(el){
   var r=S.cur;S.locked=true;sfx('ok');
@@ -2345,7 +2446,7 @@ function succeed(el){
   }else{confetti(window.innerWidth/2,window.innerHeight/2.4,false)}
   if(r.onCorrect)r.onCorrect();
   var p=pick(PRAISE);
-  speakNow([[p[0]+' '+r.win.vi,'vi'],[p[1]+' '+r.win.en,'en']].concat(S.lang==='vi'&&r.wx?r.wx:[]));
+  speakNow([[p[0],'vi'],[r.win.vi,'vi'],[p[1],'en'],[r.win.en,'en']].concat(S.lang==='vi'&&r.wx?r.wx:[]));
   S.round++;setProgress(S.round,S.total);
   var nb=$('#next');if(nb)nb.hidden=false;
   S.timer=setTimeout(goNext,6000);
@@ -2401,7 +2502,50 @@ function showEnd(){
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
   confetti(w*.3,h*.35,true);confetti(w*.7,h*.35,true);
-  speakNow([['Hoan hô! Bé giỏi quá! '+(missionNow?'Xong nhiệm vụ rồi! ':'')+gotVi+(car?' '+car.honk:''),'vi'],['Hooray! You did it! '+(missionNow?'Mission complete! ':'')+gotEn,'en']]);
+  speakNow([['Hoan hô! Bé giỏi quá!','vi']].concat(missionNow?[['Xong nhiệm vụ rồi!','vi']]:[],[[gotVi,'vi']],car?[[car.honk,'vi']]:[],
+    [['Hooray! You did it!','en']],missionNow?[['Mission complete!','en']]:[],[[gotEn,'en']]));
+}
+
+
+/* ---------- Ảnh thật (photos/manifest.json do GitHub Action tạo từ Wikimedia Commons) ----------
+   Chỗ nào có ảnh thì thay hình emoji bằng ảnh thật; không có ảnh thì vẫn dùng emoji. */
+var PH={idx:{},map:{},ready:false};
+function phBuild(){
+  [ANI,FOOD,OBJ,SCH,PRO,ROOM,ENGX.veh,ENGX.home,ENGX.nature].forEach(function(arr){arr.forEach(function(x){if(x.e&&x.e.charAt(0)!=='<'&&!PH.map[x.e])PH.map[x.e]=x.en})});
+  OBJS_ALL.forEach(function(x){if(!PH.map[x.e])PH.map[x.e]=x.s});
+}
+function photoize(root){
+  if(!PH.ready)return;
+  var els=root.querySelectorAll('.emo,.bigemoji');
+  for(var i=0;i<els.length;i++){
+    var el=els[i];
+    if(el.getAttribute('data-ph')||el.closest('.shadow'))continue;
+    var key=null,c=el.firstElementChild;
+    if(c&&c.getAttribute&&c.getAttribute('data-pk'))key=c.getAttribute('data-pk');
+    else if(!el.children.length)key=PH.map[el.textContent.trim()];
+    var it=key&&PH.idx[key];if(!it)continue;
+    el.setAttribute('data-ph','1');
+    (function(el,it){
+      var orig=el.innerHTML,img=new Image();img.className='pimg';img.alt='';img.draggable=false;
+      img.onerror=function(){el.innerHTML=orig;el.classList.remove('hasph')};
+      img.src='photos/'+encodeURIComponent(it.f);
+      el.classList.add('hasph');el.innerHTML='';el.appendChild(img);
+    })(el,it);
+  }
+}
+try{fetch('photos/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){
+  PH.idx=(m&&m.items)||{};phBuild();PH.ready=Object.keys(PH.idx).length>0;
+  if(PH.ready){photoize(document.getElementById('view'));Object.keys(PH.idx).forEach(function(k){try{var im=new Image();im.src='photos/'+encodeURIComponent(PH.idx[k].f)}catch(e){}})}
+}).catch(function(){})}catch(e){}
+function showCredits(){
+  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;setProgress(0,0);syncControls();
+  var mn=document.querySelector('main');if(mn)mn.scrollTop=0;
+  var ks=Object.keys(PH.idx).sort(),rows=ks.map(function(k){var it=PH.idx[k];
+    return '<li><b>'+k+'</b> · '+(it.a||'?')+' · '+(it.l||'')+(it.u?' · <a href="'+it.u+'" target="_blank" rel="noopener">Wikimedia Commons</a>':'')+'</li>'}).join('');
+  view.innerHTML='<section class="albumv credits"><h2 class="atitle">ℹ️ Giới thiệu · About<small>Bé Vui Học · Little Learners</small></h2>'
+    +'<p class="ahint">Hình vẽ nhân vật, xe và Tia Chớp là thiết kế gốc của dự án. Ảnh thật lấy từ Wikimedia Commons theo giấy phép mở, ghi nguồn bên dưới. · Characters and cars are original art. Real photos come from Wikimedia Commons under open licenses, credited below.</p>'
+    +(rows?'<ul class="crlist">'+rows+'</ul>':'<p class="ahint">Chưa có ảnh thật nào. · No photos yet.</p>')
+    +'<div class="endbtns"><button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button></div></section>';
 }
 
 /* ---------- Talking cars in the sticker album ---------- */
@@ -2472,6 +2616,7 @@ view.addEventListener('click',function(e){
     else if(a==='show3d'){closeChat();openShowroom(act.getAttribute('data-car'))}
     else if(a==='chatmore')chatSay(CHATID,true);
     else if(a==='chatclose')closeChat();
+    else if(a==='credits')showCredits();
     return;
   }
   var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
@@ -2521,7 +2666,7 @@ document.addEventListener('click',wake,{once:true});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-if(/[?&]debug/.test(location.search)){window.__bvh={make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
+if(/[?&]debug/.test(location.search)){window.__bvh={sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
 /* English-only mode: drop the Vietnamese half of "vi + en" texts */
 var LETRE=/[A-Za-zÀ-ỹ]/;
 function localize(root){
@@ -2538,7 +2683,7 @@ function localize(root){
   while((t=w.nextNode()))if(/[À-ỹ]/.test(t.nodeValue)&&t.nodeValue.indexOf('·')>=0)list.push(t);
   list.forEach(function(t){var a=t.nodeValue.split('·');t.nodeValue=a[a.length-1].trim()});
 }
-try{new MutationObserver(function(){localize(view)}).observe(view,{childList:true,subtree:true})}catch(e){}
+try{new MutationObserver(function(){localize(view);photoize(view)}).observe(view,{childList:true,subtree:true})}catch(e){}
 syncControls();
 showHome();
 })();

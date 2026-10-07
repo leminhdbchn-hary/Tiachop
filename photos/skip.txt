@@ -1,0 +1,1 @@
+# Mỗi dòng một tên file ảnh Wikimedia (ví dụ: File:Ten anh.jpg) mà bạn không muốn dùng. Sau đó chạy lại Action "Tải ảnh thật cho game".

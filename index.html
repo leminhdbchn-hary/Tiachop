@@ -1176,7 +1176,7 @@ function voiceFor(l){
    Câu nào chưa có file thì tạm dùng giọng đọc của máy ---- */
 var AUD={idx:{},buf:{},gen:0,src:null};
 function clipId(t,l){var h=2166136261,b;try{b=new TextEncoder().encode(l+'|'+String(t).trim())}catch(e){return ''}for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,16777619)>>>0}return ('00000000'+h.toString(16)).slice(-8)}
-try{fetch('audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){AUD.idx=(m&&m.clips)||{}}).catch(function(){})}catch(e){}
+AUD.ready=null;try{AUD.ready=fetch('audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){AUD.idx=(m&&m.clips)||{}}).catch(function(){})}catch(e){}
 function fetchClip(id){
   var u='audio/'+id+'.mp3';
   function once(){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()})}
@@ -1204,8 +1204,19 @@ function synthOne(it,next,gen){
   try{speechSynthesis.speak(u);if(speechSynthesis.paused)speechSynthesis.resume()}catch(e){fin();return}
   setTimeout(fin,1500+String(it[0]).length*170);
 }
+function whenRun(ac,cb){
+  if(!ac||ac.state==='running'){cb();return}
+  var d=false,f=function(){if(d)return;d=true;cb()};
+  try{var p=ac.resume();if(p&&p.then)p.then(f,f)}catch(e){}
+  setTimeout(f,600);
+}
 function playSeq(items){
-  var gen=++AUD.gen,k=0;
+  var gen=++AUD.gen,started=false;
+  var go=function(){if(started||gen!==AUD.gen)return;started=true;runSeq(items,gen)};
+  if(AUD.ready){setTimeout(go,1500);AUD.ready.then(go,go)}else go();
+}
+function runSeq(items,gen){
+  var k=0;
   items.forEach(function(it){var id=clipId(it[0],it[1]);if(AUD.idx[id])loadClip(id,function(){})});
   (function step(){
     if(gen!==AUD.gen||k>=items.length)return;
@@ -1214,9 +1225,13 @@ function playSeq(items){
       loadClip(id,function(b){
         if(gen!==AUD.gen)return;
         if(!b){synthOne(it,step,gen);return}
-        var ac=ensureAC(),src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);
-        src.onended=function(){if(AUD.src===src)AUD.src=null;setTimeout(step,120)};
-        AUD.src=src;try{src.start(0)}catch(e){synthOne(it,step,gen)}
+        var ac=ensureAC();
+        whenRun(ac,function(){
+          if(gen!==AUD.gen)return;
+          var src=ac.createBufferSource();src.buffer=b;src.connect(ac.destination);
+          src.onended=function(){if(AUD.src===src)AUD.src=null;setTimeout(step,120)};
+          AUD.src=src;try{src.start(0)}catch(e){synthOne(it,step,gen)}
+        });
       });
     }else synthOne(it,step,gen);
   })();
@@ -1224,6 +1239,7 @@ function playSeq(items){
 function speakNow(list){
   try{if(window.__bvhSpeak)window.__bvhSpeak(list)}catch(e){}
   if(!S.sound)return;
+  mediaUnlock();ensureAC();
   var items=(list||[]).filter(function(x){return x&&x[0]&&(x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi'))});
   stopAudio();
   if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}
@@ -1244,10 +1260,27 @@ function unlockSpeech(){
 }
 var AC=null;
 function ensureAC(){
+  if(AC&&AC.state==='closed')AC=null;
   if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C){try{AC=new C()}catch(e){}}}
-  if(AC&&AC.state==='suspended'){try{AC.resume()}catch(e){}}
+  if(AC&&AC.state!=='running'){try{var p=AC.resume();if(p&&p.catch)p.catch(function(){})}catch(e){}}
   return AC;
 }
+/* iPhone: công tắc im lặng sẽ tắt tiếng WebAudio. Phát một đoạn <audio> im lặng để iOS coi đây là "phát nhạc" và vẫn kêu */
+var _sil=null;
+function mediaUnlock(){
+  try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  try{
+    if(!_sil){
+      var n=2400,b=new Uint8Array(44+n),dv=new DataView(b.buffer),w=function(o,t){for(var i=0;i<t.length;i++)b[o+i]=t.charCodeAt(i)};
+      w(0,'RIFF');dv.setUint32(4,36+n,true);w(8,'WAVEfmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);
+      dv.setUint32(24,8000,true);dv.setUint32(28,8000,true);dv.setUint16(32,1,true);dv.setUint16(34,8,true);w(36,'data');dv.setUint32(40,n,true);
+      for(var i=0;i<n;i++)b[44+i]=128;
+      _sil=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));_sil.setAttribute('playsinline','');_sil.preload='auto';
+    }
+    _sil.currentTime=0;var pr=_sil.play();if(pr&&pr.catch)pr.catch(function(){});
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',function(){if(!document.hidden){try{ensureAC()}catch(e){}}});
 function beep(f,t,d,type,v){
   var a=ensureAC();if(!a)return;
   var o=a.createOscillator(),g=a.createGain();
@@ -2839,7 +2872,9 @@ function showSettings(){
   if(st){try{var dt=new Date(st);stTxt='Sao lưu gần nhất: '+dt.toLocaleDateString('vi-VN')+' '+dt.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}catch(e){}}
   view.innerHTML='<section class="setp">'
     +'<h2>⚙️ Cài đặt<small style="font-size:.55em;font-weight:600;opacity:.7;margin-left:8px">Settings</small></h2>'
-    +'<div class="setcard"><h3>🔊 Âm thanh<i>Sound</i></h3><div class="setrow"><button class="next'+(S.sound?'':' alt')+'" data-act="snd">'+(S.sound?'🔊 Đang bật':'🔇 Đang tắt')+'<small>'+(S.sound?'Sound on':'Sound off')+'</small></button></div></div>'
+    +'<div class="setcard"><h3>🔊 Âm thanh<i>Sound</i></h3><div class="setrow"><button class="next'+(S.sound?'':' alt')+'" data-act="snd">'+(S.sound?'🔊 Đang bật':'🔇 Đang tắt')+'<small>'+(S.sound?'Sound on':'Sound off')+'</small></button>'
+    +'<button class="next blue" data-act="sndtest">🔔 Thử loa<small>Test speaker</small></button></div>'
+    +'<div class="setmsg" id="sndMsg" role="status"></div></div>'
     +'<div class="setcard"><h3>🌐 Ngôn ngữ<i>Language</i></h3><div class="langs">'+langs+'</div></div>'
     +'<div class="setcard"><h3>🎂 Độ tuổi của bé<i>Age</i></h3><div class="levels">'+lv+'</div></div>'
     +'<div class="setcard"><h3>💾 Sao lưu<i>Backup</i></h3>'
@@ -2862,6 +2897,21 @@ function showSettings(){
     var f=pk.files&&pk.files[0];if(!f)return;
     var r=new FileReader();r.onload=function(){doRestore(String(r.result||''))};r.onerror=function(){setMsg('Không đọc được file này.',true)};r.readAsText(f);
   });
+}
+function doSndTest(){
+  var m=$('#sndMsg'),say=function(t,e){if(m){m.textContent=t;m.className='setmsg'+(e?' err':'')}};
+  if(!S.sound){S.sound=true;save();syncControls()}
+  mediaUnlock();var ac=ensureAC();
+  try{beep(660,0,.18,'sine',.3);beep(880,.2,.22,'sine',.3)}catch(e){}
+  speakNow([['Xin chào bé!','vi'],['Hello!','en']]);
+  say('Đang phát thử... Bé có nghe thấy không?');
+  setTimeout(function(){
+    var n=Object.keys(AUD.idx).length,st=ac?ac.state:'không có';
+    if(!ac)say('Máy này không hỗ trợ âm thanh của trình duyệt. Hãy thử mở bằng Safari.',true);
+    else if(!n)say('Chưa tải được giọng đọc AI (có thể mất mạng). Đang dùng giọng của máy. Trạng thái: '+st,true);
+    else if(st!=='running')say('Âm thanh chưa bật (trạng thái: '+st+'). Hãy chạm vào màn hình rồi bấm Thử loa lần nữa.',true);
+    else say('Đã phát. Nếu chưa nghe thấy: tăng âm lượng, gạt công tắc im lặng bên hông iPhone sang chế độ có chuông, và tắt chế độ Không làm phiền. ('+n+' câu giọng AI)');
+  },1800);
 }
 function doRestore(txt){
   var d=bkParse(txt);
@@ -2906,6 +2956,7 @@ view.addEventListener('click',function(e){
     else if(a==='album')showAlbum();
     else if(a==='count')countStickers();
     else if(a==='snd'){S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();showSettings()}
+    else if(a==='sndtest')doSndTest();
     else if(a==='bkfile')doBackupFile();
     else if(a==='bkcopy')doBackupCopy();
     else if(a==='bkrestore')doRestore(($('#bkpaste')||{}).value);
@@ -2959,7 +3010,7 @@ function setLang(l){
 }
 $('#langBtn').addEventListener('click',function(){setLang(S.lang==='both'?'vi':(S.lang==='vi'?'en':'both'))});
 var woke=false;
-function wake(){if(woke)return;woke=true;ensureAC();unlockSpeech()}
+function wake(){if(woke)return;woke=true;ensureAC();mediaUnlock();unlockSpeech()}
 document.addEventListener('touchend',wake,{once:true,passive:true});
 document.addEventListener('click',wake,{once:true});
 /* stop iPhone/iPad pinch-zoom while a child is tapping */

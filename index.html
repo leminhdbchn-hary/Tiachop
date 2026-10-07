@@ -142,7 +142,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .pen{font-size:clamp(15px,3.1vmin,22px);font-weight:600;opacity:.72;line-height:1.15;margin-top:2px}
 .visual{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center}
 .visual:empty{display:none}
-.bigemoji{font-size:clamp(84px,24vmin,180px);line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.15))}
+.bigemoji{font-size:clamp(130px,38vmin,270px);line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.15))}
 .word{font-size:clamp(40px,10vmin,76px);font-weight:800;line-height:1}
 .word .blank{display:inline-block;min-width:.8em;border-bottom:6px dashed var(--ink);margin-right:2px;color:transparent}
 .enw{font-size:clamp(16px,3.2vmin,22px);font-weight:600;opacity:.75;color:var(--bgtext)}
@@ -178,13 +178,13 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .opts{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:14px;margin:auto 0;padding-top:6px}
 .card{position:relative}
 .opt{
-  position:relative;height:clamp(110px,31vmin,250px);width:100%;
+  position:relative;height:clamp(140px,38vmin,280px);width:100%;
   background:linear-gradient(180deg,#FFFFFF,#EAF3FF);border:3px solid var(--line);border-radius:26px;
   box-shadow:0 6px 0 var(--line),0 12px 20px var(--soft);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:opacity .2s;line-height:1.05;overflow:hidden;
 }
-.opts.n2 .opt{height:clamp(130px,36vmin,270px)}
+.opts.n2 .opt{height:clamp(160px,44vmin,300px)}
 .opt:active:not(:disabled){transform:translateY(5px);box-shadow:0 1px 0 var(--line)}
 .opt.dim{opacity:.4}
 .opt.right{background:linear-gradient(180deg,#F0FFF4,#BDEFCB);border-color:#2FBF5B;box-shadow:0 6px 0 #2FBF5B,0 0 0 5px rgba(47,191,91,.25);opacity:1;animation:bounce .7s ease both}
@@ -207,7 +207,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .opt .sz svg.carsvg{width:100%}
 .L{font-size:clamp(46px,13vmin,92px);font-weight:800;line-height:1}
 .l{font-size:clamp(20px,5vmin,34px);font-weight:700;opacity:.7;line-height:1}
-.emo{font-size:clamp(50px,14vmin,100px);line-height:1;filter:drop-shadow(0 4px 3px rgba(0,0,0,.15))}
+.emo{font-size:clamp(62px,18vmin,150px);line-height:1;filter:drop-shadow(0 4px 3px rgba(0,0,0,.15))}
 .grp{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:clamp(20px,5.2vmin,34px);line-height:1.1;padding:4px 8px;max-width:100%}
 .seq .grp{font-size:clamp(34px,9vmin,58px);max-width:40vw}
 .hbar{display:block;height:26%;border-radius:999px;border:3px solid rgba(0,0,0,.3);box-shadow:inset 0 -6px 0 rgba(0,0,0,.14),inset 0 5px 0 rgba(255,255,255,.35)}
@@ -321,16 +321,9 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 .visualphoto{display:flex;justify-content:center}
 .carphoto{max-width:min(86%,520px);max-height:clamp(150px,34vh,360px);width:auto;height:auto;border:5px solid var(--ink);border-radius:26px;box-shadow:0 6px 0 var(--ink);background:var(--paper);object-fit:cover;display:block;margin:0 auto;-webkit-user-drag:none;pointer-events:none}
 .opt{overflow:hidden}
+.opt .emo{line-height:1.2;margin-top:2px}
+.opt .nm{margin-top:4px}
 .optphoto{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
-.emo.hasph,.bigemoji.hasph{filter:none;line-height:0;display:block}
-.pimg{display:block;margin:0 auto;object-fit:cover;border-radius:18px;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.22);background:#EEF3FB;pointer-events:none;-webkit-user-drag:none}
-.emo .pimg{width:clamp(78px,24vmin,150px);height:clamp(78px,24vmin,150px)}
-.bigemoji .pimg{width:clamp(150px,42vmin,300px);height:clamp(150px,42vmin,300px);border-radius:26px;border-width:5px}
-.crbtn{align-self:center;font-size:13px;font-weight:700;color:var(--bgtext);opacity:.8;padding:6px 12px;border-radius:12px;background:rgba(255,255,255,.55)}
-.crbtn i{display:block;font-weight:600;font-size:.9em;opacity:.8}
-.crlist{margin:6px 0 16px;padding:10px 14px 10px 30px;background:rgba(255,255,255,.92);border-radius:16px;font-size:13px;font-weight:600;line-height:1.5;color:var(--ink)}
-.crlist a{color:#2F6FD0}
-
 @keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 280px)) rotate(var(--r)) scale(1);opacity:0}}
 @keyframes bounce{0%{transform:scale(1)}30%{transform:scale(1.14) rotate(-2deg)}55%{transform:scale(.95)}75%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
@@ -2358,7 +2351,6 @@ function showHome(){
     +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +'<div class="tiles">'+tiles+'</div>'
-    +'<button class="crbtn" data-act="credits">ℹ️ Giới thiệu &amp; nguồn ảnh<i>About &amp; photo credits</i></button>'
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
   checkNote();
@@ -2507,47 +2499,6 @@ function showEnd(){
 }
 
 
-/* ---------- Ảnh thật (photos/manifest.json do GitHub Action tạo từ Wikimedia Commons) ----------
-   Chỗ nào có ảnh thì thay hình emoji bằng ảnh thật; không có ảnh thì vẫn dùng emoji. */
-var PH={idx:{},map:{},ready:false};
-function phBuild(){
-  [ANI,FOOD,OBJ,SCH,PRO,ROOM,ENGX.veh,ENGX.home,ENGX.nature].forEach(function(arr){arr.forEach(function(x){if(x.e&&x.e.charAt(0)!=='<'&&!PH.map[x.e])PH.map[x.e]=x.en})});
-  OBJS_ALL.forEach(function(x){if(!PH.map[x.e])PH.map[x.e]=x.s});
-}
-function photoize(root){
-  if(!PH.ready)return;
-  var els=root.querySelectorAll('.emo,.bigemoji');
-  for(var i=0;i<els.length;i++){
-    var el=els[i];
-    if(el.getAttribute('data-ph')||el.closest('.shadow'))continue;
-    var key=null,c=el.firstElementChild;
-    if(c&&c.getAttribute&&c.getAttribute('data-pk'))key=c.getAttribute('data-pk');
-    else if(!el.children.length)key=PH.map[el.textContent.trim()];
-    var it=key&&PH.idx[key];if(!it)continue;
-    el.setAttribute('data-ph','1');
-    (function(el,it){
-      var orig=el.innerHTML,img=new Image();img.className='pimg';img.alt='';img.draggable=false;
-      img.onerror=function(){el.innerHTML=orig;el.classList.remove('hasph')};
-      img.src='photos/'+encodeURIComponent(it.f);
-      el.classList.add('hasph');el.innerHTML='';el.appendChild(img);
-    })(el,it);
-  }
-}
-try{fetch('photos/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{}}).then(function(m){
-  PH.idx=(m&&m.items)||{};phBuild();PH.ready=Object.keys(PH.idx).length>0;
-  if(PH.ready){photoize(document.getElementById('view'));Object.keys(PH.idx).forEach(function(k){try{var im=new Image();im.src='photos/'+encodeURIComponent(PH.idx[k].f)}catch(e){}})}
-}).catch(function(){})}catch(e){}
-function showCredits(){
-  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;setProgress(0,0);syncControls();
-  var mn=document.querySelector('main');if(mn)mn.scrollTop=0;
-  var ks=Object.keys(PH.idx).sort(),rows=ks.map(function(k){var it=PH.idx[k];
-    return '<li><b>'+k+'</b> · '+(it.a||'?')+' · '+(it.l||'')+(it.u?' · <a href="'+it.u+'" target="_blank" rel="noopener">Wikimedia Commons</a>':'')+'</li>'}).join('');
-  view.innerHTML='<section class="albumv credits"><h2 class="atitle">ℹ️ Giới thiệu · About<small>Bé Vui Học · Little Learners</small></h2>'
-    +'<p class="ahint">Hình vẽ nhân vật, xe và Tia Chớp là thiết kế gốc của dự án. Ảnh thật lấy từ Wikimedia Commons theo giấy phép mở, ghi nguồn bên dưới. · Characters and cars are original art. Real photos come from Wikimedia Commons under open licenses, credited below.</p>'
-    +(rows?'<ul class="crlist">'+rows+'</ul>':'<p class="ahint">Chưa có ảnh thật nào. · No photos yet.</p>')
-    +'<div class="endbtns"><button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button></div></section>';
-}
-
 /* ---------- Talking cars in the sticker album ---------- */
 var CHATID=null,CHATBAG=[],CHATLAST=-1;
 function chatLines(id){
@@ -2616,7 +2567,6 @@ view.addEventListener('click',function(e){
     else if(a==='show3d'){closeChat();openShowroom(act.getAttribute('data-car'))}
     else if(a==='chatmore')chatSay(CHATID,true);
     else if(a==='chatclose')closeChat();
-    else if(a==='credits')showCredits();
     return;
   }
   var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
@@ -2683,7 +2633,7 @@ function localize(root){
   while((t=w.nextNode()))if(/[À-ỹ]/.test(t.nodeValue)&&t.nodeValue.indexOf('·')>=0)list.push(t);
   list.forEach(function(t){var a=t.nodeValue.split('·');t.nodeValue=a[a.length-1].trim()});
 }
-try{new MutationObserver(function(){localize(view);photoize(view)}).observe(view,{childList:true,subtree:true})}catch(e){}
+try{new MutationObserver(function(){localize(view)}).observe(view,{childList:true,subtree:true})}catch(e){}
 syncControls();
 showHome();
 })();

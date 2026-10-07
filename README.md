@@ -111,7 +111,7 @@ Chủ đề mới **Học tiếng Anh / English fun** (có ở cả 3 chế đ�
 ## Giọng đọc Nam Minh, ảnh thật, icon app
 
 - **Giọng đọc AI (Nam Minh)**: game phát file `audio/<mã>.mp3`, câu nào chưa có file thì tạm dùng giọng của máy. Danh sách câu nằm ở `tools/phrases.json` (đã tạo lại cho toàn bộ nội dung hiện tại). Mỗi lần upload `tools/phrases.json`, GitHub Action **Tạo giọng đọc AI** tự thu các câu còn thiếu và commit vào `audio/` (lần đầu với ~6.000 câu mất khoảng 30–60 phút, các lần sau chỉ thu câu mới).
-- **Ảnh thật** cho con vật, trái cây, đồ vật, phòng, trường học, nghề nghiệp, phương tiện, thiên nhiên: Action **Tải ảnh thật cho game** (`tools/fetch_photos.py`) tìm ảnh trên Wikimedia Commons (chỉ giấy phép CC0 / Public domain / CC BY / CC BY-SA), cắt vuông, lưu vào `photos/` kèm `manifest.json`, `CREDITS.md` và trang xem trước `photos/preview.html`. Chỗ nào chưa có ảnh game vẫn dùng hình emoji. Ảnh chưa vừa ý: ghi tên file vào `photos/skip.txt` hoặc chọn tay trong `photos/overrides.txt`, rồi chạy lại Action. Màn "Giới thiệu & nguồn ảnh" ở cuối trang chủ liệt kê tác giả từng ảnh.
+- Hình trong bài học dùng emoji cỡ lớn (không dùng ảnh thật). Ảnh ô tô thật vẫn dùng được: thả ảnh vào thư mục `cars/` (xem `cars/README.md`).
 - **Icon app**: `icons/apple-touch-icon.png` (iPhone/iPad: Safari → Chia sẻ → Thêm vào MH chính), `icons/icon-192.png`, `icons/icon-512.png`, `manifest.webmanifest`.
 - **iPhone đời mới**: giao diện tránh tai thỏ/Dynamic Island, thanh Home và mép cong khi xoay ngang (`viewport-fit=cover` + `safe-area-inset`).
 - Nút ngôn ngữ ở góc trên hiển thị: **Việt + Anh**, **Tiếng Việt**, **English**.

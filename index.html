@@ -48,7 +48,8 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 #city{position:fixed;left:0;right:0;bottom:0;height:36vh;max-height:340px;pointer-events:none;z-index:0}
 #city svg{width:100%;height:100%;display:block}
 #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:980px;margin:0 auto;padding:max(10px,calc(var(--sat) * .25)) 14px max(14px,calc(var(--sab) * .35))}
-.top{display:flex;align-items:center;gap:10px;min-height:60px;margin-top:clamp(34px,8vh,84px)}
+.top #langBtn{margin-left:auto}
+.top{display:flex;align-items:center;gap:10px;min-height:60px;margin-top:clamp(14px,3vh,30px)}
 .icon{
   min-width:56px;height:56px;border-radius:18px;background:linear-gradient(180deg,#fff,#EEF5FF);
   border:3px solid var(--lineD);box-shadow:0 4px 0 var(--lineD),0 8px 14px var(--soft);
@@ -73,7 +74,7 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
 
 /* ---------- Home ---------- */
-.home{display:flex;flex-direction:column;gap:14px;padding:6px 2px 24px}
+.home{display:flex;flex-direction:column;gap:14px;padding:14px 2px 24px}
 .hero{display:grid;grid-template-columns:1.3fr 1fr;align-items:end;gap:6px}
 .sign{
   position:relative;text-align:center;padding:12px 10px 12px;border-radius:24px;
@@ -313,9 +314,9 @@ img.rk{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-sel
 
 
 /* ---------- Language chooser + English learning ---------- */
-.langs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.lg{display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--line);border-radius:999px;padding:3px 14px;font-weight:800;font-size:clamp(14px,3vmin,19px);box-shadow:0 4px 0 var(--line);color:var(--ink)}
-.lg span{font-size:1.3em}
+.langs{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap;width:100%}
+.lg{display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--line);border-radius:999px;flex:1 1 0;min-width:0;justify-content:center;padding:4px 6px;white-space:nowrap;font-weight:800;font-size:clamp(11px,3.1vw,16px);box-shadow:0 4px 0 var(--line);color:var(--ink)}
+.lg span{font-size:1.1em}
 .lg.on{background:linear-gradient(180deg,#FFE88F,#FFC93C);border-color:#E0A21B;box-shadow:0 1px 0 #E0A21B;transform:translateY(3px)}
 .engw{display:block;font-size:clamp(26px,6.4vmin,46px);font-weight:800;line-height:1.1}
 .engw.sm{font-size:clamp(18px,4.2vmin,28px)}
@@ -332,7 +333,8 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 /* ---------- Effects ---------- */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
 .cf{position:fixed;font-size:28px;line-height:1;animation:burst 1.2s ease-out forwards}
-.emo svg.ico.room{width:1.25em;height:1.25em}
+.emo svg.ico.room{width:clamp(96px,27vmin,180px);height:auto;max-width:100%}
+.opts.n2 .emo svg.ico.room{width:clamp(100px,29vmin,200px)}
 .emo svg.ico,.bigemoji svg.ico{width:1em;height:1em;display:inline-block;vertical-align:top;overflow:visible}
 .chatov{position:fixed;inset:0;padding:var(--sat) var(--sar) var(--sab) var(--sal);z-index:50;background:rgba(30,28,70,.55);display:flex;align-items:center;justify-content:center;animation:hop .25s ease both}
 .chatcard{width:min(560px,100%);background:#fff;border:4px solid var(--line);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;box-shadow:0 8px 0 rgba(0,0,0,.18)}
@@ -2492,6 +2494,7 @@ $('#progress').innerHTML='<div class="road" id="road"><div class="roadcar" id="r
 
 var roadFor=null;
 function setProgress(done,total){
+  var pg=$('#progress');if(pg)pg.style.display=total?'':'none';
   var road=$('#road'),rc=$('#roadcar');if(!road||!rc)return;
   if(!total){road.classList.remove('on');return}
   road.classList.add('on');

@@ -87,3 +87,23 @@ Thêm một dòng vào mảng tương ứng là có thêm câu hỏi. Mỗi dạ
 ## Giấy phép
 
 [MIT](LICENSE)
+
+## Học tiếng Anh / English mode
+
+Trên màn hình chính có 3 nút ngôn ngữ (và nút ở góc trên): **Việt + Anh**, **Tiếng Việt**, **English**. Chế độ English hiển thị và đọc hoàn toàn bằng tiếng Anh (tên app là "Little Learners").
+
+Chủ đề mới **Học tiếng Anh / English fun** (có ở cả 3 chế độ, 3 mức tuổi): đây là gì trong tiếng Anh, nghe và chọn hình, màu, chào hỏi (Hello, Thank you...), bảng chữ cái ABC, chữ đầu của từ (B is for ball), đếm bằng tiếng Anh, đánh vần chữ còn thiếu, từ trái nghĩa. Từ vựng gồm con vật, trái cây, phương tiện (cả các chú xe trong game), đồ vật, thiên nhiên, gia đình, hành động, cơ thể, cảm xúc. Thêm từ mới ở mảng `ENGX` trong `index.html`.
+
+## Tia Chớp – nhân vật chính
+
+**Tia Chớp** là chú xe anh hùng màu đỏ, có tia chớp vàng trên đầu (thiết kế gốc, có cả bản 2D và 3D).
+
+- **Nhiệm vụ mỗi ngày:** Tia Chớp xuất hiện ở màn hình chính và nhờ bé làm một nhiệm vụ (đổi theo ngày, mảng `MISSIONS`). Xong nhiệm vụ bé được +3 sao.
+- **Game đua xe 3D:** bé lái Tia Chớp.
+- **Sticker đặc biệt:** nhận được khi hoàn thành nhiệm vụ đầu tiên.
+- **Câu hỏi:** Tia Chớp xuất hiện trong "Đâu là Tia Chớp?" và câu đếm sao.
+
+## Chủ đề mới và xe biết nói
+
+- **Đồ vật trong nhà** (giường, ghế, bàn, cửa, tủ lạnh…), **Các phòng trong nhà**, **Trường học** (sách, bút, thước, cô giáo…) và **Nghề nghiệp** (bác sĩ, lính cứu hỏa, phi công…). Mỗi chủ đề có 1–3 dạng câu hỏi tùy độ tuổi; dữ liệu nằm ở các mảng `OBJ`, `ROOM`, `SCH`, `PRO` trong `index.html`. Từ vựng cũng được thêm vào chủ đề Học tiếng Anh.
+- **Xe biết nói:** trong Album sticker, chạm vào một chú xe để xe đổi biểu cảm (emoji + chuyển động) và nói câu ngắn với bé bằng tiếng Việt và tiếng Anh. Bấm "Nói tiếp" để nghe câu khác, hoặc "Xem xe 3D". Thêm câu mới ở hàm `chatLines`.

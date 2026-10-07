@@ -89,6 +89,11 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 }
 .bubble2 small{display:block;font-weight:600;opacity:.7;font-size:.82em}
 .bubble2::after{content:"";position:absolute;left:62%;bottom:-11px;width:16px;height:16px;background:#fff;border-right:3px solid var(--line);border-bottom:3px solid var(--line);transform:rotate(45deg) skew(10deg,10deg)}
+.bubble2.mission{font-family:inherit;color:var(--ink);cursor:pointer}
+.bubble2.mission:active{transform:translateY(3px)}
+.bubble2.mission.done{background:#E6F9E8;border-color:#2FBF5B}
+.mdone{margin:0;background:#FFE88F;border:3px solid #E0A21B;border-radius:16px;padding:4px 14px;font-weight:800;font-size:clamp(14px,3vmin,20px)}
+.chopline svg{width:clamp(90px,22vmin,150px);height:auto;display:block;margin:0 auto}
 .levels{display:flex;gap:10px;justify-content:center}
 .lv{
   flex:1;max-width:210px;background:linear-gradient(180deg,#fff,#EEF5FF);border:3px solid var(--lineD);border-radius:22px;box-shadow:0 5px 0 var(--lineD),0 10px 16px var(--soft);
@@ -291,6 +296,24 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 /* ---------- Effects ---------- */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
 .cf{position:fixed;font-size:28px;line-height:1;animation:burst 1.2s ease-out forwards}
+.emo svg.ico,.bigemoji svg.ico{width:1em;height:1em;display:inline-block;vertical-align:top;overflow:visible}
+.chatov{position:fixed;inset:0;z-index:50;background:rgba(30,28,70,.55);display:flex;align-items:center;justify-content:center;padding:14px;animation:hop .25s ease both}
+.chatcard{width:min(560px,100%);background:#fff;border:4px solid var(--line);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;box-shadow:0 8px 0 rgba(0,0,0,.18)}
+.cbub{position:relative;display:flex;gap:12px;align-items:center;background:#FFF8DC;border:3px solid var(--line);border-radius:22px;padding:10px 14px;width:100%;min-height:96px;cursor:pointer}
+.cexp{font-size:clamp(46px,12vmin,72px);line-height:1;animation:pop .35s ease both}
+.ctxt{font-size:clamp(18px,4.4vmin,26px);font-weight:800;line-height:1.25}
+.ctxt small{display:block;font-weight:600;opacity:.7;font-size:.8em}
+.cart{width:min(300px,70%);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cart svg{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 4px rgba(0,0,0,.2))}
+.cart.a-bounce{animation:bounce .8s ease both}.cart.a-shake{animation:shake .6s ease both}
+.cart.a-grow{animation:grow .8s ease both}.cart.a-tilt{animation:tilt 1.4s ease both}
+.cart.a-wiggle{animation:wiggle .8s ease both}.cart.a-spin{animation:spin1 .9s ease both}
+@keyframes grow{0%{transform:scale(1)}40%{transform:scale(1.25)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes tilt{0%{transform:rotate(0)}30%{transform:rotate(-12deg) translateY(8px)}60%{transform:rotate(-8deg) translateY(8px)}100%{transform:rotate(0)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(7deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}}
+@keyframes spin1{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+.cbtns{display:flex;gap:10px;width:100%;flex-wrap:wrap}.cbtns .next{flex:1 1 150px;margin:0}
+@media (prefers-reduced-motion:reduce){.cart{animation:none!important}}
 @keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 280px)) rotate(var(--r)) scale(1);opacity:0}}
 @keyframes bounce{0%{transform:scale(1)}30%{transform:scale(1.14) rotate(-2deg)}55%{transform:scale(.95)}75%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
@@ -330,12 +353,12 @@ var S={sound:true,lang:'both',level:2,stars:0,stickers:[],mode:null,round:0,tota
 function load(){
   try{
     var d=JSON.parse(localStorage.getItem('behuihoc')||'{}');
-    S.stars=d.stars||0;S.stickers=d.stickers||[];S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
+    S.stars=d.stars||0;S.stickers=d.stickers||[];S.mday=d.mday||'';S.mtotal=d.mtotal||0;S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
   }catch(e){}
 }
 function save(){
-  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,sound:S.sound,lang:S.lang,level:S.level}))}catch(e){}
+  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level}))}catch(e){}
 }
 load();
 
@@ -546,6 +569,9 @@ addCar('nang','Nâng','forklift','heavy','#FFB000','#2E7D4F','vàng','yellow','x
 addCar('cay','Cày','tractor','heavy','#3FA34D','#6B3F1D','xanh lá','green','máy cày','tractor','cày ruộng','plows the field');
 addCar('lan','Lăn','roller','heavy','#FFD21F','#2BA8E0','vàng','yellow','xe lu','road roller','lăn phẳng mặt đường','flattens the road');
 addCar('xuc','Xúc','loader','heavy','#FF9A2E','#2E7D4F','cam','orange','xe xúc','loader','xúc cát','scoops up sand');
+/* the main character: Tia Chớp (red round hero car with a lightning bolt on its head) */
+addCar('chop','Tia Chớp','hero','small','#FF4D4D','#2BA8E0','đỏ','red','xe anh hùng','hero car','làm nhiệm vụ mỗi ngày','does a mission every day');
+CARS.chop.honk='Vút vút!';CARS.chop.main=true;
 function silOf(id){var k=CARS[id].kind;return SIL[k]||k}
 
 /* ---- colour helpers ---- */
@@ -804,6 +830,15 @@ function famSVG(c,col,u,dk,B,G,M,iris){
       case 'rocket':
         bub();R.behind=sh('M34 92 L6 132 L38 128 Z','#FF3B3B',2.5)+sh('M166 92 L194 132 L162 128 Z','#FF3B3B',2.5);
         R.top=sh('M78 50 Q100 -6 122 50 Z','#FF3B3B',2.5)+'<path d="M90 28 Q100 12 110 28" fill="none" stroke="#fff" stroke-width="4" opacity=".8"/>';break;
+      case 'hero':
+        R.tires=rc(20,112,32,40,11,T,2)+rc(148,112,32,40,11,T,2);
+        R.top=sh('M114 -1 L88 24 L101 24 L90 44 L120 17 L107 17 Z','#FFD21F',3.2);
+        R.front=sh('M28 112 Q22 52 100 40 Q178 52 172 112 Q176 144 150 146 L50 146 Q24 144 28 112 Z',B)
+          +sh('M40 92 Q34 56 100 46 Q166 56 160 92 Q100 80 40 92Z','#FFF3D6',3)
+          +sh('M50 98 Q48 58 100 54 Q152 58 150 98 Z',G,2.5)+'<path d="M52 68 Q100 46 148 68 Q100 54 52 76Z" fill="#fff" opacity=".35"/>';
+        R.eyes=eyeSVG(u,78,76,14,iris)+eyeSVG(u,122,76,14,iris);
+        R.extra=mouthSVG(100,108)+ci(52,116,7,'#FF8CC0',0).replace('/>',' opacity=".7"/>')+ci(148,116,7,'#FF8CC0',0).replace('/>',' opacity=".7"/>')
+          +headlightSVG(u,40,124,10,10)+headlightSVG(u,160,124,10,10)+'<rect x="48" y="134" width="104" height="12" rx="6" fill="'+M+'" stroke="#7C8399" stroke-width="2"/>';break;
       case 'vintage':
         R.front=sh('M30 78 Q32 58 54 54 L146 54 Q168 58 170 78 L176 124 Q178 144 160 146 L40 146 Q22 144 24 124 Z',B)
           +sh('M62 56 L68 28 L132 28 L138 56 Z',G,3)+'<path d="M66 34 L134 34 L135 39 L65 42 Z" fill="#fff" opacity=".3"/>';
@@ -987,7 +1022,7 @@ function heroSVG(id){
 }
 
 var SECTIONS=[
- {vi:'Xe ô tô',en:'Cars',items:CARIDS.map(function(c){return 'car:'+c}).concat(['car:kim'])},
+ {vi:'Xe ô tô',en:'Cars',items:['car:chop'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim'])},
  {vi:'Bạn siêu nhân',en:'Hero friends',items:Object.keys(HEROES).map(function(h){return 'hero:'+h})},
  {vi:'Thú vật',en:'Animals',items:['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳']},
  {vi:'Thú cưng và nông trại',en:'Pets and farm',items:['🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥']},
@@ -1516,7 +1551,7 @@ function engPool(){
   var add=function(a){a.forEach(function(x){if(!out.some(function(o){return o.en===x.en}))out.push(x)})};
   add(ANI.map(mk));add(FOOD.map(mk));add(ENGX.veh);
   add(shuffle(CARIDS).slice(0,8).map(function(id){return {cid:id,en:CARS[id].en,vi:CARS[id].vi}}));
-  if(L>=2){add(ENGX.home);add(ENGX.nature);add(ENGX.family);add(BODY.map(mk))}
+  if(L>=2){add(OBJ.concat(SCH,PRO,ROOM).filter(function(x){return x.e.charAt(0)!=='<'}).map(mk));add(ENGX.home);add(ENGX.nature);add(ENGX.family);add(BODY.map(mk))}
   if(L>=3){add(ENGX.action);add(EMO.map(mk))}
   return out;
 }
@@ -1614,6 +1649,163 @@ function engSpellRound(){
     win:{vi:'Đúng rồi! '+w.en.toUpperCase().split('').join(', ')+'.',en:w.en.toUpperCase().split('').join(', ')+', '+w.en+'!'},wx:[[chars.join(', ')+', '+w.en+'!','en',true]]};
 }
 
+function chopFindRound(){
+  var set=distinctWith(CARIDS,'chop',nopt(),function(x){return x});
+  return {type:'chopfind',key:'chopfind',
+    vi:'Đâu là Tia Chớp?',en:'Which one is Tia Chớp?',visual:'',
+    opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf('chop'),
+    win:{vi:'Đây là Tia Chớp! Xe màu đỏ, có tia chớp trên đầu. Vút vút!',en:'This is Tia Chớp! A red car with a lightning bolt on top. Zoom zoom!'}};
+}
+function chopCountRound(){
+  var maxN=S.level===1?5:10,n=1+rand(maxN),set=[n],tries=0;
+  while(set.length<nopt()&&tries++<100){var k=Math.max(1,Math.min(maxN,n+rand(7)-3));if(set.indexOf(k)<0)set.push(k)}
+  set=shuffle(set);
+  var items='';for(var i=0;i<n;i++)items+='<button class="item" aria-label="Đếm">⭐</button>';
+  return {type:'chopcount',key:'chopcount:'+n,
+    vi:'Tia Chớp nhặt được bao nhiêu ngôi sao?',en:'How many stars did Tia Chớp collect?',
+    visual:'<div class="chopline">'+carSVG('chop')+'</div><div class="items">'+items+'</div><div class="hint">Chạm vào từng hình để đếm · Tap to count</div>',
+    opts:set.map(function(k){return numOpt(k,true)}),correct:set.indexOf(n),
+    win:{vi:'Tia Chớp nhặt được '+NUM_VI[n]+' ngôi sao.',en:'Tia Chớp collected '+NUM_EN[n]+(n===1?' star.':' stars.')}};
+}
+/* ---------- 12-15. HOME OBJECTS, ROOMS, SCHOOL, JOBS ---------- */
+function ico(inner){return '<svg class="ico" viewBox="0 0 100 100" aria-hidden="true">'+inner+'</svg>'}
+var ST='stroke="#2B2A4C" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
+var ICO={
+ table:ico('<rect x="10" y="28" width="80" height="14" rx="5" fill="#C98B4B" '+ST+'/><rect x="20" y="42" width="9" height="46" rx="3" fill="#A86E34" '+ST+'/><rect x="71" y="42" width="9" height="46" rx="3" fill="#A86E34" '+ST+'/>'),
+ fridge:ico('<rect x="24" y="8" width="52" height="86" rx="9" fill="#DDEBFA" '+ST+'/><path d="M24 38 H76" '+ST+' fill="none"/><rect x="62" y="16" width="5" height="16" rx="2" fill="#6B7AA8"/><rect x="62" y="46" width="5" height="22" rx="2" fill="#6B7AA8"/>'),
+ wardrobe:ico('<rect x="16" y="8" width="68" height="84" rx="8" fill="#B98350" '+ST+'/><path d="M50 8 V92" '+ST+' fill="none"/><circle cx="43" cy="52" r="3.5" fill="#FFE08A"/><circle cx="57" cy="52" r="3.5" fill="#FFE08A"/>'),
+ board:ico('<rect x="8" y="14" width="84" height="56" rx="6" fill="#2F7D5B" stroke="#B98350" stroke-width="6"/><path d="M22 34 Q32 24 40 34 T58 34" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M24 54 H62" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M30 70 V90 M70 70 V90" '+ST+' fill="none"/>')
+};
+var OBJ=[
+ {e:'🛏️',vi:'cái giường',en:'bed',use:{vi:'ngủ',en:'sleep'},room:'bed'},
+ {e:'🪑',vi:'cái ghế',en:'chair',use:{vi:'ngồi',en:'sit'},room:'dine'},
+ {e:ICO.table,vi:'cái bàn',en:'table',use:{vi:'ăn cơm và viết bài',en:'eat and do homework'},room:'dine'},
+ {e:'🚪',vi:'cửa ra vào',en:'door',use:{vi:'đi ra đi vào',en:'go in and out'},room:'living'},
+ {e:'🪟',vi:'cửa sổ',en:'window',use:{vi:'ngắm trời và đón gió',en:'look outside'},room:'living'},
+ {e:'🛋️',vi:'ghế sofa',en:'sofa',use:{vi:'ngồi nghỉ',en:'relax'},room:'living'},
+ {e:'📺',vi:'cái tivi',en:'TV',use:{vi:'xem phim hoạt hình',en:'watch cartoons'},room:'living'},
+ {e:'💡',vi:'bóng đèn',en:'light',use:{vi:'chiếu sáng',en:'make light'},room:'living'},
+ {e:'🪞',vi:'cái gương',en:'mirror',use:{vi:'soi mặt',en:'look at yourself'},room:'bath'},
+ {e:'🚽',vi:'bồn cầu',en:'toilet',use:{vi:'đi vệ sinh',en:'go to the toilet'},room:'bath'},
+ {e:'🛁',vi:'bồn tắm',en:'bathtub',use:{vi:'tắm',en:'take a bath'},room:'bath'},
+ {e:'🚿',vi:'vòi hoa sen',en:'shower',use:{vi:'tắm rửa',en:'wash'},room:'bath'},
+ {e:'🪥',vi:'bàn chải đánh răng',en:'toothbrush',use:{vi:'đánh răng',en:'brush teeth'},room:'bath'},
+ {e:'🧼',vi:'xà phòng',en:'soap',use:{vi:'rửa tay',en:'wash hands'},room:'bath'},
+ {e:ICO.fridge,vi:'tủ lạnh',en:'fridge',use:{vi:'giữ đồ ăn lạnh',en:'keep food cold'},room:'kitchen'},
+ {e:'🍳',vi:'cái chảo',en:'pan',use:{vi:'nấu ăn',en:'cook'},room:'kitchen'},
+ {e:'🥣',vi:'cái bát',en:'bowl',use:{vi:'đựng cháo và canh',en:'hold soup'},room:'kitchen'},
+ {e:'🥄',vi:'cái thìa',en:'spoon',use:{vi:'xúc cơm',en:'eat soup'},room:'kitchen'},
+ {e:ICO.wardrobe,vi:'tủ quần áo',en:'wardrobe',use:{vi:'cất quần áo',en:'keep clothes'},room:'bed'},
+ {e:'🧹',vi:'cái chổi',en:'broom',use:{vi:'quét nhà',en:'sweep the floor'},room:'living'}];
+var ROOM=[
+ {e:'🛏️',vi:'phòng ngủ',en:'bedroom',id:'bed',act:{vi:'ngủ',en:'sleep'}},
+ {e:'🍳',vi:'nhà bếp',en:'kitchen',id:'kitchen',act:{vi:'nấu ăn',en:'cook'}},
+ {e:'🛁',vi:'phòng tắm',en:'bathroom',id:'bath',act:{vi:'tắm',en:'take a bath'}},
+ {e:'🛋️',vi:'phòng khách',en:'living room',id:'living',act:{vi:'xem tivi',en:'watch TV'}},
+ {e:'🍽️',vi:'phòng ăn',en:'dining room',id:'dine',act:{vi:'ăn cơm',en:'have dinner'}},
+ {e:'🌳',vi:'khu vườn',en:'garden',id:'garden',act:{vi:'chơi với hoa và cây',en:'play with flowers'}}];
+var SCH=[
+ {e:'📖',vi:'quyển sách',en:'book',use:{vi:'đọc',en:'read'}},
+ {e:'✏️',vi:'bút chì',en:'pencil',use:{vi:'viết và vẽ',en:'write and draw'}},
+ {e:'🖍️',vi:'bút sáp màu',en:'crayon',use:{vi:'tô màu',en:'color'}},
+ {e:'🎒',vi:'cặp sách',en:'school bag',use:{vi:'đựng sách vở',en:'carry books'}},
+ {e:'📏',vi:'cây thước',en:'ruler',use:{vi:'đo và kẻ đường thẳng',en:'measure'}},
+ {e:'✂️',vi:'cái kéo',en:'scissors',use:{vi:'cắt giấy',en:'cut paper'}},
+ {e:'📓',vi:'quyển vở',en:'notebook',use:{vi:'viết bài',en:'write'}},
+ {e:'🔔',vi:'cái chuông',en:'bell',use:{vi:'báo giờ vào lớp',en:'tell us class time'}},
+ {e:'🏫',vi:'ngôi trường',en:'school',use:{vi:'đến học mỗi ngày',en:'learn every day'}},
+ {e:'👩‍🏫',vi:'cô giáo',en:'teacher',use:{vi:'dạy bé học',en:'teach us'}},
+ {e:'🧑‍🎓',vi:'bạn học sinh',en:'student',use:{vi:'đến lớp học bài',en:'learn in class'}},
+ {e:ICO.board,vi:'cái bảng',en:'board',use:{vi:'cô giáo viết chữ',en:'the teacher writes on'}}];
+var PRO=[
+ {e:'👩‍⚕️',vi:'bác sĩ',en:'doctor',do:{vi:'khám bệnh cho bé',en:'checks you when you are sick'},who:{vi:'Ai khám bệnh cho bé?',en:'Who checks you when you are sick?'},tool:'🩺',tvi:'ống nghe',ten:'stethoscope'},
+ {e:'👩‍🏫',vi:'cô giáo',en:'teacher',do:{vi:'dạy bé học',en:'teaches you at school'},who:{vi:'Ai dạy bé học ở trường?',en:'Who teaches you at school?'},tool:'📖',tvi:'quyển sách',ten:'book'},
+ {e:'👨‍🚒',vi:'chú lính cứu hỏa',en:'firefighter',do:{vi:'dập lửa',en:'puts out fires'},who:{vi:'Ai dập lửa khi có cháy?',en:'Who puts out fires?'},tool:'🧯',tvi:'bình chữa cháy',ten:'fire extinguisher'},
+ {e:'👮',vi:'chú công an',en:'police officer',do:{vi:'giữ an toàn cho mọi người',en:'keeps everyone safe'},who:{vi:'Ai giữ an toàn cho mọi người?',en:'Who keeps everyone safe?'},tool:'🚓',tvi:'xe cảnh sát',ten:'police car'},
+ {e:'👨‍🍳',vi:'đầu bếp',en:'chef',do:{vi:'nấu những món ngon',en:'cooks yummy food'},who:{vi:'Ai nấu những món ngon?',en:'Who cooks yummy food?'},tool:'🍳',tvi:'cái chảo',ten:'pan'},
+ {e:'👨‍🌾',vi:'bác nông dân',en:'farmer',do:{vi:'trồng lúa và rau',en:'grows rice and veggies'},who:{vi:'Ai trồng lúa và rau?',en:'Who grows rice and veggies?'},tool:'🌾',tvi:'bông lúa',ten:'rice plant'},
+ {e:'👩‍✈️',vi:'phi công',en:'pilot',do:{vi:'lái máy bay',en:'flies airplanes'},who:{vi:'Ai lái máy bay?',en:'Who flies airplanes?'},tool:'✈️',tvi:'máy bay',ten:'airplane'},
+ {e:'👨‍🔧',vi:'bác thợ sửa xe',en:'mechanic',do:{vi:'sửa xe',en:'fixes cars'},who:{vi:'Ai sửa xe khi xe bị hỏng?',en:'Who fixes cars?'},tool:'🔧',tvi:'cái cờ lê',ten:'wrench'},
+ {e:'👩‍🎨',vi:'họa sĩ',en:'artist',do:{vi:'vẽ tranh',en:'paints pictures'},who:{vi:'Ai vẽ những bức tranh đẹp?',en:'Who paints pretty pictures?'},tool:'🎨',tvi:'bảng màu',ten:'paint palette'},
+ {e:'👷',vi:'chú công nhân xây dựng',en:'builder',do:{vi:'xây nhà',en:'builds houses'},who:{vi:'Ai xây những ngôi nhà?',en:'Who builds houses?'},tool:'🧱',tvi:'viên gạch',ten:'brick'},
+ {e:'👨‍🚀',vi:'phi hành gia',en:'astronaut',do:{vi:'bay vào vũ trụ',en:'flies to space'},who:{vi:'Ai bay vào vũ trụ?',en:'Who flies to space?'},tool:'🚀',tvi:'tên lửa',ten:'rocket'},
+ {e:'🧑‍✈️',vi:'bác tài xế',en:'driver',do:{vi:'lái xe chở mọi người',en:'drives people around'},who:{vi:'Ai lái xe chở mọi người?',en:'Who drives people around?'},tool:'🚌',tvi:'xe buýt',ten:'bus'}];
+
+function objNameRound(){
+  var o=pick(OBJ),set=distinctWith(OBJ,o,nopt(),function(x){return x.en});
+  return {type:'objname',key:'obj:'+o.en,
+    vi:'Đâu là '+o.vi+'?',en:'Which one is the '+o.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
+    win:{vi:'Đây là '+o.vi+'.',en:'This is a '+o.en+'.'}};
+}
+function objUseRound(){
+  var o=pick(OBJ.filter(function(x){return ['chair','sofa','shower','bathtub','soap','window','door'].indexOf(x.en)<0})),set=distinctWith(OBJ,o,nopt(),function(x){return x.en});
+  return {type:'objuse',key:'objuse:'+o.en,
+    vi:'Bé dùng cái nào để '+o.use.vi+'?',en:'Which one do we use to '+o.use.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
+    win:{vi:'Bé dùng '+o.vi+' để '+o.use.vi+'.',en:'We use the '+o.en+' to '+o.use.en+'.'}};
+}
+function objRoomRound(){
+  var o=pick(OBJ.filter(function(x){return ['door','window','chair','table','light','broom','spoon','bowl','mirror'].indexOf(x.en)<0})),r=ROOM.filter(function(x){return x.id===o.room})[0],set=distinctWith(ROOM,r,nopt(),function(x){return x.id});
+  return {type:'objroom',key:'objroom:'+o.en,
+    vi:cap(o.vi)+' thường ở phòng nào?',en:'Which room is the '+o.en+' usually in?',
+    visual:'<div class="bigemoji">'+o.e+'</div>',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(r),
+    win:{vi:cap(o.vi)+' thường ở '+r.vi+'.',en:'The '+o.en+' is usually in the '+r.en+'.'}};
+}
+function roomNameRound(){
+  var r=pick(ROOM),set=distinctWith(ROOM,r,nopt(),function(x){return x.id});
+  return {type:'roomname',key:'room:'+r.id,
+    vi:'Đâu là '+r.vi+'?',en:'Which one is the '+r.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(r),
+    win:{vi:'Đây là '+r.vi+' của nhà mình.',en:'This is the '+r.en+'.'}};
+}
+function roomActRound(){
+  var r=pick(ROOM),set=distinctWith(ROOM,r,nopt(),function(x){return x.id});
+  return {type:'roomact',key:'roomact:'+r.id,
+    vi:'Bé '+r.act.vi+' ở phòng nào?',en:'Where do you '+r.act.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(r),
+    win:{vi:'Bé '+r.act.vi+' ở '+r.vi+'.',en:'We '+r.act.en+' in the '+r.en+'.'}};
+}
+function schNameRound(){
+  var o=pick(SCH),set=distinctWith(SCH,o,nopt(),function(x){return x.en});
+  return {type:'schname',key:'sch:'+o.en,
+    vi:'Đâu là '+o.vi+'?',en:'Which one is the '+o.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
+    win:{vi:'Đây là '+o.vi+'.',en:'This is a '+o.en+'.'}};
+}
+function schUseRound(){
+  var o=pick(SCH.filter(function(x){return x.en!=='school'&&x.en!=='student'})),set=distinctWith(SCH,o,nopt(),function(x){return x.en});
+  var q={vi:'Cái nào dùng để '+o.use.vi+'?',en:'Which one helps us '+o.use.en+'?'};
+  if(o.en==='bell'){q={vi:'Cái nào báo giờ vào lớp?',en:'Which one tells us class time?'}}
+  if(o.en==='board'){q={vi:'Cô giáo viết chữ lên cái gì?',en:'What does the teacher write on?'}}
+  if(o.en==='teacher'){q={vi:'Ai dạy bé học ở trường?',en:'Who teaches you at school?'}}
+  return {type:'schuse',key:'schuse:'+o.en,vi:q.vi,en:q.en,visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
+    win:{vi:cap(o.vi)+' dùng để '+o.use.vi+'.',en:'Yes! This is the '+o.en+'.'}};
+}
+function proNameRound(){
+  var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.en});
+  return {type:'proname',key:'pro:'+p.en,
+    vi:'Đâu là '+p.vi+'?',en:'Which one is the '+p.en+'?',visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(p),
+    win:{vi:'Đây là '+p.vi+'. '+cap(p.vi)+' '+p.do.vi+'.',en:'This is a '+p.en+'. A '+p.en+' '+p.do.en+'.'}};
+}
+function proWhoRound(){
+  var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.en});
+  return {type:'prowho',key:'prowho:'+p.en,
+    vi:p.who.vi,en:p.who.en,visual:'',
+    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(p),
+    win:{vi:cap(p.vi)+' '+p.do.vi+'.',en:'A '+p.en+' '+p.do.en+'.'}};
+}
+function proToolRound(){
+  var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.tool});
+  return {type:'protool',key:'protool:'+p.en,
+    vi:cap(p.vi)+' cần dùng gì?',en:'What does a '+p.en+' use?',
+    visual:'<div class="bigemoji">'+p.e+'</div>',
+    opts:set.map(function(x){return emoOpt(x.tool,x.tvi,x.ten)}),correct:set.indexOf(p),
+    win:{vi:cap(p.vi)+' dùng '+p.tvi+'.',en:'A '+p.en+' uses a '+p.ten+'.'}};
+}
 var POOL={
  num:{1:[numberRound,giveRound,numFindRound],2:[numberRound,giveRound,numFindRound,addRound],3:[numberRound,giveRound,numFindRound,nextNumRound,addRound]},
  cmp:{1:[sizeRound,lengthRound,moreRound],2:[sizeRound,lengthRound,heightRound,moreRound],3:[sizeRound,lengthRound,heightRound,moreRound]},
@@ -1624,12 +1816,17 @@ var POOL={
  veh:{1:[vehNameRound,vehColorRound,trafficRound,vehCountRound,travelRound],2:[vehNameRound,vehColorRound,vehJobRound,trafficRound,vehCountRound,travelRound],3:[vehNameRound,vehColorRound,vehJobRound,trafficRound,vehCountRound,travelRound]},
  body:{1:[bodyNameRound],2:[bodyNameRound,bodyUseRound],3:[bodyNameRound,bodyUseRound]},
  food:{1:[foodNameRound],2:[foodNameRound,foodColorRound],3:[foodNameRound,foodColorRound]},
- emo:{1:[emoNameRound],2:[emoNameRound,emoSitRound],3:[emoNameRound,emoSitRound]}};
+ emo:{1:[emoNameRound],2:[emoNameRound,emoSitRound],3:[emoNameRound,emoSitRound]},
+ obj:{1:[objNameRound],2:[objNameRound,objUseRound],3:[objNameRound,objUseRound,objRoomRound]},
+ room:{1:[roomNameRound],2:[roomNameRound,roomActRound],3:[roomNameRound,roomActRound,objRoomRound]},
+ school:{1:[schNameRound],2:[schNameRound,schUseRound],3:[schNameRound,schUseRound]},
+ job:{1:[proNameRound],2:[proNameRound,proWhoRound],3:[proNameRound,proWhoRound,proToolRound]}};
+[1,2,3].forEach(function(l){POOL.num[l].push(chopCountRound);POOL.veh[l].push(chopFindRound)});
 POOL.eng={1:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound],
  2:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound],
  3:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound,engSpellRound,engOppRound]};
 POOL.letEn={1:[engAbcRound],2:[engAbcRound,engPhonicsRound],3:[engAbcRound,engPhonicsRound,letCaseRound]};
-var TOPIC_IDS=['num','cmp','col','mat','let','ani','veh','body','food','emo','eng'];
+var TOPIC_IDS=['num','cmp','col','mat','let','ani','veh','body','food','emo','eng','obj','room','school','job'];
 
 /* =====================================================================
    3D (three.js r128, loaded from cdnjs). Cars are built from simple blocks.
@@ -1675,6 +1872,7 @@ var V3={
  rally:['jeep',[['b','k',[.9,.3,.6],[0,2.35,-.2]],['b','w',[.2,.04,3.9],[-.15,1.32,0],0,.02],['b','w',[.2,.04,3.9],[.15,1.32,0],0,.02]]],
  limo:['jeep',[['b','y',[2.04,.1,4],[0,1.0,0]]]],
  round:['small',[['s','p',[.25],[0,2.3,.1]]]],
+ hero:['small',[['b','w',[1.5,.14,1.5],[0,2.0,.1],0,.05],['z','y',[.8],[0,2.85,.1]]]],
  bubble:['small',[['b','d',[.06,.8,.06],[0,2.4,.1]],['b','r',[.4,.25,.05],[.2,2.65,.1]]]],
  electric:['small',[['s','n',[.28],[0,2.3,.1]],['s','y',[.15],[0,2.3,.35]]]],
  vintage:['small',[['b','d',[1.6,.12,1.7],[0,2.0,.1]]]],
@@ -1721,6 +1919,11 @@ function make3DCar(id,hex){
       if(t==='b')o=rbox(T,s[0],s[1],s[2],r===undefined?.1:r,MM[m]);
       else if(t==='c')o=new T.Mesh(new T.ConeGeometry(s[0],s[1],s[2]||16),MM[m]);
       else if(t==='s')o=new T.Mesh(new T.SphereGeometry(s[0],18,14),MM[m]);
+      else if(t==='z'){
+        var zs=new T.Shape();[[.3,1.1],[-.4,.1],[-.05,.1],[-.3,-.9],[.45,.25],[.08,.25]].forEach(function(q,i){if(i)zs.lineTo(q[0],q[1]);else zs.moveTo(q[0],q[1])});zs.closePath();
+        var zg=new T.ExtrudeGeometry(zs,{depth:.3,bevelEnabled:true,bevelThickness:.05,bevelSize:.04,bevelSegments:2});zg.center();
+        o=new T.Mesh(zg,MM[m]);o.scale.setScalar(s[0]);
+      }
       else o=new T.Mesh(new T.CylinderGeometry(s[0],s[0],s[1],22),MM[m]);
       o.position.set(p[0],p[1],p[2]);
       if(rot){if(typeof rot==='number')o.rotation.x=rot;else o.rotation.set(rot[0],rot[1],rot[2])}
@@ -1791,7 +1994,7 @@ function noGL(){
 /* ---------- Mini-game: drive and collect stars ---------- */
 function startDrive(){
   stop3D();clearTimeout(S.timer);stopSpeech();
-  S.mode='drive';S.cur=null;S.round=0;S.total=[0,5,8,10][S.level];S.car=pick(CARIDS);
+  S.mode='drive';S.cur=null;S.round=0;S.total=[0,5,8,10][S.level];S.car='chop';
   setProgress(0,0);syncControls();
   var slots='';for(var i=0;i<S.total;i++)slots+='<span class="slot">☆</span>';
   view.innerHTML='<section class="drive"><div id="gl"></div>'
@@ -1995,6 +2198,10 @@ var TOPICS=[
  {id:'food',glyph:'🍎🥕',vi:'Trái cây và rau',en:'Fruit &amp; veggies',c:'#FF9E9E',d:'#D95A5A'},
  {id:'body',glyph:'👀',vi:'Cơ thể bé',en:'My body',c:'#8CC8FF',d:'#4A92DB'},
  {id:'emo',glyph:'😀',vi:'Cảm xúc',en:'Feelings',c:'#FFE07A',d:'#D9AC22'},
+ {id:'obj',glyph:'🛋️🚪',vi:'Đồ vật trong nhà',en:'Things at home',c:'#FFC27A',d:'#D98A2B'},
+ {id:'room',glyph:'🏠',vi:'Các phòng trong nhà',en:'Rooms at home',c:'#9FD8FF',d:'#4A9BDB'},
+ {id:'school',glyph:'🏫',vi:'Trường học',en:'School',c:'#B7E27A',d:'#78AA2B'},
+ {id:'job',glyph:'👩‍⚕️👨‍🚒',vi:'Nghề nghiệp',en:'Jobs',c:'#F5A3E0',d:'#C45FAA'},
  {id:'mix',glyph:'🎲',vi:'Chơi ngẫu nhiên',en:'Surprise me!',c:'#FFAE70',d:'#D97A2B'}];
 var PALS=[['#2F7BFF','#E4F1FF'],['#E5A400','#FFF5D1'],['#E5568A','#FFE8F0'],['#2FA84F','#E3F7E6'],['#8E4DFF','#EEE6FF'],['#F57C1F','#FFEBD9']];
 
@@ -2025,6 +2232,13 @@ function glyphHTML(g){
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;
 }
+/* daily mission from Tia Chớp */
+var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
+ ['drive','lái xe 3D nhặt sao','drive and collect stars'],['col','chơi bài Màu và hình','play Colors and shapes'],['veh','chơi bài Xe cộ','play Vehicles'],
+ ['food','chơi bài Trái cây và rau','play Fruit and veggies'],['let','chơi bài Chữ cái','play Letters'],['cmp','chơi bài So sánh','play Compare'],['emo','chơi bài Cảm xúc','play Feelings'],
+ ['obj','chơi bài Đồ vật trong nhà','play Things at home'],['job','chơi bài Nghề nghiệp','play Jobs'],['school','chơi bài Trường học','play School'],['room','chơi bài Các phòng trong nhà','play Rooms at home']];
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
 function showHome(){
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
@@ -2038,7 +2252,8 @@ function showHome(){
   view.innerHTML='<section class="home">'
     +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Little':'Bé Vui')+'</div><div class="st2">'+(S.lang==='en'?'Learners':'Học')+'</div>'
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
-    +'<div class="mascot"><div class="bubble2">Chọn bài chơi nhé!<small>Pick a game!</small></div>'+carSVG(pick(CARIDS))+'</div></div>'
+    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Tia Chớp: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
+      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Tia Chớp nhờ bé: '+todayMission()[1]+'<small>Tia Chớp asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
     +'<div class="langs" role="group" aria-label="Language">'+[['both','🇻🇳🇬🇧','Việt + Anh'],['vi','🇻🇳','Tiếng Việt'],['en','🇬🇧','English']].map(function(l){
       return '<button class="lg'+(S.lang===l[0]?' on':'')+'" data-lang="'+l[0]+'"><span>'+l[1]+'</span>'+l[2]+'</button>'}).join('')+'</div>'
     +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
@@ -2058,13 +2273,13 @@ function showAlbum(){
     var got=sec.items.filter(has).length;
     var cells=sec.items.map(function(x){
       var own=has(x),isCar=x.indexOf('car:')===0;
-      return '<button class="acell'+(own?'':' lock')+(x==='car:kim'?' special':'')+(own&&isCar?' new':'')+'"'
+      return '<button class="acell'+(own?'':' lock')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
         +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+' aria-label="'+(own?'Nhãn dán':'Chưa có')+'">'+stkHTML(x)+'</button>';
     }).join('');
     return '<h3 class="asec"><span>'+sec.vi+'</span><i>'+sec.en+'</i><b>'+got+'/'+sec.items.length+'</b></h3><div class="agrid">'+cells+'</div>';
   }).join('');
   view.innerHTML='<section class="albumv"><h2 class="atitle">📒 Album sticker của bé<small>My sticker book · '+n+'/'+ALBUM.length+'</small></h2>'
-    +'<p class="ahint">Chạm vào chú xe để xem xe 3D. Sưu tập 10 chú xe sẽ mở khóa siêu xe vàng! · Tap a car to see it in 3D. Collect 10 cars to unlock the golden car!</p>'
+    +'<p class="ahint">Chạm vào chú xe để nghe xe nói chuyện và xem xe 3D. Hoàn thành nhiệm vụ của Tia Chớp để nhận bạn ấy, sưu tập 10 chú xe để mở siêu xe vàng! · Tap a car to hear it talk and see it in 3D. Finish Tia Chớp’s mission to get it, collect 10 cars to unlock the golden car!</p>'
     +secs+'</section>';
 }
 
@@ -2072,7 +2287,7 @@ function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:b
 function startGame(mode){
   stop3D();
   if(mode==='drive'){ensureAC();startDrive();return}
-  S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=pick(CARIDS);
+  S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=rand(2)?'chop':pick(CARIDS);
   ensureAC();goNext();
 }
 function buildRound(topic){
@@ -2148,11 +2363,15 @@ function showEnd(){
   S.stars+=S.total;
   var owned=function(x){return S.stickers.indexOf(x)>=0};
   var isCarSt=function(x){return x.indexOf('car:')===0};
-  var nCars=ALBUM.filter(function(x){return isCarSt(x)&&x!=='car:kim'&&owned(x)}).length;
-  var fresh=ALBUM.filter(function(x){return x!=='car:kim'&&!owned(x)});
+  var spec=function(x){return x==='car:kim'||x==='car:chop'};
+  var nCars=ALBUM.filter(function(x){return isCarSt(x)&&!spec(x)&&owned(x)}).length;
+  var fresh=ALBUM.filter(function(x){return !spec(x)&&!owned(x)});
   var freshCars=fresh.filter(isCarSt),st;
-  if(nCars>=10&&!owned('car:kim')){st='car:kim'}
-  else if(!fresh.length){st=pick(ALBUM.filter(function(x){return x!=='car:kim'}))}
+  var ms=todayMission(),missionNow=false;
+  if(S.mday!==todayStr()&&(S.mode===ms[0]||S.mode==='mix')){missionNow=true;S.mday=todayStr();S.mtotal=(S.mtotal||0)+1;S.stars+=3}
+  if(missionNow&&!owned('car:chop')){st='car:chop'}
+  else if(nCars>=10&&!owned('car:kim')){st='car:kim'}
+  else if(!fresh.length){st=pick(ALBUM.filter(function(x){return !spec(x)}))}
   else if(freshCars.length&&rand(100)<45){st=pick(freshCars)}
   else{st=pick(fresh)}
   var isNew=!owned(st);
@@ -2162,7 +2381,8 @@ function showEnd(){
   setProgress(S.total,S.total);syncControls();
   var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
-  if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
+  if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Tia Chớp làm bạn với bé!';gotEn='Special sticker! Tia Chớp is your friend now!'}
+  else if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}
   else{gotVi='Bé nhận được nhãn dán mới!';gotEn='You won a new sticker!'}
@@ -2176,12 +2396,65 @@ function showEnd(){
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
     +'<p class="cname">'+(en1?gotEn:gotVi+(both?' · '+gotEn:''))+'</p>'
+    +(missionNow?'<p class="mdone">🎉 '+(en1?'Tia Chớp’s mission complete! +3 stars':'Xong nhiệm vụ của Tia Chớp! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
     +'<div class="endbtns">'+btns+'</div></section>';
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
   confetti(w*.3,h*.35,true);confetti(w*.7,h*.35,true);
-  speakNow([['Hoan hô! Bé giỏi quá! '+gotVi+(car?' '+car.honk:''),'vi'],['Hooray! You did it! '+gotEn,'en']]);
+  speakNow([['Hoan hô! Bé giỏi quá! '+(missionNow?'Xong nhiệm vụ rồi! ':'')+gotVi+(car?' '+car.honk:''),'vi'],['Hooray! You did it! '+(missionNow?'Mission complete! ':'')+gotEn,'en']]);
 }
+
+/* ---------- Talking cars in the sticker album ---------- */
+var CHATID=null,CHATBAG=[],CHATLAST=-1;
+function chatLines(id){
+  var c=CARS[id],n=c.name,L=[
+   ['😀','bounce','Xin chào bé! Mình là '+n+'.','Hello! I am '+n+'.'],
+   ['🥰','bounce','Mình quý bé lắm!','I like you so much!'],
+   ['🤩','grow','Cùng đi chơi nào bé ơi!','Let’s go for a drive!',1],
+   ['😴','tilt','Mình buồn ngủ rồi. Chúc bé ngủ ngon!','I am sleepy. Good night!'],
+   ['😂','wiggle','Hi hi, nhột quá!','Hee hee, that tickles!'],
+   ['😲','grow','Ồ! Bé giỏi quá!','Wow! You are so clever!'],
+   ['🙏','bounce','Cảm ơn bé đã chơi với mình!','Thank you for playing with me!'],
+   ['🤔','tilt','Bé thích màu gì nhỉ?','What color do you like?'],
+   ['🧼','wiggle','Bé nhớ rửa tay trước khi ăn nhé!','Wash your hands before you eat!'],
+   ['🚦','bounce','Đèn đỏ thì dừng, đèn xanh thì đi nhé!','Red light, stop. Green light, go!',1],
+   ['😨','shake','Ối! Mình sợ tiếng sấm quá!','Oh! I am scared of thunder!'],
+   ['😋','bounce','Bé ăn cơm chưa? Nhớ ăn nhiều rau nhé!','Did you eat? Eat lots of veggies!'],
+   ['👋','wiggle','Hẹn gặp lại bé nhé! Tạm biệt!','See you soon! Goodbye!'],
+   ['🚗','spin','Mình là '+c.vi+', màu '+c.cvi+'.','I am a '+c.en+'. I am '+c.cen+'.'],
+   ['😮','grow','Bé đếm với mình nhé! Một, hai, ba!','Count with me! One, two, three!'],
+   ['🥳','spin','Hoan hô! Hôm nay bé giỏi lắm!','Hooray! You did great today!',1],
+   ['🫶','bounce','Bé là bạn tốt của mình!','You are my good friend!']];
+  if(id==='chop')L.push(['🦸','grow','Mình là Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','I am Tia Chớp! I have a mission for you today!',1]);
+  return L;
+}
+function chatSay(id,again){
+  var ov=$('#chatov');if(!ov)return;
+  var L=chatLines(id),i;
+  if(!again){CHATBAG=[];CHATLAST=-1;i=0}
+  else{
+    if(!CHATBAG.length){CHATBAG=shuffle(L.map(function(_,k){return k}).filter(function(k){return k!==0}))}
+    i=CHATBAG.shift();if(i===CHATLAST&&CHATBAG.length)i=CHATBAG.shift()
+  }
+  CHATLAST=i;var l=L[i];
+  $('#cexp').textContent=l[0];
+  var ex=$('#cexp');ex.style.animation='none';void ex.offsetWidth;ex.style.animation='';
+  $('#ctxt').innerHTML='<b>'+l[2]+'</b><small>'+l[3]+'</small>';
+  var art=$('#cart');art.className='cart';void art.offsetWidth;if(!reduce)art.className='cart a-'+l[1];
+  if(l[4]||i===0)sfx('honk');else sfx('pop');
+  speakNow([[l[2],'vi'],[l[3],'en']]);
+}
+function openCarChat(id){
+  closeChat();CHATID=id;var c=CARS[id];
+  var d=document.createElement('div');d.id='chatov';d.className='chatov';d.setAttribute('data-act','chatclose');
+  d.innerHTML='<div class="chatcard" data-act="chatmore"><div class="cbub" data-act="chatmore"><span class="cexp" id="cexp">😀</span><div class="ctxt" id="ctxt"></div></div>'
+    +'<div class="cart" id="cart" data-act="chatmore">'+carSVG(id)+'</div>'
+    +'<div class="cbtns"><button class="next" data-act="chatmore">💬 Nói tiếp<small>Talk more</small></button>'
+    +'<button class="next blue" data-act="show3d" data-car="'+id+'">🚗 Xem xe 3D<small>See it in 3D</small></button>'
+    +'<button class="next" data-act="chatclose" style="background:#EEF0F8;color:var(--ink)">✖ Đóng<small>Close</small></button></div></div>';
+  view.appendChild(d);chatSay(id,false);
+}
+function closeChat(){var o=$('#chatov');if(o)o.remove();CHATID=null}
 
 /* ---------- Events ---------- */
 view.addEventListener('click',function(e){
@@ -2196,10 +2469,12 @@ view.addEventListener('click',function(e){
     if(a==='again')startGame(S.mode);
     else if(a==='home')showHome();
     else if(a==='album')showAlbum();
-    else if(a==='show3d')openShowroom(act.getAttribute('data-car'));
+    else if(a==='show3d'){closeChat();openShowroom(act.getAttribute('data-car'))}
+    else if(a==='chatmore')chatSay(CHATID,true);
+    else if(a==='chatclose')closeChat();
     return;
   }
-  var ac=t.closest('[data-car]');if(ac){openShowroom(ac.getAttribute('data-car'));return}
+  var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
   var sw=t.closest('.sw');
   if(sw&&D&&D.car){
     D.car.userData.body.color.set(sw.getAttribute('data-hex'));

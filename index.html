@@ -420,6 +420,7 @@ function load(){
     S.stars=d.stars||0;S.stickers=d.stickers||[];S.mday=d.mday||'';S.mtotal=d.mtotal||0;S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
   }catch(e){}
+  S.stickers=['car:chop'].concat(S.stickers.filter(function(x){return x!=='car:chop'}));
 }
 function save(){
   try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level}))}catch(e){}

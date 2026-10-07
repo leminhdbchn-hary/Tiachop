@@ -1,63 +1,88 @@
-# Bé Vui Học 🐥
+# Bé Vui Học 🐥🚗
 
-Game học tập song ngữ **Việt - Anh** cho trẻ **3-5 tuổi**. Chỉ cần một trình duyệt, không cần cài đặt, không cần mạng (sau khi tải về).
+Game học tập song ngữ **Việt - Anh** cho trẻ **3-5 tuổi**, chủ đề **ô tô**. Một file HTML duy nhất, không cần cài đặt. Tối ưu cho iPhone và iPad (chạm to, không cần biết chữ).
 
-*A bilingual (Vietnamese - English) learning game for children aged 3-5. One HTML file, no build step, no dependencies.*
+*A bilingual (Vietnamese - English), car-themed learning game for kids aged 3-5, with glossy cartoon cars. One HTML file, no build step. Optimized for iPhone and iPad; children do not need to read.*
 
 ## Tính năng
 
-- **5 chủ đề**, mỗi lượt chơi 5 câu: Đếm số 1-10, Màu và hình, Chữ cái tiếng Việt (có Ê, Ơ, Ô, Đ), Con vật và tiếng kêu, Xe cộ.
-- **Chơi ngẫu nhiên:** trộn cả 5 chủ đề (8 câu).
-- Nút to, ít chữ, có giọng đọc tiếng Việt và tiếng Anh. Chọn sai chỉ rung nhẹ và được thử lại, không bị trừ điểm.
-- Một chú xe chạy trên đường đua theo tiến độ, chơi xong nhận **nhãn dán** (6 chú xe nhân vật + các con vật) để sưu tập.
-- Nút cho ba mẹ: bật/tắt âm thanh, đổi "Việt + Anh" / "Chỉ Việt".
-- Sao và nhãn dán được lưu trong trình duyệt (`localStorage`).
+**Hình ảnh:** các chú xe được vẽ theo phong cách hoạt hình bóng bẩy (mắt to trên kính chắn gió, đổ bóng, ánh sáng) bằng SVG, và dựng 3D bằng khối bo tròn. Giao diện có bảng gỗ, thẻ câu hỏi pastel đánh số và thành phố nền phía sau.
+
+**3 mức độ theo tuổi** (chọn ở màn hình chính, nhớ lại lần sau):
+
+| Mức | Tuổi | Số đáp án | Nội dung |
+| --- | --- | --- | --- |
+| 1 | 3 tuổi | 2 | đếm đến 5, 4 màu, 3 hình, chữ cái đơn giản, 5 câu mỗi lượt |
+| 2 | 4 tuổi | 3 | đếm đến 10, 7 màu, 6 hình, thêm câu hỏi "làm gì", 6 câu mỗi lượt |
+| 3 | 5 tuổi | 3 | 9 màu, 8 hình, dãy số, chữ hoa/thường, quy luật khó hơn, 8 câu mỗi lượt |
+
+**11 chủ đề** (khoảng 45 dạng câu hỏi, mỗi câu được trộn ngẫu nhiên và không lặp trong một lượt chơi):
+
+- **Đếm số:** đếm đồ vật và xe, "lấy cho bé N cái", tìm đúng chữ số, số tiếp theo, cộng - trừ bằng xe.
+- **Xe cộ:** tên xe, màu xe, xe làm việc gì, đèn giao thông, đếm xe, phương tiện đi trên đường, nước hay trời.
+- **Lái xe 3D:** lái xe trên đường, nhặt đủ số ngôi sao (đếm to khi nhặt).
+- **Màu và hình:** gọi tên màu, hình, tìm màu giống nhau, tô màu cho xe, đồ vật có hình gì.
+- **So sánh:** to - nhỏ, dài - ngắn, cao - thấp, nhiều - ít.
+- **Giống nhau và xếp hình:** tìm bạn giống hệt, đoán bóng, xếp tiếp quy luật màu, tìm món khác biệt.
+- **Chữ cái:** nhận chữ, chữ đầu của từ, chữ hoa - chữ thường.
+- **Con vật:** tên con vật, tiếng kêu, con nào biết bay hoặc bơi.
+- **Trái cây và rau:** tên và màu.
+- **Cơ thể bé:** bộ phận cơ thể và chức năng.
+- **Cảm xúc:** nhận biết cảm xúc và tình huống.
+- **Chơi ngẫu nhiên:** trộn tất cả chủ đề.
+
+**Dành cho bé chưa biết chữ:** mọi câu hỏi đều được đọc bằng giọng nói (Việt rồi Anh). Mỗi đáp án có nút loa 🔊 riêng để nghe tên trước khi chọn. Chọn sai chỉ rung nhẹ và được thử lại, không bị trừ điểm.
+
+**Phần thưởng:** một chú xe chạy trên đường đua theo tiến độ. Chơi xong nhận **sticker** (6 chú xe nhân vật, 16 sticker con vật, 1 siêu xe vàng bí mật khi sưu tập đủ 6 xe). Chạm vào xe trong album để xem **xe 3D**: xoay, đổi màu, bấm còi.
 
 ## Chạy thử trên máy
 
-Cách 1: nhấp đúp vào `index.html`.
+Cách 1: nhấp đúp `index.html` (cần có mạng lần đầu để tải kiểu chữ và thư viện 3D).
 
-Cách 2 (chạy như một web server nhỏ):
+Cách 2 (web server nhỏ):
 
 ```bash
 python3 -m http.server 8000
 # mở http://localhost:8000
 ```
 
-## Đưa lên GitHub Pages (có link để bé chơi trên điện thoại)
+## Đưa lên GitHub Pages
 
 ```bash
 git init
 git add .
-git commit -m "Bé Vui Học: first version"
+git commit -m "Bé Vui Học: version 2"
 git branch -M main
 git remote add origin https://github.com/<tên-của-bạn>/be-vui-hoc.git
 git push -u origin main
 ```
 
-Sau đó vào repo trên GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**. Sau khoảng 1-2 phút game có địa chỉ `https://<tên-của-bạn>.github.io/be-vui-hoc/`.
+Trên GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `(root)` → Save**. Sau 1-2 phút game có địa chỉ `https://<tên-của-bạn>.github.io/be-vui-hoc/`.
 
-Trên điện thoại, mở link rồi chọn "Thêm vào Màn hình chính" để mở như một app.
+**Trên iPhone/iPad:** mở link bằng Safari → nút Chia sẻ → **Thêm vào Màn hình chính** để mở toàn màn hình như một app.
 
 ## Thêm hoặc sửa nội dung
 
-Toàn bộ game nằm trong `index.html`. Dữ liệu nằm ở phần `/* ---------- Data ---------- */` trong thẻ `<script>`:
+Toàn bộ mã nằm trong `index.html`. Dữ liệu bài học nằm ở phần `LESSON DATA` trong thẻ `<script>`:
 
 | Biến | Dùng cho |
 | --- | --- |
-| `OBJS` | Đồ vật trong chủ đề Đếm số |
-| `COLORS`, `SHAPES` | Màu sắc và hình khối |
-| `WORDS`, `LN` | Từ và chữ cái đầu, cách đọc tên chữ |
-| `ANIMALS` | Con vật và tiếng kêu |
-| `CARS` | 6 chú xe nhân vật (tên, màu, loại xe, tiếng bấm còi) |
+| `OBJS_VEH`, `OBJS_OTHER` | đồ vật để đếm, chọn |
+| `COLORS`, `SHAPES` | màu sắc và hình khối |
+| `WORDS`, `LN`, `LET_POOL` | từ, chữ cái đầu, cách đọc tên chữ, chữ theo từng mức |
+| `ANI`, `JOBS`, `LIGHTS` | con vật, việc của xe, đèn giao thông |
+| `BODY`, `FOOD`, `EMO`, `SITS` | cơ thể, trái cây và rau, cảm xúc và tình huống |
+| `CARS` | 6 chú xe nhân vật (+ siêu xe vàng Kim) |
+| `ALBUM` | danh sách sticker |
 
-Thêm một dòng vào mảng tương ứng là có nội dung mới. Mỗi hàm `...Round()` tạo ra một câu hỏi, nên cũng dễ thêm chủ đề mới (khai báo thêm trong `TOPICS` và `BUILD`).
+Thêm một dòng vào mảng tương ứng là có thêm câu hỏi. Mỗi dạng câu hỏi là một hàm `...Round()` trong phần `QUESTION BUILDERS`. Bảng `POOL` quyết định chủ đề nào dùng dạng câu nào ở mỗi mức, nên bạn thêm dạng câu mới chỉ cần viết hàm rồi thêm tên vào `POOL`.
 
 ## Lưu ý
 
-- Giọng đọc dùng Web Speech API của thiết bị. Nếu máy không có giọng tiếng Việt, hãy cài thêm trong phần cài đặt của hệ điều hành.
-- Kiểu chữ "Baloo 2" tải từ Google Fonts. Khi không có mạng, game dùng kiểu chữ có sẵn của máy.
-- Các chú xe (Bim, Bon, Tít, Pu, Rô, Mít) là nhân vật **thiết kế gốc**, vẽ bằng SVG ngay trong mã nguồn. Dự án không dùng hình ảnh hay nhân vật có bản quyền của bên thứ ba.
+- **Giọng đọc** dùng giọng có sẵn của thiết bị (Web Speech API). iPhone/iPad cần cài giọng tiếng Việt trong **Cài đặt → Trợ năng → Nội dung đọc → Giọng nói**. Âm thanh chỉ phát sau lần chạm đầu tiên của bé.
+- **Chế độ 3D** dùng thư viện [three.js](https://threejs.org) r128 tải từ cdnjs. Không có mạng thì các phần 2D vẫn chơi bình thường, riêng 3D sẽ báo chưa dùng được.
+- Sao và sticker lưu trong trình duyệt của từng thiết bị (`localStorage`).
+- Các chú xe (Bim, Bon, Tít, Pu, Rô, Mít, Kim) là nhân vật **thiết kế gốc**, vẽ bằng SVG và dựng 3D bằng khối đơn giản ngay trong mã nguồn. Dự án không dùng hình ảnh hay nhân vật có bản quyền của bên thứ ba.
 
 ## Giấy phép
 

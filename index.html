@@ -48,7 +48,7 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 #city{position:fixed;left:0;right:0;bottom:0;height:36vh;max-height:340px;pointer-events:none;z-index:0}
 #city svg{width:100%;height:100%;display:block}
 #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:980px;margin:0 auto;padding:max(10px,calc(var(--sat) * .25)) 14px max(14px,calc(var(--sab) * .35))}
-.top{display:flex;align-items:center;gap:10px;min-height:60px}
+.top{display:flex;align-items:center;gap:10px;min-height:60px;margin-top:clamp(34px,8vh,84px)}
 .icon{
   min-width:56px;height:56px;border-radius:18px;background:linear-gradient(180deg,#fff,#EEF5FF);
   border:3px solid var(--lineD);box-shadow:0 4px 0 var(--lineD),0 8px 14px var(--soft);
@@ -387,6 +387,19 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+.setp{padding:6px 2px 28px;display:flex;flex-direction:column;gap:14px}
+.setp h2{margin:0;font-size:clamp(24px,5.4vmin,32px)}
+.setcard{background:#fff;border:3px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 4px 0 var(--line);display:flex;flex-direction:column;gap:10px}
+.setcard h3{margin:0;font-size:clamp(18px,4vmin,23px)}
+.setcard h3 i{font-style:normal;font-weight:600;opacity:.7;font-size:.68em;margin-left:6px}
+.setcard p{margin:0;font-size:14px;opacity:.82;line-height:1.35}
+.setcard textarea{width:100%;min-height:78px;border:3px solid var(--line);border-radius:14px;padding:8px;font:13px/1.3 ui-monospace,Menlo,monospace;color:var(--ink);background:#F7FAFF;-webkit-user-select:text;user-select:text;resize:vertical;box-sizing:border-box}
+.setrow{display:flex;gap:8px;flex-wrap:wrap}
+.setrow .next{flex:1 1 150px;margin:0;min-width:0;height:auto;min-height:64px;padding:8px 10px;font-size:clamp(16px,4vmin,20px);white-space:normal;line-height:1.1;box-sizing:border-box}
+.setrow label.next{cursor:pointer;text-align:center}
+.setmsg{min-height:22px;font-weight:800;color:#1E8F4E;font-size:15px}
+.setmsg.err{color:#D13B3B}
+.next.danger{background:linear-gradient(180deg,#FF9A9A,#E85C5C);border-color:#B93B3B}
 </style>
 </head>
 <body>
@@ -395,6 +408,7 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
     <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button>
     <div class="progress" id="progress" aria-hidden="true"></div>
     <button class="icon pill" id="langBtn" aria-label="Đổi ngôn ngữ">Việt + Anh</button>
+    <button class="icon" id="setBtn" aria-label="Cài đặt">⚙️</button>
     <button class="icon" id="soundBtn" aria-label="Bật tắt âm thanh">🔊</button>
   </header>
   <main id="view"></main>
@@ -2791,11 +2805,94 @@ function openCarChat(id){
 }
 function closeChat(){var o=$('#chatov');if(o)o.remove();CHATID=null}
 
+
+/* ---------- Settings & backup ---------- */
+function bkData(){return {app:'behuihoc',v:1,saved:new Date().toISOString(),data:{stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level}}}
+function bkCode(){return 'BVH1:'+btoa(unescape(encodeURIComponent(JSON.stringify(bkData()))))}
+function bkParse(txt){
+  var j;txt=String(txt||'').trim();
+  try{if(txt.indexOf('BVH1:')===0)txt=decodeURIComponent(escape(atob(txt.slice(5).replace(/\s+/g,''))));j=JSON.parse(txt)}catch(e){return null}
+  if(!j||j.app!=='behuihoc'||!j.data||!Array.isArray(j.data.stickers))return null;
+  return j.data;
+}
+function bkApply(d){
+  var o={stars:Math.max(0,+d.stars||0),stickers:d.stickers.filter(function(x){return typeof x==='string'}),mday:String(d.mday||''),mtotal:+d.mtotal||0,sound:d.sound!==false,lang:(d.lang==='vi'||d.lang==='en')?d.lang:'both',level:(d.level>=1&&d.level<=3)?d.level:2};
+  try{localStorage.setItem('behuihoc',JSON.stringify(o))}catch(e){return false}
+  load();syncControls();return true;
+}
+function bkStamp(){try{return localStorage.getItem('behuihoc_bk')||''}catch(e){return ''}}
+function bkMark(){try{localStorage.setItem('behuihoc_bk',new Date().toISOString())}catch(e){}}
+function setMsg(t,err){var m=$('#setMsg');if(m){m.textContent=t;m.className='setmsg'+(err?' err':'')}}
+function showSettings(){
+  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='settings';S.cur=null;
+  setProgress(0,0);syncControls();
+  var lv=[1,2,3].map(function(n){
+    return '<button class="lv'+(S.level===n?' on':'')+'" data-level="'+n+'" aria-label="'+(n+2)+' tuổi"><span class="n">'+(n+2)+'</span><span class="t">tuổi<i>years</i></span></button>';
+  }).join('');
+  var langs=[['both','🇻🇳🇬🇧','Việt + Anh'],['vi','🇻🇳','Tiếng Việt'],['en','🇬🇧','English']].map(function(l){
+    return '<button class="lg'+(S.lang===l[0]?' on':'')+'" data-lang="'+l[0]+'"><span>'+l[1]+'</span>'+l[2]+'</button>'}).join('');
+  var owned=ALBUM.filter(function(x){return S.stickers.indexOf(x)>=0}).length;
+  var st=bkStamp(),stTxt='Chưa sao lưu lần nào. Nên sao lưu để không mất nhãn dán của bé nhé!';
+  if(st){try{var dt=new Date(st);stTxt='Sao lưu gần nhất: '+dt.toLocaleDateString('vi-VN')+' '+dt.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}catch(e){}}
+  view.innerHTML='<section class="setp">'
+    +'<h2>⚙️ Cài đặt<small style="font-size:.55em;font-weight:600;opacity:.7;margin-left:8px">Settings</small></h2>'
+    +'<div class="setcard"><h3>🔊 Âm thanh<i>Sound</i></h3><div class="setrow"><button class="next'+(S.sound?'':' alt')+'" data-act="snd">'+(S.sound?'🔊 Đang bật':'🔇 Đang tắt')+'<small>'+(S.sound?'Sound on':'Sound off')+'</small></button></div></div>'
+    +'<div class="setcard"><h3>🌐 Ngôn ngữ<i>Language</i></h3><div class="langs">'+langs+'</div></div>'
+    +'<div class="setcard"><h3>🎂 Độ tuổi của bé<i>Age</i></h3><div class="levels">'+lv+'</div></div>'
+    +'<div class="setcard"><h3>💾 Sao lưu<i>Backup</i></h3>'
+    +'<p>Bé đang có '+S.stars+' ⭐ và '+owned+'/'+ALBUM.length+' nhãn dán. Dữ liệu chỉ lưu trên thiết bị này, nên ba mẹ hãy sao lưu thỉnh thoảng nhé.</p>'
+    +'<p id="bkstamp"><b>'+stTxt+'</b></p>'
+    +'<div class="setrow"><button class="next" data-act="bkfile">💾 Lưu file sao lưu<small>Save backup file</small></button>'
+    +'<button class="next blue" data-act="bkcopy">📋 Sao chép mã<small>Copy backup code</small></button></div>'
+    +'<textarea id="bkcode" readonly placeholder="Mã sao lưu sẽ hiện ở đây sau khi bấm Sao chép mã"></textarea>'
+    +'<div class="setmsg" id="setMsg" role="status"></div></div>'
+    +'<div class="setcard"><h3>♻️ Khôi phục<i>Restore</i></h3>'
+    +'<p>Chọn file sao lưu, hoặc dán mã sao lưu vào ô dưới rồi bấm Khôi phục. Dữ liệu hiện tại sẽ được thay thế.</p>'
+    +'<div class="setrow"><label class="next alt">📂 Chọn file sao lưu<small>Choose backup file</small><input type="file" id="bkpick" accept=".json,.txt,application/json,text/plain" hidden></label></div>'
+    +'<textarea id="bkpaste" placeholder="Dán mã sao lưu vào đây (bắt đầu bằng BVH1:)"></textarea>'
+    +'<div class="setrow"><button class="next" data-act="bkrestore">♻️ Khôi phục từ mã<small>Restore from code</small></button></div></div>'
+    +'<div class="setcard"><h3>🗑️ Xoá tiến trình<i>Reset</i></h3><p>Xoá hết sao và nhãn dán để bé chơi lại từ đầu (Rookie vẫn là bạn của bé). Nên sao lưu trước.</p>'
+    +'<div class="setrow"><button class="next danger" data-act="bkreset">🗑️ Xoá tiến trình<small>Reset progress</small></button></div></div>'
+    +'<button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button>'
+    +'</section>';
+  var pk=$('#bkpick');if(pk)pk.addEventListener('change',function(){
+    var f=pk.files&&pk.files[0];if(!f)return;
+    var r=new FileReader();r.onload=function(){doRestore(String(r.result||''))};r.onerror=function(){setMsg('Không đọc được file này.',true)};r.readAsText(f);
+  });
+}
+function doRestore(txt){
+  var d=bkParse(txt);
+  if(!d){setMsg('Mã hoặc file này không đúng. Hãy thử lại nhé.',true);return}
+  if(!window.confirm('Khôi phục sẽ thay thế sao và nhãn dán hiện tại của bé. Tiếp tục?'))return;
+  if(bkApply(d)){showSettings();setMsg('Đã khôi phục xong! Bé có '+S.stars+' ⭐ và '+S.stickers.length+' nhãn dán.')}
+  else setMsg('Máy không cho lưu dữ liệu. Hãy thử lại.',true);
+}
+function doBackupFile(){
+  var code=JSON.stringify(bkData(),null,1),name='be-vui-hoc-sao-luu-'+new Date().toISOString().slice(0,10)+'.json';
+  try{
+    var blob=new Blob([code],{type:'application/json'});
+    var file=null;try{file=new File([blob],name,{type:'application/json'})}catch(e){}
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){
+      navigator.share({files:[file],title:'Sao lưu Bé Vui Học'}).then(function(){bkMark();showSettings();setMsg('Đã lưu file sao lưu.')}).catch(function(){});
+      return;
+    }
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);
+    bkMark();setMsg('Đã tạo file sao lưu: '+name);
+  }catch(e){setMsg('Không tạo được file. Hãy dùng nút Sao chép mã nhé.',true)}
+}
+function doBackupCopy(){
+  var code=bkCode(),ta=$('#bkcode');if(ta){ta.value=code}
+  var done=function(){bkMark();setMsg('Đã sao chép mã! Hãy dán vào Ghi chú hoặc tin nhắn để cất giữ.')};
+  var fb=function(){try{ta.focus();ta.removeAttribute('readonly');ta.select();ta.setSelectionRange(0,code.length);var ok=document.execCommand('copy');ta.setAttribute('readonly','');if(ok)done();else{bkMark();setMsg('Hãy chạm giữ vào ô mã rồi chọn Sao chép.')}}catch(e){setMsg('Hãy chạm giữ vào ô mã rồi chọn Sao chép.')}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done,fb)}else fb();
+}
+
 /* ---------- Events ---------- */
 view.addEventListener('click',function(e){
   var t=e.target;
   var lv=t.closest('[data-level]');
-  if(lv){S.level=+lv.getAttribute('data-level');save();sfx('pop');showHome();return}
+  if(lv){S.level=+lv.getAttribute('data-level');save();sfx('pop');if(S.mode==='settings')showSettings();else showHome();return}
   var lg=t.closest('button[data-lang]');if(lg){sfx('pop');setLang(lg.getAttribute('data-lang'));return}
   var m=t.closest('[data-mode]');if(m){startGame(m.getAttribute('data-mode'));return}
   var act=t.closest('[data-act]');
@@ -2805,6 +2902,13 @@ view.addEventListener('click',function(e){
     else if(a==='home')showHome();
     else if(a==='album')showAlbum();
     else if(a==='count')countStickers();
+    else if(a==='snd'){S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();showSettings()}
+    else if(a==='bkfile')doBackupFile();
+    else if(a==='bkcopy')doBackupCopy();
+    else if(a==='bkrestore')doRestore(($('#bkpaste')||{}).value);
+    else if(a==='bkreset'){
+      if(window.confirm('Xoá hết sao và nhãn dán của bé? Việc này không hoàn tác được.')&&window.confirm('Chắc chắn xoá nhé?')){S.stars=0;S.stickers=[];S.mday='';S.mtotal=0;save();load();showSettings();setMsg('Đã xoá tiến trình.')}
+    }
     else if(a==='show3d'){closeChat();openShowroom(act.getAttribute('data-car'))}
     else if(a==='chatmore')chatSay(CHATID,true);
     else if(a==='chatclose')closeChat();
@@ -2842,12 +2946,13 @@ view.addEventListener('click',function(e){
   }
 });
 $('#homeBtn').addEventListener('click',showHome);
+$('#setBtn').addEventListener('click',function(){sfx('pop');showSettings()});
 $('#soundBtn').addEventListener('click',function(){
   S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();
 });
 function setLang(l){
   S.lang=l;save();syncControls();stopSpeech();
-  if(S.cur&&!S.locked){renderRound(S.cur)}else if(!S.mode){showHome()}else if(S.mode==='album'){showAlbum()}
+  if(S.cur&&!S.locked){renderRound(S.cur)}else if(!S.mode){showHome()}else if(S.mode==='album'){showAlbum()}else if(S.mode==='settings'){showSettings()}
 }
 $('#langBtn').addEventListener('click',function(){setLang(S.lang==='both'?'vi':(S.lang==='vi'?'en':'both'))});
 var woke=false;

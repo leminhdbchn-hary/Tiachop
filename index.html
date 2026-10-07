@@ -274,6 +274,20 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .countbtn{align-self:flex-start;margin:6px 0 4px}
 @media (prefers-reduced-motion:reduce){.acell .em,.acell svg,.sticker .em{animation:none}}
 
+/* ---------- Rookie, the main character ---------- */
+img.rk{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-select:none;user-select:none}
+.mascot img.rk{margin-top:44px;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18));transform-origin:50% 90%;animation:rkidle 3.4s ease-in-out infinite}
+.roadcar img.rk{width:100%}
+.chopline img.rk{width:clamp(90px,22vmin,150px);margin:0 auto}
+.opt img.rk{width:92%;margin:0 auto;filter:drop-shadow(0 4px 3px rgba(0,0,0,.18))}
+.shadow img.rk{filter:brightness(0) opacity(.85)}
+.acell img.rk{width:100%;filter:drop-shadow(0 4px 3px rgba(0,0,0,.22));animation:stkfloat 4s ease-in-out infinite}
+.acell.lock img.rk{animation:none;filter:brightness(0) opacity(.16)}
+.sticker img.rk{width:clamp(230px,62vmin,400px);margin:0 auto;filter:drop-shadow(0 10px 6px rgba(0,0,0,.2))}
+.cart img.rkface{display:block;width:min(240px,64%);margin:0 auto;border-radius:30px;box-shadow:0 8px 0 rgba(0,0,0,.14),0 14px 20px rgba(0,0,0,.18);transition:opacity .17s ease,transform .17s ease}
+@keyframes rkidle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-.8deg)}}
+@media (prefers-reduced-motion:reduce){.mascot img.rk,.acell img.rk{animation:none}.cart img.rkface{transition:none}}
+
 /* ---------- 3D ---------- */
 .drive,.show3d{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:6px 2px}
 #gl{position:relative;flex:1;min-height:260px;border:4px solid #fff;border-radius:26px;overflow:hidden;background:var(--sky);touch-action:none;box-shadow:0 10px 24px var(--soft)}
@@ -619,8 +633,8 @@ addCar('nang','Nâng','forklift','heavy','#FFB000','#2E7D4F','vàng','yellow','x
 addCar('cay','Cày','tractor','heavy','#3FA34D','#6B3F1D','xanh lá','green','máy cày','tractor','cày ruộng','plows the field');
 addCar('lan','Lăn','roller','heavy','#FFD21F','#2BA8E0','vàng','yellow','xe lu','road roller','lăn phẳng mặt đường','flattens the road');
 addCar('xuc','Xúc','loader','heavy','#FF9A2E','#2E7D4F','cam','orange','xe xúc','loader','xúc cát','scoops up sand');
-/* the main character: Tia Chớp (red round hero car with a lightning bolt on its head) */
-addCar('chop','Tia Chớp','hero','small','#FF4D4D','#2BA8E0','đỏ','red','xe anh hùng','hero car','làm nhiệm vụ mỗi ngày','does a mission every day');
+/* the main character: Rookie (red round hero car with a lightning bolt on its head) */
+addCar('chop','Rookie','hero','small','#FFB82E','#6B3F1D','vàng','yellow','xe cứu hộ','tow truck','làm nhiệm vụ mỗi ngày','does a mission every day');
 CARS.chop.honk='Vút vút!';CARS.chop.main=true;
 function silOf(id){var k=CARS[id].kind;return SIL[k]||k}
 
@@ -651,7 +665,22 @@ function headlightSVG(u,cx,cy,rx,ry){
    +'<ellipse cx="'+(cx-rx*.3)+'" cy="'+(cy-ry*.35)+'" rx="'+(rx*.35)+'" ry="'+(ry*.25)+'" fill="#fff" opacity=".85"/>';
 }
 /* carSVG(id, color?) - glossy front view; color overrides the body colour (used for painting) */
+/* Rookie: nhân vật chính, ảnh nằm trong thư mục img/ */
+var RKF={happy:'img/rk-happy.webp',surprise:'img/rk-surprise.webp',sad:'img/rk-sad.webp',wink:'img/rk-wink.webp'};
+var RKMAP={'😮':'surprise','😲':'surprise','🤩':'surprise','😨':'sad','😴':'wink','😢':'sad','🥰':'wink','😋':'wink','🤔':'wink','🫶':'wink','😂':'wink'};
+function rkHero(){return '<img class="rk" src="img/rk-hero.webp" alt="Rookie xe cứu hộ" draggable="false">'}
+function rkFaceHTML(f){return '<img class="rkface" data-f="'+f+'" src="'+RKF[f]+'" alt="Rookie" draggable="false">'}
+function rkSwap(f){
+  var art=document.getElementById('cart');if(!art)return;
+  var im=art.querySelector('img.rkface');
+  if(!im){art.innerHTML=rkFaceHTML(f);return}
+  if(im.getAttribute('data-f')===f)return;
+  im.setAttribute('data-f',f);im.style.opacity='0';im.style.transform='scale(.94)';
+  setTimeout(function(){im.src=RKF[f];im.style.opacity='1';im.style.transform='scale(1)'},170);
+}
+try{var _rk=new Image();_rk.src='img/rk-hero.webp';for(var _k in RKF){(new Image()).src=RKF[_k]}}catch(e){}
 function carSVG(id,colorOverride){
+  if(id==='chop')return rkHero();
   var c=CARS[id];if(!c)return '';
   var k=c.kind,col=colorOverride||c.color,u='c'+(++uidN)+'_',dk=shade(col,-.5),st=' stroke="'+dk+'" stroke-width="2.5" stroke-linejoin="round"';
   var defs='<defs>'
@@ -1767,9 +1796,9 @@ function engSpellRound(){
 function chopFindRound(){
   var set=distinctWith(CARIDS,'chop',nopt(),function(x){return x});
   return {type:'chopfind',key:'chopfind',
-    vi:'Đâu là Tia Chớp?',en:'Which one is Tia Chớp?',visual:'',
+    vi:'Đâu là Rookie?',en:'Which one is Rookie?',visual:'',
     opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf('chop'),
-    win:{vi:'Đây là Tia Chớp! Xe màu đỏ, có tia chớp trên đầu. Vút vút!',en:'This is Tia Chớp! A red car with a lightning bolt on top. Zoom zoom!'}};
+    win:{vi:'Đây là Rookie! Xe cứu hộ màu vàng, có cần cẩu. Vút vút!',en:'This is Rookie! A yellow tow truck with a crane. Zoom zoom!'}};
 }
 function chopCountRound(){
   var maxN=S.level===1?5:10,n=1+rand(maxN),set=[n],tries=0;
@@ -1777,10 +1806,10 @@ function chopCountRound(){
   set=shuffle(set);
   var items='';for(var i=0;i<n;i++)items+='<button class="item" aria-label="Đếm">⭐</button>';
   return {type:'chopcount',key:'chopcount:'+n,
-    vi:'Tia Chớp nhặt được bao nhiêu ngôi sao?',en:'How many stars did Tia Chớp collect?',
+    vi:'Rookie nhặt được bao nhiêu ngôi sao?',en:'How many stars did Rookie collect?',
     visual:'<div class="chopline">'+carSVG('chop')+'</div><div class="items">'+items+'</div><div class="hint">Chạm vào từng hình để đếm · Tap to count</div>',
     opts:set.map(function(k){return numOpt(k,true)}),correct:set.indexOf(n),
-    win:{vi:'Tia Chớp nhặt được '+NUM_VI[n]+' ngôi sao.',en:'Tia Chớp collected '+NUM_EN[n]+(n===1?' star.':' stars.')}};
+    win:{vi:'Rookie nhặt được '+NUM_VI[n]+' ngôi sao.',en:'Rookie collected '+NUM_EN[n]+(n===1?' star.':' stars.')}};
 }
 /* ---------- 12-15. HOME OBJECTS, ROOMS, SCHOOL, JOBS ---------- */
 function ico(inner){return '<svg class="ico" viewBox="0 0 100 100" aria-hidden="true">'+inner+'</svg>'}
@@ -2501,7 +2530,7 @@ function glyphHTML(g){
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;
 }
-/* daily mission from Tia Chớp */
+/* daily mission from Rookie */
 var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
  ['drive','lái xe 3D nhặt sao','drive and collect stars'],['col','chơi bài Màu và hình','play Colors and shapes'],['veh','chơi bài Xe cộ','play Vehicles'],
  ['food','chơi bài Trái cây và rau','play Fruit and veggies'],['let','chơi bài Chữ cái','play Letters'],['cmp','chơi bài So sánh','play Compare'],['emo','chơi bài Cảm xúc','play Feelings'],
@@ -2521,8 +2550,8 @@ function showHome(){
   view.innerHTML='<section class="home">'
     +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Little':'Bé Vui')+'</div><div class="st2">'+(S.lang==='en'?'Learners':'Học')+'</div>'
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
-    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Tia Chớp: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
-      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Tia Chớp nhờ bé: '+todayMission()[1]+'<small>Tia Chớp asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
+    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Rookie: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
+      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Rookie nhờ bé: '+todayMission()[1]+'<small>Rookie asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
     +'<div class="langs" role="group" aria-label="Language">'+[['both','🇻🇳🇬🇧','Việt + Anh'],['vi','🇻🇳','Tiếng Việt'],['en','🇬🇧','English']].map(function(l){
       return '<button class="lg'+(S.lang===l[0]?' on':'')+'" data-lang="'+l[0]+'"><span>'+l[1]+'</span>'+l[2]+'</button>'}).join('')+'</div>'
     +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
@@ -2674,7 +2703,7 @@ function showEnd(){
   setProgress(S.total,S.total);syncControls();
   var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
-  if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Tia Chớp làm bạn với bé!';gotEn='Special sticker! Tia Chớp is your friend now!'}
+  if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Rookie làm bạn với bé!';gotEn='Special sticker! Rookie is your friend now!'}
   else if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}
@@ -2689,7 +2718,7 @@ function showEnd(){
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
     +'<p class="cname">'+(en1?gotEn:gotVi+(both?' · '+gotEn:''))+'</p>'
-    +(missionNow?'<p class="mdone">🎉 '+(en1?'Tia Chớp’s mission complete! +3 stars':'Xong nhiệm vụ của Tia Chớp! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
+    +(missionNow?'<p class="mdone">🎉 '+(en1?'Rookie’s mission complete! +3 stars':'Xong nhiệm vụ của Rookie! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
     +'<div class="endbtns">'+btns+'</div></section>';
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
@@ -2720,7 +2749,7 @@ function chatLines(id){
    ['😮','grow','Bé đếm với mình nhé! Một, hai, ba!','Count with me! One, two, three!'],
    ['🥳','spin','Hoan hô! Hôm nay bé giỏi lắm!','Hooray! You did great today!',1],
    ['🫶','bounce','Bé là bạn tốt của mình!','You are my good friend!']];
-  if(id==='chop')L.push(['🦸','grow','Mình là Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','I am Tia Chớp! I have a mission for you today!',1]);
+  if(id==='chop')L.push(['🦸','grow','Mình là Rookie! Hôm nay mình có nhiệm vụ cho bé đó!','I am Rookie! I have a mission for you today!',1]);
   return L;
 }
 function chatSay(id,again){
@@ -2733,6 +2762,7 @@ function chatSay(id,again){
   }
   CHATLAST=i;var l=L[i];
   $('#cexp').textContent=l[0];
+  if(id==='chop')rkSwap(RKMAP[l[0]]||'happy');
   var ex=$('#cexp');ex.style.animation='none';void ex.offsetWidth;ex.style.animation='';
   $('#ctxt').innerHTML='<b>'+l[2]+'</b><small>'+l[3]+'</small>';
   var art=$('#cart');art.className='cart';void art.offsetWidth;if(!reduce)art.className='cart a-'+l[1];
@@ -2743,7 +2773,7 @@ function openCarChat(id){
   closeChat();CHATID=id;var c=CARS[id];
   var d=document.createElement('div');d.id='chatov';d.className='chatov';d.setAttribute('data-act','chatclose');
   d.innerHTML='<div class="chatcard" data-act="chatmore"><div class="cbub" data-act="chatmore"><span class="cexp" id="cexp">😀</span><div class="ctxt" id="ctxt"></div></div>'
-    +'<div class="cart" id="cart" data-act="chatmore">'+carSVG(id)+'</div>'
+    +'<div class="cart" id="cart" data-act="chatmore">'+(id==='chop'?rkFaceHTML('happy'):carSVG(id))+'</div>'
     +'<div class="cbtns"><button class="next" data-act="chatmore">💬 Nói tiếp<small>Talk more</small></button>'
     +'<button class="next blue" data-act="show3d" data-car="'+id+'">🚗 Xem xe 3D<small>See it in 3D</small></button>'
     +'<button class="next" data-act="chatclose" style="background:#EEF0F8;color:var(--ink)">✖ Đóng<small>Close</small></button></div></div>';

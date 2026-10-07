@@ -256,6 +256,24 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .acell.special.lock::after{content:"🔒";position:absolute;right:6px;bottom:4px;font-size:22px;filter:none}
 .acell.new::before{content:"3D";position:absolute;left:6px;top:4px;background:linear-gradient(180deg,#FFE88F,#FFC93C);border:2px solid #E0A21B;border-radius:8px;padding:0 6px;font-size:13px;font-weight:800;line-height:1.3}
 
+/* ---------- Sticker album: bigger, 3D look ---------- */
+.agrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.agrid.small{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.acell{font-size:clamp(76px,22vmin,120px);padding:10px;background:radial-gradient(circle at 30% 22%,#fff 0,#F3F8FF 45%,#DCE9FF 100%);box-shadow:0 7px 0 var(--line),0 14px 22px var(--soft),inset 0 4px 8px #fff,inset 0 -6px 12px rgba(80,120,200,.14)}
+.agrid.small .acell{font-size:44px;padding:6px;border-radius:18px}
+.acell.animal{grid-column:span 2;aspect-ratio:1.5;font-size:clamp(120px,36vmin,200px)}
+.acell .em,.sticker .em{display:inline-block;transform:perspective(600px) rotateX(10deg) rotateY(-14deg);filter:drop-shadow(1px 1px 0 rgba(0,0,0,.2)) drop-shadow(2px 2px 0 rgba(0,0,0,.16)) drop-shadow(3px 3px 0 rgba(0,0,0,.12)) drop-shadow(4px 5px 0 rgba(0,0,0,.09)) drop-shadow(6px 14px 10px rgba(0,0,0,.28));animation:stkfloat 3.6s ease-in-out infinite}
+.acell:nth-child(2n) .em{animation-delay:-1.2s}
+.acell svg{filter:drop-shadow(0 8px 6px rgba(0,0,0,.22));animation:stkfloat 4s ease-in-out infinite}
+@keyframes stkfloat{0%,100%{transform:perspective(600px) rotateX(10deg) rotateY(-14deg) translateY(0)}50%{transform:perspective(600px) rotateX(6deg) rotateY(14deg) translateY(-6px)}}
+@keyframes stkspin{0%{transform:perspective(600px) rotateY(0)}100%{transform:perspective(600px) rotateY(720deg) scale(1.08)}}
+.acell.spin .em,.acell.spin svg{animation:stkspin .9s ease}
+.acell.lock .em,.acell.lock svg{animation:none;transform:none;filter:brightness(0) opacity(.16)}
+.acell.hot{outline:5px solid #FFC93C;transform:scale(1.06);z-index:3}
+.anum{position:absolute;right:8px;top:6px;min-width:30px;height:30px;padding:0 6px;border-radius:15px;background:linear-gradient(180deg,#FFE88F,#FFC93C);border:2px solid #E0A21B;font-size:16px;font-weight:800;color:#25234A;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2}
+.countbtn{align-self:flex-start;margin:6px 0 4px}
+@media (prefers-reduced-motion:reduce){.acell .em,.acell svg,.sticker .em{animation:none}}
+
 /* ---------- 3D ---------- */
 .drive,.show3d{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:6px 2px}
 #gl{position:relative;flex:1;min-height:260px;border:4px solid #fff;border-radius:26px;overflow:hidden;background:var(--sky);touch-action:none;box-shadow:0 10px 24px var(--soft)}
@@ -1068,6 +1086,13 @@ var SECTIONS=[
 var ALBUM=[];
 SECTIONS.forEach(function(sec){sec.items.forEach(function(x){if(ALBUM.indexOf(x)<0)ALBUM.push(x)})});
 function stkHTML(s){return s.indexOf('car:')===0?carSVG(s.slice(4)):(s.indexOf('hero:')===0?heroSVG(s.slice(5)):'<span class="em">'+s+'</span>')}
+var STKN={'🦄':['con kỳ lân','unicorn'],'🐯':['con hổ','tiger'],'🐼':['gấu trúc','panda'],'🦊':['con cáo','fox'],'🐨':['gấu koala','koala'],'🐙':['con bạch tuộc','octopus'],'🐧':['chim cánh cụt','penguin'],'🦉':['con cú','owl'],'🐢':['con rùa','turtle'],'🦀':['con cua','crab'],'🐬':['cá heo','dolphin'],'🐿️':['con sóc','squirrel'],'🦁':['sư tử','lion'],'🐘':['con voi','elephant'],'🦒':['hươu cao cổ','giraffe'],'🦓':['ngựa vằn','zebra'],'🦘':['chuột túi','kangaroo'],'🦔':['con nhím','hedgehog'],'🦩':['chim hồng hạc','flamingo'],'🦜':['con vẹt','parrot'],'🐊':['cá sấu','crocodile'],'🦥':['con lười','sloth'],'🦦':['rái cá','otter'],'🐺':['chó sói','wolf'],'🦕':['khủng long cổ dài','long neck dinosaur'],'🐳':['cá voi','whale'],'🐶':['chó con','puppy'],'🐱':['mèo con','kitten'],'🐭':['con chuột','mouse'],'🐹':['chuột hamster','hamster'],'🐰':['con thỏ','rabbit'],'🐻':['con gấu','bear'],'🐷':['con heo','pig'],'🐮':['con bò','cow'],'🐸':['con ếch','frog'],'🐵':['con khỉ','monkey'],'🐔':['con gà','chicken'],'🐴':['con ngựa','horse'],'🐑':['con cừu','sheep'],'🦆':['con vịt','duck'],'🐤':['gà con','chick'],'🐥':['gà con vàng','baby chick'],'🐠':['cá nhiệt đới','tropical fish'],'🐟':['con cá','fish'],'🦈':['cá mập','shark'],'🐡':['cá nóc','pufferfish'],'🦭':['hải cẩu','seal'],'🦑':['con mực','squid'],'🦞':['tôm hùm','lobster'],'🐚':['vỏ sò','seashell'],'🐋':['cá voi xanh','blue whale'],'🦋':['con bướm','butterfly'],'🐞':['bọ rùa','ladybug'],'🐝':['con ong','bee'],'🐛':['con sâu','caterpillar'],'🐌':['ốc sên','snail'],'🦗':['con dế','cricket'],'🐜':['con kiến','ant'],'🕷️':['con nhện','spider'],'🕸️':['mạng nhện','spider web'],'🐉':['con rồng','dragon'],'🦖':['khủng long','T rex'],'🧚':['bà tiên','fairy'],'🧜':['nàng tiên cá','mermaid'],'🧙':['phù thủy','wizard'],'🤖':['rô-bốt','robot'],'👽':['người ngoài hành tinh','alien'],'🦸':['siêu nhân','superhero'],'🚀':['tên lửa','rocket'],'🛸':['đĩa bay','flying saucer'],'🌙':['mặt trăng','moon'],'⭐':['ngôi sao','star'],'🪐':['sao Thổ','Saturn'],'🌈':['cầu vồng','rainbow'],'☄️':['sao chổi','comet'],'🌟':['ngôi sao sáng','shining star'],'🍎':['quả táo','apple'],'🍌':['quả chuối','banana'],'🍓':['dâu tây','strawberry'],'🍉':['dưa hấu','watermelon'],'🍇':['chùm nho','grapes'],'🍊':['quả cam','orange'],'🍍':['quả dứa','pineapple'],'🥭':['quả xoài','mango'],'🍒':['quả anh đào','cherries'],'🍑':['quả đào','peach'],'🥕':['củ cà rốt','carrot'],'🌽':['bắp ngô','corn'],'🍦':['cây kem','ice cream'],'🍰':['bánh kem','cake'],'🍪':['bánh quy','cookie'],'🍩':['bánh vòng','donut'],'🧁':['bánh cupcake','cupcake'],'🍕':['bánh pizza','pizza'],'🍔':['bánh hamburger','burger'],'🍭':['kẹo mút','lollipop'],'🍫':['sô-cô-la','chocolate'],'🍿':['bắp rang','popcorn'],'🚒':['xe cứu hỏa','fire truck'],'🚑':['xe cứu thương','ambulance'],'🚓':['xe cảnh sát','police car'],'🚌':['xe buýt','bus'],'🚜':['máy cày','tractor'],'🚂':['tàu hỏa','train'],'✈️':['máy bay','airplane'],'🚁':['trực thăng','helicopter'],'🚲':['xe đạp','bicycle'],'🛵':['xe máy','scooter'],'🚢':['tàu thủy','ship'],'🛶':['ca nô','canoe'],'🏎️':['xe đua','race car'],'🚤':['xuồng máy','speedboat'],'⛵':['thuyền buồm','sailboat'],'⚽':['quả bóng đá','soccer ball'],'🏀':['quả bóng rổ','basketball'],'🎈':['bóng bay','balloon'],'🎁':['hộp quà','gift'],'🧸':['gấu bông','teddy bear'],'🪁':['con diều','kite'],'🎨':['bảng màu','paint palette'],'🎸':['đàn ghi-ta','guitar'],'🥁':['cái trống','drum'],'🎺':['cái kèn','trumpet'],'🎠':['ngựa quay','carousel'],'🎡':['vòng đu quay','ferris wheel'],'🎂':['bánh sinh nhật','birthday cake'],'🎉':['pháo giấy','party popper'],'👑':['vương miện','crown'],'🏆':['chiếc cúp','trophy'],'💎':['viên kim cương','diamond'],'❤️':['trái tim','heart'],'🌻':['hoa hướng dương','sunflower'],'🌸':['hoa anh đào','cherry blossom'],'🌷':['hoa tulip','tulip'],'🌳':['cái cây','tree'],'🍄':['cây nấm','mushroom'],'☀️':['mặt trời','sun'],'☁️':['đám mây','cloud'],'⛄':['người tuyết','snowman'],'❄️':['bông tuyết','snowflake'],'🌵':['cây xương rồng','cactus'],'🌊':['sóng biển','ocean wave']};
+var ANIMALS=['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳','🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥','🐠','🐟','🦈','🐡','🦭','🦑','🦞','🐚','🐋','🦋','🐞','🐝','🐛','🐌','🦗','🐜','🕷️','🕸️','🐉','🦖'];
+function stkName(x){
+  if(x.indexOf('car:')===0){var c=CARS[x.slice(4)];return c?[c.name,c.name+' the '+c.en]:['xe','car']}
+  if(x.indexOf('hero:')===0){var h=HEROES[x.slice(5)];return h?[h.vi,h.en]:['bạn siêu nhân','hero']}
+  return STKN[x]||['nhãn dán','sticker'];
+}
 function shapeSVG(sh,hex){
   return '<svg viewBox="0 0 100 100" fill="'+hex+'" stroke="'+INK+'" stroke-width="5">'+sh.svg+'</svg>';
 }
@@ -1154,7 +1179,7 @@ function speakNow(list){
   if(!items.length)return;
   setTimeout(function(){playSeq(items)},IS_IOS?150:60);
 }
-function stopSpeech(){stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
+function stopSpeech(){clearInterval(S.cnt);stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;if(S.lang==='en'){n.hidden=true;return}
   var hasVi=VOICES.some(isViVoice);
@@ -2511,20 +2536,44 @@ function showHome(){
 function showAlbum(){
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;
   setProgress(0,0);syncControls();
-  var has=function(x){return S.stickers.indexOf(x)>=0};
-  var n=ALBUM.filter(has).length;
-  var secs=SECTIONS.map(function(sec){
-    var got=sec.items.filter(has).length;
-    var cells=sec.items.map(function(x){
-      var own=has(x),isCar=x.indexOf('car:')===0;
-      return '<button class="acell'+(own?'':' lock')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
-        +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+' aria-label="'+(own?'Nhãn dán':'Chưa có')+'">'+stkHTML(x)+'</button>';
-    }).join('');
-    return '<h3 class="asec"><span>'+sec.vi+'</span><i>'+sec.en+'</i><b>'+got+'/'+sec.items.length+'</b></h3><div class="agrid">'+cells+'</div>';
-  }).join('');
+  var mine=S.stickers.filter(function(x,i){return ALBUM.indexOf(x)>=0&&S.stickers.indexOf(x)===i});
+  var has=function(x){return mine.indexOf(x)>=0};
+  var n=mine.length;
+  function cell(x,k){
+    var own=k>0,isCar=x.indexOf('car:')===0,nm=stkName(x);
+    return '<button class="acell'+(own?'':' lock')+(ANIMALS.indexOf(x)>=0?' animal':'')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
+      +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+(own&&!isCar?' data-stk="'+x+'"':'')+(own?' data-k="'+k+'"':'')
+      +' aria-label="'+(own?'Nhãn dán số '+k+': '+nm[0]:'Chưa có')+'">'+(own?'<span class="anum">'+k+'</span>':'')+stkHTML(x)+'</button>';
+  }
+  var got=mine.map(function(x,i){return cell(x,i+1)}).join('');
+  var lockedL=ALBUM.filter(function(x){return !has(x)});
+  var locked=lockedL.map(function(x){return cell(x,0)}).join('');
   view.innerHTML='<section class="albumv"><h2 class="atitle">📒 Album sticker của bé<small>My sticker book · '+n+'/'+ALBUM.length+'</small></h2>'
-    +'<p class="ahint">Chạm vào chú xe để nghe xe nói chuyện và xem xe 3D. Hoàn thành nhiệm vụ của Tia Chớp để nhận bạn ấy, sưu tập 10 chú xe để mở siêu xe vàng! · Tap a car to hear it talk and see it in 3D. Finish Tia Chớp’s mission to get it, collect 10 cars to unlock the golden car!</p>'
-    +secs+'</section>';
+    +'<p class="ahint">Chạm vào nhãn dán để nghe tên. Chạm vào chú xe để nghe xe nói chuyện và xem xe 3D. · Tap a sticker to hear its name. Tap a car to hear it talk and see it in 3D.</p>'
+    +'<button class="next alt countbtn" data-act="count">🔢 Đếm nhãn dán<small>Count stickers</small></button>'
+    +'<h3 class="asec"><span>Nhãn dán bé đã có</span><i>My stickers</i><b>'+n+'/'+ALBUM.length+'</b></h3>'
+    +(n?'<div class="agrid">'+got+'</div>':'<p class="ahint">Chơi xong một lượt để nhận nhãn dán đầu tiên nhé! · Finish a round to win your first sticker!</p>')
+    +(lockedL.length?'<h3 class="asec"><span>Chưa nhận được</span><i>Still to win</i><b>'+lockedL.length+'</b></h3><div class="agrid small">'+locked+'</div>':'')
+    +'</section>';
+}
+function stkTap(el){
+  var x=el.getAttribute('data-stk'),k=el.getAttribute('data-k'),nm=stkName(x);
+  el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');sfx('pop');
+  speakNow([['Nhãn dán số '+k+'.','vi'],[nm[0],'vi'],['Sticker number '+k+'.','en'],[nm[1],'en']]);
+}
+function countStickers(){
+  var cells=[].slice.call(document.querySelectorAll('.acell[data-k]'));
+  clearInterval(S.cnt);
+  if(!cells.length){speakNow([['Bé chưa có nhãn dán nào. Chơi để nhận nhé!','vi'],['You have no stickers yet. Play to win one!','en']]);return}
+  var i=0,gap=S.lang==='both'?1500:1000;
+  function step(){
+    cells.forEach(function(c){c.classList.remove('hot')});
+    if(i>=cells.length){clearInterval(S.cnt);S.cnt=0;speakNow([['Bé có '+cells.length+' nhãn dán!','vi'],['You have '+cells.length+' stickers!','en']]);return}
+    var c=cells[i],k=i+1;i++;
+    c.classList.add('hot');try{c.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}
+    speakNow([[k+'.','vi'],[k+'.','en']]);
+  }
+  step();S.cnt=setInterval(step,gap);
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
@@ -2617,7 +2666,6 @@ function showEnd(){
   if(missionNow&&!owned('car:chop')){st='car:chop'}
   else if(nCars>=10&&!owned('car:kim')){st='car:kim'}
   else if(!fresh.length){st=pick(ALBUM.filter(function(x){return !spec(x)}))}
-  else if(freshCars.length&&rand(100)<45){st=pick(freshCars)}
   else{st=pick(fresh)}
   var isNew=!owned(st);
   if(isNew)S.stickers.push(st);
@@ -2716,11 +2764,13 @@ view.addEventListener('click',function(e){
     if(a==='again')startGame(S.mode);
     else if(a==='home')showHome();
     else if(a==='album')showAlbum();
+    else if(a==='count')countStickers();
     else if(a==='show3d'){closeChat();openShowroom(act.getAttribute('data-car'))}
     else if(a==='chatmore')chatSay(CHATID,true);
     else if(a==='chatclose')closeChat();
     return;
   }
+  var sk=t.closest('[data-stk]');if(sk){stkTap(sk);return}
   var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
   var sw=t.closest('.sw');
   if(sw&&D&&D.car){

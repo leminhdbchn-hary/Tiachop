@@ -270,6 +270,24 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .sw:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
 .nogl{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;color:var(--bgtext);font-size:clamp(18px,4vmin,26px)}
 
+
+/* ---------- Language chooser + English learning ---------- */
+.langs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--line);border-radius:999px;padding:3px 14px;font-weight:800;font-size:clamp(14px,3vmin,19px);box-shadow:0 4px 0 var(--line);color:var(--ink)}
+.lg span{font-size:1.3em}
+.lg.on{background:linear-gradient(180deg,#FFE88F,#FFC93C);border-color:#E0A21B;box-shadow:0 1px 0 #E0A21B;transform:translateY(3px)}
+.engw{display:block;font-size:clamp(26px,6.4vmin,46px);font-weight:800;line-height:1.1}
+.engw.sm{font-size:clamp(18px,4.2vmin,28px)}
+.engv{display:block;font-size:clamp(13px,2.8vmin,18px);font-weight:600;opacity:.7}
+.engbig{font-size:clamp(34px,9vmin,64px);font-weight:800;color:var(--bgtext);text-align:center;line-height:1.1}
+.bigdot{display:block;width:clamp(90px,24vmin,170px);aspect-ratio:1;border-radius:50%;border:5px solid rgba(0,0,0,.3);box-shadow:inset 0 -12px 0 rgba(0,0,0,.14),inset 0 12px 0 rgba(255,255,255,.35);margin:0 auto}
+body[data-lang=en] .engv{display:none}
+.enonly>i,.enonly>small{font-size:inherit!important;opacity:1!important;font-style:normal;font-weight:inherit;display:inline}
+.enonly .nmn::after{content:" · "}
+body[data-lang=en] .tlabel b,body[data-lang=en] .asec>span{display:none}
+body[data-lang=en] .tlabel i{font-size:clamp(15px,3.2vmin,22px);font-weight:800;opacity:1}
+body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
+
 /* ---------- Effects ---------- */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
 .cf{position:fixed;font-size:28px;line-height:1;animation:burst 1.2s ease-out forwards}
@@ -312,7 +330,7 @@ var S={sound:true,lang:'both',level:2,stars:0,stickers:[],mode:null,round:0,tota
 function load(){
   try{
     var d=JSON.parse(localStorage.getItem('behuihoc')||'{}');
-    S.stars=d.stars||0;S.stickers=d.stickers||[];S.sound=d.sound!==false;S.lang=d.lang||'both';
+    S.stars=d.stars||0;S.stickers=d.stickers||[];S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
   }catch(e){}
 }
@@ -1001,7 +1019,7 @@ function voiceFor(l){
 function speakNow(list){
   if(!S.sound||!hasSpeech)return;
   try{speechSynthesis.cancel()}catch(e){}
-  var items=(list||[]).filter(function(x){return x&&x[0]&&(x[1]==='vi'||S.lang==='both')});
+  var items=(list||[]).filter(function(x){return x&&x[0]&&(x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi'))});
   setTimeout(function(){
     items.forEach(function(it){
       var u=new SpeechSynthesisUtterance(it[0]);
@@ -1014,7 +1032,7 @@ function speakNow(list){
 }
 function stopSpeech(){if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
-  var n=$('#voiceNote');if(!n)return;
+  var n=$('#voiceNote');if(!n)return;if(S.lang==='en'){n.hidden=true;return}
   var hasVi=VOICES.some(function(v){return String(v.lang).toLowerCase().indexOf('vi')===0});
   n.hidden=!(VOICES.length&&!hasVi);
 }
@@ -1466,6 +1484,136 @@ function emoSitRound(){
 }
 
 /* ---------- Which questions each topic uses at each level ---------- */
+/* ---------- 11. ENGLISH FUN: learn English words, ABC, phrases ---------- */
+var ENGX={
+ veh:[{e:'🚂',en:'train',vi:'tàu hỏa'},{e:'✈️',en:'airplane',vi:'máy bay'},{e:'⛵',en:'boat',vi:'thuyền'},{e:'🚲',en:'bike',vi:'xe đạp'},
+      {e:'🚁',en:'helicopter',vi:'trực thăng'},{e:'🚀',en:'rocket',vi:'tên lửa'},{e:'🚚',en:'truck',vi:'xe tải'},{e:'🚗',en:'car',vi:'xe hơi'}],
+ home:[{e:'🛏️',en:'bed',vi:'cái giường'},{e:'🪑',en:'chair',vi:'cái ghế'},{e:'🚪',en:'door',vi:'cánh cửa'},{e:'📖',en:'book',vi:'quyển sách'},
+      {e:'✏️',en:'pencil',vi:'bút chì'},{e:'⚽',en:'ball',vi:'quả bóng'},{e:'🧸',en:'teddy bear',vi:'gấu bông'},{e:'🎒',en:'bag',vi:'cái cặp'},
+      {e:'🥄',en:'spoon',vi:'cái thìa'},{e:'🔑',en:'key',vi:'chìa khóa'},{e:'☂️',en:'umbrella',vi:'cái ô'},{e:'⏰',en:'clock',vi:'đồng hồ'},
+      {e:'👒',en:'hat',vi:'cái mũ'},{e:'👟',en:'shoe',vi:'chiếc giày'},{e:'🧦',en:'socks',vi:'đôi tất'},{e:'👕',en:'shirt',vi:'cái áo'},
+      {e:'👓',en:'glasses',vi:'kính'},{e:'🎁',en:'gift',vi:'món quà'},{e:'🍞',en:'bread',vi:'bánh mì'},{e:'🥚',en:'egg',vi:'quả trứng'},
+      {e:'🎂',en:'cake',vi:'bánh sinh nhật'},{e:'🍪',en:'cookie',vi:'bánh quy'},{e:'🥛',en:'milk',vi:'sữa'},{e:'🏠',en:'house',vi:'ngôi nhà'}],
+ nature:[{e:'☀️',en:'sun',vi:'mặt trời'},{e:'🌙',en:'moon',vi:'mặt trăng'},{e:'⭐',en:'star',vi:'ngôi sao'},{e:'☁️',en:'cloud',vi:'đám mây'},
+      {e:'🌧️',en:'rain',vi:'mưa'},{e:'🌈',en:'rainbow',vi:'cầu vồng'},{e:'🌳',en:'tree',vi:'cái cây'},{e:'🌸',en:'flower',vi:'bông hoa'},
+      {e:'❄️',en:'snow',vi:'tuyết'},{e:'⛰️',en:'mountain',vi:'ngọn núi'}],
+ family:[{e:'👩',en:'mom',vi:'mẹ'},{e:'👨',en:'dad',vi:'bố'},{e:'👶',en:'baby',vi:'em bé'},{e:'👵',en:'grandma',vi:'bà'},
+      {e:'👴',en:'grandpa',vi:'ông'},{e:'👧',en:'girl',vi:'bé gái'},{e:'👦',en:'boy',vi:'bé trai'}],
+ action:[{e:'🏃',en:'run',vi:'chạy'},{e:'🚶',en:'walk',vi:'đi bộ'},{e:'😴',en:'sleep',vi:'ngủ'},{e:'🍽️',en:'eat',vi:'ăn'},
+      {e:'🥤',en:'drink',vi:'uống'},{e:'📖',en:'read',vi:'đọc sách'},{e:'🎤',en:'sing',vi:'hát'},{e:'💃',en:'dance',vi:'nhảy múa'},
+      {e:'🏊',en:'swim',vi:'bơi'},{e:'👏',en:'clap',vi:'vỗ tay'}]};
+var ENG_GREET=[
+ {e:'👋😀',en:'Hello!',vi:'Xin chào!'},{e:'👋😢',en:'Goodbye!',vi:'Tạm biệt!'},{e:'🌅',en:'Good morning!',vi:'Chào buổi sáng!'},
+ {e:'🌙😴',en:'Good night!',vi:'Chúc ngủ ngon!'},{e:'🎁🙏',en:'Thank you!',vi:'Cảm ơn!'},{e:'😔🙇',en:'Sorry!',vi:'Xin lỗi!'},
+ {e:'🎂🎉',en:'Happy birthday!',vi:'Chúc mừng sinh nhật!'},{e:'🤝😊',en:'Nice to meet you!',vi:'Rất vui được gặp bạn!'}];
+var ENG_OPP=[['hot','nóng','🔥'],['cold','lạnh','🧊'],['big','to','🐘'],['small','nhỏ','🐭'],['up','lên','⬆️'],['down','xuống','⬇️'],
+ ['happy','vui','😀'],['sad','buồn','😢'],['day','ban ngày','☀️'],['night','ban đêm','🌙'],['fast','nhanh','🐇'],['slow','chậm','🐢']];
+var ABC_POOL={1:'ABCDE'.split(''),2:'ABCDEFGHIJKLM'.split(''),3:'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')};
+
+function engPool(){
+  var L=S.level,out=[];
+  var mk=function(x){return {e:x.e,en:x.en,vi:x.vi}};
+  var add=function(a){a.forEach(function(x){if(!out.some(function(o){return o.en===x.en}))out.push(x)})};
+  add(ANI.map(mk));add(FOOD.map(mk));add(ENGX.veh);
+  add(shuffle(CARIDS).slice(0,8).map(function(id){return {cid:id,en:CARS[id].en,vi:CARS[id].vi}}));
+  if(L>=2){add(ENGX.home);add(ENGX.nature);add(ENGX.family);add(BODY.map(mk))}
+  if(L>=3){add(ENGX.action);add(EMO.map(mk))}
+  return out;
+}
+function engPic(w){return w.cid?carSVG(w.cid):'<span class="emo">'+w.e+'</span>'}
+function engBig(w){return w.cid?'<div class="target">'+carSVG(w.cid)+'</div>':'<div class="bigemoji">'+w.e+'</div>'}
+function engSay(en,vi){return vi?[[en,'en',true],[vi,'vi']]:[[en,'en',true]]}
+function engWordOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:'<span class="engw">'+w.en+'</span><span class="engv">'+w.vi+'</span>'}}
+function engPicOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:engPic(w)}}
+function engSeeRound(){
+  var pool=engPool(),w=pick(pool),set=distinctWith(pool,w,nopt(),function(x){return x.en});
+  return {type:'engsee',key:'engsee:'+w.en,
+    vi:'Đây là gì trong tiếng Anh?',en:'What is this?',
+    visual:engBig(w),opts:set.map(engWordOpt),correct:set.indexOf(w),
+    win:{vi:cap(w.vi)+' tiếng Anh là “'+w.en+'”.',en:'Yes! It is “'+w.en+'”.'},wx:[[w.en,'en',true]]};
+}
+function engHearRound(){
+  var pool=engPool(),w=pick(pool),set=distinctWith(pool,w,nopt(),function(x){return x.en});
+  return {type:'enghear',key:'enghear:'+w.en,
+    vi:'Nghe nhé! Chạm vào “'+w.en+'”.',en:'Listen! Tap “'+w.en+'”.',pa:[[w.en,'en',true]],
+    visual:'<div class="engbig">🔊 '+w.en+'</div>',opts:set.map(engPicOpt),correct:set.indexOf(w),
+    win:{vi:cap(w.vi)+' tiếng Anh là “'+w.en+'”.',en:'Great! This is “'+w.en+'”.'},wx:[[w.en,'en',true]]};
+}
+function engColorRound(){
+  var c=pick(colorPool()),set=distinctWith(colorPool(),c,nopt(),function(x){return x.en});
+  return {type:'engcolor',key:'engcolor:'+c.en,
+    vi:'Màu này tiếng Anh là gì?',en:'What color is this?',
+    visual:'<span class="bigdot" style="background:'+c.hex+'"></span>',
+    opts:set.map(function(x){return {label:x.en,say:engSay(x.en,x.vi),html:'<span class="engw">'+x.en+'</span><span class="engv">'+x.vi+'</span>'}}),correct:set.indexOf(c),
+    win:{vi:'Màu '+c.vi+' tiếng Anh là “'+c.en+'”.',en:'Yes! It is '+c.en+'.'},wx:[[c.en,'en',true]]};
+}
+function engGreetRound(){
+  var g=pick(ENG_GREET),set=distinctWith(ENG_GREET,g,nopt(),function(x){return x.en});
+  if(rand(2)){
+    return {type:'enggreet',key:'enggreet:'+g.en,
+      vi:'Nghe nhé! Hình nào đúng?',en:'Listen! Which picture matches?',pa:[[g.en,'en',true]],
+      visual:'<div class="engbig">🔊 '+g.en+'</div>',
+      opts:set.map(function(x){return {label:x.en,say:engSay(x.en,x.vi),html:'<span class="emo">'+x.e+'</span>'}}),correct:set.indexOf(g),
+      win:{vi:'“'+g.en+'” nghĩa là “'+g.vi+'”.',en:'Yes! “'+g.en+'”'},wx:[[g.en,'en',true]]};
+  }
+  return {type:'enggreet2',key:'enggreet2:'+g.en,
+    vi:'Mình nói gì nhỉ?',en:'What do we say?',
+    visual:'<div class="bigemoji">'+g.e+'</div>',
+    opts:set.map(function(x){return {label:x.en,say:engSay(x.en,x.vi),html:'<span class="engw sm">'+x.en+'</span><span class="engv">'+x.vi+'</span>'}}),correct:set.indexOf(g),
+    win:{vi:'Mình nói “'+g.en+'” — nghĩa là “'+g.vi+'”.',en:'We say “'+g.en+'”'},wx:[[g.en,'en',true]]};
+}
+function engAbcRound(){
+  var pool=ABC_POOL[S.level],L=pick(pool),set=distinctWith(pool,L,nopt(),function(x){return x});
+  return {type:'engabc',key:'engabc:'+L,
+    vi:'Tìm chữ cái tiếng Anh '+L+'!',en:'Find the letter '+L+'!',pa:[[L,'en',true]],
+    visual:'<div class="engbig">🔊 '+L+'</div>',
+    opts:set.map(function(x){return {label:x,say:[[x,'en',true]],html:'<span class="L">'+x+'</span><span class="l">'+x.toLowerCase()+'</span>'}}),correct:set.indexOf(L),
+    win:{vi:'Đây là chữ cái '+L+' trong tiếng Anh.',en:'Yes! This is the letter '+L+'.'},wx:[[L,'en',true]]};
+}
+function engPhonicsRound(){
+  var pool=engPool().filter(function(w){return /^[a-z]/.test(w.en)}),w=pick(pool),L=w.en.charAt(0).toUpperCase();
+  var set=[w],tries=0;
+  while(set.length<nopt()&&tries++<200){var c=pick(pool);if(!set.some(function(o){return o.en.charAt(0)===c.en.charAt(0)}))set.push(c)}
+  set=shuffle(set);
+  return {type:'engphon',key:'engphon:'+w.en,
+    vi:'Từ nào bắt đầu bằng chữ '+L+'?',en:'Which one starts with “'+L+'”?',pa:[[L,'en',true]],
+    visual:'<div class="bigletter">'+L+'</div>',opts:set.map(engPicOpt),correct:set.indexOf(w),
+    win:{vi:L+' là chữ cái đầu của “'+w.en+'”.',en:L+' is for '+w.en+'!'},wx:[[L+' is for '+w.en+'!','en',true]]};
+}
+function engCountRound(){
+  var maxN=S.level===1?5:10,n=1+rand(maxN),w=pick(engPool().filter(function(x){return !x.cid})),set=[n],tries=0;
+  while(set.length<nopt()&&tries++<100){var k=Math.max(1,Math.min(maxN,n+rand(7)-3));if(set.indexOf(k)<0)set.push(k)}
+  set=shuffle(set);
+  var items='';for(var i=0;i<n;i++)items+='<button class="item" aria-label="Count">'+w.e+'</button>';
+  return {type:'engcount',key:'engcount:'+n+w.e,enc:true,
+    vi:'Có bao nhiêu? Đếm bằng tiếng Anh nhé!',en:'How many? Count in English!',
+    visual:'<div class="items">'+items+'</div><div class="hint">Chạm vào từng hình để đếm · Tap to count</div>',
+    opts:set.map(function(k){return {label:NUM_EN[k],say:engSay(NUM_EN[k],NUM_VI[k]),html:'<span class="engw">'+NUM_EN[k]+'</span><span class="engv">'+k+'</span>'}}),correct:set.indexOf(n),
+    win:{vi:'Có '+NUM_VI[n]+'. Tiếng Anh là “'+NUM_EN[n]+'”.',en:'There '+(n===1?'is ':'are ')+NUM_EN[n]+'.'},wx:[[NUM_EN[n],'en',true]]};
+}
+function engOppRound(){
+  var i=rand(ENG_OPP.length),a=ENG_OPP[i],b=ENG_OPP[i%2?i-1:i+1];
+  var wrong=shuffle(ENG_OPP.filter(function(x){return x!==a&&x!==b}));
+  var set=shuffle([b,wrong[0],wrong[1]]);
+  return {type:'engopp',key:'engopp:'+a[0],
+    vi:'Trái nghĩa của “'+a[0]+'” là gì?',en:'What is the opposite of “'+a[0]+'”?',pa:[[a[0],'en',true]],
+    visual:'<div class="bigemoji">'+a[2]+'</div><div class="engbig">'+a[0]+'</div>',
+    opts:set.map(function(x){return {label:x[0],say:engSay(x[0],x[1]),html:'<span class="engw">'+x[0]+'</span><span class="engv">'+x[1]+'</span>'}}),correct:set.indexOf(b),
+    win:{vi:'“'+a[0]+'” trái nghĩa với “'+b[0]+'”.',en:a[0]+' and '+b[0]+' are opposites!'},wx:[[a[0]+' and '+b[0],'en',true]]};
+}
+function engSpellRound(){
+  var pool=engPool().filter(function(w){return /^[a-z]{3,5}$/.test(w.en)}),w=pick(pool),chars=w.en.split(''),pos=rand(chars.length),ans=chars[pos];
+  var ab='abcdefghijklmnopqrstuvwxyz'.split(''),set=[ans];
+  while(set.length<3){var c=pick(ab);if(set.indexOf(c)<0)set.push(c)}
+  set=shuffle(set);
+  var shown=chars.map(function(ch,i){return i===pos?'<span class="blank">'+ch+'</span>':ch}).join('');
+  return {type:'engspell',key:'engspell:'+w.en,
+    vi:'Chữ cái nào còn thiếu?',en:'Which letter is missing?',pa:[[w.en,'en',true]],
+    visual:engBig(w)+'<div class="word">'+shown+'</div>',
+    opts:set.map(function(x){return {label:x,say:[[x,'en',true]],html:'<span class="L">'+x+'</span>'}}),correct:set.indexOf(ans),
+    win:{vi:'Đúng rồi! '+w.en.toUpperCase().split('').join(', ')+'.',en:w.en.toUpperCase().split('').join(', ')+', '+w.en+'!'},wx:[[chars.join(', ')+', '+w.en+'!','en',true]]};
+}
+
 var POOL={
  num:{1:[numberRound,giveRound,numFindRound],2:[numberRound,giveRound,numFindRound,addRound],3:[numberRound,giveRound,numFindRound,nextNumRound,addRound]},
  cmp:{1:[sizeRound,lengthRound,moreRound],2:[sizeRound,lengthRound,heightRound,moreRound],3:[sizeRound,lengthRound,heightRound,moreRound]},
@@ -1477,7 +1625,11 @@ var POOL={
  body:{1:[bodyNameRound],2:[bodyNameRound,bodyUseRound],3:[bodyNameRound,bodyUseRound]},
  food:{1:[foodNameRound],2:[foodNameRound,foodColorRound],3:[foodNameRound,foodColorRound]},
  emo:{1:[emoNameRound],2:[emoNameRound,emoSitRound],3:[emoNameRound,emoSitRound]}};
-var TOPIC_IDS=['num','cmp','col','mat','let','ani','veh','body','food','emo'];
+POOL.eng={1:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound],
+ 2:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound],
+ 3:[engSeeRound,engHearRound,engColorRound,engGreetRound,engAbcRound,engCountRound,engPhonicsRound,engSpellRound,engOppRound]};
+POOL.letEn={1:[engAbcRound],2:[engAbcRound,engPhonicsRound],3:[engAbcRound,engPhonicsRound,letCaseRound]};
+var TOPIC_IDS=['num','cmp','col','mat','let','ani','veh','body','food','emo','eng'];
 
 /* =====================================================================
    3D (three.js r128, loaded from cdnjs). Cars are built from simple blocks.
@@ -1763,7 +1915,7 @@ function openShowroom(id){
     return '<button class="sw" data-hex="'+x.hex+'" data-vi="'+x.vi+'" data-en="'+x.en+'" style="background:'+x.hex+'" aria-label="'+x.vi+'"></button>';
   }).join('');
   view.innerHTML='<section class="show3d">'
-    +'<div class="sname"><div class="nmt">'+c.name+' · '+c.vi+'<small>'+c.en+'</small></div>'
+    +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+'</b> · '+c.vi+'<small>'+c.en+'</small></div>'
     +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
     +'<div id="gl"></div><div class="palette">'+sw+'</div>'
     +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to spin</div></section>';
@@ -1790,7 +1942,7 @@ function openShowroom(id){
     gl.addEventListener('pointermove',function(e){if(!st.drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);car.rotation.y+=dx*.012});
     gl.addEventListener('pointerup',function(){
       st.drag=false;
-      if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,'vi']])}
+      if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,S.lang==='en'?'en':'vi']])}
     });
     var last=performance.now();
     function frame(now){
@@ -1824,12 +1976,15 @@ function setProgress(done,total){
 }
 function syncControls(){
   $('#soundBtn').textContent=S.sound?'🔊':'🔇';
-  $('#langBtn').textContent=S.lang==='both'?'Việt + Anh':'Chỉ Việt';
+  $('#langBtn').textContent=S.lang==='en'?'English':(S.lang==='vi'?'Chỉ Việt':'Việt + Anh');
+  document.body.setAttribute('data-lang',S.lang);document.documentElement.lang=S.lang==='en'?'en':'vi';
+  document.title=S.lang==='en'?'Little Learners':'Bé Vui Học';
   $('#homeBtn').hidden=!S.mode;
 }
 
 var TOPICS=[
  {id:'num',glyph:'123',vi:'Đếm số',en:'Numbers',c:'#FF8A8A',d:'#D95454'},
+ {id:'eng',glyph:'🇬🇧',vi:'Học tiếng Anh',en:'English fun',c:'#FF8FA3',d:'#D9506B'},
  {id:'veh',glyph:'@car',vi:'Xe cộ',en:'Vehicles',c:'#78BFFF',d:'#3F8AD9'},
  {id:'drive',glyph:'@3d',vi:'Lái xe 3D',en:'3D driving',c:'#FFD866',d:'#D9A21B'},
  {id:'col',glyph:'🔴🔺',vi:'Màu và hình',en:'Colors &amp; shapes',c:'#FFB36B',d:'#D9791F'},
@@ -1881,9 +2036,11 @@ function showHome(){
   }).join('');
   var owned=ALBUM.filter(function(x){return S.stickers.indexOf(x)>=0}).length;
   view.innerHTML='<section class="home">'
-    +'<div class="hero"><div class="sign"><div class="st1">Bé Vui</div><div class="st2">Học</div>'
-    +'<div class="sign-p">'+(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi</div></div>'
+    +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Little':'Bé Vui')+'</div><div class="st2">'+(S.lang==='en'?'Learners':'Học')+'</div>'
+    +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
     +'<div class="mascot"><div class="bubble2">Chọn bài chơi nhé!<small>Pick a game!</small></div>'+carSVG(pick(CARIDS))+'</div></div>'
+    +'<div class="langs" role="group" aria-label="Language">'+[['both','🇻🇳🇬🇧','Việt + Anh'],['vi','🇻🇳','Tiếng Việt'],['en','🇬🇧','English']].map(function(l){
+      return '<button class="lg'+(S.lang===l[0]?' on':'')+'" data-lang="'+l[0]+'"><span>'+l[1]+'</span>'+l[2]+'</button>'}).join('')+'</div>'
     +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +'<div class="tiles">'+tiles+'</div>'
@@ -1915,13 +2072,24 @@ function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:b
 function startGame(mode){
   stop3D();
   if(mode==='drive'){ensureAC();startDrive();return}
-  S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.car=pick(CARIDS);
+  S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=pick(CARIDS);
   ensureAC();goNext();
 }
 function buildRound(topic){
-  var arr=POOL[topic][S.level],r,tries=0;
-  do{r=pick(arr)();tries++}while(S.used[r.key]&&tries<14);
-  S.used[r.key]=1;r.topic=topic;return r;
+  var arr=POOL[(S.lang==='en'&&topic==='let')?'letEn':topic][S.level],r,fn,tries=0,bad;
+  S.usedQ=S.usedQ||{};S.usedA=S.usedA||{};
+  do{
+    fn=pick(arr);tries++;
+    if(arr.length>1&&fn===S.lastFn&&tries<25){bad=true;continue}   /* not the same kind of question twice in a row */
+    r=fn();
+    var ans=r.opts&&r.opts[r.correct]?r.opts[r.correct].label:'';
+    bad=!!S.used[r.key]                                              /* exact same question */
+      ||(tries<60&&!!S.usedQ[r.vi+'|'+r.en])                         /* same wording */
+      ||(tries<40&&ans&&ans!=='lựa chọn'&&!!S.usedA[ans]);           /* same answer again */
+  }while(bad&&tries<90);
+  S.lastFn=fn;S.used[r.key]=1;S.usedQ[r.vi+'|'+r.en]=1;
+  if(r.opts&&r.opts[r.correct]&&r.opts[r.correct].label)S.usedA[r.opts[r.correct].label]=1;
+  r.topic=topic;return r;
 }
 function goNext(){
   clearTimeout(S.timer);
@@ -1934,7 +2102,7 @@ function goNext(){
   S.lastTopic=topic;
   renderRound(buildRound(topic));
 }
-function sayPrompt(r){return [[r.sv||r.vi,'vi'],[r.se!==undefined?r.se:r.en,'en']]}
+function sayPrompt(r){var a=[[r.sv||r.vi,'vi'],[r.se!==undefined?r.se:r.en,'en']];return r.pa?a.concat(r.pa):a}
 function renderRound(r){
   S.cur=r;S.locked=false;S.count=0;S.sel=0;
   setProgress(S.round,S.total);syncControls();
@@ -1945,7 +2113,7 @@ function renderRound(r){
   }).join('');
   var pal=PALS[S.round%PALS.length];
   view.innerHTML='<section class="stage" style="--ac:'+pal[0]+';--acb:'+pal[1]+'">'
-    +'<div class="promptcard"><div class="qn">'+(S.round+1)+'</div><div class="ptxt"><div class="pvi">'+r.vi+'</div>'+(showEn?'<div class="pen">'+r.en+'</div>':'')+'</div>'
+    +'<div class="promptcard"><div class="qn">'+(S.round+1)+'</div><div class="ptxt"><div class="pvi">'+(S.lang==='en'?(r.en||r.vi):r.vi)+'</div>'+(showEn?'<div class="pen">'+r.en+'</div>':'')+'</div>'
     +'<button class="icon big" id="replay" aria-label="Nghe lại">🔊</button></div>'
     +'<div class="visual">'+(r.visual||'')+'</div>'
     +(n?'<div class="opts n'+n+'" style="--n:'+n+'">'+cards+'</div>':'')
@@ -1962,7 +2130,7 @@ function succeed(el){
   }else{confetti(window.innerWidth/2,window.innerHeight/2.4,false)}
   if(r.onCorrect)r.onCorrect();
   var p=pick(PRAISE);
-  speakNow([[p[0]+' '+r.win.vi,'vi'],[p[1]+' '+r.win.en,'en']]);
+  speakNow([[p[0]+' '+r.win.vi,'vi'],[p[1]+' '+r.win.en,'en']].concat(S.lang==='vi'&&r.wx?r.wx:[]));
   S.round++;setProgress(S.round,S.total);
   var nb=$('#next');if(nb)nb.hidden=false;
   S.timer=setTimeout(goNext,6000);
@@ -1992,7 +2160,7 @@ function showEnd(){
   save();
   var stars='';for(var i=0;i<Math.min(S.total,10);i++)stars+='⭐';
   setProgress(S.total,S.total);syncControls();
-  var both=S.lang==='both',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
+  var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
   if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
@@ -2004,10 +2172,10 @@ function showEnd(){
        +'<button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button>';
   view.innerHTML='<section class="end">'
     +'<div class="sticker" aria-hidden="true">'+stkHTML(st)+'</div>'
-    +'<h2>Hoan hô! Bé giỏi quá!</h2>'
+    +'<h2>'+(en1?'Hooray! You did it!':'Hoan hô! Bé giỏi quá!')+'</h2>'
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
-    +'<p class="cname">'+gotVi+(both?' · '+gotEn:'')+'</p>'
+    +'<p class="cname">'+(en1?gotEn:gotVi+(both?' · '+gotEn:''))+'</p>'
     +'<div class="endbtns">'+btns+'</div></section>';
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
@@ -2020,6 +2188,7 @@ view.addEventListener('click',function(e){
   var t=e.target;
   var lv=t.closest('[data-level]');
   if(lv){S.level=+lv.getAttribute('data-level');save();sfx('pop');showHome();return}
+  var lg=t.closest('button[data-lang]');if(lg){sfx('pop');setLang(lg.getAttribute('data-lang'));return}
   var m=t.closest('[data-mode]');if(m){startGame(m.getAttribute('data-mode'));return}
   var act=t.closest('[data-act]');
   if(act){
@@ -2050,24 +2219,25 @@ view.addEventListener('click',function(e){
     pk.classList.toggle('sel');
     S.sel=document.querySelectorAll('.item.pick.sel').length;
     sfx('pop');
-    if(S.sel>0)speakNow([[NUM_VI[S.sel],'vi'],[NUM_EN[S.sel],'en']]);
+    if(S.sel>0)speakNow(S.cur.enc?[[NUM_EN[S.sel],'en',true]]:[[NUM_VI[S.sel],'vi'],[NUM_EN[S.sel],'en']]);
     if(S.sel===S.cur.goal)succeed(null);
     return;
   }
   var it=t.closest('.item');
   if(it&&!it.classList.contains('counted')&&!it.classList.contains('pick')){
     S.count++;it.setAttribute('data-n',S.count);it.classList.add('counted');
-    sfx('pop');speakNow([[NUM_VI[S.count],'vi'],[NUM_EN[S.count],'en']]);
+    sfx('pop');speakNow(S.cur.enc?[[NUM_EN[S.count],'en',true]]:[[NUM_VI[S.count],'vi'],[NUM_EN[S.count],'en']]);
   }
 });
 $('#homeBtn').addEventListener('click',showHome);
 $('#soundBtn').addEventListener('click',function(){
   S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();
 });
-$('#langBtn').addEventListener('click',function(){
-  S.lang=S.lang==='both'?'vi':'both';save();syncControls();
-  if(S.cur&&!S.locked){renderRound(S.cur)}else if(!S.mode){showHome()}
-});
+function setLang(l){
+  S.lang=l;save();syncControls();stopSpeech();
+  if(S.cur&&!S.locked){renderRound(S.cur)}else if(!S.mode){showHome()}else if(S.mode==='album'){showAlbum()}
+}
+$('#langBtn').addEventListener('click',function(){setLang(S.lang==='both'?'vi':(S.lang==='vi'?'en':'both'))});
 var woke=false;
 function wake(){if(woke)return;woke=true;ensureAC();unlockSpeech()}
 document.addEventListener('touchend',wake,{once:true,passive:true});
@@ -2077,6 +2247,24 @@ document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
 if(/[?&]debug/.test(location.search)){window.__bvh={make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
+/* English-only mode: drop the Vietnamese half of "vi + en" texts */
+var LETRE=/[A-Za-zÀ-ỹ]/;
+function localize(root){
+  if(S.lang!=='en')return;
+  root.querySelectorAll('i,small').forEach(function(sm){
+    var P=sm.parentNode;if(!P||P.getAttribute('data-loc'))return;
+    P.setAttribute('data-loc','1');
+    for(var n=P.firstChild;n;n=n.nextSibling){
+      if(n.nodeType===3&&LETRE.test(n.nodeValue)){var m=n.nodeValue.match(/^[^A-Za-zÀ-ỹ]*/);n.nodeValue=m?m[0]:''}
+    }
+    P.classList.add('enonly');
+  });
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),t,list=[];
+  while((t=w.nextNode()))if(/[À-ỹ]/.test(t.nodeValue)&&t.nodeValue.indexOf('·')>=0)list.push(t);
+  list.forEach(function(t){var a=t.nodeValue.split('·');t.nodeValue=a[a.length-1].trim()});
+}
+try{new MutationObserver(function(){localize(view)}).observe(view,{childList:true,subtree:true})}catch(e){}
+syncControls();
 showHome();
 })();
 </script>

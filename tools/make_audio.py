@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Tạo giọng đọc AI cho game Bé Vui Học.
 Đọc tools/phrases.json -> tạo audio/<mã>.mp3 (bỏ qua file đã có) -> ghi audio/manifest.json.
-Giọng: tiếng Việt vi-VN-NamMinhNeural (chậm, hơi cao), tiếng Anh en-US-AnaNeural (giọng bé gái).
+Giọng: tiếng Việt vi-VN-HoaiMyNeural (nữ, giọng miền Bắc, đọc chậm), tiếng Anh en-US-AnaNeural (giọng bé gái).
 Chạy: pip install edge-tts && python3 tools/make_audio.py
 Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại."""
 import asyncio, json, os, re, sys
 import edge_tts
 
-VOICES = {"vi": ("vi-VN-NamMinhNeural", "-12%", "+6Hz"), "en": ("en-US-AnaNeural", "-5%", "+0Hz")}
-SIG = json.dumps(VOICES, sort_keys=True) + "|v3"  # đổi giọng/cách đọc -> tự tạo lại toàn bộ file
+VOICES = {"vi": ("vi-VN-HoaiMyNeural", "-8%", "+0Hz"), "en": ("en-US-AnaNeural", "-5%", "+0Hz")}
+SIG = json.dumps(VOICES, sort_keys=True) + "|v4"  # đổi giọng/cách đọc -> tự tạo lại toàn bộ file
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "audio")
 

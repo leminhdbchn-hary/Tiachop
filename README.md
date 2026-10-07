@@ -115,3 +115,7 @@ Chủ đề mới **Học tiếng Anh / English fun** (có ở cả 3 chế đ�
 - **Icon app**: `icons/apple-touch-icon.png` (iPhone/iPad: Safari → Chia sẻ → Thêm vào MH chính), `icons/icon-192.png`, `icons/icon-512.png`, `manifest.webmanifest`.
 - **iPhone đời mới**: giao diện tránh tai thỏ/Dynamic Island, thanh Home và mép cong khi xoay ngang (`viewport-fit=cover` + `safe-area-inset`).
 - Nút ngôn ngữ ở góc trên hiển thị: **Việt + Anh**, **Tiếng Việt**, **English**.
+
+## Mini game đua xe 3D
+
+Đường 6 làn, bé lái Tia Chớp đua với một xe máy trong khoảng 15 giây. Có chướng ngại vật (nón, thùng, hộp, đá): đụng vào xe chậm lại; nhặt sao để chạy nhanh hơn. Chim bay trên trời. Chạm vào làn muốn chạy (hoặc kéo ngón tay, hoặc dùng hai nút ◀ ▶). Về đích trước xe máy thì thắng; về nhì vẫn được thưởng. Độ khó tăng theo độ tuổi (xe máy chạy nhanh hơn, nhiều chướng ngại vật hơn). Chỉnh trong `startDrive`/`initDrive` ở `index.html` (`RACE_SPEED`, `RACE_LEN`).

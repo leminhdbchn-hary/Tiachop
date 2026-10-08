@@ -447,6 +447,82 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 .paintv svg text.ln{fill:#25234A;stroke:none;font-weight:800;font-family:inherit}
 .pdone svg .ln{fill:none}.pdone svg text.ln{fill:#25234A;stroke:none;font-weight:800}
 .pcard svg .rn,.pdone svg .rn{pointer-events:none}
+.plays{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
+.plays .next{min-width:0;padding:6px 0;font-size:30px;line-height:1;height:auto;min-height:72px}
+.plays .next small{font-size:12px}
+/* ---------- Xoay ngang (điện thoại + iPad) ---------- */
+@media (orientation:landscape){
+  #app{max-width:1180px;padding-left:max(14px,var(--sal));padding-right:max(14px,var(--sar))}
+  .tiles{grid-template-columns:repeat(4,1fr)}
+  .setp{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+  .setp>h2,.setp>.setrow:last-child{grid-column:1/-1}
+  .paintv{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:20px;row-gap:10px;align-items:start;justify-content:center;max-width:1000px;margin:0 auto;padding-top:0}
+  .paintv h2{grid-column:2;grid-row:1;text-align:left}
+  .paintv .pcanvas{grid-column:1;grid-row:1/4;width:min(52vw,calc(100vh - 100px),680px);min-width:0}
+  .paintv .pal{grid-column:2;grid-row:2;justify-content:flex-start;max-width:none}
+  .paintv .ptools{grid-column:2;grid-row:3;max-width:none;align-self:start}
+  .pgrid{grid-template-columns:repeat(3,1fr);max-width:900px}
+  .pc{width:clamp(38px,8vh,54px);height:clamp(38px,8vh,54px)}
+}
+@media (orientation:landscape) and (max-height:520px){
+  #app{padding-top:max(4px,calc(var(--sat) * .25));padding-bottom:6px}
+  .top{min-height:46px;margin-top:2px;gap:8px}
+  .icon{min-width:46px;height:46px;border-radius:15px;font-size:22px}
+  .icon.pill{font-size:14px}
+  .icon.big{min-width:50px;height:50px;font-size:24px}
+  .progress{padding-top:10px}
+  .road{height:28px}.roadcar{width:52px;top:-22px}
+  .home{padding:6px 2px 14px;gap:8px}
+  .hero{grid-template-columns:1.2fr 1fr}
+  .sign{padding:6px 8px;border-width:4px}
+  .st1{font-size:22px}.st2{font-size:40px}
+  .sign-p{margin-top:4px;font-size:12px}
+  .mascot{padding-top:0}.mascot svg{max-height:34vh;width:auto;margin:0 auto}
+  .tiles{gap:8px}
+  .stage{gap:6px;padding:2px}
+  .opts{gap:10px;padding-top:2px}
+  .opt{height:clamp(110px,40vh,190px);border-radius:20px}
+  .opts.n2 .opt{height:clamp(110px,46vh,200px)}
+  .target svg{width:clamp(110px,34vh,200px)}
+  .paintcar svg{width:clamp(110px,36vh,200px)}
+  .tl svg{height:clamp(80px,22vh,130px)}
+  .seq .num{min-width:48px;height:48px;font-size:30px}
+  .dotc{width:34px;height:34px;font-size:20px}
+  .spk{width:36px;height:36px;font-size:16px}
+  .setp{padding-bottom:14px;gap:8px}
+  .pincard{padding:10px 14px;gap:6px;border-radius:22px;width:min(520px,100%)}
+  .pinbtns .next{min-height:52px;height:auto;font-size:16px;padding:4px 8px}
+  .mascot svg{max-height:30vh}
+  .stage{overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .stage>*{flex-shrink:0}
+  .visual{flex:1 0 auto;gap:2px}
+  .promptcard{padding:6px 10px;border-radius:20px;gap:8px}
+  .qn{width:38px;height:38px;font-size:22px}
+  .pvi{font-size:clamp(18px,5.4vh,26px)}.pen{font-size:clamp(12px,3.4vh,16px)}
+  .bigemoji{font-size:clamp(64px,22vh,120px)}
+  .bigletter{font-size:clamp(64px,22vh,120px);text-shadow:0 4px 0 var(--ink)}
+  .word{font-size:clamp(30px,9vh,48px)}.enw{font-size:14px}
+  .items{max-width:none;gap:2px 6px}
+  .item{font-size:clamp(28px,9vh,44px)}
+  .item svg{width:clamp(44px,12vh,70px)}
+  .bubble{padding:6px 18px;font-size:clamp(24px,7vh,40px)}
+  .hint{font-size:13px}
+  .stage:has(.visual:not(:empty)) .opt{height:clamp(84px,27vh,140px)}
+  .pincard h2{font-size:19px}
+  .pinic{display:none}
+  .pincard p{font-size:14px}
+  .pinstars{font-size:22px}
+  .pinpad{gap:6px;width:min(230px,100%)}
+  .pinpad button{height:40px;font-size:22px;border-radius:14px}
+  .pindots i{width:16px;height:16px}
+  .pinbtns{flex-direction:row}
+  .plays .next{min-height:56px;font-size:24px}
+  .paintv .pcanvas{width:min(52vw,calc(100vh - 70px))}
+  .pgrid{grid-template-columns:repeat(4,1fr);gap:8px}
+  .pcard{padding:4px;border-radius:16px}.pcard b{font-size:14px}.pcard i{display:none}
+  .paintv h2{font-size:20px}
+  .ptools .next{min-height:48px;font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -481,12 +557,12 @@ function load(){
     var d=JSON.parse(localStorage.getItem('behuihoc')||'{}');
     S.stars=d.stars||0;S.stickers=d.stickers||[];S.mday=d.mday||'';S.mtotal=d.mtotal||0;S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
-    S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;
+    S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;S.plays=Math.max(0,Math.min(99,+d.plays||0));
   }catch(e){}
   S.stickers=['car:chop'].concat(S.stickers.filter(function(x){return x!=='car:chop'}));
 }
 function save(){
-  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0}))}catch(e){}
+  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0,plays:S.plays||0}))}catch(e){}
 }
 load();
 
@@ -2716,7 +2792,7 @@ function countStickers(){
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
 function startGame(mode){
   stop3D();
-  if(mode==='drive'){if(!driveOpen()){showLock();return}ensureAC();startDrive();return}
+  if(mode==='drive'){if(!driveOpen()){showLock();return}if((S.plays||0)>0)S.plays--;else{S.qn=Math.max(0,qCount()-NEEDQ);S.qday=todayStr()}save();ensureAC();startDrive();return}
   if(mode==='paint'){ensureAC();showPaintMenu();return}
   S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=rand(2)?'chop':pick(CARIDS);
   ensureAC();goNext();
@@ -2898,7 +2974,7 @@ function closeChat(){var o=$('#chatov');if(o)o.remove();CHATID=null}
 var NEEDQ=5;
 function qCount(){return S.qday===todayStr()?(S.qn||0):0}
 function qBump(){if(S.qday!==todayStr()){S.qday=todayStr();S.qn=0}S.qn=(S.qn||0)+1;save()}
-function driveOpen(){return qCount()>=NEEDQ||Date.now()<(S.unl||0)}
+function driveOpen(){return qCount()>=NEEDQ||(S.plays||0)>0}
 function closePin(){var o=$('#pinov');if(o)o.remove()}
 function pinShell(inner){
   closePin();var d=document.createElement('div');d.id='pinov';d.className='chatov pinov';
@@ -2952,13 +3028,23 @@ function askPin(title,then){
     link:['Quên mật khẩu?',function(){parentGate(function(){S.pin='';save();closePin();if(S.mode==='settings')showSettings();pinMsg('Đã xoá mật khẩu cũ. Ba mẹ hãy cài mật khẩu mới nhé.')})}]});
 }
 function pinMsg(t){var m=$('#pinMsg');if(m)m.textContent=t}
-function unlockDrive(){S.unl=Date.now()+30*60000;closePin();startGame('drive')}
+function unlockDrive(){
+  var d=pinShell('<div class="pinic">🚗</div><h2>Cho bé chơi mấy lượt?<small>How many plays to allow?</small></h2>'
+    +'<p class="pinnote">Mỗi lần vào lái xe 3D tính là 1 lượt.</p>'
+    +'<div class="plays">'+[1,3,5,10].map(function(n){return '<button type="button" class="next" data-pl="'+n+'">'+n+'<small>lượt</small></button>'}).join('')+'</div>'
+    +'<div class="pinbtns"><button type="button" class="next alt" data-pl="0">Huỷ<small>Cancel</small></button></div>');
+  d.addEventListener('click',function(e){
+    var b=e.target.closest('[data-pl]');if(!b)return;var n=+b.getAttribute('data-pl');sfx('pop');
+    if(!n){closePin();return}
+    S.plays=Math.min(99,(S.plays||0)+n);save();closePin();startGame('drive');
+  });
+}
 function showLock(){
   var n=qCount(),left=NEEDQ-n,stars='';
   for(var i=0;i<NEEDQ;i++)stars+=(i<n?'⭐':'☆');
   var d=pinShell('<div class="pinic">🔒</div><h2>Lái xe 3D<small>3D driving</small></h2><div class="pinstars">'+stars+'</div>'
     +'<p>Bé còn '+left+' nhiệm vụ nữa là được lái xe!<small>'+left+' more mission'+(left>1?'s':'')+' to go before you can drive!</small></p>'
-    +'<p class="pinnote">Chơi xong một bài là được 1 nhiệm vụ. Mỗi ngày đếm lại từ đầu.</p>'
+    +'<p class="pinnote">Chơi xong một bài là được 1 nhiệm vụ. Đủ 5 nhiệm vụ (5 sticker) là được lái 1 lượt.</p>'
     +'<div class="pinbtns"><button type="button" class="next alt" data-pk="parent">🔑 Ba mẹ mở khoá<small>Parents: unlock</small></button>'
     +'<button type="button" class="next" data-pk="close">🎮 Chơi tiếp<small>Keep playing</small></button></div>');
   d.addEventListener('click',function(e){

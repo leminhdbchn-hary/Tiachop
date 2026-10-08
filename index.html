@@ -563,6 +563,10 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 .pcdel{position:absolute;right:4px;top:4px;width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--line);font-size:16px;line-height:1;box-shadow:0 2px 0 rgba(0,0,0,.15)}
 .pempty{grid-column:1/-1;text-align:center;font-weight:800;font-size:20px;margin:30px 0}
 .pempty small{display:block;font-weight:600;font-size:14px;opacity:.75;margin-top:6px}
+.dsvg{touch-action:none;cursor:crosshair;overflow:hidden}
+.paintfs .pcanvas svg.dsvg{overflow:hidden}
+.ptool.dsz{display:flex;align-items:center;justify-content:center}
+.ptool.dsz i{display:block;border-radius:50%;background:#FF3B3B;border:2px solid #25234A;box-sizing:border-box}
 </style>
 </head>
 <body>
@@ -2760,7 +2764,7 @@ var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['eng','chơi bài
  ['obj','chơi bài Đồ vật trong nhà','play Things at home'],['job','chơi bài Nghề nghiệp','play Jobs'],['school','chơi bài Trường học','play School'],['room','chơi bài Các phòng trong nhà','play Rooms at home']];
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
-function showHome(){
+function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
   var lv=[1,2,3].map(function(n){
@@ -2786,7 +2790,7 @@ function showHome(){
   checkNote();
 }
 
-function showAlbum(){
+function showAlbum(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;
   setProgress(0,0);syncControls();
   var mine=S.stickers.filter(function(x,i){return ALBUM.indexOf(x)>=0&&S.stickers.indexOf(x)===i});
@@ -2830,7 +2834,7 @@ function countStickers(){
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
-function startGame(mode){
+function startGame(mode){pfsExit();
   stop3D();
   if(mode==='drive'){if(!driveOpen()){showLock();return}if((S.plays||0)>0)S.plays--;else{S.qn=Math.max(0,qCount()-NEEDQ);S.qday=todayStr()}save();ensureAC();startDrive();return}
   if(mode==='paint'){ensureAC();showPaintMenu();return}
@@ -3437,10 +3441,16 @@ function paintSVG(i,live,fl){
 }
 var PCOL=[['đỏ','red','#FF3B3B'],['cam','orange','#FF8A1F'],['vàng','yellow','#FFD21F'],['xanh lá','green','#2FBF5B'],['xanh dương','blue','#2F7BFF'],['tím','purple','#8E4DFF'],['hồng','pink','#FF7EB6'],['nâu','brown','#8B5A2B'],['đen','black','#2B2B3A'],['xám','gray','#9AA3B2'],['xanh nhạt','light blue','#8ED6FA'],['xanh lá nhạt','lime','#A8E02F'],['xanh ngọc','teal','#16B4A6'],['xanh đậm','navy','#1E3A8A'],['hồng đậm','magenta','#D81B8C'],['be','beige','#F2D2A9'],['trắng','white','#FFFFFF']];
 var PT={pic:0,col:0,hist:[],touched:0,cat:'car'};
-var PCATS=[['car','🚗','Xe ô tô','Cars'],['animal','🐱','Con vật','Animals'],['land','🏞️','Phong cảnh','Scenery'],['mine','⭐','Tranh của bé','My art']];
-function artLoad(){try{var a=JSON.parse(localStorage.getItem('behuihoc_art')||'[]');return Array.isArray(a)?a.filter(function(x){return x&&PAINT[x.pic]&&Array.isArray(x.f)}):[]}catch(e){return []}}
+var PCATS=[['car','🚗','Xe ô tô','Cars'],['animal','🐱','Con vật','Animals'],['land','🏞️','Phong cảnh','Scenery'],['draw','✏️','Tự vẽ','Draw'],['mine','⭐','Tranh của bé','My art']];
+function artLoad(){try{var a=JSON.parse(localStorage.getItem('behuihoc_art')||'[]');return Array.isArray(a)?a.filter(function(x){return x&&(x.draw?(DBG[x.bg]&&Array.isArray(x.p)):(PAINT[x.pic]&&Array.isArray(x.f)))}):[]}catch(e){return []}}
 function artStore(a){try{localStorage.setItem('behuihoc_art',JSON.stringify(a.slice(-40)))}catch(e){}}
 function paintSave(){
+  if(PT.dmode){
+    if(!PT.dp||!PT.dp.length)return;
+    var a2=artLoad(),id2=PT.art,k2=-1;a2.forEach(function(x,j){if(x.id===id2)k2=j});
+    if(k2>=0){a2[k2].p=PT.dp.slice();a2[k2].t=Date.now()}else{id2=Date.now();a2.push({id:id2,draw:1,bg:PT.dbg,W:PT.dW,t:id2,p:PT.dp.slice()})}
+    PT.art=id2;artStore(a2);return;
+  }
   var els=document.querySelectorAll('#pcv .rg');if(!els.length||!PT.touched)return;
   var f=[].map.call(els,function(el){var c=el.getAttribute('fill');return c==='#fff'?'':c});
   var a=artLoad(),id=PT.art,k=-1;
@@ -3448,19 +3458,99 @@ function paintSave(){
   if(k>=0){a[k].f=f;a[k].t=Date.now()}else{id=Date.now();a.push({id:id,pic:PT.pic,t:id,f:f})}
   PT.art=id;artStore(a);
 }
-function showPaintMenu(){
+function pfsEnter(){
+  try{
+    var el=document.documentElement,fs=el.requestFullscreen||el.webkitRequestFullscreen;
+    if(!(screen.orientation&&screen.orientation.lock)||!fs)return;
+    var p=fs.call(el);
+    var go=function(){try{var q=screen.orientation.lock('landscape');if(q&&q.catch)q.catch(function(){})}catch(e){}};
+    if(p&&p.then)p.then(go,function(){});else go();
+  }catch(e){}
+}
+function pfsExit(){
+  try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock()}catch(e){}
+  try{if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(function(){})}catch(e){}
+}
+function showPaintMenu(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='paint';S.cur=null;setProgress(0,0);syncControls();
   var tabs=PCATS.map(function(c){return '<button type="button" class="ptab'+(c[0]===PT.cat?' on':'')+'" data-pcat="'+c[0]+'">'+c[1]+' '+c[2]+'<small>'+c[3]+(c[0]==='mine'?' · '+artLoad().length:'')+'</small></button>'}).join('');
   var g;
-  if(PT.cat==='mine'){var mine=artLoad().reverse();
-    g=mine.length?mine.map(function(x){return '<div class="pcard'+(PAINT[x.pic].w>300?' wide':'')+'"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+PAINT[x.pic].vi+'">'+paintSVG(x.pic,false,x.f)+'<b>'+PAINT[x.pic].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>'}).join(''):'<p class="pempty">Bé chưa có bức tranh nào.<small>Hãy tô một bức rồi bấm ✔ nhé!</small></p>';
+  if(PT.cat==='draw'){
+    g=DBG.map(function(b,k){return '<button class="pcard wide" data-dbg="'+k+'" aria-label="'+b.vi+'">'+drawSVG(k,420,[],false)+'<b>'+b.vi+'</b><i>'+b.en+'</i></button>'}).join('');
+  }else if(PT.cat==='mine'){var mine=artLoad().reverse();
+    g=mine.length?mine.map(function(x){if(x.draw)return '<div class="pcard wide"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+DBG[x.bg].vi+'">'+drawSVG(x.bg,x.W||420,x.p,false)+'<b>✏️ '+DBG[x.bg].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>';return '<div class="pcard'+(PAINT[x.pic].w>300?' wide':'')+'"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+PAINT[x.pic].vi+'">'+paintSVG(x.pic,false,x.f)+'<b>'+PAINT[x.pic].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>'}).join(''):'<p class="pempty">Bé chưa có bức tranh nào.<small>Hãy tô một bức rồi bấm ✔ nhé!</small></p>';
   }else g=PAINT.map(function(p,i){return p.cat===PT.cat?'<button class="pcard'+(p.w>300?' wide':'')+'" data-pic="'+i+'" aria-label="'+p.vi+'">'+paintSVG(i,false)+'<b>'+p.vi+'</b><i>'+p.en+'</i></button>':''}).join('');
   view.innerHTML='<section class="paintv"><h2>🎨 Tô màu<small>Coloring</small></h2><div class="ptabs">'+tabs+'</div><div class="pgrid">'+g+'</div></section>';
   window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
-  speakNow([['Bé chọn một bức tranh để tô nhé!','vi'],['Pick a picture to color!','en']]);
+  if(PT.cat==='draw')speakNow([['Bé chọn hình nền để vẽ nhé!','vi'],['Pick a background to draw on!','en']]);else speakNow([['Bé chọn một bức tranh để tô nhé!','vi'],['Pick a picture to color!','en']]);
 }
 function dropSVG(hex){return '<svg viewBox="0 0 40 54" aria-hidden="true"><path d="M20 3 C20 3 5 24 5 35 a15 15 0 0 0 30 0 C35 24 20 3 20 3 Z" fill="'+hex+'" stroke="#25234A" stroke-width="2.5" stroke-linejoin="round"/><path d="M12 32 Q13 26 17 22" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/><circle cx="15" cy="38" r="1.8" fill="#25234A"/><circle cx="25" cy="38" r="1.8" fill="#25234A"/><path d="M16 43 Q20 47 24 43" fill="none" stroke="#25234A" stroke-width="2" stroke-linecap="round"/></svg>'}
+
+/* ---------- Tự vẽ: hình nền + bút vẽ ---------- */
+function _gd(id,a,b){return '<linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient>'}
+function _rr(x,y,w,h,f,r){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+f+'"'+(r?' rx="'+r+'"':'')+'/>'}
+function _cc(x,y,r,f,o){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+f+'"'+(o?' opacity="'+o+'"':'')+'/>'}
+function _pp(d,f,o){return '<path d="'+d+'" fill="'+f+'"'+(o?' opacity="'+o+'"':'')+'/>'}
+function _stars(pts,f){return pts.map(function(p){return _cc(p[0],p[1],p[2]||1.6,f||'#fff')}).join('')}
+var DBG=[
+ {vi:'Giấy trắng',en:'White paper',f:function(W,o){return _rr(0,0,W,240,'#FFFFFF')}},
+ {vi:'Bảng đen',en:'Chalkboard',f:function(W,o){return _rr(0,0,W,240,'#2F5D4A')+_rr(6,6,W-12,228,'none','6').replace('fill="none"','fill="none" stroke="#C9A66B" stroke-width="8"')}},
+ {vi:'Đồng cỏ xanh',en:'Green meadow',f:function(W,o){return '<defs>'+_gd('gm','#7FD0FA','#E4F6FF')+'</defs>'+_rr(0,0,W,240,'url(#gm)')+'<g transform="translate('+o+' 0)">'+_cc(340,46,26,'#FFD21F')+_pp('M30 70 C14 70 14 48 34 46 C38 28 64 26 72 42 C92 36 106 52 96 66 Z','#fff')+'</g>'+_rr(0,200,W,40,'#5CBF4A')+'<g transform="translate('+o+' 0)">'+_pp('M-40 200 C40 150 120 150 200 190 C250 170 330 160 460 200 L460 240 L-40 240 Z','#7ED957')+'</g>'+_rr(0,214,W,26,'#6BCB4C')}},
+ {vi:'Bãi biển',en:'Beach',f:function(W,o){return '<defs>'+_gd('gb','#8ED6FA','#E8F8FF')+'</defs>'+_rr(0,0,W,240,'url(#gb)')+_rr(0,104,W,60,'#3FA9F5')+'<g transform="translate('+o+' 0)">'+_cc(70,50,26,'#FFD21F')+_pp('M0 140 C40 130 80 150 120 140 C160 130 200 150 240 140 C280 130 320 150 360 140 L420 140 L420 164 L0 164 Z','#6CC0FA')+'</g>'+_rr(0,164,W,76,'#F6D68F')+'<g transform="translate('+o+' 0)">'+_pp('M0 196 C100 180 200 190 300 184 C340 182 380 186 420 190 L420 240 L0 240 Z','#F0C777')+'</g>'}},
+ {vi:'Đêm có sao',en:'Starry night',f:function(W,o){return '<defs>'+_gd('gn','#16224F','#3C5199')+'</defs>'+_rr(0,0,W,240,'url(#gn)')+'<g transform="translate('+o+' 0)">'+_cc(340,50,26,'#FFF3B0')+_cc(350,42,22,'#2A3A7A')+_stars([[40,40],[90,90,2],[150,30],[210,70],[260,34,2],[380,110],[60,130],[300,100,2],[180,120],[120,60]])+'</g>'+_rr(0,206,W,34,'#1E3A34')+'<g transform="translate('+o+' 0)">'+_pp('M-40 206 C40 170 120 170 200 200 C260 176 340 170 460 206 L460 240 L-40 240 Z','#25483F')+'</g>'}},
+ {vi:'Vũ trụ',en:'Outer space',f:function(W,o){return _rr(0,0,W,240,'#150E3A')+'<g transform="translate('+o+' 0)">'+_stars([[30,30],[80,100,2],[130,50],[200,20,2],[250,90],[300,40,2],[390,30],[360,130],[60,180],[180,170,2],[330,200],[240,150]])+_cc(320,150,46,'#FF8A1F')+_pp('M270 150 C290 168 350 168 372 148 C350 176 292 180 270 150 Z','#FFD21F')+_cc(90,70,26,'#6EC6FF')+_cc(82,64,8,'#9AD8FF')+_cc(190,200,16,'#FF7EB6')+'</g>'}},
+ {vi:'Dưới đáy biển',en:'Under the sea',f:function(W,o){return '<defs>'+_gd('gs','#7ED4FF','#1F6FB5')+'</defs>'+_rr(0,0,W,240,'url(#gs)')+_rr(0,214,W,26,'#F0C777')+'<g transform="translate('+o+' 0)">'+_pp('M40 224 C20 190 44 160 60 150 C54 180 66 200 74 224 Z','#2FBF5B')+_pp('M80 226 C66 200 80 178 96 170 C90 196 98 210 104 226 Z','#47D16F')+_pp('M350 226 C334 186 360 156 384 144 C374 182 388 204 396 226 Z','#2FBF5B')+_cc(160,60,8,'#fff',.5)+_cc(176,38,5,'#fff',.5)+_cc(250,90,6,'#fff',.5)+_cc(120,100,5,'#fff',.5)+_pp('M180 236 C200 216 232 216 244 236 Z','#FF7EB6')+'</g>'}},
+ {vi:'Tuyết trắng',en:'Snowy day',f:function(W,o){return '<defs>'+_gd('gw','#BFE0FF','#EAF5FF')+'</defs>'+_rr(0,0,W,240,'url(#gw)')+'<g transform="translate('+o+' 0)">'+_pp('M0 170 L90 80 L180 170 Z','#DCEBFA')+_pp('M120 170 L240 60 L360 170 Z','#CFE3F7')+_cc(60,40,18,'#FFFFFF')+_stars([[100,30,2.4],[200,40,2.4],[300,28,2.4],[380,70,2.4],[40,100,2.4]],'#fff')+'</g>'+_rr(0,186,W,54,'#FFFFFF')+'<g transform="translate('+o+' 0)">'+_pp('M-40 186 C60 160 160 170 240 186 C320 200 400 170 460 186 L460 240 L-40 240 Z','#F6FAFF')+'</g>'}},
+ {vi:'Giấy kẻ ô',en:'Grid paper',f:function(W,o){var d='',i;for(i=0;i<=W;i+=20)d+='M'+i+' 0 L'+i+' 240 ';for(i=0;i<=240;i+=20)d+='M0 '+i+' L'+W+' '+i+' ';return _rr(0,0,W,240,'#FFFFFF')+'<path d="'+d+'" stroke="#BFD9F2" stroke-width="1" fill="none"/>'}},
+ {vi:'Đường phố',en:'City street',f:function(W,o){return '<defs>'+_gd('gc','#8ED6FA','#E4F6FF')+'</defs>'+_rr(0,0,W,240,'url(#gc)')+'<g transform="translate('+o+' 0)">'+_rr(10,70,50,110,'#F4A261',2)+_rr(66,40,56,140,'#7FB5E8',2)+_rr(128,90,48,90,'#E76F51',2)+_rr(250,56,52,124,'#9B8CE8',2)+_rr(308,86,46,94,'#F4C95D',2)+_rr(360,60,54,120,'#6CCB9A',2)+_cc(60,36,16,'#FFD21F')+'</g>'+_rr(0,180,W,60,'#5A5F7A')+'<path d="M0 214 L'+W+' 214" stroke="#fff" stroke-width="4" stroke-dasharray="22 16"/>'}}
+];
+var DSZ=[3,6,12];
+function drawSVG(k,W,paths,live){
+  var o=(W-420)/2,h='<svg viewBox="0 0 '+W+' 240" class="dsvg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="'+DBG[k].vi+'">'+DBG[k].f(W,o)+'<g id="'+(live?'dpaths':'')+'" fill="none" stroke-linecap="round" stroke-linejoin="round">';
+  (paths||[]).forEach(function(p){h+='<path d="'+p[2]+'" stroke="'+p[0]+'" stroke-width="'+p[1]+'"/>'});
+  return h+'</g></svg>';
+}
+function showDraw(k,art){
+  pfsEnter();
+  var sv=null;if(art){artLoad().forEach(function(x){if(x.id===art)sv=x})}
+  S.mode='paint';S.cur=null;PT.dmode=1;PT.dbg=k;PT.col=0;PT.bs=1;PT.hist=[];PT.dp=sv?sv.p.slice():[];PT.touched=PT.dp.length;PT.art=sv?sv.id:null;PT.pic=0;setProgress(0,0);syncControls();
+  var pal=PCOL.map(function(c,j){return '<button class="pc'+(j===0?' on':'')+'" data-pc="'+j+'" aria-label="'+c[0]+'">'+dropSVG(c[2])+'</button>'}).join('');
+  view.innerHTML='<section class="paintfs" id="pfs">'
+    +'<div class="pcanvas" id="pcv"></div>'
+    +'<button type="button" class="pmenub" data-act="pmenu" aria-label="Menu">✏️</button>'
+    +'<div class="pmenup" id="pmenup" hidden><button type="button" class="next blue" data-act="paintmenu">🖼️ Hình nền khác<small>More backgrounds</small></button>'
+    +'<button type="button" class="next alt" data-act="pclear">🧽 Xoá hết<small>Clear all</small></button>'
+    +'<button type="button" class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button></div>'
+    +'<div class="pbar"><button type="button" class="ptool" data-act="pundo" aria-label="Quay lại">↩️</button><button type="button" class="ptool dsz" data-act="dsize" aria-label="Cỡ bút"><i id="dszdot"></i></button><div class="pal" id="ppal">'+pal+'</div>'
+    +'<button type="button" class="pok" data-act="pdone" aria-label="Xong rồi">✔</button></div></section>';
+  var cv=$('#pcv'),W=sv&&sv.W?sv.W:Math.max(420,Math.min(720,Math.round(240*cv.clientWidth/Math.max(1,cv.clientHeight))));
+  PT.dW=W;cv.innerHTML=drawSVG(k,W,PT.dp,true);dszShow();dBind(cv.querySelector('svg'));
+  window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
+  speakNow([[DBG[k].vi,'vi'],['Bé cứ vẽ thoải mái nhé!','vi'],[DBG[k].en,'en'],['Draw anything you like!','en']]);
+}
+function dszShow(){var d=$('#dszdot');if(d){var r=[8,14,22][PT.bs];d.style.width=d.style.height=r+'px';d.style.background=PCOL[PT.col][2]}}
+function dBind(svg){
+  var cur=null,pid=null,d='';
+  function pt(e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;var q=p.matrixTransform(svg.getScreenCTM().inverse());return [Math.round(q.x*10)/10,Math.round(q.y*10)/10]}
+  svg.addEventListener('pointerdown',function(e){
+    if(pid!==null)return;pid=e.pointerId;try{svg.setPointerCapture(pid)}catch(x){}
+    var q=pt(e);d='M'+q[0]+' '+q[1]+' L'+q[0]+' '+(q[1]+.01);
+    cur=document.createElementNS('http://www.w3.org/2000/svg','path');
+    cur.setAttribute('d',d);cur.setAttribute('stroke',PCOL[PT.col][2]);cur.setAttribute('stroke-width',DSZ[PT.bs]);
+    $('#dpaths').appendChild(cur);e.preventDefault();
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(e.pointerId!==pid||!cur)return;var q=pt(e);d+=' L'+q[0]+' '+q[1];cur.setAttribute('d',d);e.preventDefault();
+  });
+  function end(e){
+    if(e.pointerId!==pid)return;pid=null;
+    if(cur){PT.dp.push([PCOL[PT.col][2],DSZ[PT.bs],d]);PT.touched=PT.dp.length;sfx('pop')}cur=null;d='';
+  }
+  svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+}
 function showPaint(i,art){
+  PT.dmode=0;
+  pfsEnter();
   var sv=null;if(art){artLoad().forEach(function(x){if(x.id===art)sv=x})}
   S.mode='paint';S.cur=null;PT.pic=i;PT.col=0;PT.hist=[];PT.touched=sv?1:0;PT.art=sv?sv.id:null;setProgress(0,0);syncControls();
   var P=PAINT[i],pal=PCOL.map(function(c,k){return '<button class="pc'+(k===0?' on':'')+'" data-pc="'+k+'" aria-label="'+c[0]+'">'+dropSVG(c[2])+'</button>'}).join('');
@@ -3478,19 +3568,22 @@ function showPaint(i,art){
 function paintColor(el){
   PT.col=+el.getAttribute('data-pc');
   [].forEach.call(document.querySelectorAll('.pc'),function(b){b.classList.toggle('on',b===el)});
-  var c=PCOL[PT.col];sfx('pop');speakNow([['màu '+c[0],'vi'],[c[1],'en']]);
+  var c=PCOL[PT.col];sfx('pop');if(PT.dmode)dszShow();speakNow([['màu '+c[0],'vi'],[c[1],'en']]);
 }
 function paintFill(el){
   var hex=PCOL[PT.col][2],prev=el.getAttribute('fill');
   if(prev===hex)return;
   PT.hist.push([[el,prev]]);PT.touched++;el.setAttribute('fill',hex);sfx('pop');
 }
-function paintUndo(){var h=PT.hist.pop();if(!h)return;h.forEach(function(x){x[0].setAttribute('fill',x[1])});sfx('pop')}
+function paintUndo(){
+  if(PT.dmode){if(PT.dp&&PT.dp.length){PT.dp.pop();PT.touched=PT.dp.length;var g=$('#dpaths');if(g&&g.lastChild)g.removeChild(g.lastChild);sfx('pop')}return}
+  var h=PT.hist.pop();if(!h)return;h.forEach(function(x){x[0].setAttribute('fill',x[1])});sfx('pop')}
 function paintClear(){
+  if(PT.dmode){PT.dp=[];PT.touched=0;var g2=$('#dpaths');if(g2)g2.innerHTML='';sfx('pop');return}
   var g=[];[].forEach.call(document.querySelectorAll('#pcv .rg'),function(el){var f=el.getAttribute('fill');if(f!=='#fff'){g.push([el,f]);el.setAttribute('fill','#fff')}});
   if(g.length){PT.hist.push(g);sfx('pop')}
 }
-function paintDone(){
+function paintDone(){pfsExit();
   if(!PT.touched){speakNow([['Bé tô thêm một chút nhé!','vi'],['Color a little more!','en']]);return}
   paintSave();
   var svg=$('#pcv').innerHTML.replace(/class="rg"/g,'class="rn"');
@@ -3523,7 +3616,7 @@ function bkApply(d){
 function bkStamp(){try{return localStorage.getItem('behuihoc_bk')||''}catch(e){return ''}}
 function bkMark(){try{localStorage.setItem('behuihoc_bk',new Date().toISOString())}catch(e){}}
 function setMsg(t,err){var m=$('#setMsg');if(m){m.textContent=t;m.className='setmsg'+(err?' err':'')}}
-function showSettings(){
+function showSettings(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='settings';S.cur=null;
   setProgress(0,0);syncControls();
   var lv=[1,2,3].map(function(n){
@@ -3620,7 +3713,8 @@ view.addEventListener('click',function(e){
   var pc=t.closest('[data-pc]');if(pc){paintColor(pc);return}
   var pt2=t.closest('[data-pcat]');if(pt2){PT.cat=pt2.getAttribute('data-pcat');sfx('pop');showPaintMenu();return}
   var ad=t.closest('[data-adel]');if(ad){var aid=+ad.getAttribute('data-adel');parentGate(function(){artStore(artLoad().filter(function(x){return x.id!==aid}));showPaintMenu()});return}
-  var ao=t.closest('[data-art]');if(ao){var aid2=+ao.getAttribute('data-art'),ar=artLoad().filter(function(x){return x.id===aid2})[0];if(ar){showPaint(ar.pic,aid2)}return}
+  var ao=t.closest('[data-art]');if(ao){var aid2=+ao.getAttribute('data-art'),ar=artLoad().filter(function(x){return x.id===aid2})[0];if(ar){if(ar.draw)showDraw(ar.bg,aid2);else showPaint(ar.pic,aid2)}return}
+  var db=t.closest('[data-dbg]');if(db){showDraw(+db.getAttribute('data-dbg'));return}
   var pp=t.closest('[data-pic]');if(pp){showPaint(+pp.getAttribute('data-pic'));return}
   var rg=t.closest('.rg');if(rg&&S.mode==='paint'){paintFill(rg);return}
   var m=t.closest('[data-mode]');if(m){startGame(m.getAttribute('data-mode'));return}
@@ -3639,6 +3733,7 @@ view.addEventListener('click',function(e){
     else if(a==='pinoff')askPin('Nhập mật khẩu hiện tại',function(){S.pin='';save();showSettings();pinMsg('Đã tắt mật khẩu.')});
     else if(a==='paintmenu'){paintSave();showPaintMenu()}
     else if(a==='pmenu'){var mp=$('#pmenup');if(mp){mp.hidden=!mp.hidden;sfx('pop')}}
+    else if(a==='dsize'){PT.bs=(PT.bs+1)%3;dszShow();sfx('pop')}
     else if(a==='pundo')paintUndo();
     else if(a==='pclear')paintClear();
     else if(a==='pdone')paintDone();
@@ -3702,7 +3797,7 @@ document.addEventListener('click',wake,{once:true});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-if(/[?&]debug/.test(location.search)){window.__bvh={getD:function(){return D},sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showPaintMenu:showPaintMenu,showPaint:showPaint,PAINT:PAINT,paintSVG:paintSVG,qCount:qCount,driveOpen:driveOpen,showLock:showLock,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
+if(/[?&]debug/.test(location.search)){window.__bvh={getD:function(){return D},sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showPaintMenu:showPaintMenu,PT:PT,showPaint:showPaint,PAINT:PAINT,paintSVG:paintSVG,qCount:qCount,driveOpen:driveOpen,showLock:showLock,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
 /* English-only mode: drop the Vietnamese half of "vi + en" texts */
 var LETRE=/[A-Za-zÀ-ỹ]/;
 function localize(root){

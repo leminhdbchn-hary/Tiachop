@@ -529,6 +529,7 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 .ptab{background:#fff;border:3px solid var(--line);border-radius:18px;padding:6px 14px;font-weight:800;font-size:16px;box-shadow:0 4px 0 var(--line);display:flex;flex-direction:column;align-items:center;line-height:1.1}
 .ptab small{font-weight:600;font-size:11px;opacity:.7}
 .ptab.on{background:linear-gradient(180deg,#FFE88F,#FFC93C);border-color:#E0A21B;box-shadow:0 4px 0 #E0A21B}
+@media (max-width:900px){.ptabs{gap:5px}.ptab{padding:4px 8px;font-size:13px;border-radius:14px}.ptab small{font-size:9px}}
 .pcard.wide{grid-column:span 2}
 .pcard svg{overflow:hidden}
 .paintfs{position:fixed;left:0;top:0;width:100vw;height:100vh;background:#fff;z-index:60;display:flex;flex-direction:column;overflow:hidden;color:var(--ink)}
@@ -3429,6 +3430,76 @@ function _addPaint(cat,map,lst){lst.forEach(function(a){var v=map[a[0]]();PAINT.
 PAINT.forEach(function(p){p.cat='car'});
 _addPaint('animal',PANI,[['cat','Mèo','Cat'],['dog','Chó','Dog'],['rabbit','Thỏ','Rabbit'],['bear','Gấu','Bear'],['elephant','Voi','Elephant'],['giraffe','Hươu cao cổ','Giraffe'],['lion','Sư tử','Lion'],['fish','Cá','Fish'],['bird','Chim','Bird'],['butterfly','Bướm','Butterfly'],['turtle','Rùa','Turtle'],['pig','Heo','Pig'],['duck','Vịt','Duck'],['owl','Cú mèo','Owl'],['frog','Ếch','Frog'],['penguin','Chim cánh cụt','Penguin'],['cow','Bò','Cow']]);
 _addPaint('land',PSC,[['mount','Núi và hồ','Mountains'],['farm','Nông trại','Farm'],['beach','Bãi biển','Beach'],['forest','Khu rừng','Forest'],['night','Đêm có trăng sao','Night sky'],['rainbow','Cầu vồng','Rainbow'],['snow','Tuyết và người tuyết','Snowman'],['sea','Dưới đáy biển','Under the sea']]);
+/* ---------- Tranh Rookie (xe cứu hộ của bé) ---------- */
+function _tp(d,ox,oy,s){var k=0;return d.replace(/-?\d+(\.\d+)?/g,function(n){k++;return (k%2?(+n*s+ox):(+n*s+oy)).toFixed(1)})}
+function _rky(ox,oy,s,o){
+  o=o||{};var hl=o.hl==null?44:o.hl;
+  var P=function(d){return _pa(_tp(d,ox,oy,s))},C=function(x,y,r){return _ci(ox+x*s,oy+y*s,r*s)},E=function(x,y,rx,ry){return _el(ox+x*s,oy+y*s,rx*s,ry*s)},L=function(d){return _ln(_tp(d,ox,oy,s))};
+  var R=[],l=[];
+  R.push(P('M52 64 L-14 24 C-18 16 -12 8 -2 11 L88 52 L88 68 Z'));
+  R.push(P('M44 58 L92 58 L92 76 L44 76 Z'));
+  R.push(P('M8 80 C8 72 12 68 20 68 L102 68 L102 114 L8 114 Z'));
+  R.push(P('M96 52 C96 40 104 34 116 34 L158 34 C178 34 192 48 198 68 L206 92 L208 114 L96 114 Z'));
+  R.push(P('M108 40 L160 40 C172 40 182 50 186 64 L190 88 L108 88 Z'));
+  R.push(P('M92 104 L214 104 C217 104 216 122 209 124 L92 124 Z'));
+  R.push(P('M122 22 L158 22 C163 22 163 34 158 34 L122 34 C117 34 117 22 122 22 Z'));
+  R.push(C(200,96,7));
+  R.push(C(60,132,25),C(60,132,11),C(160,132,25),C(160,132,11));
+  /* cable + hook */
+  var a=14+hl,d=-26;
+  l.push(L('M'+(22+d)+' 12 L'+(22+d)+' '+a));
+  R.push(P('M'+(14+d)+' '+a+' L'+(30+d)+' '+a+' L'+(30+d)+' '+(a+14)+' L'+(14+d)+' '+(a+14)+' Z'));
+  R.push(P('M'+(18+d)+' '+(a+14)+' L'+(26+d)+' '+(a+14)+' L'+(26+d)+' '+(a+28)+' C'+(26+d)+' '+(a+44)+' '+(2+d)+' '+(a+44)+' '+(2+d)+' '+(a+28)+' L'+(10+d)+' '+(a+28)+' C'+(10+d)+' '+(a+36)+' '+(18+d)+' '+(a+36)+' '+(18+d)+' '+(a+28)+' Z'));
+  /* stripes on bed + paw */
+  l.push(L('M14 92 L26 82 M30 100 L42 82 M46 100 L58 82 M62 100 L74 86'));
+  l.push(_dot(ox+88*s,oy+88*s,2.4*s),_dot(ox+82*s,oy+84*s,1.8*s),_dot(ox+94*s,oy+84*s,1.8*s));
+  /* face */
+  if(o.sleep){
+    l.push(L('M122 64 Q130 72 138 64 M158 64 Q166 72 174 64'));
+    l.push(L('M140 76 Q150 82 160 76'));
+  }else{
+    R.push(E(130,62,9,11),E(168,62,9,11));
+    l.push(_dot(ox+131*s,oy+64*s,5.6*s),_dot(ox+169*s,oy+64*s,5.6*s),_hl(ox+128*s,oy+60*s,2.2*s),_hl(ox+166*s,oy+60*s,2.2*s));
+    l.push(L('M120 46 Q128 40 138 44 M160 44 Q170 40 178 46'));
+    l.push(L('M136 76 Q150 92 166 76 Q150 80 136 76'));
+  }
+  l.push(_dot(ox+120*s,oy+78*s,1*s),_dot(ox+180*s,oy+78*s,1*s));
+  if(o.sirens)l.push(L('M126 16 L118 4 M140 14 L140 0 M154 14 L162 4 M112 24 L100 20 M168 24 L180 20'));
+  return {r:R,l:l,hx:ox+(22-26)*s,hy:oy+(a+44)*s,top:oy+a*s};
+}
+function _crate(x,y,w,h){return [_rc(x,y,w,h,2)]}
+function _cone(x,y,s){s=s||1;return [_pa('M'+(x-9*s)+' '+y+' L'+(x-4*s)+' '+(y-26*s)+' L'+(x+4*s)+' '+(y-26*s)+' L'+(x+9*s)+' '+y+' Z'),_rc(x-13*s,y,26*s,5*s,2)]}
+var PROK={};
+PROK.run=function(){var k=_rky(100,18,1.28,{hl:20});
+  return {w:420,r:[_ci(56,44,22),_cl(190,36,.8),_cl(300,56,.7),
+   _pa('M0 176 C60 140 120 150 180 170 C250 190 330 140 420 166 L420 240 L0 240 Z'),_rc(0,196,420,44)].concat(_tree(396,160,.8),_tree(30,166,.7),_fl(40,226),_fl(120,230),_fl(380,228)).concat(k.r),
+   l:[_rays(56,44,28,38),_ln('M10 104 L96 104 M0 126 L84 126 M16 148 L100 148'),_ln('M20 212 L60 212 M110 212 L150 212 M200 232 L240 232 M290 232 L330 232')].concat(k.l)}};
+PROK.tow=function(){var k=_rky(206,60,.95,{hl:39});
+  var car=[_pa('M30 188 L30 168 C30 160 36 156 44 156 L66 156 L82 134 C86 128 92 126 100 126 L146 126 C154 126 160 130 164 136 L176 156 L182 156 C188 156 190 162 190 170 L190 188 Z'),
+   _pa('M88 138 L100 130 L120 130 L120 154 L74 154 Z'),_pa('M128 130 L146 130 C150 130 154 134 158 140 L166 154 L128 154 Z'),
+   _ci(64,190,17),_ci(64,190,7),_ci(156,190,17),_ci(156,190,7),_rc(44,176,12,8,2)];
+  /* hook at the car's front, towards truck */
+  return {w:420,r:[_ci(46,40,20),_cl(150,34,.8),_cl(300,44,.7),
+   _pa('M0 170 C80 150 160 160 240 172 C320 184 380 150 420 160 L420 240 L0 240 Z'),_rc(0,186,420,54)].concat(car,[_pa('M118 100 C108 100 106 116 116 118 C110 126 130 126 126 118 C136 116 134 100 118 100 Z')],_cone(398,200,.8)).concat(k.r),
+   l:[_ln('M20 210 L50 210 M100 232 L140 232 M200 214 L230 214 M300 232 L340 232'),_dot(104,141,0.01),_ln('M130 62 L132 54 M144 70 L152 62 M110 70 L104 62')].concat(k.l,[_ln('M216 79 L212 144 L210 150')])}};
+PROK.lift=function(){var k=_rky(170,48,1.05,{hl:30});
+  var cy=k.top+0;var cx=k.hx;var top=k.hy+2;
+  var crate=[_rc(cx-24,top,48,44,3)];
+  return {w:420,r:[_ci(360,40,20),_cl(40,46,.8),_cl(250,30,.7),
+   _pa('M0 172 C80 154 170 168 250 176 C330 184 380 160 420 170 L420 240 L0 240 Z'),_rc(0,196,420,44),
+   _rc(330,168,26,28,2),_rc(358,168,26,28,2),_rc(344,140,26,28,2),_rc(30,172,28,24,2),_rc(60,172,28,24,2)].concat(crate,k.r),
+   l:[_rays(360,40,28,38),_ln('M'+(cx-24)+' '+(top+22)+' L'+(cx+24)+' '+(top+22)+' M'+(cx-24)+' '+top+' L'+(cx+24)+' '+(top+44)+' M'+(cx+24)+' '+top+' L'+(cx-24)+' '+(top+44)),_ln('M342 182 L356 182 M370 182 L384 182 M356 154 L370 154'),_ln('M10 226 L60 226 M300 232 L360 232')].concat(k.l)}};
+PROK.rescue=function(){var k=_rky(100,40,1.1,{hl:14,sirens:1});
+  return {w:420,r:[_ci(380,44,18),
+   _rc(0,100,44,96,2),_rc(46,124,40,72,2),_rc(340,84,44,112,2),_rc(380,116,40,80,2),
+   _rc(0,196,420,44)].concat(_cone(86,226,1),_cone(330,226,1),_st(240,36,14),_st(60,50,10),_st(330,40,9)).concat(k.r),
+   l:[_ln('M8 114 L18 114 M26 114 L36 114 M8 136 L18 136 M26 136 L36 136 M8 158 L18 158 M26 158 L36 158 M54 140 L64 140 M54 162 L64 162 M350 100 L360 100 M366 100 L376 100 M350 122 L360 122 M366 122 L376 122 M350 144 L360 144 M366 144 L376 144'),_ln('M20 232 L70 232 M170 232 L230 232 M300 232 L360 232')].concat(k.l)}};
+PROK.sleep=function(){var k=_rky(150,56,1,{hl:14,sleep:1});
+  return {w:420,r:[_ci(350,48,24),_st(60,40,10),_st(150,28,8),_st(260,50,9),_st(400,110,8),_st(30,100,7),
+   _pa('M0 188 C70 170 150 180 230 186 C310 192 360 172 420 182 L420 240 L0 240 Z'),
+   _pa('M120 204 L120 104 L260 40 L400 104 L400 204 Z')].concat(k.r),
+   l:[_ci(360,40,0.01),_ln('M120 104 L260 40 L400 104'),_ln('M110 214 L150 214 M240 220 L290 220'),_tx(52,90,'Z',26),_tx(78,66,'Z',20),_tx(98,48,'Z',15)].concat(k.l)}};
+_addPaint('rookie',PROK,[['run','Rookie chạy trên đường','Rookie on the road'],['tow','Rookie kéo xe','Rookie tows a car'],['lift','Rookie nâng thùng hàng','Rookie lifts a crate'],['rescue','Rookie đi cứu hộ','Rookie to the rescue'],['sleep','Rookie nghỉ ngơi','Rookie takes a rest']]);
 function paintSVG(i,live,fl){
   var fk=0;function fv(){var v=fl&&fl[fk];fk++;return v||'#fff'}
   var P=PAINT[i],W=P.w||300,h='<svg viewBox="0 0 '+W+' 240" role="img" aria-label="'+P.vi+'"><g stroke="#25234A" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">';
@@ -3441,7 +3512,7 @@ function paintSVG(i,live,fl){
 }
 var PCOL=[['đỏ','red','#FF3B3B'],['cam','orange','#FF8A1F'],['vàng','yellow','#FFD21F'],['xanh lá','green','#2FBF5B'],['xanh dương','blue','#2F7BFF'],['tím','purple','#8E4DFF'],['hồng','pink','#FF7EB6'],['nâu','brown','#8B5A2B'],['đen','black','#2B2B3A'],['xám','gray','#9AA3B2'],['xanh nhạt','light blue','#8ED6FA'],['xanh lá nhạt','lime','#A8E02F'],['xanh ngọc','teal','#16B4A6'],['xanh đậm','navy','#1E3A8A'],['hồng đậm','magenta','#D81B8C'],['be','beige','#F2D2A9'],['trắng','white','#FFFFFF']];
 var PT={pic:0,col:0,hist:[],touched:0,cat:'car'};
-var PCATS=[['car','🚗','Xe ô tô','Cars'],['animal','🐱','Con vật','Animals'],['land','🏞️','Phong cảnh','Scenery'],['draw','✏️','Tự vẽ','Draw'],['mine','⭐','Tranh của bé','My art']];
+var PCATS=[['rookie','🚚','Rookie','Rookie'],['car','🚗','Xe ô tô','Cars'],['animal','🐱','Con vật','Animals'],['land','🏞️','Phong cảnh','Scenery'],['draw','✏️','Tự vẽ','Draw'],['mine','⭐','Tranh của bé','My art']];
 function artLoad(){try{var a=JSON.parse(localStorage.getItem('behuihoc_art')||'[]');return Array.isArray(a)?a.filter(function(x){return x&&(x.draw?(DBG[x.bg]&&Array.isArray(x.p)):(PAINT[x.pic]&&Array.isArray(x.f)))}):[]}catch(e){return []}}
 function artStore(a){try{localStorage.setItem('behuihoc_art',JSON.stringify(a.slice(-40)))}catch(e){}}
 function paintSave(){

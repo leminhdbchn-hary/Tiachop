@@ -745,6 +745,20 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
   .stage:has(.visual:not(:empty)) .opt{height:clamp(110px,15vh,170px)}
   .spk{width:44px;height:44px;font-size:20px}
 }
+
+/* ---- nút Tiếp tục luôn dính đáy màn hình, không bao giờ bị đẩy xuống dưới ---- */
+.nextrow,.nextrow.tknext{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));top:auto;margin:0;height:auto;width:auto;z-index:30;pointer-events:none;display:flex;justify-content:center;align-items:center}
+.nextrow .next{pointer-events:auto}
+.nextrow:not(:has(.next:not([hidden]))){display:none}
+.stage:has(.nextrow)::after,.tkg:has(.nextrow)::after{content:'';flex:none;height:calc(92px + env(safe-area-inset-bottom,0px))}
+@media (orientation:portrait){.opts.n3 .opt{height:clamp(120px,18vh,190px)}}
+@media (orientation:landscape) and (max-height:520px){
+  .nextrow,.nextrow.tknext{bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+  .next{font-size:20px;padding:4px 30px}
+  .stage:has(.nextrow)::after,.tkg:has(.nextrow)::after{height:calc(64px + env(safe-area-inset-bottom,0px))}
+}
+.item img.rk{width:clamp(84px,21vmin,132px);height:auto}
+@media (orientation:landscape) and (max-height:520px){.item img.rk{width:clamp(54px,15vh,84px)}}
 </style>
 </head>
 <body>

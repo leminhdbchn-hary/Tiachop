@@ -759,6 +759,8 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 }
 .item img.rk{width:clamp(84px,21vmin,132px);height:auto}
 @media (orientation:landscape) and (max-height:520px){.item img.rk{width:clamp(54px,15vh,84px)}}
+.visual{flex:1 0 auto}
+@media (orientation:portrait){.stage:has(.visual:not(:empty)) .opts.n3 .opt{height:clamp(96px,14vh,150px)}.stage:has(.visual:not(:empty)) .opts.n2 .opt{height:clamp(110px,18vh,190px)}}
 </style>
 </head>
 <body>
@@ -807,6 +809,19 @@ load();
    ===================================================================== */
 var NUM_VI=['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín','mười'];
 var NUM_EN=['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+function numVI(n){
+  if(n<=10)return NUM_VI[n];
+  if(n<20)return 'mười '+(n===15?'lăm':NUM_VI[n-10]);
+  if(n<100){var t=Math.floor(n/10),u=n%10;return NUM_VI[t]+' mươi'+(u?' '+(u===1?'mốt':u===4?'bốn':u===5?'lăm':NUM_VI[u]):'')}
+  var h=Math.floor(n/100),r=n%100,o=NUM_VI[h]+' trăm';
+  if(!r)return o;if(r<10)return o+' lẻ '+NUM_VI[r];return o+' '+numVI(r);
+}
+var EN_T=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'],EN_TEEN=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+function numEN(n){
+  if(n<=10&&n!==10)return NUM_EN[n];if(n<20)return EN_TEEN[n-10];
+  if(n<100){var u=n%10;return EN_T[Math.floor(n/10)]+(u?' '+NUM_EN[u]:'')}
+  var r=n%100,o=NUM_EN[Math.floor(n/100)]+' hundred';return r?o+' '+numEN(r):o;
+}
 
 /* Things to count / pick (vehicles first: the child loves cars) */
 var OBJS_VEH=[
@@ -1578,16 +1593,17 @@ function whenRun(ac,cb){
   try{var p=ac.resume();if(p&&p.then)p.then(f,f)}catch(e){}
   setTimeout(f,600);
 }
-function playSeq(items){
+function playSeq(items,done){
   var gen=++AUD.gen,started=false;
-  var go=function(){if(started||gen!==AUD.gen)return;started=true;runSeq(items,gen)};
+  var go=function(){if(started||gen!==AUD.gen)return;started=true;runSeq(items,gen,done)};
   if(AUD.ready){setTimeout(go,1500);AUD.ready.then(go,go)}else go();
 }
-function runSeq(items,gen){
+function runSeq(items,gen,done){
   var k=0;
   items.forEach(function(it){var id=clipId(it[0],it[1]);if(AUD.idx[id])loadClip(id,function(){})});
   (function step(){
-    if(gen!==AUD.gen||k>=items.length)return;
+    if(gen!==AUD.gen)return;
+    if(k>=items.length){if(done)setTimeout(function(){if(gen===AUD.gen)done()},60);return}
     var it=items[k++],id=clipId(it[0],it[1]);
     if(AUD.idx[id]){
       loadClip(id,function(b){
@@ -1604,17 +1620,17 @@ function runSeq(items,gen){
     }else synthOne(it,step,gen);
   })();
 }
-function speakNow(list){
+function speakNow(list,done){
   try{if(window.__bvhSpeak)window.__bvhSpeak(list)}catch(e){}
-  if(!S.sound)return;
+  if(!S.sound){if(done)setTimeout(done,900);return}
   mediaUnlock();ensureAC();
   var items=(list||[]).filter(function(x){return x&&x[0]&&(x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi'))});
   stopAudio();
   if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}
-  if(!items.length)return;
-  setTimeout(function(){playSeq(items)},IS_IOS?150:60);
+  if(!items.length){if(done)setTimeout(done,900);return}
+  setTimeout(function(){playSeq(items,done)},IS_IOS?150:60);
 }
-function stopSpeech(){clearInterval(S.cnt);stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
+function stopSpeech(){clearInterval(S.cnt);S.cntRun=(S.cntRun||0)+1;stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;if(S.lang==='en'){n.hidden=true;return}
   var hasVi=VOICES.some(isViVoice);
@@ -3025,17 +3041,23 @@ function stkTap(el){
 }
 function countStickers(){
   var cells=[].slice.call(document.querySelectorAll('.acell[data-k]'));
-  clearInterval(S.cnt);
+  clearInterval(S.cnt);S.cntRun=(S.cntRun||0)+1;var run=S.cntRun;
+  cells.forEach(function(c){c.classList.remove('hot')});
   if(!cells.length){speakNow([['Bé chưa có nhãn dán nào. Chơi để nhận nhé!','vi'],['You have no stickers yet. Play to win one!','en']]);return}
-  var i=0,gap=S.lang==='both'?1500:1000;
+  var i=0;
+  function alive(){return run===S.cntRun&&S.mode==='album'&&document.body.contains(cells[0])}
   function step(){
+    if(!alive())return;
     cells.forEach(function(c){c.classList.remove('hot')});
-    if(i>=cells.length){clearInterval(S.cnt);S.cnt=0;speakNow([['Bé có '+cells.length+' nhãn dán!','vi'],['You have '+cells.length+' stickers!','en']]);return}
+    if(i>=cells.length){
+      var n=cells.length;
+      speakNow([['Bé có '+numVI(n)+' nhãn dán!','vi'],['You have '+numEN(n)+' stickers!','en']]);return}
     var c=cells[i],k=i+1;i++;
     c.classList.add('hot');try{c.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}
-    speakNow([[k+'.','vi'],[k+'.','en']]);
+    sfx('pop');
+    speakNow([[numVI(k),'vi'],[numEN(k),'en']],function(){setTimeout(step,S.sound?250:500)});
   }
-  step();S.cnt=setInterval(step,gap);
+  step();
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
@@ -3140,8 +3162,7 @@ function guideCount(){
     if(S.cur!==r||S.locked)return;
     if(k>=its.length){S.gt=setTimeout(function(){if(S.cur===r&&!S.locked)glowCorrect()},900);return}
     var it=its[k++];S.count=k;it.setAttribute('data-n',k);it.classList.add('counted');sfx('pop');
-    speakNow(r.enc?[[NUM_EN[k],'en',true]]:[[NUM_VI[k],'vi'],[NUM_EN[k],'en']]);
-    S.gt=setTimeout(step,S.lang==='both'?1500:1000);
+    speakNow(r.enc?[[numEN(k),'en',true]]:[[numVI(k),'vi'],[numEN(k),'en']],function(){S.gt=setTimeout(step,250)});
   })();
   return true;
 }
@@ -4857,7 +4878,7 @@ view.addEventListener('click',function(e){
   var it=t.closest('.item');
   if(it&&!it.classList.contains('counted')&&!it.classList.contains('pick')){
     S.count++;it.setAttribute('data-n',S.count);it.classList.add('counted');
-    sfx('pop');speakNow(S.cur.enc?[[NUM_EN[S.count],'en',true]]:[[NUM_VI[S.count],'vi'],[NUM_EN[S.count],'en']]);
+    sfx('pop');speakNow(S.cur.enc?[[numEN(S.count),'en',true]]:[[numVI(S.count),'vi'],[numEN(S.count),'en']]);
   }
 });
 $('#homeBtn').addEventListener('click',showHome);

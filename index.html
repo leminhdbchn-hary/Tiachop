@@ -270,6 +270,68 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .end p{margin:0;font-size:clamp(17px,3.6vmin,24px);color:var(--bgtext);font-weight:600}
 .end .cname{font-size:clamp(20px,4.4vmin,30px);font-weight:800}
 .stars{font-size:clamp(32px,8vmin,56px);letter-spacing:.06em}
+/* ----- hộp quà mở sticker ----- */
+.giftstage{position:relative;width:clamp(240px,62vmin,380px);height:clamp(240px,62vmin,380px);display:flex;align-items:flex-end;justify-content:center}
+.gift{position:relative;width:74%;height:74%;margin-bottom:4%;z-index:3;-webkit-tap-highlight-color:transparent;transform-origin:50% 100%;animation:giftidle 2.4s ease-in-out infinite;filter:drop-shadow(0 14px 10px rgba(0,0,0,.28))}
+.gift:focus-visible{outline:5px solid var(--yellow);outline-offset:6px;border-radius:20px}
+.gbody{position:absolute;left:5%;right:5%;bottom:0;height:62%;border-radius:10px 10px 20px 20px;
+  background:radial-gradient(circle at 20% 28%,rgba(255,255,255,.35) 0 7%,transparent 8%),radial-gradient(circle at 70% 60%,rgba(255,255,255,.25) 0 6%,transparent 7%),radial-gradient(circle at 38% 78%,rgba(255,255,255,.28) 0 5%,transparent 6%),linear-gradient(180deg,var(--g1),var(--g2));
+  box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),inset 0 6px 0 rgba(255,255,255,.25)}
+.gbody::before,.glid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:19%;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.1),transparent 25%,transparent 75%,rgba(0,0,0,.1)),var(--rb)}
+.glid{position:absolute;left:0;right:0;top:15%;height:27%;border-radius:14px;transform-origin:15% 100%;
+  background:linear-gradient(180deg,var(--g1),var(--g2));box-shadow:inset 0 -8px 0 rgba(0,0,0,.14),inset 0 6px 0 rgba(255,255,255,.3),0 6px 0 rgba(0,0,0,.12)}
+.glid::before{border-radius:3px}
+.bow{position:absolute;left:50%;top:3%;width:46%;height:20%;transform:translateX(-50%);z-index:2;transform-origin:50% 100%}
+.bow i{position:absolute;bottom:0;display:block}
+.bow .bl,.bow .br{width:46%;height:100%;border-radius:60% 60% 40% 40%;border:5px solid var(--rb);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.55),transparent 55%);filter:brightness(1.02)}
+.bow .bl{left:2%;transform:rotate(-24deg);transform-origin:100% 100%}
+.bow .br{right:2%;transform:rotate(24deg);transform-origin:0 100%}
+.bow .bk{left:50%;bottom:-2%;width:22%;height:42%;transform:translateX(-50%);border-radius:40%;background:var(--rb);box-shadow:inset 0 -4px 0 rgba(0,0,0,.14),inset 0 3px 0 rgba(255,255,255,.4)}
+.gtw{position:absolute;z-index:4;width:22px;height:22px;background:#FFE88F;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:gtwink 1.8s ease-in-out infinite;pointer-events:none}
+.gtw.t1{left:6%;top:14%}.gtw.t2{right:8%;top:22%;animation-delay:-.5s;width:16px;height:16px}.gtw.t3{left:14%;top:48%;animation-delay:-1.1s;width:14px;height:14px}.gtw.t4{right:12%;top:50%;animation-delay:-.8s}
+@keyframes gtwink{0%,100%{transform:scale(.2) rotate(0);opacity:.2}50%{transform:scale(1) rotate(30deg);opacity:1}}
+@keyframes giftidle{0%,60%,100%{transform:none}66%{transform:rotate(-5deg) translateY(-6px)}72%{transform:rotate(5deg) translateY(-10px)}78%{transform:rotate(-3deg) translateY(-4px)}84%{transform:rotate(2deg)}90%{transform:translateY(-2px)}}
+.gift.eager{animation:giftidle 1.1s ease-in-out infinite}
+.giftrays{position:absolute;inset:-34%;border-radius:50%;opacity:0;z-index:1;pointer-events:none;
+  background:repeating-conic-gradient(rgba(255,238,150,.8) 0 8deg,rgba(255,238,150,0) 8deg 24deg);
+  -webkit-mask:radial-gradient(circle,#000 14%,transparent 66%);mask:radial-gradient(circle,#000 14%,transparent 66%)}
+.giftflash{position:absolute;left:50%;top:48%;width:20%;height:20%;margin:-10% 0 0 -10%;border-radius:50%;opacity:0;z-index:5;pointer-events:none;
+  background:radial-gradient(circle,#fff 0,rgba(255,250,200,.9) 35%,rgba(255,240,150,0) 70%)}
+.giftstage .sticker{position:absolute;left:50%;bottom:20%;z-index:2;opacity:0;transform:translateX(-50%) scale(.1);animation:none;margin:0}
+.giftstage .sticker svg,.giftstage .sticker img.rk{width:clamp(150px,40vmin,260px)}
+.giftstage .sticker .em{animation:none}
+.giftstage.opening .gift{animation:giftshake .9s ease-in-out both}
+.giftstage.quick.opening .gift{animation:none}
+@keyframes giftshake{0%{transform:none}10%{transform:rotate(-9deg) scale(1.03)}20%{transform:rotate(9deg) scale(1.05)}30%{transform:rotate(-11deg) scale(1.06)}40%{transform:rotate(11deg) scale(1.08)}50%{transform:rotate(-8deg) scale(1.1)}60%{transform:rotate(8deg) scale(1.12)}70%{transform:rotate(-4deg) scale(1.14)}85%{transform:rotate(3deg) scale(1.16)}100%{transform:scale(1.18)}}
+.giftstage.open .gift{animation:giftbody .55s ease-out both,giftgone .7s ease-in .75s forwards}
+@keyframes giftgone{to{opacity:0;transform:translateY(34%) scale(.78)}}
+@keyframes giftbody{0%{transform:scale(1.18)}30%{transform:scale(.9,1.12)}60%{transform:scale(1.06,.94)}100%{transform:scale(1)}}
+.giftstage.open .glid{animation:lidfly .8s cubic-bezier(.2,.8,.3,1) both}
+.giftstage.open .bow{animation:bowfly .8s cubic-bezier(.2,.8,.3,1) both}
+@keyframes lidfly{0%{transform:none;opacity:1}55%{transform:translate(70%,-170%) rotate(24deg);opacity:1}100%{transform:translate(120%,-80%) rotate(48deg);opacity:0}}
+@keyframes bowfly{0%{transform:translateX(-50%)}55%{transform:translate(-8%,-340%) rotate(-30deg);opacity:1}100%{transform:translate(20%,-170%) rotate(-60deg);opacity:0}}
+.giftstage.open .giftflash{animation:gflash .7s ease-out both}
+@keyframes gflash{0%{opacity:1;transform:scale(.3)}60%{opacity:.9}100%{opacity:0;transform:scale(9)}}
+.giftstage.open .giftrays{opacity:1;animation:graysin .5s ease-out both,graysspin 14s linear infinite .5s}
+@keyframes graysin{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+@keyframes graysspin{to{transform:rotate(360deg)}}
+.giftstage.open .sticker{animation:stkrise 1.1s cubic-bezier(.3,1.5,.5,1) .12s both}
+@keyframes stkrise{0%{opacity:0;transform:translateX(-50%) translateY(70px) scale(.1) rotate(-25deg)}35%{opacity:1;transform:translateX(-50%) translateY(-60px) scale(1.2) rotate(10deg)}60%{transform:translateX(-50%) translateY(-10px) scale(.92) rotate(-4deg)}80%{transform:translateX(-50%) translateY(-24px) scale(1.04)}100%{opacity:1;transform:translateX(-50%) translateY(-18px) scale(1) rotate(0)}}
+.giftstage.open .gift .gbody{filter:brightness(1.08)}
+.giftstage.open .gtw{animation-duration:.9s}
+.gsp{position:absolute;left:50%;top:45%;z-index:6;width:var(--sz);height:var(--sz);margin:calc(var(--sz)/-2) 0 0 calc(var(--sz)/-2);background:var(--c);pointer-events:none;opacity:0;
+  clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:gspfly 1s ease-out forwards}
+@keyframes gspfly{0%{opacity:1;transform:translate(0,0) scale(.3) rotate(0)}70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(200deg)}}
+.gifttip{margin:0;font-size:clamp(20px,4.6vmin,30px)!important;font-weight:800!important;color:var(--bgtext);animation:tipbounce 1.4s ease-in-out infinite}
+.gifttip small{display:block;font-size:.6em;font-weight:600;opacity:.9}
+@keyframes tipbounce{50%{transform:translateY(-5px)}}
+.after{display:flex;flex-direction:column;align-items:center;gap:12px}
+.end.gifting .after{visibility:hidden;opacity:0;height:0;overflow:hidden;gap:0}
+.end.revealed .after{animation:afterin .7s ease both}
+@keyframes afterin{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.end.revealed .giftstage{animation:stagesettle .5s ease both}
+@keyframes stagesettle{from{transform:scale(1)}50%{transform:scale(1.04)}to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.gift,.gifttip,.gtw,.giftstage.open .giftrays{animation:none}.giftstage.open .sticker{animation:none;opacity:1;transform:translateX(-50%) translateY(-18px) scale(1)}.giftstage.open .glid,.giftstage.open .bow,.giftstage.open .gift{animation:none;opacity:0}}
 .endbtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
 .endbtns .next.alt{background:linear-gradient(180deg,#fff,#EAF3FF);border-color:var(--lineD);box-shadow:0 6px 0 var(--lineD),0 12px 18px var(--soft)}
 .endbtns .next.blue{background:linear-gradient(180deg,#B5DDFF,#5AA9F2);border-color:#2F7BC4;box-shadow:0 6px 0 #2F7BC4,0 12px 18px var(--soft)}
@@ -3547,8 +3609,16 @@ function showEnd(){
   if(car)btns+='<button class="next blue" data-act="show3d" data-car="'+st.slice(4)+'">🚗 Xem xe 3D<small>See it in 3D</small></button>';
   btns+='<button class="next alt" data-act="album">📒 Album<small>Sticker book</small></button>'
        +'<button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button>';
-  view.innerHTML='<section class="end">'
-    +'<div class="sticker" aria-hidden="true">'+stkHTML(st)+'</div>'
+  var GP=pick(GIFT_COLS);
+  view.innerHTML='<section class="end gifting" id="endsec">'
+    +'<div class="giftstage" id="giftstage" style="--g1:'+GP[0]+';--g2:'+GP[1]+';--rb:'+GP[2]+'">'
+    +'<div class="giftrays" aria-hidden="true"></div><div class="giftflash" aria-hidden="true"></div>'
+    +'<button type="button" class="gift" id="gift" aria-label="Mở hộp quà"><span class="gbody"></span><span class="glid"></span>'
+    +'<span class="bow"><i class="bl"></i><i class="br"></i><i class="bk"></i></span></button>'
+    +'<i class="gtw t1"></i><i class="gtw t2"></i><i class="gtw t3"></i><i class="gtw t4"></i>'
+    +'<div class="sticker" id="gsticker" aria-hidden="true">'+stkHTML(st)+'</div></div>'
+    +'<p class="gifttip" id="gifttip">'+(en1?'Tap the gift to open it!':'Chạm vào hộp quà để mở nhé!'+(both?'<small>Tap the gift to open it!</small>':''))+'</p>'
+    +'<div class="after" id="after">'
     +'<h2>'+(en1?'Hooray! You did it!':'Hoan hô! Bé giỏi quá!')+'</h2>'
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
@@ -3556,14 +3626,45 @@ function showEnd(){
     +(missionNow?'<p class="mdone">🎉 '+(en1?'Harry’s mission complete! +3 stars':'Xong nhiệm vụ của Harry! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
     +(qNow?'<p class="mdone">🔓 '+(en1?'3D driving is open!':'Bé đã mở khoá lái xe 3D!'+(both?' · 3D driving is open!':''))+'</p>'
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
-    +'<div class="endbtns">'+btns+'</div></section>';
+    +'<div class="endbtns">'+btns+'</div></div></section>';
   try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}
-  sfx('win');
-  var w=window.innerWidth,h=window.innerHeight;
-  confetti(w*.3,h*.35,true);confetti(w*.7,h*.35,true);
-  speakNow([['Hoan hô! Bé giỏi quá!','vi']].concat(missionNow?[['Xong nhiệm vụ rồi!','vi']]:[],[[gotVi,'vi']],car?[[car.honk,'vi']]:[],qNow?[['Bé đã mở khoá lái xe 3D rồi!','vi']]:[],
-    [['Hooray! You did it!','en']],missionNow?[['Mission complete!','en']]:[],[[gotEn,'en']],qNow?[['You unlocked 3D driving!','en']]:[]));
+  /* bước 1: hộp quà lắc nhẹ chờ bé chạm; bước 2: bé chạm thì mở quà, sticker bay lên, rồi hiện lời khen */
+  sfx('ok');
+  var gst=$('#giftstage'),gb=$('#gift'),opened=false,gr=gst.getBoundingClientRect();
+  confetti(gr.left+gr.width/2,gr.top+gr.height*.25,false);
+  speakNow([['Hoan hô! Bé giỏi quá!','vi'],['Bé nhận được một hộp quà! Chạm vào để mở nhé!','vi'],['You got a gift! Tap to open it!','en']]);
+  var remind=setTimeout(function(){if(!opened&&document.body.contains(gb)){gb.classList.add('eager');speakNow([['Chạm vào hộp quà để mở nhé!','vi']])}},14000);
+  function openGift(){
+    if(opened)return;opened=true;clearTimeout(remind);gb.classList.remove('eager');
+    var sec=$('#endsec');
+    speakNow([['Ôi, trong hộp quà có gì nhỉ?','vi'],['Oh, what is inside?','en']]);
+    gst.classList.add(reduce?'opening quick':'opening');
+    [0,260,520].forEach(function(t){setTimeout(function(){if(document.body.contains(gb))sfx('pop')},t)});
+    var tShake=reduce?150:900;
+    setTimeout(function(){
+      if(!document.body.contains(gb))return;
+      gst.classList.add('open');sfx('win');
+      var r=gst.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height*.45;
+      confetti(cx,cy,true);confetti(cx-r.width*.3,cy,false);confetti(cx+r.width*.3,cy,false);
+      for(var k=0;k<20;k++){
+        var sp=document.createElement('i');sp.className='gsp';var an=k/20*Math.PI*2+Math.random()*.3,ds=r.width*(.45+Math.random()*.45);
+        sp.style.setProperty('--dx',Math.cos(an)*ds+'px');sp.style.setProperty('--dy',(Math.sin(an)*ds*.8-r.height*.12)+'px');
+        sp.style.setProperty('--sz',(10+Math.random()*16)+'px');sp.style.setProperty('--c',pick(['#FFE27A','#FFFFFF','#FF9ECF','#8ED6FA','#B7F0A8']));
+        sp.style.animationDelay=(Math.random()*.15)+'s';gst.appendChild(sp);setTimeout(function(e){return function(){if(e.parentNode)e.parentNode.removeChild(e)}}(sp),1400);
+      }
+    },tShake);
+    setTimeout(function(){
+      if(!document.body.contains(gb))return;
+      sec.classList.remove('gifting');sec.classList.add('revealed');
+      var tp=$('#gifttip');if(tp)tp.style.display='none';
+      speakNow([['Hoan hô! Bé giỏi quá!','vi']].concat(missionNow?[['Xong nhiệm vụ rồi!','vi']]:[],[[gotVi,'vi']],car?[[car.honk,'vi']]:[],qNow?[['Bé đã mở khoá lái xe 3D rồi!','vi']]:[],
+        [['Hooray! You did it!','en']],missionNow?[['Mission complete!','en']]:[],[[gotEn,'en']],qNow?[['You unlocked 3D driving!','en']]:[]));
+    },tShake+(reduce?500:1250));
+  }
+  gb.addEventListener('click',openGift);
+  gst.addEventListener('click',function(e){if(!opened&&e.target!==gb&&!gb.contains(e.target))openGift()});
 }
+var GIFT_COLS=[['#FF7BAE','#E23C7C','#FFE27A'],['#6BB8FF','#2F7BFF','#FFD93B'],['#A58BFF','#6A3FE0','#FF9ECF'],['#55D98A','#1FA55B','#FFE27A'],['#FFAE5C','#F57C1F','#7CC4FF']];
 
 
 /* ---------- Talking cars in the sticker album ---------- */

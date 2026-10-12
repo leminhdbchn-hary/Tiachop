@@ -10265,7 +10265,9 @@
 "7a02d652": "Đồ chơi và vui nhộn",
 "1168c44b": "Toys and fun",
 "4215ab0a": "Thiên nhiên",
-"e63b47ad": "Nature"
+"e63b47ad": "Nature",
+"8f2f5843": "You got a gift! Tap to open it!",
+"5ecad2c4": "Oh, what is inside?"
 },
 "alt": [
 "0033c8ca",
@@ -10511,6 +10513,7 @@
 "5d682293",
 "5e29feaf",
 "5e36ddac",
+"5ecad2c4",
 "5f3392f5",
 "5f95d658",
 "5f9a20b0",
@@ -10636,6 +10639,7 @@
 "8ea8e290",
 "8f279b34",
 "8f27dbc2",
+"8f2f5843",
 "8f9622f8",
 "90013172",
 "9184dea9",

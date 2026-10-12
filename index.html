@@ -134,6 +134,23 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .tlabel i{display:block;font-style:normal;font-weight:600;font-size:clamp(12px,2.5vmin,16px);opacity:.8}
 .tiles>.tile:last-child:nth-child(odd){grid-column:1/-1}
 @media (min-width:640px){.tiles>.tile:last-child:nth-child(odd){grid-column:auto}}
+/* ----- thân thiện với bé ----- */
+.top #setBtn{margin-left:auto;position:relative;-webkit-touch-callout:none;touch-action:none}
+#setBtn.holding{background:linear-gradient(180deg,#FFE88F,#FFC93C) bottom/100% 0% no-repeat,linear-gradient(180deg,#fff,#EEF5FF);animation:holdfill 1s linear forwards}
+@keyframes holdfill{to{background-size:100% 100%,100% 100%}}
+#setBtn.wig{animation:wig .5s ease}
+@keyframes wig{20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-6deg)}80%{transform:rotate(3deg)}}
+.holdtip{position:fixed;z-index:50;max-width:220px;background:#25234A;color:#fff;font-size:14px;font-weight:700;line-height:1.3;padding:8px 12px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.25);opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none}
+.holdtip.on{opacity:1;transform:none}
+.mascot>svg,.mascot img.rk{cursor:pointer}
+.mascot.hop>svg,.mascot.hop img.rk{animation:hop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes hop{0%{transform:none}35%{transform:translateY(-22px) rotate(-5deg)}60%{transform:translateY(0) rotate(3deg) scaleY(.94)}80%{transform:scaleY(1.03)}100%{transform:none}}
+.home .tile .glyph{animation:invite 19s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes invite{0%,92%,100%{transform:none}93.5%{transform:rotate(-7deg) scale(1.08)}95%{transform:rotate(6deg) scale(1.08)}96.5%{transform:rotate(-3deg)}98%{transform:none}}
+.tile:active .glyph{transform:scale(.92)}
+#replay.nudge{animation:nudge .8s ease 3}
+@keyframes nudge{50%{transform:scale(1.18) rotate(-6deg);box-shadow:0 0 0 8px rgba(255,201,60,.45),0 4px 0 #E0A21B}}
+@media (prefers-reduced-motion:reduce){.home .tile .glyph,#replay.nudge,.mascot.hop>svg,.mascot.hop img.rk,#setBtn.wig{animation:none}}
 .hsec{margin:8px 4px -4px;text-shadow:0 2px 0 rgba(255,255,255,.55)}
 .vnote{margin:0;text-align:center;font-size:14px;font-weight:600;color:var(--bgtext);opacity:.85}
 
@@ -822,9 +839,9 @@ img.fe{display:inline-block!important;width:1.15em!important;height:1.15em!impor
   <header class="top">
     <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button>
     <div class="progress" id="progress" aria-hidden="true"></div>
-    <button class="icon pill" id="langBtn" aria-label="Đổi ngôn ngữ">Việt + Anh</button>
-    <button class="icon" id="setBtn" aria-label="Cài đặt">⚙️</button>
-    <button class="icon" id="soundBtn" aria-label="Bật tắt âm thanh">🔊</button>
+    <button class="icon pill" id="langBtn" aria-label="Đổi ngôn ngữ" hidden>Việt + Anh</button>
+    <button class="icon" id="setBtn" aria-label="Cài đặt (ba mẹ giữ nút để mở)">⚙️</button>
+    <button class="icon" id="soundBtn" aria-label="Bật tắt âm thanh" hidden>🔊</button>
   </header>
   <main id="view"></main>
 </div>
@@ -3056,9 +3073,6 @@ function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()
 function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
-  var lv=[1,2,3].map(function(n){
-    return '<button class="lv'+(S.level===n?' on':'')+'" data-level="'+n+'" aria-label="'+(n+2)+' tuổi"><span class="n">'+(n+2)+'</span><span class="t">tuổi<i>years</i></span></button>';
-  }).join('');
   function tile(t){
     var lk=(t.id==='drive'&&!driveOpen());
     return '<button class="tile'+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span></button>';
@@ -3075,12 +3089,12 @@ function showHome(){pfsExit();
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
     +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Rookie: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
       :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Rookie nhờ bé: '+todayMission()[1]+'<small>Rookie asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
-    +'<div class="levels" role="group" aria-label="Chọn độ tuổi">'+lv+'</div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
   checkNote();
+  [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }
 
 function showAlbum(){pfsExit();
@@ -3133,6 +3147,15 @@ function countStickers(){
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
+/* chạm vào Rookie ở trang chủ: Rookie nhảy lên và chào bé */
+var RK_HI=[[['Xin chào bé! Mình là Rookie.','vi'],['Hello! I am Rookie.','en']],
+  [['Xe màu vàng là bạn Rookie. Vút vút!','vi'],['Rookie is yellow. Honk honk!','en']],
+  [['Mình là Rookie! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Rookie! I have a mission for you today!','en']]];
+function rookieHi(mc){
+  mc.classList.remove('hop');void mc.offsetWidth;mc.classList.add('hop');sfx('pop');
+  clearTimeout(S.rkT);S.rkT=setTimeout(function(){mc.classList.remove('hop')},750);
+  S.rkHi=((S.rkHi||0)+1)%RK_HI.length;speakNow(RK_HI[S.rkHi]);
+}
 function startGame(mode){pfsExit();
   stop3D();
   if(mode==='drive'){if(!driveOpen()){showLock();return}if((S.plays||0)>0)S.plays--;else{S.qn=Math.max(0,qCount()-NEEDQ);S.qday=todayStr()}save();ensureAC();startDrive();return}
@@ -3207,7 +3230,16 @@ function renderRound(r){
     +(n?'<div class="opts n'+n+'" style="--n:'+n+'">'+cards+'</div>':'')
     +'<div class="nextrow"><button class="next" id="next" hidden>Tiếp tục ▶<small>Next</small></button></div>'
     +'</section>';
+  try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}/* bé cuộn xuống chọn chủ đề thì câu hỏi vẫn hiện từ trên cùng */
   setTimeout(function(){if(S.cur===r)speakNow(pre.concat(sayPrompt(r)))},250);
+  S.lastTap=Date.now();clearTimeout(S.idleT);
+  (function idle(){S.idleT=setTimeout(function(){
+    if(S.cur!==r||S.locked)return;
+    if(Date.now()-(S.lastTap||0)<15000){idle();return}
+    S.lastTap=Date.now();speakNow(sayPrompt(r));
+    var rb=$('#replay');if(rb){rb.classList.remove('nudge');void rb.offsetWidth;rb.classList.add('nudge')}
+    idle();
+  },15000)})();
   setTimeout(function(){if(S.cur!==r)return;var l=[];r.opts.forEach(function(o){if(o.say)l=l.concat(o.say)});l=l.concat([[r.win.vi,'vi'],[r.win.en,'en']],PRAISE.reduce(function(a,p){return a.concat([[p[0],'vi'],[p[1],'en']])},[]),r.wx||[]);preload(l.filter(function(x){return x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi')}))},700);
 }
 function succeed(el){
@@ -3302,6 +3334,7 @@ function showEnd(){
     +(qNow?'<p class="mdone">🔓 '+(en1?'3D driving is open!':'Bé đã mở khoá lái xe 3D!'+(both?' · 3D driving is open!':''))+'</p>'
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
     +'<div class="endbtns">'+btns+'</div></section>';
+  try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}
   sfx('win');
   var w=window.innerWidth,h=window.innerHeight;
   confetti(w*.3,h*.35,true);confetti(w*.7,h*.35,true);
@@ -5279,6 +5312,7 @@ function doBackupCopy(){
 
 /* ---------- Events ---------- */
 view.addEventListener('click',function(e){
+  S.lastTap=Date.now();
   var t=e.target;
   if(S.mode==='song'&&sgClick(t))return;
   var lv=t.closest('[data-level]');
@@ -5292,7 +5326,8 @@ view.addEventListener('click',function(e){
   var db=t.closest('[data-dbg]');if(db){showDraw(+db.getAttribute('data-dbg'));return}
   var pp=t.closest('[data-pic]');if(pp){showPaint(+pp.getAttribute('data-pic'));return}
   var rg=t.closest('.rg');if(rg&&S.mode==='paint'){paintFill(rg);return}
-  var m=t.closest('[data-mode]');if(m){startGame(m.getAttribute('data-mode'));return}
+  var mc=t.closest('.mascot');if(mc&&!t.closest('.bubble2')){rookieHi(mc);return}
+  var m=t.closest('[data-mode]');if(m){sfx('pop');startGame(m.getAttribute('data-mode'));return}
   var act=t.closest('[data-act]');
   if(act){
     var a=act.getAttribute('data-act');
@@ -5357,7 +5392,26 @@ view.addEventListener('click',function(e){
   }
 });
 $('#homeBtn').addEventListener('click',showHome);
-$('#setBtn').addEventListener('click',function(){sfx('pop');showSettings()});
+/* Cài đặt dành cho ba mẹ: phải giữ nút khoảng 1 giây mới mở, bé bấm nhanh thì chỉ hiện lời nhắc */
+(function(){
+  var b=$('#setBtn'),t=0,opened=false,tip=null,tipT=0;
+  function hint(){
+    b.classList.remove('wig');void b.offsetWidth;b.classList.add('wig');
+    if(!tip){tip=document.createElement('div');tip.className='holdtip nofe';tip.textContent='Ba mẹ giữ nút này để mở cài đặt';document.body.appendChild(tip)}
+    var r=b.getBoundingClientRect();tip.style.top=(r.bottom+10)+'px';tip.style.right=Math.max(8,window.innerWidth-r.right)+'px';
+    tip.classList.add('on');clearTimeout(tipT);tipT=setTimeout(function(){tip.classList.remove('on')},2600);
+  }
+  function stop(showHint){var was=b.classList.contains('holding');clearTimeout(t);b.classList.remove('holding');if(showHint&&was&&!opened)hint()}
+  b.addEventListener('pointerdown',function(){
+    opened=false;b.classList.add('holding');
+    t=setTimeout(function(){opened=true;b.classList.remove('holding');if(tip)tip.classList.remove('on');sfx('pop');showSettings()},1000);
+  });
+  b.addEventListener('pointerup',function(){stop(true)});
+  b.addEventListener('pointercancel',function(){stop(false)});
+  b.addEventListener('pointerleave',function(){stop(false)});
+  b.addEventListener('contextmenu',function(e){e.preventDefault()});
+  b.addEventListener('click',function(e){if(e.detail===0){sfx('pop');showSettings()}});/* bàn phím (Enter) mở luôn */
+})();
 $('#soundBtn').addEventListener('click',function(){
   S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();
 });

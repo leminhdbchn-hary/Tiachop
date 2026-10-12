@@ -307,7 +307,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .countbtn{align-self:flex-start;margin:6px 0 4px}
 @media (prefers-reduced-motion:reduce){.acell .em,.acell svg,.sticker .em{animation:none}}
 
-/* ---------- Rookie, the main character ---------- */
+/* ---------- Harry Tia Chớp, the main character ---------- */
 img.rk{display:block;width:100%;height:auto;pointer-events:none;-webkit-user-select:none;user-select:none}
 .mascot img.rk{margin-top:44px;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18));transform-origin:50% 90%;animation:rkidle 3.4s ease-in-out infinite}
 .roadcar img.rk{width:100%}
@@ -1117,8 +1117,8 @@ addCar('nang','Nâng','forklift','heavy','#FFB000','#2E7D4F','vàng','yellow','x
 addCar('cay','Cày','tractor','heavy','#3FA34D','#6B3F1D','xanh lá','green','máy cày','tractor','cày ruộng','plows the field');
 addCar('lan','Lăn','roller','heavy','#FFD21F','#2BA8E0','vàng','yellow','xe lu','road roller','lăn phẳng mặt đường','flattens the road');
 addCar('xuc','Xúc','loader','heavy','#FF9A2E','#2E7D4F','cam','orange','xe xúc','loader','xúc cát','scoops up sand');
-/* the main character: Rookie (red round hero car with a lightning bolt on its head) */
-addCar('chop','Rookie','hero','small','#FFB82E','#6B3F1D','vàng','yellow','xe cứu hộ','tow truck','làm nhiệm vụ mỗi ngày','does a mission every day');
+/* nhân vật chính: Harry Tia Chớp (xe đua đỏ bo tròn, tia chớp vàng hai bên); Rookie xe cứu hộ là bạn của Harry trong tranh tô màu và bài thơ */
+addCar('chop','Harry','hero','small','#FF3B30','#2F8FE0','đỏ','red','xe đua','race car','làm nhiệm vụ mỗi ngày','does a mission every day');
 CARS.chop.honk='Vút vút!';CARS.chop.main=true;
 /* cars whose name a little child can tell from the picture alone (no "future car", "round car"...) */
 var CARIMG=Object.keys(CARS).filter(function(id){return CARS[id].img});
@@ -1155,11 +1155,11 @@ function headlightSVG(u,cx,cy,rx,ry){
    +'<ellipse cx="'+(cx-rx*.3)+'" cy="'+(cy-ry*.35)+'" rx="'+(rx*.35)+'" ry="'+(ry*.25)+'" fill="#fff" opacity=".85"/>';
 }
 /* carSVG(id, color?) - glossy front view; color overrides the body colour (used for painting) */
-/* Rookie: nhân vật chính, ảnh nằm trong thư mục img/ */
-var RKF={happy:'img/rk-happy.webp',surprise:'img/rk-surprise.webp',sad:'img/rk-sad.webp',wink:'img/rk-wink.webp'};
+/* Nhân vật chính: Harry Tia Chớp (xe đua đỏ), ảnh trong thư mục img/harry-*.webp */
+var RKF={happy:'img/harry-happy.webp',surprise:'img/harry-surprise.webp',sad:'img/harry-sad.webp',wink:'img/harry-wink.webp'};
 var RKMAP={'😮':'surprise','😲':'surprise','🤩':'surprise','😨':'sad','😴':'wink','😢':'sad','🥰':'wink','😋':'wink','🤔':'wink','🫶':'wink','😂':'wink'};
-function rkHero(){return '<img class="rk" src="img/rk-hero.webp" alt="Rookie xe cứu hộ" draggable="false">'}
-function rkFaceHTML(f){return '<img class="rkface" data-f="'+f+'" src="'+RKF[f]+'" alt="Rookie" draggable="false">'}
+function rkHero(){return '<img class="rk" src="img/harry-hero.webp" alt="Harry Tia Chớp" draggable="false">'}
+function rkFaceHTML(f){return '<img class="rkface" data-f="'+f+'" src="'+RKF[f]+'" alt="Harry Tia Chớp" draggable="false">'}
 function rkSwap(f){
   var art=document.getElementById('cart');if(!art)return;
   var im=art.querySelector('img.rkface');
@@ -1169,7 +1169,7 @@ function rkSwap(f){
   setTimeout(function(){im.src=RKF[f];im.style.opacity='1';im.style.transform='scale(1)'},170);
 }
 try{Object.keys(CARS).forEach(function(k){if(CARS[k].img)(new Image()).src=CARS[k].img})}catch(e){}
-try{var _rk=new Image();_rk.src='img/rk-hero.webp';for(var _k in RKF){(new Image()).src=RKF[_k]}}catch(e){}
+try{var _rk=new Image();_rk.src='img/harry-hero.webp';for(var _k in RKF){(new Image()).src=RKF[_k]}}catch(e){}
 function carSVG(id,colorOverride){
   if(id==='chop')return rkHero();
   var c=CARS[id];if(!c)return '';
@@ -2320,9 +2320,9 @@ function engSpellRound(){
 function chopFindRound(){
   var set=distinctWith(CAR_W.concat(['chop']),'chop',nopt(),function(x){return x});
   return {type:'chopfind',key:'chopfind',
-    vi:'Đâu là Rookie?',en:'Which one is Rookie?',visual:'',
+    vi:'Đâu là Harry?',en:'Which one is Harry?',visual:'',
     opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf('chop'),
-    win:{vi:'Đây là Rookie! Xe cứu hộ màu vàng, có cần cẩu. Vút vút!',en:'This is Rookie! A yellow tow truck with a crane. Zoom zoom!'}};
+    win:{vi:'Đây là Harry Tia Chớp! Xe đua màu đỏ, có tia chớp vàng. Vút vút!',en:'This is Harry! A red race car with a yellow lightning bolt. Zoom zoom!'}};
 }
 function chopCountRound(){
   var maxN=S.level===1?5:10,n=1+rand(maxN),set=[n],tries=0;
@@ -2330,10 +2330,10 @@ function chopCountRound(){
   set=shuffle(set);
   var items='';for(var i=0;i<n;i++)items+='<button class="item" aria-label="Đếm">⭐</button>';
   return {type:'chopcount',key:'chopcount:'+n,
-    vi:'Rookie nhặt được bao nhiêu ngôi sao?',en:'How many stars did Rookie collect?',
+    vi:'Harry nhặt được bao nhiêu ngôi sao?',en:'How many stars did Harry collect?',
     visual:'<div class="chopline">'+carSVG('chop')+'</div><div class="items">'+items+'</div><div class="hint">Chạm vào từng hình để đếm · Tap to count</div>',
     opts:set.map(function(k){return numOpt(k,true)}),correct:set.indexOf(n),
-    win:{vi:'Rookie nhặt được '+NUM_VI[n]+' ngôi sao.',en:'Rookie collected '+NUM_EN[n]+(n===1?' star.':' stars.')}};
+    win:{vi:'Harry nhặt được '+NUM_VI[n]+' ngôi sao.',en:'Harry collected '+NUM_EN[n]+(n===1?' star.':' stars.')}};
 }
 /* ---------- 12-15. HOME OBJECTS, ROOMS, SCHOOL, JOBS ---------- */
 function ico(inner){return '<svg class="ico" viewBox="0 0 100 100" aria-hidden="true">'+inner+'</svg>'}
@@ -3105,7 +3105,7 @@ function glyphHTML(g){
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;
 }
-/* daily mission from Rookie */
+/* daily mission from Harry */
 var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc thơ hoặc vỗ tay đồng dao','read a poem or clap a rhyme'],['think','chơi Trò chơi tư duy','play Brain games'],['trace','tập viết chữ và số','trace letters and numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
 ['col','chơi bài Màu và hình','play Colors and shapes'],['veh','chơi bài Xe cộ','play Vehicles'],
  ['food','chơi bài Trái cây và rau','play Fruit and veggies'],['let','chơi bài Chữ cái','play Letters'],['cmp','chơi bài So sánh','play Compare'],['emo','chơi bài Cảm xúc','play Feelings'],
@@ -3129,8 +3129,8 @@ function showHome(){pfsExit();
   view.innerHTML='<section class="home">'
     +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Little':'Bé Vui')+'</div><div class="st2">'+(S.lang==='en'?'Learners':'Học')+'</div>'
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
-    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Rookie: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
-      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Rookie nhờ bé: '+todayMission()[1]+'<small>Rookie asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
+    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Harry: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
+      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Harry nhờ bé: '+todayMission()[1]+'<small>Harry asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
@@ -3189,10 +3189,10 @@ function countStickers(){
 }
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
-/* chạm vào Rookie ở trang chủ: Rookie nhảy lên và chào bé */
-var RK_HI=[[['Xin chào bé! Mình là Rookie.','vi'],['Hello! I am Rookie.','en']],
-  [['Xe màu vàng là bạn Rookie. Vút vút!','vi'],['Rookie is yellow. Honk honk!','en']],
-  [['Mình là Rookie! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Rookie! I have a mission for you today!','en']]];
+/* chạm vào Harry ở trang chủ: Harry nhảy lên và chào bé */
+var RK_HI=[[['Xin chào bé! Mình là Harry Tia Chớp.','vi'],['Hello! I am Harry.','en']],
+  [['Xe màu đỏ là bạn Harry. Vút vút!','vi'],['Harry is red. Honk honk!','en']],
+  [['Mình là Harry Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Harry! I have a mission for you today!','en']]];
 function rookieHi(mc){
   mc.classList.remove('hop');void mc.offsetWidth;mc.classList.add('hop');sfx('pop');
   clearTimeout(S.rkT);S.rkT=setTimeout(function(){mc.classList.remove('hop')},750);
@@ -3357,7 +3357,7 @@ function showEnd(){
   setProgress(S.total,S.total);syncControls();
   var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
-  if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Rookie làm bạn với bé!';gotEn='Special sticker! Rookie is your friend now!'}
+  if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Harry Tia Chớp làm bạn với bé!';gotEn='Special sticker! Harry is your friend now!'}
   else if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}
@@ -3372,7 +3372,7 @@ function showEnd(){
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
     +'<p class="cname">'+(en1?gotEn:gotVi+(both?' · '+gotEn:''))+'</p>'
-    +(missionNow?'<p class="mdone">🎉 '+(en1?'Rookie’s mission complete! +3 stars':'Xong nhiệm vụ của Rookie! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
+    +(missionNow?'<p class="mdone">🎉 '+(en1?'Harry’s mission complete! +3 stars':'Xong nhiệm vụ của Harry! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
     +(qNow?'<p class="mdone">🔓 '+(en1?'3D driving is open!':'Bé đã mở khoá lái xe 3D!'+(both?' · 3D driving is open!':''))+'</p>'
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
     +'<div class="endbtns">'+btns+'</div></section>';
@@ -3406,7 +3406,7 @@ function chatLines(id){
    ['😮','grow','Bé đếm với mình nhé! Một, hai, ba!','Count with me! One, two, three!'],
    ['🥳','spin','Hoan hô! Hôm nay bé giỏi lắm!','Hooray! You did great today!',1],
    ['🫶','bounce','Bé là bạn tốt của mình!','You are my good friend!']];
-  if(id==='chop')L.push(['🦸','grow','Mình là Rookie! Hôm nay mình có nhiệm vụ cho bé đó!','I am Rookie! I have a mission for you today!',1]);
+  if(id==='chop')L.push(['🦸','grow','Mình là Harry Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','I am Harry! I have a mission for you today!',1]);
   return L;
 }
 function chatSay(id,again){
@@ -4846,7 +4846,7 @@ function trNext(){
   trRound();
 }
 
-/* ---------- Hát & Thơ: đồng dao, thơ của Rookie, bài của nhà mình ---------- */
+/* ---------- Hát & Thơ: đồng dao, thơ của Harry, bài của nhà mình ---------- */
 var SONGS=[
  {id:'dd_dung',kind:'dd',e:'👧👦',vi:'Dung dăng dung dẻ',en:'Folk rhyme: Holding hands',
   lines:['Dung dăng dung dẻ','Dắt trẻ đi chơi','Đến ngõ nhà trời','Lạy cậu lạy mợ','Cho cháu về quê','Cho dê đi học','Cho cóc ở nhà','Cho gà bới bếp','Xì xà xì xụp','Ngồi thụp xuống đây']},
@@ -4954,7 +4954,7 @@ function showSongMenu(){pfsExit();
   var po=SONGS.filter(function(x){return x.kind==='poem'}).map(card).join('');
   view.innerHTML='<section class="paintv tkm sgm"><h2>🎵 Hát &amp; Thơ<small>Songs &amp; poems</small></h2>'
     +'<h3 class="asec"><span>👏 Đồng dao</span><i>Folk rhymes · clap along</i></h3><div class="pgrid">'+dd+'</div>'
-    +'<h3 class="asec"><span>📖 Thơ của Rookie</span><i>Rookie\'s poems</i></h3><div class="pgrid">'+po+'</div>'
+    +'<h3 class="asec"><span>📖 Thơ của Harry</span><i>Harry\'s poems</i></h3><div class="pgrid">'+po+'</div>'
     +'<h3 class="asec"><span>🎙️ Bài của nhà mình</span><i>Our own songs</i></h3><div class="pgrid" id="sgmine"><p class="pempty">Đang tải…</p></div>'
     +'<button type="button" class="next alt sgadd" data-sgact="add">➕ Bố mẹ thêm bài hát<small>Parents: record a song</small></button>'
     +'</section>';
@@ -5155,7 +5155,7 @@ function sgMine(){
 }
 function sgAfter(kind){
   var g=SG;if(!g)return;
-  if(kind==='read')speakNow([[g.it.kind==='dd'?'Bé vỗ tay theo nhịp cùng Rookie nhé!':(g.it.quiz?'Bé tìm tiếng vần cùng Rookie nhé!':'Bé đọc theo nhé!'),'vi'],[g.it.kind==='dd'?'Now clap along!':'Now find the rhyme!','en']]);
+  if(kind==='read')speakNow([[g.it.kind==='dd'?'Bé vỗ tay theo nhịp cùng Harry nhé!':(g.it.quiz?'Bé tìm tiếng vần cùng Harry nhé!':'Bé đọc theo nhé!'),'vi'],[g.it.kind==='dd'?'Now clap along!':'Now find the rhyme!','en']]);
 }
 function sgFinish(){
   var g=SG;if(!g)return;
@@ -5300,7 +5300,7 @@ function showSettings(){pfsExit();
     +'<div class="setrow"><label class="next alt">📂 Chọn file sao lưu<small>Choose backup file</small><input type="file" id="bkpick" accept=".json,.txt,application/json,text/plain" hidden></label></div>'
     +'<textarea id="bkpaste" placeholder="Dán mã sao lưu vào đây (bắt đầu bằng BVH1:)"></textarea>'
     +'<div class="setrow"><button class="next" data-act="bkrestore">♻️ Khôi phục từ mã<small>Restore from code</small></button></div></div>'
-    +'<div class="setcard"><h3>🗑️ Xoá tiến trình<i>Reset</i></h3><p>Xoá hết sao và nhãn dán để bé chơi lại từ đầu (Rookie vẫn là bạn của bé). Nên sao lưu trước.</p>'
+    +'<div class="setcard"><h3>🗑️ Xoá tiến trình<i>Reset</i></h3><p>Xoá hết sao và nhãn dán để bé chơi lại từ đầu (Harry vẫn là bạn của bé). Nên sao lưu trước.</p>'
     +'<div class="setrow"><button class="next danger" data-act="bkreset">🗑️ Xoá tiến trình<small>Reset progress</small></button></div></div>'
     +'<button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button>'
     +'</section>';

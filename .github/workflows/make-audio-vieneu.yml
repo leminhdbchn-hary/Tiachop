@@ -1,0 +1,55 @@
+name: Giọng Ngọc Linh (VieNeu)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tools/make_audio_vieneu.py"
+      - ".github/workflows/make-audio-vieneu.yml"
+      - "tools/phrases.json"
+      - "cars/**"
+permissions:
+  contents: write
+concurrency:
+  group: audio-vieneu
+  cancel-in-progress: false
+jobs:
+  shards:  # chia tiếng Việt làm 4 phần chạy song song; mỗi phần tự lưu lên GitHub sau mỗi 300 câu
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get install -y ffmpeg
+      - run: pip install vieneu edge-tts gTTS aiohttp
+      - run: python3 tools/make_audio_vieneu.py --shard ${{ matrix.shard }} --of 4
+  manifest:  # cập nhật audio/manifest.json (danh sách câu có giọng) sau khi các phần chạy xong
+    needs: shards
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install edge-tts gTTS aiohttp
+      - name: Lưu danh sách câu
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase -X theirs || true
+            python3 tools/make_audio.py --manifest-only
+            git add -A audio/manifest.json
+            git diff --cached --quiet && exit 0
+            git commit -q -m "Cập nhật danh sách câu có giọng"
+            git push && exit 0
+            sleep 5
+          done
+          exit 1

@@ -151,16 +151,8 @@ def google_save(text, lang, path):
     return False
 
 
-async def main():
-    if AZ_KEY:
-        if not AZ_REGION:
-            sys.exit("Thiếu AZURE_SPEECH_REGION (ví dụ southeastasia)")
-        AZ["lock"] = asyncio.Lock()
-        AZ["http"] = aiohttp.ClientSession()
-        print("Dùng Azure Speech, vùng", AZ_REGION)
-    else:
-        patch_edge()
-    os.makedirs(OUT, exist_ok=True)
+def load_phrases():
+    """Danh sách [câu, ngôn ngữ] của cả game (tools/phrases.json + câu đọc cho ảnh ô tô)."""
     phrases = json.load(open(os.path.join(ROOT, "tools", "phrases.json"), encoding="utf-8"))
     try:  # câu đọc cho ảnh ô tô trong cars/cars.json
         cj = json.load(open(os.path.join(ROOT, "cars", "cars.json"), encoding="utf-8"))["cars"]
@@ -171,6 +163,31 @@ async def main():
         for k, lg in (("pickvi", "vi"), ("picken", "en"), ("winvi", "vi"), ("winen", "en")):
             if c.get(k):
                 phrases.append([c[k], lg])
+    return phrases
+
+
+def write_manifest(clips, info, alt, old_sig=None):
+    good = {c: t for c, t in clips.items() if os.path.exists(info[c][2]) and os.path.getsize(info[c][2]) > 500}
+    alt = set(alt) & set(good)
+    with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump({"sig": SIG, "clips": good, "alt": sorted(alt)}, f, ensure_ascii=False, indent=0)
+    return good, alt
+
+
+async def main():
+    manifest_only = "--manifest-only" in sys.argv
+    if manifest_only:
+        pass
+    elif AZ_KEY:
+        if not AZ_REGION:
+            sys.exit("Thiếu AZURE_SPEECH_REGION (ví dụ southeastasia)")
+        AZ["lock"] = asyncio.Lock()
+        AZ["http"] = aiohttp.ClientSession()
+        print("Dùng Azure Speech, vùng", AZ_REGION)
+    else:
+        patch_edge()
+    os.makedirs(OUT, exist_ok=True)
+    phrases = load_phrases()
     sem = asyncio.Semaphore(4)
     try:
         old = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8"))
@@ -186,8 +203,17 @@ async def main():
         path = os.path.join(OUT, cid + ".mp3")
         clips[cid] = text.strip()
         info[cid] = (text, lang, path)
+        if lang == "vi":  # tiếng Việt do tools/make_audio_vieneu.py tạo (giọng Ngọc Linh), không đụng vào ở đây
+            alt.discard(cid)
+            continue
+        if manifest_only:
+            continue
         if force or cid in alt or not (os.path.exists(path) and os.path.getsize(path) > 500):
             jobs.append((cid, make(sem, text, lang, path)))
+    if manifest_only:
+        good, alt = write_manifest(clips, info, alt)
+        print("Manifest: %d/%d câu có giọng, %d câu tiếng Anh dùng giọng Google" % (len(good), len(clips), len(alt)))
+        return
     res = await asyncio.gather(*[j for _, j in jobs])
     if AZ["http"]:
         await AZ["http"].close()
@@ -210,11 +236,8 @@ async def main():
                     print("DỪNG giọng Google: 20 câu liên tiếp bị lỗi", file=sys.stderr)
                     break
             time.sleep(0.4)
-    good = {c: t for c, t in clips.items() if os.path.exists(info[c][2]) and os.path.getsize(info[c][2]) > 500}
-    alt &= set(good)
+    good, alt = write_manifest(clips, info, alt)
     failed = [c for c in clips if c not in good]
-    with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:
-        json.dump({"sig": SIG, "clips": good, "alt": sorted(alt)}, f, ensure_ascii=False, indent=0)
     print("Giọng Microsoft mới: %d, giọng Google mới: %d, đang dùng giọng Google: %d" % (len(made), gdone, len(alt)))
     print("Thử tạo %d, có giọng %d/%d, thiếu %d (%s)" % (len(jobs), len(good), len(clips), len(failed),
           "Azure Speech " + AZ_REGION if AZ_KEY else "edge-tts %s, Edge %s" % (getattr(edge_tts, "__version__", "?"), _ec.SEC_MS_GEC_VERSION)))
@@ -222,4 +245,5 @@ async def main():
         sys.exit(1)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

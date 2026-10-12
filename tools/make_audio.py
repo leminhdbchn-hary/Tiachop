@@ -56,20 +56,30 @@ def spoken(text):  # bỏ dấu ngoặc kép để giọng đọc không đọc 
     return re.sub(r"\s+", " ", t).strip()
 
 
+FAIL = {"run": 0, "stop": False}  # đếm số câu lỗi liên tiếp; lỗi hàng loạt thì dừng sớm thay vì chạy cả tiếng
+
+
 async def make(sem, text, lang, path):
     voice, rate, pitch = VOICES[lang]
     text = spoken(text)
     async with sem:
+        if FAIL["stop"]:
+            return False
         for attempt in range(4):
             try:
                 await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(path)
                 if os.path.getsize(path) > 500:
+                    FAIL["run"] = 0
                     return True
             except Exception as e:  # thử lại
                 print("lỗi", attempt + 1, text, e, file=sys.stderr)
             await asyncio.sleep(1.5 * (attempt + 1))
     if os.path.exists(path):
         os.remove(path)
+    FAIL["run"] += 1
+    if FAIL["run"] >= 20 and not FAIL["stop"]:
+        FAIL["stop"] = True
+        print("DỪNG: 20 câu liên tiếp bị lỗi, máy chủ giọng đọc đang từ chối. Giữ lại các câu đã tạo được.", file=sys.stderr)
     return False
 
 
@@ -104,7 +114,8 @@ async def main():
     good = {c: t for c, t in clips.items() if c not in failed}
     with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump({"sig": SIG, "clips": good}, f, ensure_ascii=False, indent=0)
-    print("Tạo mới %d, thành công %d/%d, lỗi %d" % (len(jobs), len(good), len(clips), len(failed)))
+    print("Tạo mới %d, thành công %d/%d, lỗi %d (edge-tts %s, Edge %s)" % (len(jobs), len(good), len(clips), len(failed),
+          getattr(edge_tts, "__version__", "?"), _ec.SEC_MS_GEC_VERSION))
     if len(good) < len(clips) * 0.9:
         sys.exit(1)
 

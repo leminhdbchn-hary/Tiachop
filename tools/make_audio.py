@@ -7,11 +7,19 @@ Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại.
 
 Azure Speech (dịch vụ chính thức của Microsoft, cùng giọng, gói miễn phí F0): đặt biến môi trường AZURE_SPEECH_KEY và
 AZURE_SPEECH_REGION (ví dụ southeastasia) thì script dùng Azure thay cho edge-tts. Trên GitHub: Settings > Secrets and
-variables > Actions, thêm hai secret cùng tên. Gói F0 giới hạn khoảng 20 câu/phút nên script tự đọc chậm lại (AZURE_RPM)."""
+variables > Actions, thêm hai secret cùng tên. Gói F0 giới hạn khoảng 20 câu/phút nên script tự đọc chậm lại (AZURE_RPM).
+
+Giọng dự phòng: câu nào giọng Microsoft không tạo được thì dùng giọng Google (thư viện gTTS, không cần tài khoản) và ghi
+mã câu vào "alt" trong manifest. Các lần chạy sau (workflow chạy mỗi ngày) tự thử lại giọng Microsoft cho những câu này,
+được thì thay luôn để giọng đồng bộ."""
 import asyncio, json, os, re, sys, time, urllib.request
 from xml.sax.saxutils import escape
 import aiohttp
 import edge_tts
+try:
+    from gtts import gTTS
+except ImportError:  # chưa cài gTTS thì bỏ qua giọng dự phòng
+    gTTS = None
 import edge_tts.communicate as _ec
 import edge_tts.constants as _ek
 
@@ -103,24 +111,43 @@ async def make(sem, text, lang, path):
     async with sem:
         if FAIL["stop"]:
             return False
+        tmp = path + ".tmp"  # ghi ra file tạm: lỗi thì giữ nguyên file cũ (giọng dự phòng) nếu có
         for attempt in range(4):
             try:
                 if AZ_KEY:
-                    await az_save(text, voice, rate, pitch, path)
+                    await az_save(text, voice, rate, pitch, tmp)
                 else:
-                    await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(path)
-                if os.path.getsize(path) > 500:
+                    await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(tmp)
+                if os.path.getsize(tmp) > 500:
+                    os.replace(tmp, path)
                     FAIL["run"] = 0
                     return True
             except Exception as e:  # thử lại
                 print("lỗi", attempt + 1, text, e, file=sys.stderr)
             await asyncio.sleep(1.5 * (attempt + 1))
-    if os.path.exists(path):
-        os.remove(path)
+    if os.path.exists(tmp):
+        os.remove(tmp)
     FAIL["run"] += 1
     if FAIL["run"] >= 20 and not FAIL["stop"]:
         FAIL["stop"] = True
         print("DỪNG: 20 câu liên tiếp bị lỗi, máy chủ giọng đọc đang từ chối. Giữ lại các câu đã tạo được.", file=sys.stderr)
+    return False
+
+
+def google_save(text, lang, path):
+    """Giọng dự phòng của Google. Trả về True nếu tạo được file."""
+    tmp = path + ".tmp"
+    for attempt in range(4):
+        try:
+            gTTS(spoken(text), lang=lang).save(tmp)
+            if os.path.getsize(tmp) > 500:
+                os.replace(tmp, path)
+                return True
+        except Exception as e:
+            print("lỗi Google", attempt + 1, text, e, file=sys.stderr)
+        time.sleep(2 * (attempt + 1))
+    if os.path.exists(tmp):
+        os.remove(tmp)
     return False
 
 
@@ -146,25 +173,50 @@ async def main():
                 phrases.append([c[k], lg])
     sem = asyncio.Semaphore(4)
     try:
-        old_sig = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8")).get("sig")
+        old = json.load(open(os.path.join(OUT, "manifest.json"), encoding="utf-8"))
     except Exception:
-        old_sig = None
-    force = old_sig != SIG
-    jobs, clips = [], {}
+        old = {}
+    force = old.get("sig") != SIG
+    alt = set(old.get("alt", []))  # các câu đang dùng giọng dự phòng Google
+    jobs, clips, info = [], {}, {}
     for text, lang in phrases:
         cid = clip_id(text, lang)
+        if cid in clips:
+            continue
         path = os.path.join(OUT, cid + ".mp3")
         clips[cid] = text.strip()
-        if force or not (os.path.exists(path) and os.path.getsize(path) > 500):
+        info[cid] = (text, lang, path)
+        if force or cid in alt or not (os.path.exists(path) and os.path.getsize(path) > 500):
             jobs.append((cid, make(sem, text, lang, path)))
     res = await asyncio.gather(*[j for _, j in jobs])
     if AZ["http"]:
         await AZ["http"].close()
-    failed = [cid for (cid, _), ok in zip(jobs, res) if not ok]
-    good = {c: t for c, t in clips.items() if c not in failed}
+    made = {cid for (cid, _), ok in zip(jobs, res) if ok}
+    alt -= made
+    need = [cid for (cid, _), ok in zip(jobs, res) if not ok and cid not in alt]
+    gdone = 0
+    if need and gTTS:
+        print("Giọng Microsoft chưa tạo được %d câu, dùng giọng dự phòng Google" % len(need))
+        miss = 0
+        for cid in need:
+            text, lang, path = info[cid]
+            if google_save(text, lang, path):
+                alt.add(cid)
+                gdone += 1
+                miss = 0
+            else:
+                miss += 1
+                if miss >= 20:
+                    print("DỪNG giọng Google: 20 câu liên tiếp bị lỗi", file=sys.stderr)
+                    break
+            time.sleep(0.4)
+    good = {c: t for c, t in clips.items() if os.path.exists(info[c][2]) and os.path.getsize(info[c][2]) > 500}
+    alt &= set(good)
+    failed = [c for c in clips if c not in good]
     with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:
-        json.dump({"sig": SIG, "clips": good}, f, ensure_ascii=False, indent=0)
-    print("Tạo mới %d, thành công %d/%d, lỗi %d (%s)" % (len(jobs), len(good), len(clips), len(failed),
+        json.dump({"sig": SIG, "clips": good, "alt": sorted(alt)}, f, ensure_ascii=False, indent=0)
+    print("Giọng Microsoft mới: %d, giọng Google mới: %d, đang dùng giọng Google: %d" % (len(made), gdone, len(alt)))
+    print("Thử tạo %d, có giọng %d/%d, thiếu %d (%s)" % (len(jobs), len(good), len(clips), len(failed),
           "Azure Speech " + AZ_REGION if AZ_KEY else "edge-tts %s, Edge %s" % (getattr(edge_tts, "__version__", "?"), _ec.SEC_MS_GEC_VERSION)))
     if len(good) < len(clips) * 0.9:
         sys.exit(1)

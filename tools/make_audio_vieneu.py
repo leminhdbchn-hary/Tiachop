@@ -4,14 +4,16 @@ Thay cho giọng Microsoft/Google cũ: ghi đè audio/<mã>.mp3 của các câu 
 Tiếng Anh vẫn do tools/make_audio.py tạo.
 
   python3 tools/make_audio_vieneu.py --shard 0 --of 4     # chia việc cho nhiều máy chạy song song
-Câu nào đã xong được ghi vào audio/vieneu_done_<shard>.txt nên chạy lại là làm tiếp, không làm lại.
+Câu nào đã xong được ghi vào audio/vieneu_done_<tốc độ>_<shard>.txt nên chạy lại là làm tiếp, không làm lại.
 Trong GitHub Actions (biến CI) script tự commit và push sau mỗi CHECKPOINT câu để nếu bị ngắt cũng không mất công.
-Muốn đổi giọng: sửa VOICE_NAME rồi xoá các file audio/vieneu_done_*.txt."""
+Muốn đổi giọng hoặc tốc độ: sửa VOICE_NAME / SPEED (đổi SPEED là tự tạo lại toàn bộ); đổi giọng thì xoá các file audio/vieneu_done_*.txt."""
 import argparse, os, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from make_audio import ROOT, OUT, clip_id, load_phrases, spoken  # noqa: E402
 
 VOICE_NAME = "Ngọc Linh"
+SPEED = 0.9  # tốc độ đọc so với bình thường (0.9 = chậm hơn 10%, giữ nguyên cao độ giọng); bé nghe rõ hơn
+TAG = "s%d" % round(SPEED * 100)  # đổi SPEED hoặc giọng thì tên file tiến độ đổi theo nên tự tạo lại toàn bộ
 CHECKPOINT = 300
 MIN_BYTES = 800
 
@@ -49,7 +51,7 @@ def to_mp3(tts, audio, path):
     tts.save(audio, wav)
     try:
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-ac", "1", "-ar", "24000",
-                        "-af", "loudnorm=I=-18:TP=-2:LRA=7", "-b:a", "48k", tmp], check=True)
+                        "-af", "atempo=%s,loudnorm=I=-18:TP=-2:LRA=7" % SPEED, "-b:a", "48k", tmp], check=True)
         if os.path.getsize(tmp) < MIN_BYTES:
             raise RuntimeError("file quá nhỏ")
         os.replace(tmp, path)
@@ -91,7 +93,7 @@ def main():
         if lang == "vi":
             seen.setdefault(clip_id(text, lang), text)
     ids = sorted(seen)[a.shard::a.of]
-    done_file = os.path.join(OUT, "vieneu_done_%d.txt" % a.shard)
+    done_file = os.path.join(OUT, "vieneu_done_%s_%d.txt" % (TAG, a.shard))
     done = set(open(done_file).read().split()) if os.path.exists(done_file) else set()
     todo = [c for c in ids if c not in done]
     if a.limit:

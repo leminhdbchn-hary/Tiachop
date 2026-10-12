@@ -341,6 +341,7 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 
 /* ---------- Effects ---------- */
 #fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+img.fe{display:inline-block!important;width:1.15em!important;height:1.15em!important;max-width:none!important;aspect-ratio:auto!important;background:none!important;border-radius:0!important;vertical-align:-.22em;margin:0 .03em;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
 .cf{position:fixed;font-size:28px;line-height:1;animation:burst 1.2s ease-out forwards}
 .emo svg.ico.room{width:clamp(96px,27vmin,180px);height:auto;max-width:100%}
 .opts.n2 .emo svg.ico.room{width:clamp(100px,29vmin,200px)}
@@ -5363,6 +5364,41 @@ $('#soundBtn').addEventListener('click',function(){
 function setLang(l){
   S.lang=l;save();syncControls();stopSpeech();
   if(S.cur&&!S.locked){renderRound(S.cur)}else if(!S.mode){showHome()}else if(S.mode==='album'){showAlbum()}else if(S.mode==='settings'){showSettings()}
+}
+/* ---- Emoji 3D: đổi emoji trên màn hình thành ảnh 3D (Microsoft Fluent Emoji, giấy phép MIT, thư mục emoji/)
+   để hình đẹp và giống nhau trên mọi máy. Emoji chưa có ảnh (ví dụ cờ) giữ nguyên ---- */
+var FE_SET={};'1f0cf 1f300 1f305 1f307 1f308 1f30a 1f30d 1f310 1f319 1f31f 1f327 1f330 1f331 1f333 1f335 1f336 1f337 1f338 1f33b 1f33d 1f33e 1f33f 1f344 1f345 1f346 1f347 1f349 1f34a 1f34b 1f34c 1f34d 1f34e 1f350 1f351 1f352 1f353 1f354 1f355 1f35e 1f366 1f369 1f36a 1f36b 1f36c 1f36d 1f370 1f372 1f373 1f37d 1f37f 1f381 1f382 1f388 1f389 1f392 1f399 1f3a0 1f3a1 1f3a4 1f3a7 1f3a8 1f3ae 1f3b2 1f3b5 1f3b6 1f3b8 1f3ba 1f3c0 1f3c1 1f3c3 1f3c6 1f3ca 1f3ce 1f3d6 1f3de 1f3e0 1f3eb 1f407 1f409 1f40a 1f40b 1f40c 1f40d 1f411 1f412 1f414 1f418 1f419 1f41a 1f41b 1f41c 1f41d 1f41e 1f41f 1f420 1f421 1f422 1f423 1f424 1f425 1f426 1f427 1f428 1f42c 1f42d 1f42e 1f42f 1f430 1f431 1f433 1f434 1f435 1f436 1f437 1f438 1f439 1f43a 1f43b 1f43c 1f43f 1f440 1f442 1f443 1f444 1f445 1f446 1f44b 1f44f 1f451 1f452 1f453 1f455 1f45f 1f466 1f467 1f468 1f468-200d-1f33e 1f468-200d-1f373 1f468-200d-1f527 1f468-200d-1f680 1f468-200d-1f692 1f469 1f469-200d-1f3a8 1f469-200d-1f3eb 1f469-200d-2695 1f469-200d-2708 1f46e 1f474 1f475 1f476 1f477 1f47d 1f483 1f48e 1f49b 1f4a1 1f4a7 1f4ac 1f4be 1f4c2 1f4cb 1f4cf 1f4d2 1f4d3 1f4d6 1f4da 1f4fa 1f501 1f507 1f50a 1f50b 1f50d 1f511 1f512 1f513 1f514 1f522 1f525 1f527 1f534 1f53a 1f577 1f578 1f58d 1f5bc 1f5d1 1f600 1f601 1f602 1f60a 1f60b 1f614 1f620 1f622 1f628 1f62e 1f632 1f634 1f647 1f64f 1f680 1f681 1f682 1f68a 1f68c 1f691 1f692 1f693 1f695 1f697 1f69a 1f69c 1f6a2 1f6a4 1f6a6 1f6a7 1f6aa 1f6b0 1f6b2 1f6b6 1f6bd 1f6bf 1f6c1 1f6cb 1f6cf 1f6f5 1f6f6 1f6f8 1f914 1f915 1f916 1f917 1f91d 1f929 1f941 1f944 1f948 1f952 1f954 1f955 1f95a 1f95b 1f963 1f964 1f966 1f96c 1f96d 1f970 1f973 1f976 1f980 1f981 1f984 1f985 1f986 1f988 1f989 1f98a 1f98b 1f990 1f991 1f992 1f993 1f994 1f995 1f996 1f997 1f998 1f99c 1f99e 1f9a5 1f9a6 1f9a9 1f9ad 1f9b6 1f9b8 1f9c0 1f9c1 1f9ca 1f9d1-200d-1f393 1f9d1-200d-2708 1f9d2 1f9d9 1f9da 1f9dc 1f9e0 1f9e6 1f9e9 1f9ef 1f9f1 1f9f8 1f9f9 1f9fa 1f9fc 1f9fd 1fa7a 1fa80 1fa81 1fa90 1fa91 1fa9a 1fa9e 1fa9f 1faa5 1faf6 21a9 23f0 23f3 23f9 25b6 25c0 2600 2601 2602 2604 2615 267b 2699 26a1 26bd 26c4 26c5 26f0 26f5 26fa 2702 2705 2708 270b 270d 270f 2714 2716 2728 2744 2753 2764 2795 2b06 2b07 2b50'.split(' ').forEach(function(k){FE_SET[k]=1});
+var FE_RE=null;try{FE_RE=new RegExp('\\p{Extended_Pictographic}(?:\\uFE0F|\\p{Emoji_Modifier})?(?:\\u200D\\p{Extended_Pictographic}(?:\\uFE0F|\\p{Emoji_Modifier})?)*','gu')}catch(e){}
+function feKey(e){var k=[];Array.from(e.replace(/️/g,'')).forEach(function(c){k.push(c.codePointAt(0).toString(16))});return k.join('-')}
+function feSkip(el){return !el||!!(el.closest&&el.closest('svg,textarea,input,script,style,[contenteditable],.nofe'))}
+function feText(t){
+  var s=t.nodeValue;if(!s||!FE_RE||!t.parentNode||feSkip(t.parentNode))return;
+  FE_RE.lastIndex=0;var m,i=0,f=null;
+  while((m=FE_RE.exec(s))){
+    var k=feKey(m[0]);if(!FE_SET[k])continue;
+    if(!f)f=document.createDocumentFragment();
+    if(m.index>i)f.appendChild(document.createTextNode(s.slice(i,m.index)));
+    var im=document.createElement('img');im.className='fe';im.alt=m[0];im.src='emoji/'+k+'.webp';im.draggable=false;im.decoding='async';
+    f.appendChild(im);i=m.index+m[0].length;
+  }
+  if(!f)return;if(i<s.length)f.appendChild(document.createTextNode(s.slice(i)));
+  t.parentNode.replaceChild(f,t);
+}
+function feScan(root){
+  if(!FE_RE||!root)return;
+  if(root.nodeType===3){feText(root);return}
+  if(root.nodeType!==1||feSkip(root))return;
+  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),list=[],n;
+  while((n=w.nextNode()))list.push(n);
+  list.forEach(feText);
+}
+/* ảnh lỗi (mất mạng, thiếu file) thì hiện lại emoji gốc */
+document.addEventListener('error',function(e){var t=e.target;if(t&&t.className==='fe'){delete FE_SET[feKey(t.alt)];if(t.parentNode)t.parentNode.replaceChild(document.createTextNode(t.alt),t)}},true);
+if(FE_RE&&window.MutationObserver){
+  feScan(document.body);
+  new MutationObserver(function(ms){ms.forEach(function(m){
+    if(m.type==='characterData')feText(m.target);else [].forEach.call(m.addedNodes,feScan);
+  })}).observe(document.body,{childList:true,subtree:true,characterData:true});
 }
 $('#langBtn').addEventListener('click',function(){setLang(S.lang==='both'?'vi':(S.lang==='vi'?'en':'both'))});
 var woke=false;

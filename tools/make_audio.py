@@ -4,8 +4,38 @@
 Giọng: tiếng Việt vi-VN-HoaiMyNeural (nữ, giọng miền Bắc, đọc chậm), tiếng Anh en-US-AnaNeural (giọng bé gái).
 Chạy: pip install edge-tts && python3 tools/make_audio.py
 Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại."""
-import asyncio, json, os, re, sys
+import asyncio, json, os, re, sys, urllib.request
 import edge_tts
+import edge_tts.communicate as _ec
+import edge_tts.constants as _ek
+
+
+def edge_version():  # bản Edge mới nhất; máy chủ đọc từ chối (403) khi edge-tts khai báo bản Edge quá cũ
+    v = os.environ.get("EDGE_VERSION", "").strip()
+    if v:
+        return v
+    try:
+        req = urllib.request.Request("https://edgeupdates.microsoft.com/api/products", headers={"User-Agent": "Mozilla/5.0"})
+        for p in json.load(urllib.request.urlopen(req, timeout=20)):
+            if p.get("Product") == "Stable":
+                for r in p.get("Releases", []):
+                    if r.get("Platform") == "Windows" and r.get("ProductVersion"):
+                        return r["ProductVersion"]
+    except Exception as e:
+        print("không lấy được phiên bản Edge:", e, file=sys.stderr)
+    return None
+
+
+def patch_edge():
+    new, old = edge_version(), _ek.CHROMIUM_FULL_VERSION
+    if not new or tuple(map(int, new.split("."))) <= tuple(map(int, old.split("."))):
+        return
+    oldm, newm = old.split(".")[0], new.split(".")[0]
+    _ec.SEC_MS_GEC_VERSION = _ek.SEC_MS_GEC_VERSION = "1-" + new
+    for h in (_ek.BASE_HEADERS, _ek.WSS_HEADERS, _ek.VOICE_HEADERS, _ec.WSS_HEADERS):
+        for k in list(h):
+            h[k] = h[k].replace(oldm + ".0.0.0", newm + ".0.0.0").replace('v="%s"' % oldm, 'v="%s"' % newm)
+    print("Dùng phiên bản Edge", new)
 
 VOICES = {"vi": ("vi-VN-HoaiMyNeural", "-8%", "+0Hz"), "en": ("en-US-AnaNeural", "-5%", "+0Hz")}
 SIG = json.dumps(VOICES, sort_keys=True) + "|v4"  # đổi giọng/cách đọc -> tự tạo lại toàn bộ file
@@ -44,6 +74,7 @@ async def make(sem, text, lang, path):
 
 
 async def main():
+    patch_edge()
     os.makedirs(OUT, exist_ok=True)
     phrases = json.load(open(os.path.join(ROOT, "tools", "phrases.json"), encoding="utf-8"))
     try:  # câu đọc cho ảnh ô tô trong cars/cars.json

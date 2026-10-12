@@ -305,6 +305,62 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .acell.new::before{left:3px;top:3px;padding:0 4px;font-size:10px;border-width:1.5px;border-radius:6px}
 .acell.special.lock::after{right:2px;bottom:1px;font-size:14px}
 .countbtn{align-self:flex-start;margin:6px 0 4px}
+/* ----- album kiểu cuốn sổ ----- */
+.bookwrap{display:flex;flex-direction:column}
+.btabs{display:flex;gap:6px;overflow-x:auto;padding:4px 14px 0;margin-bottom:-4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.btabs::-webkit-scrollbar{display:none}
+.btab{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:54px;height:56px;padding:4px 6px 8px;border-radius:14px 14px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0)) ,var(--tc);border:3px solid rgba(0,0,0,.12);border-bottom:0;box-shadow:inset 0 -6px 8px rgba(0,0,0,.08);transform:translateY(6px);transition:transform .15s}
+.btab .bti{font-size:26px;line-height:1}
+.btab .btn{font-size:11px;font-weight:800;color:#25234A;line-height:1.2}
+.btab.on{transform:none;border-color:rgba(0,0,0,.2);box-shadow:0 -3px 8px rgba(0,0,0,.12)}
+.book{position:relative;display:flex;align-items:stretch;background:linear-gradient(160deg,#2DB0A2,#16827A 60%,#127068);border-radius:24px;padding:14px 12px 14px 8px;box-shadow:0 7px 0 #0E5B54,0 16px 26px rgba(0,0,0,.25)}
+.book::before{content:"";position:absolute;inset:6px;border:2px dashed rgba(255,255,255,.4);border-radius:19px;pointer-events:none}
+.bfeat{display:none}
+.brings{position:relative;z-index:2;width:16px;flex:none;display:flex;flex-direction:column;justify-content:space-around;padding:10px 0}
+.brings i{display:block;width:30px;height:11px;margin-left:-6px;border-radius:8px;background:linear-gradient(180deg,#FDFDFD,#C9CDD6 55%,#8E94A3);box-shadow:0 2px 2px rgba(0,0,0,.35)}
+.bpage{position:relative;flex:1;min-width:0;border-radius:6px 16px 16px 6px;padding:10px 10px 14px;background:radial-gradient(ellipse at 30% 15%,#FFF8E6 0,#F6E7C6 55%,#EBD4A6 100%);box-shadow:inset 0 0 0 1px rgba(150,100,30,.25),inset 10px 0 18px -10px rgba(120,80,20,.35),inset 0 0 40px rgba(160,110,40,.15)}
+.bpage.flipn .bgrid{animation:pgin .35s ease}
+.bpage.flipp .bgrid{animation:pginp .35s ease}
+@keyframes pgin{from{opacity:0;transform:translateX(40px) rotateY(-12deg)}}
+@keyframes pginp{from{opacity:0;transform:translateX(-40px) rotateY(12deg)}}
+.bhead{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.btitle{flex:1;min-width:0;text-align:center;color:#5A3A12;line-height:1.1}
+.btitle b{display:block;font-size:clamp(18px,4.6vmin,28px);font-weight:800}
+.btitle small{display:block;font-size:clamp(12px,2.8vmin,16px);font-weight:700;opacity:.85}
+.bdots{display:flex;justify-content:center;gap:6px;margin-top:4px}
+.bdots i{width:9px;height:9px;border-radius:50%;background:rgba(120,80,20,.25)}
+.bdots i.on{background:#E08A1E}
+.barrow{flex:none;width:52px;height:52px;border-radius:16px;background:linear-gradient(180deg,#FFE27A,#FFB21E);border:3px solid #D98A00;box-shadow:0 4px 0 #B36F00,0 6px 10px rgba(0,0,0,.18);position:relative}
+.barrow::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:24px;background:#fff;transform:translate(-40%,-50%);clip-path:polygon(0 0,100% 50%,0 100%);filter:drop-shadow(0 1px 0 rgba(0,0,0,.2))}
+.barrow.prev::after{transform:translate(-60%,-50%) scaleX(-1)}
+.barrow:active{transform:translateY(3px);box-shadow:0 1px 0 #B36F00}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px}
+.book .acell{background:none;border:0;box-shadow:none;border-radius:12px;padding:6px;aspect-ratio:1;font-size:clamp(44px,13vw,76px);outline:none}
+.book .acell .em,.book .acell svg,.book .acell img.rk{transform:none;animation:none;filter:drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff) drop-shadow(0 5px 4px rgba(90,60,20,.3))}
+.book .acell.lock{background:none}
+.book .acell.lock .em,.book .acell.lock svg,.book .acell.lock img.rk{filter:brightness(0) invert(.45) opacity(.5) drop-shadow(2px 0 0 rgba(255,255,255,.7)) drop-shadow(-2px 0 0 rgba(255,255,255,.7)) drop-shadow(0 2px 0 rgba(255,255,255,.7))}
+.book .acell:not(.lock):active{transform:scale(.92)}
+.book .acell.spin .em,.book .acell.spin svg,.book .acell.spin img.rk{animation:stkspin .9s ease}
+.book .acell.hot{outline:4px solid #FFC93C;background:rgba(255,201,60,.25);transform:scale(1.08)}
+.book .acell.special{box-shadow:none}
+.book .anum{display:none}
+@media (min-width:700px){
+  .bookwrap{flex-direction:row;align-items:flex-start}
+  .btabs{order:2;flex-direction:column;gap:4px;overflow:visible;padding:24px 0 0;margin:0 0 0 -6px}
+  .btab{min-width:0;width:58px;height:min(54px,6.2vh);border-radius:0 14px 14px 0;border:3px solid rgba(0,0,0,.12);border-left:0;transform:translateX(-6px);padding:4px 4px 4px 8px}
+  .btab.on{transform:none;width:66px}
+  .book{flex:1;min-width:0;padding:16px 14px 16px 12px}
+  .bfeat{display:flex;flex-direction:column;align-items:center;gap:6px;width:23%;flex:none;margin-right:4px;padding:10px 6px;border-radius:14px;
+    background:repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 6px,transparent 6px 16px),repeating-linear-gradient(-45deg,rgba(255,255,255,.12) 0 6px,transparent 6px 16px),linear-gradient(180deg,#5BB8F0,#3A93D6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+  .bfeat b{color:#fff;font-size:18px;text-align:center;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+  .bfeat b small{display:block;font-size:12px;opacity:.9}
+  .bfeat p{font-size:40px;margin:20px 0}
+  .bfeat .acell{width:100%;font-size:clamp(50px,8vw,84px)}
+  .bgrid{grid-template-columns:repeat(4,1fr);gap:6px 10px}
+  .book .bgrid .acell{font-size:clamp(46px,min(7vw,9vh),80px);aspect-ratio:auto;height:clamp(84px,17vh,150px)}
+  .bfeat .acell{aspect-ratio:auto;height:clamp(84px,17vh,150px)}
+}
+@media (prefers-reduced-motion:reduce){.bpage .bgrid{animation:none!important}}
 @media (prefers-reduced-motion:reduce){.acell .em,.acell svg,.sticker .em{animation:none}}
 
 /* ---------- Harry Tia Chớp, the main character ---------- */
@@ -3139,29 +3195,67 @@ function showHome(){pfsExit();
   [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }
 
-function showAlbum(){pfsExit();
+/* ---- Album sticker kiểu cuốn sổ: bìa da, gáy lò xo, trang giấy; tab màu cho từng nhóm; sticker viền trắng,
+   sticker chưa có hiện bóng xám; lật trang bằng nút ◀ ▶ hoặc vuốt ---- */
+var ALB_IC=['🚗','🦸','🦁','🐶','🐠','🦋','🚀','🍎','✈️','🧸','🌳'];
+var ALB_COL=['#FF8A8A','#A9A3FF','#FFB36B','#7BE0A0','#78BFFF','#FFE07A','#C4B0FF','#FF9ECF','#8CC8FF','#FFC27A','#B7E27A'];
+var ALB_PER=12;
+function albMine(){return S.stickers.filter(function(x,i){return ALBUM.indexOf(x)>=0&&S.stickers.indexOf(x)===i})}
+function showAlbum(sec,page){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='album';S.cur=null;
   setProgress(0,0);syncControls();
-  var mine=S.stickers.filter(function(x,i){return ALBUM.indexOf(x)>=0&&S.stickers.indexOf(x)===i});
-  var has=function(x){return mine.indexOf(x)>=0};
-  var n=mine.length;
-  function cell(x,k){
-    var own=k>0,isCar=x.indexOf('car:')===0,nm=stkName(x);
-    return '<button class="acell'+(own?'':' lock')+(ANIMALS.indexOf(x)>=0?' animal':'')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
-      +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+(own&&!isCar?' data-stk="'+x+'"':'')+(own?' data-k="'+k+'"':'')
-      +' aria-label="'+(own?'Nhãn dán số '+k+': '+nm[0]:'Chưa có')+'">'+(own?'<span class="anum">'+k+'</span>':'')+stkHTML(x)+'</button>';
+  var mine=albMine(),has=function(x){return mine.indexOf(x)>=0},n=mine.length;
+  if(sec==null){
+    if(S.albSec!=null)sec=S.albSec;
+    else{var last=mine[mine.length-1];sec=0;SECTIONS.forEach(function(sc,i){if(last&&sc.items.indexOf(last)>=0)sec=i})}
+    if(page==null)page=S.albPage||0;
   }
-  var got=mine.map(function(x,i){return cell(x,i+1)}).join('');
-  var lockedL=ALBUM.filter(function(x){return !has(x)});
-  var locked=lockedL.map(function(x){return cell(x,0)}).join('');
-  view.innerHTML='<section class="albumv"><h2 class="atitle">📒 Album sticker của bé<small>My sticker book · '+n+'/'+ALBUM.length+'</small></h2>'
-    +'<p class="ahint">Chạm vào nhãn dán để nghe tên. Chạm vào chú xe để nghe xe nói chuyện và xem xe 3D. · Tap a sticker to hear its name. Tap a car to hear it talk and see it in 3D.</p>'
+  sec=Math.max(0,Math.min(SECTIONS.length-1,sec));
+  var items=SECTIONS[sec].items,pages=Math.max(1,Math.ceil(items.length/ALB_PER));
+  page=Math.max(0,Math.min(pages-1,page||0));S.albSec=sec;S.albPage=page;
+  function cell(x,feat){
+    var own=has(x),isCar=x.indexOf('car:')===0,nm=stkName(x),k=own?mine.indexOf(x)+1:0;
+    return '<button class="acell'+(feat?' feat':'')+(own?'':' lock')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
+      +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+(own&&!isCar?' data-stk="'+x+'"':'')+(own&&!feat?' data-k="'+k+'"':'')
+      +' aria-label="'+(own?nm[0]:'Chưa có')+'">'+stkHTML(x)+'</button>';
+  }
+  var tabs=SECTIONS.map(function(sc,i){
+    var got=sc.items.filter(has).length;
+    return '<button class="btab'+(i===sec?' on':'')+'" data-asec="'+i+'" style="--tc:'+ALB_COL[i%ALB_COL.length]+'" aria-label="'+sc.vi+'">'
+      +'<span class="bti">'+ALB_IC[i%ALB_IC.length]+'</span><span class="btn">'+got+'/'+sc.items.length+'</span></button>'}).join('');
+  var dots='';for(var d=0;d<pages;d++)dots+='<i'+(d===page?' class="on"':'')+'></i>';
+  var feat=mine.slice(-3).reverse();
+  var sc=SECTIONS[sec],got=sc.items.filter(has).length;
+  view.innerHTML='<section class="albumv">'
+    +'<h2 class="atitle">📒 Album sticker của bé<small>My sticker book · '+n+'/'+ALBUM.length+'</small></h2>'
+    +'<div class="bookwrap"><div class="btabs" role="tablist">'+tabs+'</div>'
+    +'<div class="book">'
+    +'<div class="bfeat"><b>Mới nhận<small>New</small></b>'+(feat.length?feat.map(function(x){return cell(x,true)}).join(''):'<p>⭐</p>')+'</div>'
+    +'<div class="brings" aria-hidden="true">'+new Array(9).join('<i></i>')+'</div>'
+    +'<div class="bpage">'
+    +'<div class="bhead"><button class="barrow prev" data-ap="-1" aria-label="Trang trước"></button>'
+    +'<div class="btitle"><b>'+sc.vi+'</b><small>'+sc.en+' · '+got+'/'+sc.items.length+'</small><span class="bdots">'+dots+'</span></div>'
+    +'<button class="barrow next2" data-ap="1" aria-label="Trang sau"></button></div>'
+    +'<div class="bgrid">'+items.slice(page*ALB_PER,(page+1)*ALB_PER).map(function(x){return cell(x)}).join('')+'</div>'
+    +'</div></div></div>'
+    +'<p class="ahint">Chạm vào nhãn dán để nghe tên, chạm vào chú xe để xem xe 3D. Vuốt hoặc bấm ◀ ▶ để lật trang. · Tap a sticker to hear its name. Swipe to turn the page.</p>'
     +'<button class="next alt countbtn" data-act="count">🔢 Đếm nhãn dán<small>Count stickers</small></button>'
-    +'<h3 class="asec"><span>Nhãn dán bé đã có</span><i>My stickers</i><b>'+n+'/'+ALBUM.length+'</b></h3>'
-    +(n?'<div class="agrid">'+got+'</div>':'<p class="ahint">Chơi xong một lượt để nhận nhãn dán đầu tiên nhé! · Finish a round to win your first sticker!</p>')
-    +(lockedL.length?'<h3 class="asec"><span>Chưa nhận được</span><i>Still to win</i><b>'+lockedL.length+'</b></h3><div class="agrid small">'+locked+'</div>':'')
     +'</section>';
+  var pg=view.querySelector('.bpage'),x0=null;
+  if(pg){
+    pg.addEventListener('pointerdown',function(e){x0=e.clientX});
+    pg.addEventListener('pointerup',function(e){if(x0==null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>60){albFlip(dx<0?1:-1)}});
+    if(S.albDir)pg.classList.add(S.albDir>0?'flipn':'flipp');S.albDir=0;
+  }
 }
+/* lật trang; hết nhóm thì sang nhóm kế bên */
+function albFlip(dir){
+  var sec=S.albSec||0,page=(S.albPage||0)+dir,pages=Math.max(1,Math.ceil(SECTIONS[sec].items.length/ALB_PER));
+  if(page>=pages){sec=(sec+1)%SECTIONS.length;page=0;albSay(sec)}
+  else if(page<0){sec=(sec-1+SECTIONS.length)%SECTIONS.length;page=Math.ceil(SECTIONS[sec].items.length/ALB_PER)-1;albSay(sec)}
+  sfx('pop');S.albDir=dir;showAlbum(sec,page);
+}
+function albSay(sec){var sc=SECTIONS[sec];setTimeout(function(){if(S.mode==='album')speakNow([[sc.vi,'vi'],[sc.en,'en']])},50)}
 function stkTap(el){
   var x=el.getAttribute('data-stk'),k=el.getAttribute('data-k'),nm=stkName(x);
   el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');sfx('pop');
@@ -3171,7 +3265,8 @@ function countStickers(){
   var cells=[].slice.call(document.querySelectorAll('.acell[data-k]'));
   clearInterval(S.cnt);S.cntRun=(S.cntRun||0)+1;var run=S.cntRun;
   cells.forEach(function(c){c.classList.remove('hot')});
-  if(!cells.length){speakNow([['Bé chưa có nhãn dán nào. Chơi để nhận nhé!','vi'],['You have no stickers yet. Play to win one!','en']]);return}
+  if(!cells.length){var tot=albMine().length;
+    speakNow(tot?[['Bé có '+numVI(tot)+' nhãn dán!','vi'],['You have '+numEN(tot)+' stickers!','en']]:[['Bé chưa có nhãn dán nào. Chơi để nhận nhé!','vi'],['You have no stickers yet. Play to win one!','en']]);return}
   var i=0;
   function alive(){return run===S.cntRun&&S.mode==='album'&&document.body.contains(cells[0])}
   function step(){
@@ -5400,6 +5495,8 @@ view.addEventListener('click',function(e){
     else if(a==='chatclose')closeChat();
     return;
   }
+  var asc=t.closest('[data-asec]');if(asc){var si=+asc.getAttribute('data-asec');sfx('pop');S.albDir=si>(S.albSec||0)?1:-1;showAlbum(si,0);albSay(si);return}
+  var apg=t.closest('[data-ap]');if(apg){albFlip(+apg.getAttribute('data-ap'));return}
   var sk=t.closest('[data-stk]');if(sk){stkTap(sk);return}
   var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
   var sw=t.closest('.sw');

@@ -1,6 +1,8 @@
 name: Tạo giọng đọc AI
 on:
   workflow_dispatch:
+  schedule:  # mỗi ngày thử lại giọng Microsoft cho các câu đang dùng giọng dự phòng Google
+    - cron: "23 20 * * *"
   push:
     paths:
       - "cars/**"
@@ -20,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -U edge-tts pillow pillow-heif
+      - run: pip install -U edge-tts gTTS pillow pillow-heif
       - run: python3 tools/build_cars.py
       - run: python3 tools/make_audio.py
         timeout-minutes: 300

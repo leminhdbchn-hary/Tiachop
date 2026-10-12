@@ -2,7 +2,7 @@
 """Trang nghe thử giọng VieNeu-TTS (mã nguồn mở, Apache-2.0, chạy trên CPU, không cần tài khoản):
 voicetest/vieneu/index.html (Pages: .../Tiachop/voicetest/vieneu/). Mỗi giọng có sẵn đọc cùng các câu mẫu,
 kèm giọng HoaiMy hiện tại để so sánh. Chạy: pip install vieneu && python3 tools/make_vieneu_samples.py (cần ffmpeg)."""
-import html, os, subprocess, sys, traceback
+import html, os, shutil, subprocess, sys, traceback
 from vieneu import Vieneu
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,9 +21,34 @@ def mp3(audio, tts, path):
     os.remove(wav)
 
 
+def real_files():
+    """onnxruntime mới từ chối file mô hình là symlink trỏ sang thư mục khác (cách bộ nhớ đệm Hugging Face lưu file).
+    Đổi các symlink trong snapshots thành file thật."""
+    root = os.environ.get("HF_HUB_CACHE") or os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "hub")
+    n = 0
+    for d, _, files in os.walk(root):
+        for f in files:
+            p = os.path.join(d, f)
+            if os.path.islink(p):
+                src = os.path.realpath(p)
+                os.unlink(p)
+                shutil.copyfile(src, p)
+                n += 1
+    print("đổi", n, "symlink thành file thật", flush=True)
+
+
+def load():
+    try:
+        return Vieneu()
+    except Exception as e:  # lần đầu: mô hình đã tải về nhưng onnxruntime không mở được symlink
+        print("Lỗi khi mở mô hình, sửa bộ nhớ đệm rồi thử lại:", e, flush=True)
+        real_files()
+        return Vieneu()
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
-    tts = Vieneu()
+    tts = load()
     voices = tts.list_preset_voices()
     print("Giọng có sẵn:", voices)
     rows = ['<section><h3>Hiện tại · HoaiMy (Microsoft)</h3>%s</section>' % "".join(

@@ -3,8 +3,14 @@
 Đọc tools/phrases.json -> tạo audio/<mã>.mp3 (bỏ qua file đã có) -> ghi audio/manifest.json.
 Giọng: tiếng Việt vi-VN-HoaiMyNeural (nữ, giọng miền Bắc, đọc chậm), tiếng Anh en-US-AnaNeural (giọng bé gái).
 Chạy: pip install edge-tts && python3 tools/make_audio.py
-Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại."""
-import asyncio, json, os, re, sys, urllib.request
+Muốn tạo lại toàn bộ: xoá thư mục audio/ rồi chạy lại.
+
+Azure Speech (dịch vụ chính thức của Microsoft, cùng giọng, gói miễn phí F0): đặt biến môi trường AZURE_SPEECH_KEY và
+AZURE_SPEECH_REGION (ví dụ southeastasia) thì script dùng Azure thay cho edge-tts. Trên GitHub: Settings > Secrets and
+variables > Actions, thêm hai secret cùng tên. Gói F0 giới hạn khoảng 20 câu/phút nên script tự đọc chậm lại (AZURE_RPM)."""
+import asyncio, json, os, re, sys, time, urllib.request
+from xml.sax.saxutils import escape
+import aiohttp
 import edge_tts
 import edge_tts.communicate as _ec
 import edge_tts.constants as _ek
@@ -56,6 +62,38 @@ def spoken(text):  # bỏ dấu ngoặc kép để giọng đọc không đọc 
     return re.sub(r"\s+", " ", t).strip()
 
 
+AZ_KEY = os.environ.get("AZURE_SPEECH_KEY", "").strip()
+AZ_REGION = os.environ.get("AZURE_SPEECH_REGION", "").strip()
+AZ = {"gap": 60.0 / max(1, int(os.environ.get("AZURE_RPM", "18") or 18)), "next": 0.0, "lock": None, "http": None}
+
+
+async def az_save(text, voice, rate, pitch, path):
+    """Gọi Azure Speech REST, lưu mp3 cùng định dạng với edge-tts. Tự giãn nhịp theo giới hạn gói miễn phí."""
+    lang = voice[:5]
+    ssml = ("<speak version='1.0' xml:lang='%s'><voice name='%s'><prosody rate='%s' pitch='%s'>%s</prosody></voice></speak>"
+            % (lang, voice, rate, pitch, escape(text)))
+    url = "https://%s.tts.speech.microsoft.com/cognitiveservices/v1" % AZ_REGION
+    headers = {"Ocp-Apim-Subscription-Key": AZ_KEY, "Content-Type": "application/ssml+xml",
+               "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3", "User-Agent": "BeVuiHoc"}
+    for _ in range(8):
+        async with AZ["lock"]:  # mỗi lần chỉ gửi một câu, cách nhau AZ["gap"] giây
+            wait = AZ["next"] - time.monotonic()
+            if wait > 0:
+                await asyncio.sleep(wait)
+            AZ["next"] = time.monotonic() + AZ["gap"]
+            async with AZ["http"].post(url, data=ssml.encode("utf-8"), headers=headers) as r:
+                body = await r.read()
+                if r.status == 200:
+                    with open(path, "wb") as f:
+                        f.write(body)
+                    return
+                if r.status == 429:  # quá giới hạn: chờ rồi thử lại, không tính là lỗi
+                    AZ["next"] = time.monotonic() + float(r.headers.get("Retry-After") or 10)
+                    continue
+                raise RuntimeError("Azure %d %s" % (r.status, body[:200].decode("utf-8", "replace")))
+    raise RuntimeError("Azure 429 quá nhiều lần")
+
+
 FAIL = {"run": 0, "stop": False}  # đếm số câu lỗi liên tiếp; lỗi hàng loạt thì dừng sớm thay vì chạy cả tiếng
 
 
@@ -67,7 +105,10 @@ async def make(sem, text, lang, path):
             return False
         for attempt in range(4):
             try:
-                await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(path)
+                if AZ_KEY:
+                    await az_save(text, voice, rate, pitch, path)
+                else:
+                    await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(path)
                 if os.path.getsize(path) > 500:
                     FAIL["run"] = 0
                     return True
@@ -84,7 +125,14 @@ async def make(sem, text, lang, path):
 
 
 async def main():
-    patch_edge()
+    if AZ_KEY:
+        if not AZ_REGION:
+            sys.exit("Thiếu AZURE_SPEECH_REGION (ví dụ southeastasia)")
+        AZ["lock"] = asyncio.Lock()
+        AZ["http"] = aiohttp.ClientSession()
+        print("Dùng Azure Speech, vùng", AZ_REGION)
+    else:
+        patch_edge()
     os.makedirs(OUT, exist_ok=True)
     phrases = json.load(open(os.path.join(ROOT, "tools", "phrases.json"), encoding="utf-8"))
     try:  # câu đọc cho ảnh ô tô trong cars/cars.json
@@ -110,12 +158,14 @@ async def main():
         if force or not (os.path.exists(path) and os.path.getsize(path) > 500):
             jobs.append((cid, make(sem, text, lang, path)))
     res = await asyncio.gather(*[j for _, j in jobs])
+    if AZ["http"]:
+        await AZ["http"].close()
     failed = [cid for (cid, _), ok in zip(jobs, res) if not ok]
     good = {c: t for c, t in clips.items() if c not in failed}
     with open(os.path.join(OUT, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump({"sig": SIG, "clips": good}, f, ensure_ascii=False, indent=0)
-    print("Tạo mới %d, thành công %d/%d, lỗi %d (edge-tts %s, Edge %s)" % (len(jobs), len(good), len(clips), len(failed),
-          getattr(edge_tts, "__version__", "?"), _ec.SEC_MS_GEC_VERSION))
+    print("Tạo mới %d, thành công %d/%d, lỗi %d (%s)" % (len(jobs), len(good), len(clips), len(failed),
+          "Azure Speech " + AZ_REGION if AZ_KEY else "edge-tts %s, Edge %s" % (getattr(edge_tts, "__version__", "?"), _ec.SEC_MS_GEC_VERSION)))
     if len(good) < len(clips) * 0.9:
         sys.exit(1)
 

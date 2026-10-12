@@ -23,6 +23,10 @@ jobs:
       - run: pip install -U edge-tts pillow pillow-heif
       - run: python3 tools/build_cars.py
       - run: python3 tools/make_audio.py
+        timeout-minutes: 300
+        env:  # có 2 secret này thì dùng Azure Speech (xem đầu file tools/make_audio.py)
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
       - name: Lưu ảnh và file âm thanh vào repo
         if: ${{ !cancelled() }}  # vẫn lưu các câu đã tạo được dù còn câu lỗi
         run: |

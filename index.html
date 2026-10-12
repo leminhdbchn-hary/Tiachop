@@ -163,6 +163,12 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 #replay.nudge{animation:nudge .8s ease 3}
 @keyframes nudge{50%{transform:scale(1.18) rotate(-6deg);box-shadow:0 0 0 8px rgba(255,201,60,.45),0 4px 0 #E0A21B}}
 @media (prefers-reduced-motion:reduce){.home .tile .glyph,#replay.nudge,.mascot.hop>svg,.mascot.hop img.rk,#setBtn.wig{animation:none}}
+.hturn{position:relative;flex:1;min-height:260px;max-height:500px;border-radius:26px;overflow:hidden;touch-action:pan-y;cursor:grab;
+  background:linear-gradient(180deg,#9ED8FA 0%,#D9F0FF 62%,#BFE8A8 62.2%,#8FD47A 100%);box-shadow:inset 0 0 0 4px rgba(255,255,255,.55),0 8px 18px var(--soft)}
+.hturn:active{cursor:grabbing}
+.hpad{position:absolute;left:50%;bottom:9%;width:78%;max-width:520px;height:15%;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(ellipse at 50% 40%,#fff 0,#f1f4fb 55%,#c8d0e6 100%);box-shadow:0 10px 0 #25234A,0 18px 24px rgba(0,0,0,.28)}
+.hcar{position:absolute;left:50%;bottom:calc(9% + 5%);transform-origin:50% 100%;user-select:none;-webkit-user-drag:none;pointer-events:none;filter:drop-shadow(0 12px 8px rgba(0,0,0,.25))}
 .hsec{margin:8px 4px -4px}
 .vnote{margin:0;text-align:center;font-size:14px;font-weight:600;color:var(--bgtext);opacity:.85}
 
@@ -2648,7 +2654,48 @@ var V3={
  roller:['heavy',[['y','s',[.8,2.0],[0,.8,1.5],[0,0,1.5708]]]],
  loader:['heavy',[['b','s',[2.6,.7,.9],[0,.7,2.1],0,.1]],1.25]
 };
+/* ---- Harry xoay 3D bằng ảnh: ghép 6 góc nhìn (trước, 3/4, bên, sau, bên, 3/4 lật) và ép ngang khi chuyển góc ---- */
+var HV={front:'img/harry-v-front.webp',hero:'img/harry-hero.webp',side:'img/harry-v-side.webp',back:'img/harry-v-back.webp'};
+var HV_SZ={front:[514,433],hero:[640,450],side:[640,363],back:[469,388]};
+var HFR=[[0,'front',0],[45,'hero',0],[90,'side',1],[180,'back',0],[270,'side',0],[315,'hero',1]];/* [góc, ảnh, lật ngang] */
+function harryFrame(deg){
+  deg=((deg%360)+360)%360;
+  var best=0,bd=1e9,i,d;
+  for(i=0;i<HFR.length;i++){d=Math.abs(((deg-HFR[i][0]+540)%360)-180);if(d<bd){bd=d;best=i}}
+  var f=HFR[best],prev=HFR[(best+HFR.length-1)%HFR.length][0],next=HFR[(best+1)%HFR.length][0];
+  var toNext=((next-f[0]+360)%360)/2,toPrev=((f[0]-prev+360)%360)/2;
+  var off=((deg-f[0]+540)%360)-180,edge=off>=0?toNext-off:toPrev+off;/* còn cách ranh giới bao nhiêu độ */
+  var t=Math.max(0,Math.min(1,edge/10));
+  return {key:f[1],flip:f[2]?-1:1,squash:.7+.3*(t*t*(3-2*t))};
+}
+var HTEX={};
+function harryTex(T,key,cb){
+  if(HTEX[key]){cb&&HTEX[key].image&&cb(HTEX[key]);return HTEX[key]}
+  var t=new T.TextureLoader().load(HV[key],function(tx){if(cb)cb(tx)});
+  t.anisotropy=4;HTEX[key]=t;return t;
+}
+function makeHarrySprite(){
+  var T=THREE,g=new T.Group(),H=2.25;
+  var mat=new T.MeshBasicMaterial({transparent:true,alphaTest:.04,side:T.DoubleSide,depthWrite:false});
+  var plane=new T.Mesh(new T.PlaneGeometry(1,1),mat);plane.visible=false;g.add(plane);
+  var sh=new T.Mesh(new T.CircleGeometry(1,28),new T.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.22,depthWrite:false}));
+  sh.rotation.x=-Math.PI/2;sh.position.set(0,.03,0);sh.scale.set(1.35,.55,1);g.add(sh);
+  var last='';
+  Object.keys(HV).forEach(function(k){harryTex(T,k,function(){last=''})});
+  function setAngle(deg){
+    var f=harryFrame(deg),tx=HTEX[f.key];
+    if(!tx||!tx.image)return;
+    if(last!==f.key){mat.map=tx;mat.needsUpdate=true;last=f.key}
+    var z=HV_SZ[f.key],h=H*(z[1]/430),w=h*z[0]/z[1];
+    plane.scale.set(w*f.squash*f.flip,h,1);plane.position.y=h/2+.05;plane.visible=true;
+    sh.scale.set(w*.5*f.squash+.4,.5,1);
+  }
+  setAngle(180);
+  g.userData={wheels:[],body:new T.MeshBasicMaterial(),sprite:true,setAngle:setAngle};
+  return g;
+}
 function make3DCar(id,hex){
+  if(id==='chop'&&window.THREE)return makeHarrySprite();
   var T=THREE,c=CARS[id],g=new T.Group();
   function mat(col,sh){return new T.MeshPhongMaterial({color:col,shininess:sh||70,specular:0x777777})}
   var bodyMat=mat(hex||c.color,95),glass=mat(0xbfe8ff,120),dark=mat(0x2b2b3a,30),white=mat(0xffffff,60),grey=mat(0x949bb0,35);
@@ -2877,7 +2924,7 @@ function initDrive(){
   var ban=new T.Mesh(new T.BoxGeometry(roadW+.8,1.1,.2),new T.MeshBasicMaterial({map:tex}));ban.position.set(0,5,0);fin.add(ban);
   scene.add(fin);
   /* cars */
-  var car=make3DCar(S.car);car.scale.setScalar(.8);car.rotation.y=Math.PI;scene.add(car);
+  var car=make3DCar(S.car);car.scale.setScalar(.8);if(!car.userData.sprite)car.rotation.y=Math.PI;scene.add(car);
   var rids=CARIDS.filter(function(x){return x!=='chop'&&x!=='kim'}),rid=pick(rids);
   var rival=make3DCar(rid);rival.scale.setScalar(.8);rival.rotation.y=Math.PI;scene.add(rival);
   $('#rcMe').innerHTML=carSVG(S.car);$('#rcCpu').innerHTML=carSVG(rid);
@@ -2986,6 +3033,12 @@ function initDrive(){
     car.visible=st.blink>0?Math.floor(st.t*14)%2===0:true;
     var sc=car.scale.x;if(sc>.8)car.scale.setScalar(Math.max(.8,sc-dt*.5));
     car.userData.wheels.forEach(function(w){w.rotation.x-=st.speed*dt*1.6});
+    if(car.userData.setAngle){/* Harry xoay một vòng khi sẵn sàng, đứng yên nhìn từ phía sau khi đua, xoay ăn mừng khi về đích */
+      var ang=180;
+      if(st.phase==='intro'){var u=Math.min(1,st.t/2.2);ang=180+360*(.5-.5*Math.cos(Math.PI*u))}
+      else if(st.phase==='done'){st.sp=(st.sp||0)+dt*320;ang=180+st.sp}
+      car.userData.setAngle(ang);
+    }
     rival.position.set(rv.x,Math.abs(Math.sin(st.t*12+1))*.04,pd-rv.d);
     rival.rotation.z=(LANES[rv.lane]-rv.x)*.07;
     rival.visible=rival.position.z<cam.position.z-3&&rival.position.z>-110;
@@ -3001,7 +3054,40 @@ function initDrive(){
 }
 
 /* ---------- Showroom: spin the car, change its colour, honk ---------- */
+function openHarryShowroom(id){
+  stop3D();clearTimeout(S.timer);stopSpeech();
+  S.mode='show';S.cur=null;setProgress(0,0);syncControls();
+  var c=CARS[id];
+  view.innerHTML='<section class="show3d">'
+    +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+' Tia Chớp</b> · '+c.vi+'<small>'+c.en+'</small></div>'
+    +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
+    +'<div class="hturn" id="hturn"><div class="hpad"></div><img class="hcar" id="hcar" alt="Harry Tia Chớp" draggable="false"></div>'
+    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to spin</div></section>';
+  var el=$('#hturn'),im=$('#hcar'),st={run:true,raf:0,renderer:null,onResize:function(){},onKey:function(){}};D=st;
+  var ang=20,drag=false,lx=0,moved=0,bump=0,spin=48,last=performance.now(),cur='';
+  Object.keys(HV).forEach(function(k){(new Image()).src=HV[k]});
+  function paint(){
+    var f=harryFrame(ang),z=HV_SZ[f.key],k=Math.min(el.clientHeight*.7/430,el.clientWidth*.8/640);/* cùng một tỉ lệ cho mọi góc; góc bên dài nhất vẫn vừa khung */
+    if(cur!==f.key){im.src=HV[f.key];cur=f.key}
+    var h=z[1]*k,w=z[0]*k;
+    im.style.height=h+'px';im.style.width=w+'px';
+    im.style.transform='translateX(-50%) translateY('+(-Math.sin(bump*30)*bump*28)+'px) scale('+(f.flip*f.squash)+',1)';
+  }
+  el.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;moved=0;try{el.setPointerCapture(e.pointerId)}catch(_){}});
+  el.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);ang-=dx*.55});
+  el.addEventListener('pointerup',function(){drag=false;if(moved<8){sfx('honk');bump=.5;speakNow([[c.honk,'vi',true]])}});
+  function frame(now){
+    if(D!==st||!st.run)return;
+    var dt=Math.min(.05,(now-last)/1000);last=now;
+    if(!drag&&!reduce)ang+=dt*spin;
+    if(bump>0)bump=Math.max(0,bump-dt*1.6);
+    paint();st.raf=requestAnimationFrame(frame);
+  }
+  st.raf=requestAnimationFrame(frame);
+  setTimeout(function(){speakNow([['Xin chào bé! Mình là '+c.name+'.','vi'],[c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']])},300);
+}
 function openShowroom(id){
+  if(id==='chop'){openHarryShowroom(id);return}
   stop3D();clearTimeout(S.timer);stopSpeech();
   S.mode='show';S.cur=null;setProgress(0,0);syncControls();
   var c=CARS[id];

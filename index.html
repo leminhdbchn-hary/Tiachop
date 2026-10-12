@@ -761,6 +761,56 @@ body[data-lang=en] .asec i{font-size:1em;font-weight:800;opacity:1}
 @media (orientation:landscape) and (max-height:520px){.item img.rk{width:clamp(54px,15vh,84px)}}
 .visual{flex:1 0 auto}
 @media (orientation:portrait){.stage:has(.visual:not(:empty)) .opts.n3 .opt{height:clamp(96px,14vh,150px)}.stage:has(.visual:not(:empty)) .opts.n2 .opt{height:clamp(110px,18vh,190px)}}
+
+/* ---- Hát & Thơ ---- */
+.sgm .asec{margin:14px 4px 6px}
+.sgcard .sgthumb{width:100%;max-height:96px;object-fit:contain;display:block}
+.sgrec{position:relative}
+.sgadd{margin:14px auto 6px;display:block}
+.sgv{display:flex;flex-direction:column;gap:12px;padding:4px 2px 18px;align-items:stretch}
+.sghead{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid #F2A6CF;border-radius:24px;padding:8px 14px;box-shadow:0 5px 0 #F2A6CF}
+.sghead h2{margin:0;font-size:clamp(24px,6vmin,40px);line-height:1.05;color:#25234A}
+.sghead h2 small{display:block;font-size:.5em;font-weight:600;opacity:.7}
+.sgpic{width:clamp(80px,22vmin,140px);height:auto;flex:none}
+.sgemo{font-size:clamp(48px,13vmin,84px);flex:none;line-height:1}
+.sgtext{background:#FFFBEF;border:3px solid #F4D27A;border-radius:24px;padding:12px 16px;text-align:center}
+.sgtext.big{font-size:80px}
+.sgl{margin:6px 0;font-size:clamp(24px,6.4vmin,44px);font-weight:800;line-height:1.25;color:#25234A;transition:opacity .2s}
+.sgl.on{background:#FFE88F;border-radius:14px}
+.sgl.dimq{opacity:.35}
+.sgw{display:inline-block;padding:0 3px;border-radius:10px;transition:transform .12s,background .12s}
+.sgw.on{background:#FF8FB8;color:#fff;transform:scale(1.18)}
+.sgw.hit{box-shadow:0 0 0 3px #2FBF5B inset}
+.sgw.blank{background:#fff;border:3px dashed #D9629E;min-width:60px}
+.sgbtns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.sgbtns .next{flex:1 1 150px;min-width:0;margin:0;font-size:clamp(18px,4.4vmin,26px);padding:6px 10px}
+.sgbtns .next:disabled{opacity:.4}
+.sgbtns #sgmyv{display:contents}
+.sgclap{display:flex;align-items:center;justify-content:center;gap:16px}
+.sgclap[hidden]{display:none}
+.sgclapbtn{font-size:clamp(64px,18vmin,110px);line-height:1;background:#fff;border:4px solid #F2A6CF;border-radius:50%;width:clamp(110px,30vmin,170px);height:clamp(110px,30vmin,170px);box-shadow:0 6px 0 #F2A6CF;touch-action:manipulation}
+.sgclapbtn.pop{animation:sgpop .18s ease}
+@keyframes sgpop{50%{transform:scale(.88)}}
+.sgclap b{font-size:clamp(26px,7vmin,40px);color:var(--bgtext)}
+.sgquiz[hidden]{display:none}
+.sgqq{margin:0;text-align:center;font-size:clamp(22px,5.6vmin,34px);color:var(--bgtext)}
+.sgqq small{display:block;font-size:.55em;opacity:.8}
+.sgopts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.sgopt{min-width:clamp(110px,26vmin,170px);padding:14px 18px;font-size:clamp(30px,8vmin,52px);font-weight:800;background:#fff;border:4px solid #8FB8FF;border-radius:22px;box-shadow:0 6px 0 #8FB8FF;color:#25234A}
+.sgopt.good{border-color:#2FBF5B;box-shadow:0 6px 0 #2FBF5B;background:#E6FFEE}
+.sgopt.bad{opacity:.45}
+.sgopt.shake{animation:shake .4s}
+.sgform h2{margin:0;font-size:clamp(24px,6vmin,36px);color:var(--bgtext)}.sgform h2 small{display:block;font-size:.55em;font-weight:600;opacity:.8}
+.sgform label{display:flex;flex-direction:column;gap:6px;font-size:18px;color:var(--bgtext)}
+.sgform input,.sgform textarea{font:inherit;font-size:18px;font-weight:600;border:3px solid #F2A6CF;border-radius:16px;padding:10px 12px;-webkit-user-select:text;user-select:text;background:#fff;color:#25234A}
+.sgemos{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.sgemos .sgemo{font-size:34px;width:56px;height:56px;border-radius:16px;background:#fff;border:3px solid #eee}
+.sgemos .sgemo.on{border-color:#D9629E;box-shadow:0 4px 0 #D9629E}
+@media (orientation:landscape) and (max-height:520px){
+  .sgv{gap:8px}.sghead{padding:4px 10px}.sgpic{width:70px}.sgemo{font-size:44px}
+  .sgl{font-size:clamp(20px,6.4vh,30px);margin:2px 0}
+  .sgclapbtn{width:96px;height:96px;font-size:56px}
+}
 </style>
 </head>
 <body>
@@ -868,8 +918,8 @@ var WORDS=[
  {e:'🌳',ph:'cái cây',w:'cây',L:'C',en:'tree'},{e:'🍉',ph:'quả dưa hấu',w:'dưa hấu',L:'D',en:'watermelon'},
  {e:'🎈',ph:'quả bóng bay',w:'bóng',L:'B',en:'balloon'},{e:'🚲',ph:'chiếc xe đạp',w:'xe đạp',L:'X',en:'bicycle'},
  {e:'🦒',ph:'con hươu cao cổ',w:'hươu',L:'H',en:'giraffe'},{e:'🍦',ph:'cây kem',w:'kem',L:'K',en:'ice cream'}];
-var LN={A:'a','Ă':'á','Â':'ớ',B:'bê',C:'xê',D:'dê','Đ':'đê',E:'e','Ê':'ê',G:'giê',H:'hát',I:'i',K:'ca',L:'lờ',M:'mờ',N:'nờ',
-        O:'o','Ô':'ô','Ơ':'ơ',P:'pê',Q:'quy',R:'rờ',S:'sờ',T:'tê',U:'u','Ư':'ư',V:'vê',X:'ích xì',Y:'i dài'};
+var LN={A:'a','Ă':'á','Â':'ớ',B:'bờ',C:'cờ',D:'dờ','Đ':'đờ',E:'e','Ê':'ê',G:'gờ',H:'hờ',I:'i',K:'ca',L:'lờ',M:'mờ',N:'nờ',
+        O:'o','Ô':'ô','Ơ':'ơ',P:'pờ',Q:'cu',R:'rờ',S:'sờ',T:'tờ',U:'u','Ư':'ư',V:'vờ',X:'xờ',Y:'i dài'};
 var LET_POOL={
  1:['A','B','C','M','O'],
  2:['A','B','C','D','E','G','H','I','K','L','M','N','O','P','S','T','U','V','X'],
@@ -895,7 +945,12 @@ var ANI=[
  {e:'🐬',vi:'con cá heo',en:'dolphin',ab:'swim'},{e:'🐳',vi:'con cá voi',en:'whale',ab:'swim'},
  {e:'🦅',vi:'con đại bàng',en:'eagle',ab:'fly'},{e:'🐯',vi:'con hổ',en:'tiger',ab:'walk'},
  {e:'🐒',vi:'con khỉ',en:'monkey',ab:'walk'},{e:'🐢',vi:'con rùa',en:'turtle',ab:null}];
-var ABIL={fly:{vi:'bay',en:'fly'},swim:{vi:'bơi',en:'swim'}};
+var ABIL={fly:{vi:'biết bay',en:'can fly',q:'Con nào biết bay?',qe:'Which one can fly?'},swim:{vi:'sống dưới nước',en:'lives in the water',q:'Con nào sống dưới nước?',qe:'Which one lives in the water?'}};
+var EN_PL={eyes:1,glasses:1,grapes:1,scissors:1,socks:1},EN_MASS={corn:1,broccoli:1};
+function enA(w){return EN_PL[w]||EN_MASS[w]?w:(/^[aeiou]/i.test(w)?'an ':'a ')+w}
+function enThis(w){return (EN_PL[w]?'These are ':'This is ')+enA(w)}
+function enIs(w){return EN_PL[w]?' are ':' is '}
+function enCap(w){return w.charAt(0).toUpperCase()+w.slice(1)}
 
 /* Vehicles' jobs */
 var JOBS={
@@ -904,7 +959,7 @@ var JOBS={
  race:{vi:'chạy thật nhanh',en:'drives really fast'},conv:{vi:'đi dạo mát',en:'goes for a breezy ride'}};
 var LIGHTS=[
  {vi:'đỏ',en:'red',hex:'#FF3B3B',job:{vi:'dừng lại',en:'stop'}},
- {vi:'vàng',en:'yellow',hex:'#FFD21F',job:{vi:'chờ',en:'wait'}},
+ {vi:'vàng',en:'yellow',hex:'#FFD21F',job:{vi:'đi chậm lại, chuẩn bị dừng',en:'slow down and get ready to stop'}},
  {vi:'xanh',en:'green',hex:'#2FBF5B',job:{vi:'đi',en:'go'}}];
 
 /* My body */
@@ -923,26 +978,26 @@ var FCOL={red:{vi:'đỏ',en:'red'},yellow:{vi:'vàng',en:'yellow'},orange:{vi:'
 var FOOD=[
  {e:'🍎',vi:'quả táo',en:'apple',c:'red'},{e:'🍌',vi:'quả chuối',en:'banana',c:'yellow'},
  {e:'🍊',vi:'quả cam',en:'orange',c:'orange'},{e:'🍇',vi:'quả nho',en:'grapes',c:'purple'},
- {e:'🍓',vi:'quả dâu',en:'strawberry',c:'red'},{e:'🍉',vi:'quả dưa hấu',en:'watermelon',c:'green'},
- {e:'🍍',vi:'quả dứa',en:'pineapple',c:'yellow'},{e:'🥭',vi:'quả xoài',en:'mango',c:'yellow'},
+ {e:'🍓',vi:'quả dâu',en:'strawberry',c:'red'},{e:'🍉',vi:'quả dưa hấu',en:'watermelon',c:'green',nc:1},
+ {e:'🍍',vi:'quả dứa',en:'pineapple',c:'yellow'},{e:'🥭',vi:'quả xoài',en:'mango',c:'yellow',nc:1},
  {e:'🍐',vi:'quả lê',en:'pear',c:'green'},{e:'🍑',vi:'quả đào',en:'peach',c:'pink'},
- {e:'🍋',vi:'quả chanh',en:'lemon',c:'yellow'},{e:'🥕',vi:'củ cà rốt',en:'carrot',c:'orange'},
+ {e:'🍋',vi:'quả chanh vàng',en:'lemon',c:'yellow'},{e:'🥕',vi:'củ cà rốt',en:'carrot',c:'orange'},
  {e:'🌽',vi:'bắp ngô',en:'corn',c:'yellow'},{e:'🍅',vi:'quả cà chua',en:'tomato',c:'red'},
  {e:'🥦',vi:'cây bông cải',en:'broccoli',c:'green'}];
 
 /* Feelings */
 var EMO=[
  {e:'😀',vi:'vui',en:'happy'},{e:'😢',vi:'buồn',en:'sad'},{e:'😠',vi:'giận',en:'angry'},
- {e:'😴',vi:'buồn ngủ',en:'sleepy'},{e:'😨',vi:'sợ',en:'scared'},{e:'🥰',vi:'yêu thương',en:'loved'},
+ {e:'😴',vi:'buồn ngủ',en:'sleepy'},{e:'😨',vi:'sợ',en:'scared'},{e:'🥰',vi:'được yêu thương',en:'loved'},
  {e:'😮',vi:'ngạc nhiên',en:'surprised'}];
 var SITS=[
- {h:'🎁',vi:'Bé được tặng một món quà.',en:'You get a present.',a:'happy'},
- {h:'🤕',vi:'Bé bị ngã đau.',en:'You fell down and got hurt.',a:'sad'},
- {h:'🧸',vi:'Bạn lấy mất đồ chơi của bé.',en:'A friend took your toy.',a:'angry'},
+ {h:'🎁',vi:'Bé được tặng một món quà.',en:'You get a present.',a:'happy',x:['surprised','loved']},
+ {h:'🤕',vi:'Bé bị ngã đau.',en:'You fell down and got hurt.',a:'sad',x:['scared']},
+ {h:'🧸',vi:'Bạn lấy mất đồ chơi của bé.',en:'A friend took your toy.',a:'angry',x:['sad']},
  {h:'🌙',vi:'Trời đã tối, đến giờ đi ngủ.',en:'It is night, time for bed.',a:'sleepy'},
  {h:'⚡',vi:'Bé nghe tiếng sấm thật to.',en:'You hear very loud thunder.',a:'scared'},
- {h:'🤗',vi:'Mẹ ôm bé thật chặt.',en:'Mom gives you a big hug.',a:'loved'},
- {h:'🎉',vi:'Bé mở hộp ra và thấy một điều bất ngờ.',en:'You open a box and find a surprise.',a:'surprised'}];
+ {h:'🤗',vi:'Mẹ ôm bé thật chặt.',en:'Mom gives you a big hug.',a:'loved',x:['happy']},
+ {h:'🎉',vi:'Bé mở hộp ra và thấy một điều bất ngờ.',en:'You open a box and find a surprise.',a:'surprised',x:['happy']}];
 
 var TRAVEL=[
  {w:'chạy trên đường',we:'goes on the road',q:'Cái nào chạy trên đường?',qe:'Which one goes on the road?',
@@ -958,7 +1013,7 @@ var REALSH=[
  {e:'⏰',vi:'cái đồng hồ',en:'clock',s:'hình tròn'},{e:'⚽',vi:'quả bóng',en:'ball',s:'hình tròn'},
  {e:'⛺',vi:'cái lều',en:'tent',s:'hình tam giác'},{e:'🚪',vi:'cánh cửa',en:'door',s:'hình chữ nhật'},
  {e:'📺',vi:'cái tivi',en:'TV',s:'hình chữ nhật'},{e:'🎁',vi:'hộp quà',en:'gift box',s:'hình vuông'},
- {e:'❤️',vi:'trái tim',en:'heart',s:'hình trái tim'},{e:'⭐',vi:'ngôi sao',en:'star',s:'ngôi sao'},
+ {e:'⭐',vi:'ngôi sao',en:'star',s:'ngôi sao'},{e:'🍪',vi:'cái bánh quy',en:'cookie',s:'hình tròn'},
  {e:'💎',vi:'viên kim cương',en:'diamond',s:'hình thoi'},{e:'🥚',vi:'quả trứng',en:'egg',s:'hình bầu dục'}];
 var PRAISE=[['Đúng rồi!','Yes!'],['Giỏi quá!','Great job!'],['Tuyệt vời!','Awesome!'],['Hoan hô!','Hooray!']];
 var LOGO=['#FF5A5F','#FFB400','#35C9B5','#FFFFFF','#B9A2FF','#FFB400','#FF5A5F','#FFFFFF','#35C9B5','#B9A2FF'];
@@ -1630,7 +1685,7 @@ function speakNow(list,done){
   if(!items.length){if(done)setTimeout(done,900);return}
   setTimeout(function(){playSeq(items,done)},IS_IOS?150:60);
 }
-function stopSpeech(){clearInterval(S.cnt);S.cntRun=(S.cntRun||0)+1;stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
+function stopSpeech(){try{sgHalt()}catch(e){}clearInterval(S.cnt);S.cntRun=(S.cntRun||0)+1;stopAudio();if(hasSpeech){try{speechSynthesis.cancel()}catch(e){}}}
 function checkNote(){
   var n=$('#voiceNote');if(!n)return;if(S.lang==='en'){n.hidden=true;return}
   var hasVi=VOICES.some(isViVoice);
@@ -1775,12 +1830,12 @@ function addRound(){
   if(!sub){
     var cap2=S.level===2?6:10;a=1+rand(cap2-2);b=1+rand(Math.min(5,cap2-a));ans=a+b;
     vi='Có '+NUM_VI[a]+' '+o.vi+', thêm '+NUM_VI[b]+' nữa. Tất cả có mấy?';
-    en='There are '+a+', and '+b+' more come. How many in all?';
+    en=(a===1?'There is 1':'There are '+a)+', and '+b+' more '+(b===1?'comes':'come')+'. How many in all?';
     vis='<div class="seq">'+gp(a)+'<span class="num">+</span>'+gp(b)+'</div>';
   }else{
     a=3+rand(7);b=1+rand(Math.min(4,a-1));ans=a-b;
     vi='Có '+NUM_VI[a]+' '+o.vi+', '+NUM_VI[b]+' chiếc đã đi mất. Còn lại mấy?';
-    en='There are '+a+', and '+b+' drive away. How many are left?';
+    en='There are '+a+', and '+b+(b===1?' drives':' drive')+' away. How many are left?';
     vis='<div class="seq">'+gp(ans)+'<span style="opacity:.28">'+gp(b)+'</span></div>';
   }
   var pool=[];for(var i=1;i<=10;i++)pool.push(i);
@@ -1808,7 +1863,7 @@ function realShapeRound(){
     vi:cap(it.vi)+' có hình gì?',en:'What shape is the '+it.en+'?',
     visual:'<div class="bigemoji">'+it.e+'</div>',
     opts:set.map(function(x,i){return {label:x.vi,say:sp(x.vi,x.en),html:shapeSVG(x,cols[i].hex)}}),correct:set.indexOf(sh),
-    win:{vi:cap(it.vi)+' có '+sh.vi+'.',en:'The '+it.en+' is a '+sh.en+'.'}};
+    win:{vi:cap(it.vi)+' có '+sh.vi+'.',en:'The '+it.en+enIs(it.en)+enA(sh.en)+'.'}};
 }
 
 /* ---------- 2. COLORS & SHAPES ---------- */
@@ -1822,9 +1877,9 @@ function colorRound(){
 function shapeRound(){
   var s=pick(shapePool()),set=distinctWith(shapePool(),s,nopt(),function(x){return x.vi}),cols=shuffle(COLORS.slice(0,7));
   return {type:'shape',key:'shape:'+s.vi,
-    vi:'Đâu là '+s.vi+'?',en:'Which one is a '+s.en+'?',visual:'',
+    vi:'Đâu là '+s.vi+'?',en:'Which one is '+enA(s.en)+'?',visual:'',
     opts:set.map(function(x,i){return {label:x.vi,say:sp(x.vi,x.en),html:shapeSVG(x,cols[i].hex)}}),correct:set.indexOf(s),
-    win:{vi:'Đây là '+s.vi+'.',en:'This is a '+s.en+'.'}};
+    win:{vi:'Đây là '+s.vi+'.',en:enThis(s.en)+'.'}};
 }
 function colorMatchRound(){
   var c=pick(colorPool()),set=distinctWith(colorPool(),c,nopt(),function(x){return x.vi});
@@ -1966,7 +2021,7 @@ function letInitRound(){
   WORDS.forEach(function(x){if(letters.indexOf(x.L)<0)letters.push(x.L)});
   var set=distinctWith(letters,w.L,nopt(),function(x){return x}),chars=Array.from(w.w);
   return {type:'letinit',key:'init:'+w.w,
-    vi:cap(w.ph)+' bắt đầu bằng chữ gì?',en:'What letter does “'+w.en+'” start with?',
+    vi:(w.w.indexOf(' ')>=0?'Từ':'Tiếng')+' “'+w.w+'” bắt đầu bằng chữ gì?',en:'What letter does “'+w.en+'” start with?',
     visual:'<div class="bigemoji">'+w.e+'</div><div class="word"><span class="blank">'+chars[0]+'</span>'+chars.slice(1).join('')+'</div><div class="enw">'+w.en+'</div>',
     opts:set.map(function(x){return letOpt(x,false)}),correct:set.indexOf(w.L),
     win:{vi:cap(w.w)+' bắt đầu bằng chữ '+LN[w.L]+'.',en:'That is the right letter!'}};
@@ -1990,7 +2045,7 @@ function aniNameRound(){
   return {type:'aniname',key:'aniname:'+a.e,
     vi:'Đâu là '+a.vi+'?',en:'Which one is the '+a.en+'?',visual:'',
     opts:set.map(aniOpt),correct:set.indexOf(a),
-    win:{vi:'Đây là '+a.vi+'.',en:'This is a '+a.en+'.'}};
+    win:{vi:'Đây là '+a.vi+'.',en:enThis(a.en)+'.'}};
 }
 function aniSoundRound(){
   var snds=ANI.filter(function(x){return x.snd}),a=pick(snds);
@@ -2008,9 +2063,9 @@ function aniAbilityRound(){
   while(set.length<nopt()&&tries++<100){var c=pick(cannot);if(set.indexOf(c)<0)set.push(c)}
   set=shuffle(set);var ab=ABIL[kind];
   return {type:'aniability',key:'aniab:'+a.e+kind,
-    vi:'Con nào biết '+ab.vi+'?',en:'Which one can '+ab.en+'?',visual:'',
+    vi:ab.q,en:ab.qe,visual:'',
     opts:set.map(aniOpt),correct:set.indexOf(a),
-    win:{vi:cap(a.vi)+' biết '+ab.vi+'.',en:'The '+a.en+' can '+ab.en+'.'}};
+    win:{vi:cap(a.vi)+' '+ab.vi+'.',en:'The '+a.en+' '+ab.en+'.'}};
 }
 
 /* ---------- 7. VEHICLES ---------- */
@@ -2019,7 +2074,7 @@ function carOpt(id,byColor){
   return {label:byColor?c.cvi:c.vi,say:byColor?sp('màu '+c.cvi,c.cen):sp(c.vi,c.en),html:carSVG(id)};
 }
 function vehNameRound(){
-  var a=pick(CAR_TEACH_W),c=CARS[a],set=distinctWith(CAR_TEACH_W,a,nopt(),function(x){return x});
+  var a=pick(CAR_TEACH_W),c=CARS[a],set=distinctWith(CAR_TEACH_W,a,nopt(),function(x){return CARS[x].vi});
   return {type:'vehname',key:'vehname:'+a,
     vi:'Đâu là '+c.vi+'?',en:'Which one is the '+c.en+'?',visual:'',
     opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf(a),
@@ -2073,16 +2128,16 @@ function foodNameRound(){
   return {type:'foodname',key:'food:'+f.e,
     vi:'Đâu là '+f.vi+'?',en:'Which one is the '+f.en+'?',visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(f),
-    win:{vi:'Đây là '+f.vi+'.',en:'This is a '+f.en+'.'}};
+    win:{vi:'Đây là '+f.vi+'.',en:enThis(f.en)+'.'}};
 }
 function foodColorRound(){
-  var f=pick(FOOD),others=FOOD.filter(function(x){return x.c!==f.c}),set=[f],tries=0;
+  var FC=FOOD.filter(function(x){return !x.nc}),f=pick(FC),others=FC.filter(function(x){return x.c!==f.c}),set=[f],tries=0;
   while(set.length<nopt()&&tries++<100){var c=pick(others);if(set.indexOf(c)<0&&!set.some(function(s){return s!==f&&s.c===c.c}))set.push(c)}
   set=shuffle(set);var col=FCOL[f.c];
   return {type:'foodcolor',key:'foodcol:'+f.e,
     vi:'Cái nào màu '+col.vi+'?',en:'Which one is '+col.en+'?',visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(f),
-    win:{vi:cap(f.vi)+' màu '+col.vi+'.',en:'The '+f.en+' is '+col.en+'.'}};
+    win:{vi:cap(f.vi)+' màu '+col.vi+'.',en:'The '+f.en+enIs(f.en)+col.en+'.'}};
 }
 
 /* ---------- 10. FEELINGS ---------- */
@@ -2094,7 +2149,7 @@ function emoNameRound(){
     win:{vi:'Bạn này đang '+f.vi+'.',en:'This friend feels '+f.en+'.'}};
 }
 function emoSitRound(){
-  var s=pick(SITS),f=EMO.filter(function(x){return x.en===s.a})[0],set=distinctWith(EMO,f,nopt(),function(x){return x.e});
+  var s=pick(SITS),f=EMO.filter(function(x){return x.en===s.a})[0],pool=EMO.filter(function(x){return x===f||(s.x||[]).indexOf(x.en)<0}),set=distinctWith(pool,f,nopt(),function(x){return x.e});
   return {type:'emosit',key:'emosit:'+s.a,
     vi:s.vi+' Bé thấy thế nào?',en:s.en+' How do you feel?',
     visual:'<div class="bigemoji">'+s.h+'</div>',
@@ -2213,7 +2268,7 @@ function engOppRound(){
     vi:'Trái nghĩa của “'+a[0]+'” là gì?',en:'What is the opposite of “'+a[0]+'”?',pa:[[a[0],'en',true]],
     visual:'<div class="bigemoji">'+a[2]+'</div><div class="engbig">'+a[0]+'</div>',
     opts:set.map(function(x){return {label:x[0],say:engSay(x[0],x[1]),html:'<span class="engw">'+x[0]+'</span><span class="engv">'+x[1]+'</span>'}}),correct:set.indexOf(b),
-    win:{vi:'“'+a[0]+'” trái nghĩa với “'+b[0]+'”.',en:a[0]+' and '+b[0]+' are opposites!'},wx:[[a[0]+' and '+b[0],'en',true]]};
+    win:{vi:'“'+a[0]+'” trái nghĩa với “'+b[0]+'”.',en:enCap(a[0])+' and '+b[0]+' are opposites!'},wx:[[a[0]+' and '+b[0],'en',true]]};
 }
 function engSpellRound(){
   var pool=engPool().filter(function(w){return /^[a-z]{3,5}$/.test(w.en)}),w=pick(pool),chars=w.en.split(''),pos=rand(chars.length),ans=chars[pos];
@@ -2264,7 +2319,7 @@ var OBJ=[
  {e:'🪟',vi:'cửa sổ',en:'window',use:{vi:'ngắm trời và đón gió',en:'look outside'},room:'living'},
  {e:'🛋️',vi:'ghế sofa',en:'sofa',use:{vi:'ngồi nghỉ',en:'relax'},room:'living'},
  {e:'📺',vi:'cái tivi',en:'TV',use:{vi:'xem phim hoạt hình',en:'watch cartoons'},room:'living'},
- {e:'💡',vi:'bóng đèn',en:'light',use:{vi:'chiếu sáng',en:'make light'},room:'living'},
+ {e:'💡',vi:'bóng đèn',en:'light bulb',use:{vi:'chiếu sáng',en:'light up the room'},room:'living'},
  {e:'🪞',vi:'cái gương',en:'mirror',use:{vi:'soi mặt',en:'look at yourself'},room:'bath'},
  {e:'🚽',vi:'bồn cầu',en:'toilet',use:{vi:'đi vệ sinh',en:'go to the toilet'},room:'bath'},
  {e:'🛁',vi:'bồn tắm',en:'bathtub',use:{vi:'tắm',en:'take a bath'},room:'bath'},
@@ -2300,7 +2355,7 @@ var SCH=[
  {e:'🎒',vi:'cặp sách',en:'school bag',use:{vi:'đựng sách vở',en:'carry books'}},
  {e:'📏',vi:'cây thước',en:'ruler',use:{vi:'đo và kẻ đường thẳng',en:'measure'}},
  {e:'✂️',vi:'cái kéo',en:'scissors',use:{vi:'cắt giấy',en:'cut paper'}},
- {e:'📓',vi:'quyển vở',en:'notebook',use:{vi:'viết bài',en:'write'}},
+ {e:'📓',vi:'quyển vở',en:'notebook',use:{vi:'bé viết chữ vào',en:'write in'}},
  {e:'🔔',vi:'cái chuông',en:'bell',use:{vi:'báo giờ vào lớp',en:'tell us class time'}},
  {e:'🏫',vi:'ngôi trường',en:'school',use:{vi:'đến học mỗi ngày',en:'learn every day'}},
  {e:'👩‍🏫',vi:'cô giáo',en:'teacher',use:{vi:'dạy bé học',en:'teach us'}},
@@ -2325,7 +2380,7 @@ function objNameRound(){
   return {type:'objname',key:'obj:'+o.en,
     vi:'Đâu là '+o.vi+'?',en:'Which one is the '+o.en+'?',visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
-    win:{vi:'Đây là '+o.vi+'.',en:'This is a '+o.en+'.'}};
+    win:{vi:'Đây là '+o.vi+'.',en:enThis(o.en)+'.'}};
 }
 function objUseRound(){
   var o=pick(OBJ.filter(function(x){return ['chair','sofa','shower','bathtub','soap','window','door'].indexOf(x.en)<0})),set=distinctWith(OBJ,o,nopt(),function(x){return x.en});
@@ -2361,39 +2416,43 @@ function schNameRound(){
   return {type:'schname',key:'sch:'+o.en,
     vi:'Đâu là '+o.vi+'?',en:'Which one is the '+o.en+'?',visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
-    win:{vi:'Đây là '+o.vi+'.',en:'This is a '+o.en+'.'}};
+    win:{vi:'Đây là '+o.vi+'.',en:enThis(o.en)+'.'}};
 }
 function schUseRound(){
-  var o=pick(SCH.filter(function(x){return x.en!=='school'&&x.en!=='student'})),set=distinctWith(SCH,o,nopt(),function(x){return x.en});
+  var SX={pencil:['crayon','notebook','board'],crayon:['pencil'],notebook:['pencil','crayon','board','book'],board:['notebook','pencil'],book:['notebook'],ruler:[],'school bag':[],scissors:[],bell:[],teacher:[]};
+  var o=pick(SCH.filter(function(x){return x.en!=='school'&&x.en!=='student'}));
+  var pool=SCH.filter(function(x){return x===o||((SX[o.en]||[]).indexOf(x.en)<0&&(o.en==='teacher'?x.en!=='student':(x.en!=='teacher'&&x.en!=='student'&&x.en!=='school')))});
+  var set=distinctWith(pool,o,nopt(),function(x){return x.en});
   var q={vi:'Cái nào dùng để '+o.use.vi+'?',en:'Which one helps us '+o.use.en+'?'};
   if(o.en==='bell'){q={vi:'Cái nào báo giờ vào lớp?',en:'Which one tells us class time?'}}
   if(o.en==='board'){q={vi:'Cô giáo viết chữ lên cái gì?',en:'What does the teacher write on?'}}
   if(o.en==='teacher'){q={vi:'Ai dạy bé học ở trường?',en:'Who teaches you at school?'}}
+  if(o.en==='notebook'){q={vi:'Bé viết chữ vào cái gì?',en:'What do we write in?'}}
   return {type:'schuse',key:'schuse:'+o.en,vi:q.vi,en:q.en,visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(o),
-    win:{vi:cap(o.vi)+' dùng để '+o.use.vi+'.',en:'Yes! This is the '+o.en+'.'}};
+    win:{vi:o.en==='teacher'?'Cô giáo dạy bé học.':(o.en==='board'?'Cô giáo viết chữ lên cái bảng.':(o.en==='bell'?'Cái chuông báo giờ vào lớp.':o.en==='notebook'?'Bé viết chữ vào quyển vở.':cap(o.vi)+' dùng để '+o.use.vi+'.')),en:'Yes! '+enThis(o.en).replace(/^This is an? /,'This is the ').replace(/^These are /,'These are the ')+'.'}};
 }
 function proNameRound(){
   var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.en});
   return {type:'proname',key:'pro:'+p.en,
     vi:'Đâu là '+p.vi+'?',en:'Which one is the '+p.en+'?',visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(p),
-    win:{vi:'Đây là '+p.vi+'. '+cap(p.vi)+' '+p.do.vi+'.',en:'This is a '+p.en+'. A '+p.en+' '+p.do.en+'.'}};
+    win:{vi:'Đây là '+p.vi+'. '+cap(p.vi)+' '+p.do.vi+'.',en:enThis(p.en)+'. '+enCap(enA(p.en))+' '+p.do.en+'.'}};
 }
 function proWhoRound(){
   var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.en});
   return {type:'prowho',key:'prowho:'+p.en,
     vi:p.who.vi,en:p.who.en,visual:'',
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(p),
-    win:{vi:cap(p.vi)+' '+p.do.vi+'.',en:'A '+p.en+' '+p.do.en+'.'}};
+    win:{vi:cap(p.vi)+' '+p.do.vi+'.',en:enCap(enA(p.en))+' '+p.do.en+'.'}};
 }
 function proToolRound(){
   var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.tool});
   return {type:'protool',key:'protool:'+p.en,
-    vi:cap(p.vi)+' cần dùng gì?',en:'What does a '+p.en+' use?',
+    vi:cap(p.vi)+' cần dùng gì?',en:'What does '+enA(p.en)+' use?',
     visual:'<div class="bigemoji">'+p.e+'</div>',
     opts:set.map(function(x){return emoOpt(x.tool,x.tvi,x.ten)}),correct:set.indexOf(p),
-    win:{vi:cap(p.vi)+' dùng '+p.tvi+'.',en:'A '+p.en+' uses a '+p.ten+'.'}};
+    win:{vi:cap(p.vi)+' dùng '+p.tvi+'.',en:enCap(enA(p.en))+' uses '+enA(p.ten)+'.'}};
 }
 /* ---- Ảnh ô tô thật: thư mục cars/ (danh sách tự tạo trong cars/cars.json) ---- */
 var PHOTOS=[];
@@ -2936,6 +2995,7 @@ var TOPICS=[
  {id:'paint',glyph:'🎨🖍️',vi:'Tô màu',en:'Coloring',c:'#FF9ECF',d:'#D95A9B'},
  {id:'think',glyph:'🧠🧩',vi:'Trò chơi tư duy',en:'Brain games',c:'#A9A3FF',d:'#6F66E0'},
  {id:'trace',glyph:'✍️',vi:'Tập viết',en:'Tracing',c:'#8EE0A8',d:'#3FAE6A'},
+ {id:'song',glyph:'🎵📖',vi:'Hát &amp; Thơ',en:'Songs &amp; poems',c:'#FFB0D9',d:'#D9629E'},
  {id:'col',glyph:'🔴🔺',vi:'Màu và hình',en:'Colors &amp; shapes',c:'#FFB36B',d:'#D9791F'},
  {id:'cmp',glyph:'🐘🐭',vi:'So sánh',en:'Compare',c:'#5FDCC8',d:'#27A995'},
  {id:'mat',glyph:'🧩',vi:'Giống nhau &amp; xếp hình',en:'Match &amp; patterns',c:'#C4B0FF',d:'#8A6DE0'},
@@ -2979,7 +3039,7 @@ function glyphHTML(g){
   return g;
 }
 /* daily mission from Rookie */
-var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['think','chơi Trò chơi tư duy','play Brain games'],['trace','tập viết chữ và số','trace letters and numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
+var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc thơ hoặc vỗ tay đồng dao','read a poem or clap a rhyme'],['think','chơi Trò chơi tư duy','play Brain games'],['trace','tập viết chữ và số','trace letters and numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
 ['col','chơi bài Màu và hình','play Colors and shapes'],['veh','chơi bài Xe cộ','play Vehicles'],
  ['food','chơi bài Trái cây và rau','play Fruit and veggies'],['let','chơi bài Chữ cái','play Letters'],['cmp','chơi bài So sánh','play Compare'],['emo','chơi bài Cảm xúc','play Feelings'],
  ['obj','chơi bài Đồ vật trong nhà','play Things at home'],['job','chơi bài Nghề nghiệp','play Jobs'],['school','chơi bài Trường học','play School'],['room','chơi bài Các phòng trong nhà','play Rooms at home']];
@@ -3067,6 +3127,7 @@ function startGame(mode){pfsExit();
   if(mode==='paint'){ensureAC();showPaintMenu();return}
   if(mode==='think'){ensureAC();showThinkMenu();return}
   if(mode==='trace'){ensureAC();showTraceMenu();return}
+  if(mode==='song'){ensureAC();showSongMenu();return}
   S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=rand(2)?'chop':pick(CAR_W);
   ensureAC();goNext();
 }
@@ -4698,6 +4759,405 @@ function trNext(){
   trRound();
 }
 
+/* ---------- Hát & Thơ: đồng dao, thơ của Rookie, bài của nhà mình ---------- */
+var SONGS=[
+ {id:'dd_dung',kind:'dd',e:'👧👦',vi:'Dung dăng dung dẻ',en:'Folk rhyme: Holding hands',
+  lines:['Dung dăng dung dẻ','Dắt trẻ đi chơi','Đến ngõ nhà trời','Lạy cậu lạy mợ','Cho cháu về quê','Cho dê đi học','Cho cóc ở nhà','Cho gà bới bếp','Xì xà xì xụp','Ngồi thụp xuống đây']},
+ {id:'dd_nuna',kind:'dd',e:'🦶🐸',vi:'Nu na nu nống',en:'Folk rhyme: Nu na nu nong',
+  lines:['Nu na nu nống','Cái cống nằm trong','Cái ong nằm ngoài','Củ khoai chấm mật','Bụt ngồi bụt khóc','Con cóc nhảy ra','Con gà ú ụ','Nhà mụ thổi xôi','Nhà tôi nấu chè','Tay xòe chân rụt']},
+ {id:'dd_keo',kind:'dd',e:'🪚🤝',vi:'Kéo cưa lừa xẻ',en:'Folk rhyme: Saw the wood',
+  lines:['Kéo cưa lừa xẻ','Ông thợ nào khỏe','Về ăn cơm vua','Ông thợ nào thua','Về bú tí mẹ']},
+ {id:'dd_cauvong',kind:'dd',e:'🌈💧',vi:'Lộn cầu vồng',en:'Folk rhyme: Rainbow flip',
+  lines:['Lộn cầu vồng','Nước trong nước chảy','Có cô mười bảy','Có chị mười ba','Hai chị em ta','Ra lộn cầu vồng']},
+ {id:'dd_meo',kind:'dd',e:'🐱🐭',vi:'Con mèo mà trèo cây cau',en:'Folk rhyme: The cat and the mouse',
+  lines:['Con mèo mà trèo cây cau','Hỏi thăm chú chuột đi đâu vắng nhà','Chú chuột đi chợ đường xa','Mua mắm mua muối giỗ cha con mèo']},
+ {id:'dd_bacong',kind:'dd',e:'👵🦐',vi:'Bà còng đi chợ',en:'Folk rhyme: Granny goes to market',
+  lines:['Bà còng đi chợ trời mưa','Cái tôm cái tép đi đưa bà còng','Đưa bà qua quãng đường đông','Đưa bà vào tận ngõ trong nhà bà','Tiền bà trong túi rơi ra','Tép tôm nhặt được trả bà mua rau']},
+ {id:'p_rookie',kind:'poem',img:'img/rk-happy.webp',e:'🚚',vi:'Bạn Rookie',en:'My friend Rookie',
+  lines:['Rookie màu vàng','Chạy khắp xóm làng','Xe nào bị hỏng','Rookie kéo sang'],
+  quiz:[{l:1,w:'làng',r:'vàng',o:['làng','nhà','sông']},{l:3,w:'sang',r:'làng',o:['sang','về','đi']}]},
+ {id:'p_kem',kind:'poem',img:'img/car-ice2.webp',e:'🍦',vi:'Xe kem',en:'The ice cream truck',
+  lines:['Xe kem màu trắng','Chạy giữa trời nắng','Leng keng leng keng','Mời bé ăn kem'],
+  quiz:[{l:1,w:'nắng',r:'trắng',o:['nắng','mưa','xanh']}]},
+ {id:'p_cuuhoa',kind:'poem',img:'img/car-fire.webp',e:'🚒',vi:'Xe cứu hỏa',en:'The fire truck',
+  lines:['Xe cứu hỏa đỏ','Còi kêu o o','Phun nước thật to','Lửa tắt, hết lo'],
+  quiz:[{l:2,w:'to',r:'o o',o:['to','nhiều','mạnh']},{l:3,w:'lo',r:'to',o:['lo','sợ','buồn']}]},
+ {id:'p_den',kind:'poem',e:'🚦',vi:'Đèn giao thông',en:'Traffic lights',
+  lines:['Đèn đỏ dừng xe','Bé ngoan lắng nghe','Đèn vàng chậm lại','Đèn xanh đi nhé'],
+  quiz:[{l:1,w:'nghe',r:'xe',o:['nghe','nhìn','nói']}]},
+ {id:'p_tay',kind:'poem',e:'🧼',vi:'Rửa tay',en:'Wash your hands',
+  lines:['Trước khi ăn cơm','Rửa tay thơm thơm','Xà phòng bọt trắng','Tay sạch tinh tươm'],
+  quiz:[{l:1,w:'thơm',r:'cơm',o:['thơm','sạch','trắng']},{l:3,w:'tươm',r:'thơm',o:['tươm','sẽ','ghê']}]}
+];
+function sgById(id){for(var i=0;i<SONGS.length;i++)if(SONGS[i].id===id)return SONGS[i];return null}
+var SG=null;
+
+/* ----- lưu bản thu âm trên máy (IndexedDB) ----- */
+var RECDB=null;
+function recDB(cb){
+  if(RECDB){cb(RECDB);return}
+  try{
+    var rq=indexedDB.open('behuihoc_rec',1);
+    rq.onupgradeneeded=function(){var db=rq.result;if(!db.objectStoreNames.contains('rec'))db.createObjectStore('rec',{keyPath:'id'})};
+    rq.onsuccess=function(){RECDB=rq.result;cb(RECDB)};
+    rq.onerror=function(){cb(null)};
+  }catch(e){cb(null)}
+}
+function recAll(cb){recDB(function(db){if(!db){cb([]);return}
+  try{var out=[],tx=db.transaction('rec','readonly'),c=tx.objectStore('rec').openCursor();
+    c.onsuccess=function(){var r=c.result;if(r){out.push(r.value);r.continue()}else{out.sort(function(a,b){return b.t-a.t});cb(out)}};
+    c.onerror=function(){cb([])};
+  }catch(e){cb([])}})}
+function recGet(id,cb){recDB(function(db){if(!db){cb(null);return}
+  try{var q=db.transaction('rec','readonly').objectStore('rec').get(id);q.onsuccess=function(){cb(q.result||null)};q.onerror=function(){cb(null)}}catch(e){cb(null)}})}
+function recPut(o,cb){recDB(function(db){if(!db){cb&&cb(false);return}
+  try{var tx=db.transaction('rec','readwrite');tx.objectStore('rec').put(o);tx.oncomplete=function(){cb&&cb(true)};tx.onerror=function(){cb&&cb(false)}}catch(e){cb&&cb(false)}})}
+function recDel(id,cb){recDB(function(db){if(!db){cb&&cb();return}
+  try{var tx=db.transaction('rec','readwrite');tx.objectStore('rec').delete(id);tx.oncomplete=function(){cb&&cb()};tx.onerror=function(){cb&&cb()}}catch(e){cb&&cb()}})}
+
+/* ----- ghi âm ----- */
+var MIC={rec:null,stream:null,chunks:[],t:0,onDone:null};
+function micOK(){return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)}
+function micStart(onDone,onFail){
+  if(!micOK()){onFail&&onFail('nosupport');return}
+  micStop(true);stopAudio();try{speechSynthesis.cancel()}catch(e){}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+    var mt='';['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg'].some(function(m){try{if(MediaRecorder.isTypeSupported(m)){mt=m;return true}}catch(e){}return false});
+    var r;try{r=mt?new MediaRecorder(st,{mimeType:mt}):new MediaRecorder(st)}catch(e){st.getTracks().forEach(function(t){t.stop()});onFail&&onFail('err');return}
+    MIC.rec=r;MIC.stream=st;MIC.chunks=[];MIC.onDone=onDone;
+    r.ondataavailable=function(e){if(e.data&&e.data.size)MIC.chunks.push(e.data)};
+    r.onstop=function(){
+      var cbk=MIC.onDone,ch=MIC.chunks,type=r.mimeType||mt||'audio/mp4';
+      try{MIC.stream.getTracks().forEach(function(t){t.stop()})}catch(e){}
+      MIC.rec=null;MIC.stream=null;MIC.chunks=[];MIC.onDone=null;clearTimeout(MIC.t);
+      if(cbk&&ch.length)cbk(new Blob(ch,{type:type}));
+    };
+    r.start();MIC.t=setTimeout(function(){micStop()},120000);
+  },function(){onFail&&onFail('denied')});
+}
+function micStop(discard){
+  clearTimeout(MIC.t);
+  if(MIC.rec){if(discard)MIC.onDone=null;try{MIC.rec.stop()}catch(e){}}
+}
+/* ----- phát bản thu ----- */
+var SGA={el:null,url:''};
+function sgPlayBlob(blob,onEnd){
+  sgStopPlay();stopAudio();try{speechSynthesis.cancel()}catch(e){}
+  try{
+    var a=new Audio();SGA.url=URL.createObjectURL(blob);a.src=SGA.url;a.setAttribute('playsinline','');SGA.el=a;
+    a.onended=function(){sgStopPlay();onEnd&&onEnd()};
+    var p=a.play();if(p&&p.catch)p.catch(function(){sgStopPlay();onEnd&&onEnd()});
+  }catch(e){onEnd&&onEnd()}
+}
+function sgStopPlay(){
+  if(SGA.el){try{SGA.el.pause()}catch(e){}SGA.el.onended=null;SGA.el=null}
+  if(SGA.url){try{URL.revokeObjectURL(SGA.url)}catch(e){}SGA.url=''}
+}
+function sgHalt(){
+  if(SG){SG.gen++;clearTimeout(SG.t);clearInterval(SG.iv)}
+  sgStopPlay();micStop(true);
+}
+
+/* ----- menu ----- */
+function showSongMenu(){pfsExit();
+  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='song';S.cur=null;SG=null;setProgress(0,0);syncControls();
+  function card(x){return '<button type="button" class="pcard tkcard sgcard" data-sg="'+x.id+'" aria-label="'+x.vi+'">'
+    +(x.img?'<img class="sgthumb" src="'+x.img+'" alt="" draggable="false">':'<span class="tkem">'+x.e+'</span>')+'<b>'+x.vi+'</b><i>'+x.en+'</i></button>'}
+  var dd=SONGS.filter(function(x){return x.kind==='dd'}).map(card).join('');
+  var po=SONGS.filter(function(x){return x.kind==='poem'}).map(card).join('');
+  view.innerHTML='<section class="paintv tkm sgm"><h2>🎵 Hát &amp; Thơ<small>Songs &amp; poems</small></h2>'
+    +'<h3 class="asec"><span>👏 Đồng dao</span><i>Folk rhymes · clap along</i></h3><div class="pgrid">'+dd+'</div>'
+    +'<h3 class="asec"><span>📖 Thơ của Rookie</span><i>Rookie\'s poems</i></h3><div class="pgrid">'+po+'</div>'
+    +'<h3 class="asec"><span>🎙️ Bài của nhà mình</span><i>Our own songs</i></h3><div class="pgrid" id="sgmine"><p class="pempty">Đang tải…</p></div>'
+    +'<button type="button" class="next alt sgadd" data-sgact="add">➕ Bố mẹ thêm bài hát<small>Parents: record a song</small></button>'
+    +'</section>';
+  window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
+  speakNow([['Bé chọn bài hát hoặc bài thơ nhé!','vi'],['Pick a song or a poem!','en']]);
+  recAll(function(list){
+    var box=$('#sgmine');if(!box||S.mode!=='song')return;
+    box.innerHTML=list.length?list.map(function(r){
+      return '<div class="pcard tkcard sgcard sgrec"><button type="button" class="pcopen" data-sgrec="'+r.id+'" aria-label="'+r.title+'"><span class="tkem">'+(r.e||(r.kind==='kid'?'🧒':'🎤'))+'</span><b>'+r.title+'</b><i>'+(r.kind==='kid'?'Giọng của bé · My voice':'Bố mẹ hát · Sung by parents')+'</i></button>'
+        +'<button type="button" class="pcdel" data-sgdel="'+r.id+'" aria-label="Xoá">🗑️</button></div>'}).join('')
+      :'<p class="pempty">Chưa có bài nào.<small>Bố mẹ bấm ➕ để thu âm bài bé thích, hoặc bé bấm 🎙️ trong một bài thơ để đọc theo.</small></p>';
+  });
+}
+
+/* ----- màn đọc bài ----- */
+function sgLinesHTML(lines){
+  return lines.map(function(l,i){
+    var w=l.split(/\s+/).map(function(x,j){return '<span class="sgw" data-w="'+j+'">'+x+'</span>'}).join(' ');
+    return '<p class="sgl" data-l="'+i+'">'+w+'</p>'}).join('');
+}
+function sgOpen(id){
+  var it=sgById(id);if(!it)return;
+  stopSpeech();sgHalt();ensureAC();S.mode='song';
+  SG={it:it,gen:0,t:0,iv:0,busy:''};
+  var pic=it.img?'<img class="sgpic" src="'+it.img+'" alt="" draggable="false">':'<span class="sgemo">'+it.e+'</span>';
+  var btn=function(a,ic,vi,en,cls){return '<button type="button" class="next '+(cls||'')+'" data-sgact="'+a+'">'+ic+' '+vi+'<small>'+en+'</small></button>'};
+  view.innerHTML='<section class="sgv'+(it.kind==='poem'?' poem':'')+'">'
+    +'<div class="sghead">'+pic+'<h2>'+it.vi+'<small>'+it.en+'</small></h2></div>'
+    +'<div class="sgtext" id="sgtext">'+sgLinesHTML(it.lines)+'</div>'
+    +'<div class="sgclap" id="sgclap" hidden><button type="button" class="sgclapbtn" data-sgact="tap" aria-label="Vỗ tay">👏</button><b id="sgscore"></b></div>'
+    +'<div class="sgquiz" id="sgquiz" hidden></div>'
+    +'<div class="sgbtns" id="sgbtns">'
+    +btn('read','▶️','Nghe đọc','Listen')
+    +(it.kind==='dd'?btn('clap','👏','Vỗ tay theo nhịp','Clap the beat','blue'):'')
+    +(it.quiz?btn('rhyme','✏️','Tìm tiếng vần','Find the rhyme','blue'):'')
+    +btn('rec','🎙️','Bé đọc theo','Record me','alt')
+    +'<span id="sgmyv"></span>'
+    +'</div></section>';
+  window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
+  sgMyVoiceBtn();
+  speakNow([[it.vi,'vi']],function(){if(SG&&SG.it===it&&!SG.busy)sgRead()});
+}
+function sgMyVoiceBtn(){
+  var g=SG;if(!g)return;
+  recGet('kid_'+g.it.id,function(r){
+    var b=$('#sgmyv');if(!b||SG!==g)return;
+    b.innerHTML=r?'<button type="button" class="next alt" data-sgact="mine">🎧 Nghe giọng bé<small>Play my voice</small></button>':'';
+  });
+}
+function sgMark(l,w){
+  var tx=$('#sgtext');if(!tx)return;
+  [].forEach.call(tx.querySelectorAll('.sgl.on'),function(x){x.classList.remove('on')});
+  [].forEach.call(tx.querySelectorAll('.sgw.on'),function(x){x.classList.remove('on')});
+  if(l<0)return;
+  var p=tx.querySelector('.sgl[data-l="'+l+'"]');if(!p)return;p.classList.add('on');
+  if(w!=null&&w>=0){var s=p.querySelector('.sgw[data-w="'+w+'"]');if(s)s.classList.add('on')}
+  try{p.scrollIntoView({block:'nearest',behavior:'smooth'})}catch(e){}
+}
+function sgBusy(k){
+  if(!SG)return;SG.busy=k;
+  var bt=$('#sgbtns');if(bt)bt.classList.toggle('busy',!!k);
+  [].forEach.call(document.querySelectorAll('[data-sgact]'),function(b){
+    var a=b.getAttribute('data-sgact');
+    if(a==='tap')return;
+    if(k&&a!==k)b.disabled=true;else b.disabled=false;
+  });
+  var rb=document.querySelector('[data-sgact="rec"]');
+  if(rb)rb.innerHTML=k==='rec'?'⏹️ Dừng thu<small>Stop</small>':'🎙️ Bé đọc theo<small>Record me</small>';
+}
+function sgRead(){
+  var g=SG;if(!g)return;
+  if(g.busy==='read'){sgStopAct();return}
+  if(g.busy)return;
+  g.gen++;var gen=g.gen,i=0,L=g.it.lines;sgBusy('read');
+  (function next(){
+    if(SG!==g||g.gen!==gen)return;
+    if(i>=L.length){sgMark(-1);sgBusy('');g.readDone=1;sgAfter('read');return}
+    var k=i++;sgMark(k);
+    speakNow([[L[k],'vi',true]],function(){if(SG===g&&g.gen===gen)g.t=setTimeout(next,280)});
+  })();
+}
+function sgStopAct(){
+  var g=SG;if(!g)return;g.gen++;clearTimeout(g.t);clearInterval(g.iv);
+  stopAudio();try{speechSynthesis.cancel()}catch(e){}
+  sgStopPlay();sgMark(-1);
+  var c=$('#sgclap');if(c)c.hidden=true;
+  sgBusy('');
+}
+/* vỗ tay theo nhịp: mỗi tiếng một nhịp */
+function sgClap(){
+  var g=SG;if(!g||g.busy)return;
+  g.gen++;var gen=g.gen;sgBusy('clap');
+  var lv=effLevel('song'),ms=[760,660,580][lv-1]||660;
+  var beats=[];g.it.lines.forEach(function(l,li){l.split(/\s+/).forEach(function(w,wi){beats.push([li,wi])});beats.push(null)});
+  g.beats=beats;g.hit={};g.ms=ms;g.bt=[];g.taps=0;
+  var total=beats.filter(function(b){return b}).length;g.total=total;
+  var c=$('#sgclap');if(c)c.hidden=false;var sc=$('#sgscore');if(sc)sc.textContent='';
+  speakNow([['Bé vỗ tay theo từng tiếng nhé! Một, hai, ba, bắt đầu!','vi'],['Clap on every word!','en']],function(){
+    if(SG!==g||g.gen!==gen)return;
+    var k=0,t0=performance.now();
+    function tick(){
+      if(SG!==g||g.gen!==gen){clearInterval(g.iv);return}
+      if(k>=beats.length){clearInterval(g.iv);g.iv=0;g.t=setTimeout(function(){sgClapEnd(g,gen)},ms);return}
+      var b=beats[k];g.bt[k]=performance.now();g.cur=k;k++;
+      if(b){sgMark(b[0],b[1]);beep(b[1]===0?988:784,0,.07,'triangle',.12)}else sgMark(-1);
+    }
+    tick();g.iv=setInterval(tick,ms);
+  });
+}
+function sgTap(){
+  var g=SG;if(!g)return;
+  var btn=document.querySelector('.sgclapbtn');if(btn){btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop')}
+  if(g.busy!=='clap'||!g.bt)return;
+  beep(330,0,.06,'square',.06);
+  var now=performance.now(),best=-1,bd=1e9;
+  for(var k=Math.max(0,g.cur-1);k<=g.cur+1&&k<g.beats.length;k++){var bt=g.bt[k]!=null?g.bt[k]:(k===g.cur+1&&g.bt[g.cur]!=null?g.bt[g.cur]+g.ms:null);if(bt==null||!g.beats[k]||g.hit[k])continue;var d=Math.abs(now-bt);if(d<bd){bd=d;best=k}}
+  if(best>=0&&bd<g.ms*.5){g.hit[best]=1;
+    var b=g.beats[best],w=document.querySelector('.sgl[data-l="'+b[0]+'"] .sgw[data-w="'+b[1]+'"]');if(w)w.classList.add('hit');}
+  var n=Object.keys(g.hit).length,sc=$('#sgscore');if(sc)sc.textContent=n+' 👏';
+}
+function sgClapEnd(g,gen){
+  if(SG!==g||g.gen!==gen)return;
+  var n=Object.keys(g.hit).length,tot=g.total,ok=n>=tot*.5;
+  sgMark(-1);sgBusy('');var c=$('#sgclap');if(c)c.hidden=true;
+  recordResult('song',ok);
+  [].forEach.call(document.querySelectorAll('.sgw.hit'),function(x){x.classList.remove('hit')});
+  if(ok){sfx('ok');confetti(window.innerWidth/2,window.innerHeight/2.5,false)}
+  speakNow(ok?[['Giỏi quá! Bé vỗ đúng '+numVI(n)+' nhịp!','vi'],['Great! You clapped '+numEN(n)+' beats!','en']]
+            :[['Bé vỗ được '+numVI(n)+' nhịp. Mình thử lại nhé!','vi'],['You clapped '+numEN(n)+' beats. Try again!','en']],
+    function(){if(ok)sgFinish()});
+}
+/* tìm tiếng vần (thơ) */
+function sgRhyme(){
+  var g=SG;if(!g||g.busy||!g.it.quiz)return;
+  g.gen++;sgBusy('rhyme');g.q=0;g.qok=0;g.qwrong=0;sgQuiz();
+}
+function sgQuiz(){
+  var g=SG;if(!g)return;var Q=g.it.quiz[g.q],box=$('#sgquiz');if(!box)return;
+  var lines=document.querySelectorAll('.sgl');
+  [].forEach.call(lines,function(p,i){p.classList.toggle('dimq',i!==Q.l)});
+  var p=document.querySelector('.sgl[data-l="'+Q.l+'"]');
+  if(p){var ws=p.querySelectorAll('.sgw'),last=ws[ws.length-1];last.classList.add('blank');last.setAttribute('data-real',last.textContent);last.textContent='❓';sgMark(Q.l)}
+  var opts=shuffle(Q.o.slice());
+  box.hidden=false;
+  box.innerHTML='<p class="sgqq">Tiếng nào vần với “'+Q.r+'”?<small>Which word rhymes?</small></p><div class="sgopts">'
+    +opts.map(function(o){return '<button type="button" class="sgopt" data-sgopt="'+o+'">'+o+'</button>'}).join('')+'</div>';
+  var hint=g.it.lines[Q.l].split(/\s+/).slice(0,-1).join(' ');
+  speakNow([[hint+'… gì nhỉ?','vi'],['Tiếng nào vần với “'+Q.r+'”?','vi'],['Which word rhymes?','en']]);
+}
+function sgPick(o,el){
+  var g=SG;if(!g||g.busy!=='rhyme')return;var Q=g.it.quiz[g.q];
+  if(o!==Q.w){g.qwrong++;sfx('no');el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake','bad');
+    speakNow([['Chưa đúng. Nghe lại nhé: '+Q.r+'… '+Q.w.charAt(0)+'…','vi']]);recordResult('song',false);return}
+  g.qok++;sfx('ok');el.classList.add('good');
+  var b=el.getBoundingClientRect();confetti(b.left+b.width/2,b.top+b.height/2,false);
+  var p=document.querySelector('.sgl[data-l="'+Q.l+'"] .sgw.blank');if(p){p.textContent=p.getAttribute('data-real');p.classList.remove('blank');p.classList.add('hit')}
+  [].forEach.call(document.querySelectorAll('.sgopt'),function(x){x.disabled=true});
+  speakNow([['Đúng rồi! “'+Q.w+'” vần với “'+Q.r+'”.','vi'],['Yes! They rhyme!','en'],[g.it.lines[Q.l],'vi',true]],function(){
+    if(SG!==g)return;g.q++;
+    if(g.q<g.it.quiz.length){sgQuiz();return}
+    recordResult('song',g.qwrong===0);
+    var box=$('#sgquiz');if(box){box.hidden=true;box.innerHTML=''}
+    [].forEach.call(document.querySelectorAll('.sgl'),function(x){x.classList.remove('dimq')});
+    sgBusy('');sgMark(-1);sgFinish();
+  });
+}
+/* bé đọc theo: thu âm */
+function sgRec(){
+  var g=SG;if(!g)return;
+  if(g.busy==='rec'){micStop();return}
+  if(g.busy)return;
+  if(!micOK()){speakNow([['Máy này chưa thu âm được.','vi'],['Recording is not available on this device.','en']]);return}
+  g.gen++;sgBusy('rec');sgMark(0);
+  var it=g.it;
+  micStart(function(blob){
+    recPut({id:'kid_'+it.id,kind:'kid',ref:it.id,title:it.vi,e:'🧒',blob:blob,t:Date.now(),lyrics:it.lines.join('\n')},function(){
+      if(SG!==g)return;sgBusy('');sgMark(-1);sgMyVoiceBtn();sfx('ok');
+      speakNow([['Bé đọc hay quá! Bấm nghe giọng bé nhé.','vi'],['Lovely! Tap to hear your voice.','en']]);
+    });
+  },function(why){
+    if(SG!==g)return;sgBusy('');sgMark(-1);
+    speakNow(why==='denied'?[['Bố mẹ cho phép dùng micro để bé thu âm nhé.','vi'],['Please allow the microphone.','en']]:[['Máy này chưa thu âm được.','vi'],['Recording is not available on this device.','en']]);
+  });
+  /* gợi ý dòng theo thời gian trong lúc thu */
+  var k=0;g.iv=setInterval(function(){if(SG!==g||g.busy!=='rec'){clearInterval(g.iv);return}k=(k+1)%it.lines.length;sgMark(k)},3200);
+}
+function sgMine(){
+  var g=SG;if(!g)return;
+  if(g.busy==='mine'){sgStopAct();return}
+  if(g.busy)return;
+  recGet('kid_'+g.it.id,function(r){
+    if(!r||SG!==g)return;sgBusy('mine');
+    var b=document.querySelector('[data-sgact="mine"]');if(b)b.innerHTML='⏹️ Dừng<small>Stop</small>';
+    sgPlayBlob(r.blob,function(){if(SG!==g)return;sgBusy('');var b2=document.querySelector('[data-sgact="mine"]');if(b2)b2.innerHTML='🎧 Nghe giọng bé<small>Play my voice</small>'});
+  });
+}
+function sgAfter(kind){
+  var g=SG;if(!g)return;
+  if(kind==='read')speakNow([[g.it.kind==='dd'?'Bé vỗ tay theo nhịp cùng Rookie nhé!':(g.it.quiz?'Bé tìm tiếng vần cùng Rookie nhé!':'Bé đọc theo nhé!'),'vi'],[g.it.kind==='dd'?'Now clap along!':'Now find the rhyme!','en']]);
+}
+function sgFinish(){
+  var g=SG;if(!g)return;
+  g.gen++;S.mode='song';S.total=3;S.round=3;
+  setTimeout(function(){if(SG===g)showEnd()},400);
+}
+
+/* ----- bố mẹ thêm bài ----- */
+var SGE=['🎤','🎵','🌙','🌈','🐣','🚗','🌻','🐟','⭐','❤️'];
+function sgAddForm(){
+  sgHalt();stopSpeech();S.mode='song';SG={gen:0,busy:'',form:{e:'🎵',blob:null}};
+  var F=SG.form;
+  view.innerHTML='<section class="sgv sgform"><h2>➕ Thêm bài hát<small>Parents: add a song</small></h2>'
+    +'<label>Tên bài<input id="sgtitle" maxlength="40" placeholder="Ví dụ: Bài hát ru của mẹ" autocomplete="off"></label>'
+    +'<div class="sgemos">'+SGE.map(function(e){return '<button type="button" class="sgemo'+(e===F.e?' on':'')+'" data-sge="'+e+'">'+e+'</button>'}).join('')+'</div>'
+    +'<label>Lời bài (không bắt buộc, mỗi câu một dòng)<textarea id="sglyr" rows="6" placeholder="Gõ lời để bé nhìn chữ khi nghe"></textarea></label>'
+    +'<div class="sgbtns"><button type="button" class="next" data-sgact="frec">🎙️ Bắt đầu thu<small>Record</small></button>'
+    +'<button type="button" class="next alt" data-sgact="fplay" disabled>▶️ Nghe thử<small>Preview</small></button></div>'
+    +'<p class="ahint" id="sgfmsg">Bấm 🎙️ rồi hát hoặc đọc. Bấm lại để dừng. Bài chỉ lưu trên máy này.</p>'
+    +'<div class="sgbtns"><button type="button" class="next blue" data-sgact="fsave" disabled>💾 Lưu bài<small>Save</small></button>'
+    +'<button type="button" class="next alt" data-sgact="fback">↩️ Quay lại<small>Back</small></button></div></section>';
+  window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
+}
+function sgFormMsg(t){var m=$('#sgfmsg');if(m)m.textContent=t}
+function sgFormRec(){
+  var g=SG;if(!g||!g.form)return;var b=document.querySelector('[data-sgact="frec"]');
+  if(g.busy==='frec'){micStop();return}
+  if(!micOK()){sgFormMsg('Trình duyệt này chưa hỗ trợ thu âm. Hãy mở bằng Safari bản mới.');return}
+  g.busy='frec';if(b)b.innerHTML='⏹️ Dừng thu<small>Stop</small>';sgFormMsg('Đang thu… bấm ⏹️ để dừng.');
+  micStart(function(blob){
+    g.busy='';g.form.blob=blob;if(b)b.innerHTML='🎙️ Thu lại<small>Record again</small>';
+    var p=document.querySelector('[data-sgact="fplay"]'),s=document.querySelector('[data-sgact="fsave"]');if(p)p.disabled=false;if(s)s.disabled=false;
+    sgFormMsg('Đã thu xong '+Math.max(1,Math.round(blob.size/16000))+' giây (ước tính). Bấm 💾 để lưu.');
+  },function(why){
+    g.busy='';if(b)b.innerHTML='🎙️ Bắt đầu thu<small>Record</small>';
+    sgFormMsg(why==='denied'?'Cần cho phép micro: vào Cài đặt > Safari > Micro, chọn Cho phép.':'Không thu âm được trên máy này.');
+  });
+}
+function sgFormSave(){
+  var g=SG;if(!g||!g.form||!g.form.blob)return;
+  var ti=($('#sgtitle')&&$('#sgtitle').value||'').trim()||'Bài hát của nhà mình';
+  var ly=($('#sglyr')&&$('#sglyr').value||'').trim();
+  recPut({id:'par_'+Date.now(),kind:'parent',title:ti,e:g.form.e,lyrics:ly,blob:g.form.blob,t:Date.now()},function(ok){
+    if(!ok){sgFormMsg('Không lưu được. Máy có thể đã đầy bộ nhớ.');return}
+    sfx('ok');showSongMenu();
+  });
+}
+/* mở bài của nhà mình */
+function sgOpenRec(id){
+  recGet(id,function(r){
+    if(!r)return;stopSpeech();sgHalt();S.mode='song';
+    var lines=(r.lyrics||'').split(/\n+/).map(function(x){return x.trim()}).filter(Boolean);
+    SG={it:{id:r.id,vi:r.title,en:r.kind==='kid'?'My voice':'Our song',lines:lines,kind:'rec'},rec:r,gen:0,busy:''};
+    view.innerHTML='<section class="sgv"><div class="sghead"><span class="sgemo">'+(r.e||'🎤')+'</span><h2>'+r.title+'<small>'+(r.kind==='kid'?'Giọng của bé · My voice':'Bố mẹ hát · Sung by parents')+'</small></h2></div>'
+      +(lines.length?'<div class="sgtext" id="sgtext">'+sgLinesHTML(lines)+'</div>':'<div class="sgtext big">🎶</div>')
+      +'<div class="sgbtns" id="sgbtns"><button type="button" class="next" data-sgact="rplay">▶️ Nghe<small>Play</small></button></div></section>';
+    window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
+    sgRecPlay();
+  });
+}
+function sgRecPlay(){
+  var g=SG;if(!g||!g.rec)return;var b=document.querySelector('[data-sgact="rplay"]');
+  if(g.busy==='rplay'){sgStopPlay();g.busy='';if(b)b.innerHTML='▶️ Nghe<small>Play</small>';clearInterval(g.iv);sgMark(-1);return}
+  g.busy='rplay';if(b)b.innerHTML='⏹️ Dừng<small>Stop</small>';
+  var n=g.it.lines.length,k=0;if(n){sgMark(0)}
+  sgPlayBlob(g.rec.blob,function(){if(SG!==g)return;g.busy='';clearInterval(g.iv);sgMark(-1);var b2=document.querySelector('[data-sgact="rplay"]');if(b2)b2.innerHTML='▶️ Nghe lại<small>Play again</small>'});
+  if(n>1){setTimeout(function(){
+    var a=SGA.el,dur=a&&isFinite(a.duration)&&a.duration>0?a.duration*1000:n*3500;
+    g.iv=setInterval(function(){if(SG!==g||g.busy!=='rplay'){clearInterval(g.iv);return}k=Math.min(n-1,k+1);sgMark(k)},Math.max(1500,dur/n));
+  },400)}
+}
+function sgClick(t){
+  var c=t.closest('[data-sg]');if(c){sgOpen(c.getAttribute('data-sg'));return true}
+  var rc=t.closest('[data-sgrec]');if(rc){sgOpenRec(rc.getAttribute('data-sgrec'));return true}
+  var dl=t.closest('[data-sgdel]');if(dl){if(window.confirm('Xoá bài này khỏi máy?'))recDel(dl.getAttribute('data-sgdel'),function(){showSongMenu()});return true}
+  var se=t.closest('[data-sge]');if(se&&SG&&SG.form){SG.form.e=se.getAttribute('data-sge');[].forEach.call(document.querySelectorAll('.sgemo'),function(x){x.classList.toggle('on',x===se)});return true}
+  var op=t.closest('[data-sgopt]');if(op){sgPick(op.getAttribute('data-sgopt'),op);return true}
+  var a=t.closest('[data-sgact]');if(!a||a.disabled)return !!a;
+  var k=a.getAttribute('data-sgact');
+  if(k==='tap')return true;
+  mediaUnlock();ensureAC();
+  if(k==='read')sgRead();else if(k==='clap')sgClap();else if(k==='rhyme')sgRhyme();else if(k==='rec')sgRec();else if(k==='mine')sgMine();
+  else if(k==='add')sgAddForm();else if(k==='frec')sgFormRec();
+  else if(k==='fplay'){if(SG&&SG.form&&SG.form.blob)sgPlayBlob(SG.form.blob)}
+  else if(k==='fsave')sgFormSave();else if(k==='fback'){micStop(true);showSongMenu()}
+  else if(k==='rplay')sgRecPlay();
+  return true;
+}
+
+document.addEventListener('pointerdown',function(e){var b=e.target&&e.target.closest&&e.target.closest('.sgclapbtn');if(b){e.preventDefault();sgTap()}},{passive:false});
+
 /* ---------- Settings & backup ---------- */
 function bkData(){return {app:'behuihoc',v:1,saved:new Date().toISOString(),data:{stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level}}}
 function bkCode(){return 'BVH1:'+btoa(unescape(encodeURIComponent(JSON.stringify(bkData()))))}
@@ -4806,6 +5266,7 @@ function doBackupCopy(){
 /* ---------- Events ---------- */
 view.addEventListener('click',function(e){
   var t=e.target;
+  if(S.mode==='song'&&sgClick(t))return;
   var lv=t.closest('[data-level]');
   if(lv){S.level=+lv.getAttribute('data-level');S.adj={};S.hist={};save();sfx('pop');if(S.mode==='settings')showSettings();else showHome();return}
   var lg=t.closest('button[data-lang]');if(lg){sfx('pop');setLang(lg.getAttribute('data-lang'));return}

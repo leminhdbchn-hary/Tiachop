@@ -3949,7 +3949,12 @@ function updCheck(){
   if(UPD.busy||!window.fetch||location.protocol==='file:'||document.hidden)return;
   UPD.busy=true;
   fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){
-    var v=r.headers.get('etag')||r.headers.get('last-modified')||'';if(!v)return;
+    var v=r.headers.get('etag')||r.headers.get('last-modified')||'';
+    if(v)return v;
+    /* máy chủ không trả ETag: tải cả trang (không dùng bản lưu tạm) rồi so dấu vân tay nội dung */
+    return fetch(location.pathname,{cache:'no-store'}).then(function(g){return g.text()}).then(function(t){var h=0,i;for(i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return t.length+':'+h});
+  }).then(function(v){
+    if(!v)return;
     var old=null;try{old=localStorage.getItem(UPD.key);localStorage.setItem(UPD.key,v)}catch(e){}
     if(old&&old!==v){UPD.pending=true;updApply()}
   }).catch(function(){}).then(function(){UPD.busy=false});
@@ -3957,6 +3962,7 @@ function updCheck(){
 function updStart(){
   setTimeout(updCheck,3000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)updCheck()});
+  window.addEventListener('pageshow',updCheck);window.addEventListener('focus',updCheck);/* app thêm vào màn hình chính khi mở lại */
   setInterval(function(){updCheck();updApply()},60000);
 }
 

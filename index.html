@@ -300,6 +300,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .giftstage .sticker{position:absolute;left:50%;bottom:20%;z-index:2;opacity:0;transform:translateX(-50%) scale(.1);animation:none;margin:0}
 .giftstage .sticker svg,.giftstage .sticker img.rk{width:clamp(150px,40vmin,260px)}
 .giftstage .sticker .em{animation:none}
+.stk3d{position:relative;width:clamp(190px,50vmin,320px);height:0;padding-bottom:clamp(142px,37.5vmin,240px)}.stk3d canvas{position:absolute;left:0;top:0;width:100%!important;height:100%!important;display:block}
 .giftstage.opening .gift{animation:giftshake .9s ease-in-out both}
 .giftstage.quick.opening .gift{animation:none}
 @keyframes giftshake{0%{transform:none}10%{transform:rotate(-9deg) scale(1.03)}20%{transform:rotate(9deg) scale(1.05)}30%{transform:rotate(-11deg) scale(1.06)}40%{transform:rotate(11deg) scale(1.08)}50%{transform:rotate(-8deg) scale(1.1)}60%{transform:rotate(8deg) scale(1.12)}70%{transform:rotate(-4deg) scale(1.14)}85%{transform:rotate(3deg) scale(1.16)}100%{transform:scale(1.18)}}
@@ -3644,6 +3645,7 @@ function showEnd(){
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
     +'<div class="endbtns">'+btns+'</div></div></section>';
   try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}
+  window.__giftStk=st;if(st==='car:chop'||st==='img:harry')giftHarry3D();
   /* bước 1: hộp quà lắc nhẹ chờ bé chạm; bước 2: bé chạm thì mở quà, sticker bay lên, rồi hiện lời khen */
   sfx('ok');
   var gst=$('#giftstage'),gb=$('#gift'),opened=false,gr=gst.getBoundingClientRect();
@@ -3679,6 +3681,34 @@ function showEnd(){
   }
   gb.addEventListener('click',openGift);
   gst.addEventListener('click',function(e){if(!opened&&e.target!==gb&&!gb.contains(e.target))openGift()});
+}
+/* Sticker Harry trong hộp quà: mô hình 3D xoay nhẹ (chưa tải xong hoặc lỗi thì giữ ảnh 2D) */
+function giftHarry3D(){
+  loadHarry(function(ok){
+    var box=$('#gsticker');
+    if(!ok||!box||D||!$('#giftstage')||$('.stk3d',box))return;
+    var T=THREE,el=document.createElement('div');el.className='stk3d';
+    try{
+      var r=new T.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      el.appendChild(r.domElement);box.innerHTML='';box.appendChild(el);
+      var scene=new T.Scene(),cam=new T.PerspectiveCamera(32,1,.1,60);
+      scene.add(new T.AmbientLight(0xffffff,.6));scene.add(new T.HemisphereLight(0xffffff,0x9db4d8,.4));
+      var dl=new T.DirectionalLight(0xffffff,.6);dl.position.set(4,8,7);scene.add(dl);
+      var car=HG.scene.clone();scene.add(car);
+      var st={run:true,raf:0,renderer:r,onResize:fit,onKey:function(){}};
+      function fit(){
+        var w=Math.max(el.clientWidth,50),h=Math.max(el.clientHeight,50);r.setSize(w,h);cam.aspect=w/h;
+        var d=7.4*Math.max(1,1.33/(w/h));cam.position.set(0,d*.18,d);cam.lookAt(0,1.0,0);cam.updateProjectionMatrix();
+      }
+      D=st;fit();window.addEventListener('resize',fit);
+      var t0=performance.now();
+      (function frame(now){
+        if(D!==st||!st.run)return;
+        car.rotation.y=reduce?.55:(now-t0)/1400+.4;
+        r.render(scene,cam);st.raf=requestAnimationFrame(frame);
+      })(performance.now());
+    }catch(e){if(el.parentNode)el.parentNode.removeChild(el);box.innerHTML=stkHTML(window.__giftStk||'img:harry');D=null}
+  });
 }
 var GIFT_COLS=[['#FF7BAE','#E23C7C','#FFE27A'],['#6BB8FF','#2F7BFF','#FFD93B'],['#A58BFF','#6A3FE0','#FF9ECF'],['#55D98A','#1FA55B','#FFE27A'],['#FFAE5C','#F57C1F','#7CC4FF']];
 

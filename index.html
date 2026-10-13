@@ -3377,7 +3377,7 @@ function showHome(){pfsExit();
     +tiles
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
-  checkNote();
+  checkNote();setTimeout(updApply,500);
   clearInterval(mascotTimer);mascotTimer=setInterval(function(){if(!$('.home .mascot')){clearInterval(mascotTimer);return}mascotSwap()},20000);
   [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }
@@ -3937,6 +3937,27 @@ function timeStart(){
   ['pointerdown','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,function(){TL.last=Date.now()},true)});
   document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
   clearInterval(TL.tick);TL.tick=setInterval(tlTick,1000);tlTick();
+}
+
+
+/* ---------- Tự cập nhật: mở lại trang là có bản mới, không cần xoá cache ----------
+   Hỏi máy chủ (không dùng bản lưu tạm) xem file index.html có đổi không (ETag / Last-Modified). Nếu đổi thì tải lại trang.
+   Chỉ tải lại khi bé đang ở màn hình chính, để không làm gián đoạn lúc đang chơi. */
+var UPD={key:'bvh_ver',pending:false,busy:false};
+function updApply(){if(UPD.pending&&!TL.locked&&$('.home')){UPD.pending=false;location.reload()}}
+function updCheck(){
+  if(UPD.busy||!window.fetch||location.protocol==='file:'||document.hidden)return;
+  UPD.busy=true;
+  fetch(location.pathname,{method:'HEAD',cache:'no-store'}).then(function(r){
+    var v=r.headers.get('etag')||r.headers.get('last-modified')||'';if(!v)return;
+    var old=null;try{old=localStorage.getItem(UPD.key);localStorage.setItem(UPD.key,v)}catch(e){}
+    if(old&&old!==v){UPD.pending=true;updApply()}
+  }).catch(function(){}).then(function(){UPD.busy=false});
+}
+function updStart(){
+  setTimeout(updCheck,3000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)updCheck()});
+  setInterval(function(){updCheck();updApply()},60000);
 }
 
 /* ---------- Tô màu xe ô tô ---------- */
@@ -5924,7 +5945,7 @@ document.addEventListener('click',wake,{once:true});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-timeStart();
+timeStart();updStart();
 if(/[?&]debug/.test(location.search)){window.__bvh={getD:function(){return D},sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showPaintMenu:showPaintMenu,PT:PT,showLine:showLine,getLF:function(){return LF},showPaint:showPaint,tkData:function(){return {TKSORT:TKSORT,TKSORT3:TKSORT3,TKSTORY:TKSTORY,TRSETS:TRSETS,TRG:TRG}},tkStart:tkStart,trStart:trStart,getTK:function(){return TK},getTR:function(){return TR},TRG:TRG,effLevel:effLevel,PAINT:PAINT,paintSVG:paintSVG,qCount:qCount,driveOpen:driveOpen,showLock:showLock,showAlbum:showAlbum,openShowroom:openShowroom,showSettings:showSettings,showEnd:showEnd,goNext:goNext}}
 /* English-only mode: drop the Vietnamese half of "vi + en" texts */
 var LETRE=/[A-Za-zÀ-ỹ]/;

@@ -96,7 +96,7 @@ Chủ đề mới **Học tiếng Anh / English fun** (có ở cả 3 chế đ�
 
 ## Tia Chớp – nhân vật chính
 
-**Tia Chớp** là chú xe anh hùng màu đỏ, có tia chớp vàng trên đầu (thiết kế gốc, có cả bản 2D và 3D).
+**Tia Chớp** là chú xe anh hùng màu đỏ, có tia chớp vàng trên đầu (thiết kế gốc, có cả bản 2D và mô hình 3D thật: `models/harry.glb`, nạp bằng `models/GLTFLoader.js` của three.js r128).
 
 - **Nhiệm vụ mỗi ngày:** Tia Chớp xuất hiện ở màn hình chính và nhờ bé làm một nhiệm vụ (đổi theo ngày, mảng `MISSIONS`). Xong nhiệm vụ bé được +3 sao.
 - **Game đua xe 3D:** bé lái Tia Chớp.

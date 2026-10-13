@@ -572,6 +572,9 @@ img.fe{display:inline-block!important;width:1.15em!important;height:1.15em!impor
 .lockb{position:absolute;right:8px;top:8px;z-index:2;background:#fff;border:3px solid var(--cd);border-radius:12px;padding:0 8px;font-size:15px;font-weight:800;line-height:1.3;color:var(--ink)}
 .qline{margin:0;font-weight:800;color:var(--bgtext);font-size:clamp(14px,3vmin,19px)}
 .pincard{width:min(380px,100%);max-height:100%;overflow:auto;background:#fff;border:4px solid var(--line);border-radius:28px;padding:16px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.18)}
+.tlsel{display:flex!important;flex-wrap:wrap;gap:8px}.tlsel .lg{flex:1 1 30%;min-width:96px}
+.timeov{z-index:60}#pinov{z-index:70}.timeov .pincard{border-color:#FF9F43}.tlimg{width:min(300px,80%);height:auto;margin-top:-4px}.plays.tl3{grid-template-columns:repeat(3,1fr)}
+.tltoast{position:fixed;left:50%;top:calc(var(--sat,0px) + 14px);transform:translateX(-50%);z-index:55;background:#FFE27A;border:4px solid #E0A800;border-radius:20px;padding:8px 16px;font-weight:800;font-size:18px;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.18);animation:hop .3s ease both}.tltoast small{display:block;font-size:.65em;font-weight:700;opacity:.8}
 .pincard h2{margin:0;font-size:24px;font-weight:800;line-height:1.1}
 .pincard h2 small,.pincard p small{display:block;font-weight:600;font-size:.6em;opacity:.75}
 .pincard p{margin:0;font-weight:700;font-size:17px}
@@ -1006,12 +1009,12 @@ function load(){
     var d=JSON.parse(localStorage.getItem('behuihoc')||'{}');
     S.stars=d.stars||0;S.stickers=d.stickers||[];S.mday=d.mday||'';S.mtotal=d.mtotal||0;S.sound=d.sound!==false;S.lang=(d.lang==='vi'||d.lang==='en')?d.lang:'both';
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
-    S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;S.plays=Math.max(0,Math.min(99,+d.plays||0));S.adj=(d.adj&&typeof d.adj==='object')?d.adj:{};S.hist=(d.hist&&typeof d.hist==='object')?d.hist:{};
+    S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;S.plays=Math.max(0,Math.min(99,+d.plays||0));S.limMin=[0,15,20,30,45,60].indexOf(d.limMin)>=0?d.limMin:30;S.tday=d.tday||'';S.tsec=Math.max(0,+d.tsec||0);S.tgrant=Math.max(0,+d.tgrant||0);S.adj=(d.adj&&typeof d.adj==='object')?d.adj:{};S.hist=(d.hist&&typeof d.hist==='object')?d.hist:{};
   }catch(e){}
   S.stickers=['car:chop','car:storm'].concat(S.stickers.filter(function(x){return x!=='car:chop'&&x!=='car:storm'}));/* Harry và Storm luôn có sẵn ở ô 1 và ô 2 */
 }
 function save(){
-  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0,plays:S.plays||0,adj:S.adj||{},hist:S.hist||{}}))}catch(e){}
+  try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0,plays:S.plays||0,limMin:S.limMin,tday:S.tday||'',tsec:S.tsec||0,tgrant:S.tgrant||0,adj:S.adj||{},hist:S.hist||{}}))}catch(e){}
 }
 load();
 
@@ -3800,7 +3803,7 @@ function pinShell(inner){
   closePin();var d=document.createElement('div');d.id='pinov';d.className='chatov pinov';
   d.innerHTML='<div class="pincard">'+inner+'</div>';
   d.addEventListener('click',function(e){e.stopPropagation()});
-  view.appendChild(d);return d;
+  (TL.locked?document.body:view).appendChild(d);return d;/* khi đang hết giờ, hộp mật khẩu phải nằm trên màn hết giờ */
 }
 /* bàn phím số: o={title,sub,len,link:[text,fn],ok:function(code)->true|false} */
 function pinPad(o){
@@ -3876,6 +3879,64 @@ function showLock(){
     }
   });
   speakNow([['Bé còn '+NUM_VI[left]+' nhiệm vụ nữa là được lái xe!','vi'],['Bé hãy chơi thêm nhé!','vi'],[left+' more missions to go before you can drive!','en']]);
+}
+
+
+/* ---------- Giới hạn thời gian chơi mỗi ngày (mặc định 30 phút, ba mẹ chỉnh trong Cài đặt) ----------
+   Chỉ tính khi tab đang mở, bé có chạm màn hình trong 2 phút gần nhất, và không ở màn Cài đặt. Qua ngày thì tính lại. */
+var TL={last:Date.now(),tick:0,warned:false,locked:false,sv:0};
+function tlDay(){if(S.tday!==todayStr()){S.tday=todayStr();S.tsec=0;S.tgrant=0;TL.warned=false}}
+function tlLeft(){tlDay();return S.limMin?S.limMin*60+S.tgrant*60-S.tsec:Infinity}
+function tlFmt(sec){var m=Math.floor(sec/60);return m+' phút'}
+function tlToast(vi,en){
+  var o=$('#tltoast');if(o)o.remove();
+  o=document.createElement('div');o.id='tltoast';o.className='tltoast';o.innerHTML='⏰ '+vi+(en?'<small>'+en+'</small>':'');
+  document.body.appendChild(o);setTimeout(function(){if(o.parentNode)o.remove()},6000);
+}
+function tlLock(){
+  if(TL.locked)return;TL.locked=true;
+  stop3D();stopSpeech();clearTimeout(S.timer);
+  var d=document.createElement('div');d.id='timeov';d.className='chatov timeov';
+  d.innerHTML='<div class="pincard"><img class="tlimg" src="img/harry-pose-2.webp" alt="" draggable="false">'
+    +'<h2>Hết giờ chơi hôm nay rồi!<small>Time is up for today!</small></h2>'
+    +'<p>Bé nghỉ ngơi nhé: uống nước, nhìn ra xa, chạy nhảy một chút. Mai mình chơi tiếp!</p>'
+    +'<p class="pinnote">Bé đã chơi '+tlFmt(S.tsec)+' hôm nay.</p>'
+    +'<div class="pinbtns"><button type="button" class="next alt" data-tl="parent">🔑 Ba mẹ cho chơi thêm<small>Parents: more time</small></button></div></div>';
+  d.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(!e.target.closest('[data-tl="parent"]'))return;
+    sfx('pop');
+    var more=function(){
+      var c=pinShell('<div class="pinic">⏰</div><h2>Cho bé chơi thêm bao lâu?<small>How much more time?</small></h2>'
+        +'<div class="plays tl3">'+[10,20,30].map(function(n){return '<button type="button" class="next" data-add="'+n+'">'+n+'<small>phút</small></button>'}).join('')+'</div>'
+        +'<div class="pinbtns"><button type="button" class="next alt" data-add="0">Huỷ<small>Cancel</small></button></div>');
+      c.addEventListener('click',function(ev){
+        var b=ev.target.closest('[data-add]');if(!b)return;var n=+b.getAttribute('data-add');sfx('pop');
+        if(!n){closePin();return}
+        S.tgrant=(S.tgrant||0)+n;TL.warned=false;save();closePin();tlUnlock();
+      });
+    };
+    if(S.pin)askPin('Mật khẩu của ba mẹ',more);else parentGate(more);
+  });
+  document.body.appendChild(d);
+  speakNow([['Hết giờ chơi rồi! Bé nghỉ ngơi nhé!','vi'],['Time is up! Let us take a rest!','en']]);
+}
+function tlUnlock(){
+  var d=$('#timeov');if(d)d.remove();TL.locked=false;showHome();
+}
+function tlTick(){
+  if(!S.limMin){if(TL.locked)tlUnlock();return}
+  tlDay();
+  var now=Date.now();
+  if(!TL.locked&&!document.hidden&&S.mode!=='settings'&&now-TL.last<120000){S.tsec++;if(++TL.sv>=10){TL.sv=0;save()}}
+  var left=tlLeft();
+  if(left<=0)tlLock();
+  else if(left<=300&&!TL.warned&&!TL.locked){TL.warned=true;tlToast('Còn 5 phút nữa thôi nhé!','5 minutes left!');speakNow([['Còn 5 phút nữa thôi nhé!','vi'],['5 minutes left!','en']])}
+}
+function timeStart(){
+  ['pointerdown','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,function(){TL.last=Date.now()},true)});
+  document.addEventListener('visibilitychange',function(){if(document.hidden)save()});
+  clearInterval(TL.tick);TL.tick=setInterval(tlTick,1000);tlTick();
 }
 
 /* ---------- Tô màu xe ô tô ---------- */
@@ -5637,6 +5698,10 @@ function showSettings(){pfsExit();
     +'<div class="setrow">'+(S.pin?'<button class="next blue" data-act="pinchg">🔑 Đổi mật khẩu<small>Change password</small></button><button class="next alt" data-act="pinoff">🔓 Tắt mật khẩu<small>Remove password</small></button>'
       :'<button class="next blue" data-act="pinset">🔑 Cài mật khẩu<small>Set password</small></button>')+'</div>'
     +'<div class="setmsg" id="pinMsg" role="status"></div></div>'
+    +'<div class="setcard"><h3>⏱️ Giới hạn thời gian chơi<i>Daily play time</i></h3>'
+    +'<p>Mỗi ngày bé được chơi tối đa số phút dưới đây. Hết giờ, màn hình sẽ nghỉ và ba mẹ nhập mật khẩu (hoặc làm phép tính) để cho chơi thêm.</p>'
+    +'<div class="langs tlsel">'+[15,20,30,45,60,0].map(function(m){return '<button class="lg'+(S.limMin===m?' on':'')+'" data-lim="'+m+'">'+(m?m+' phút':'Không giới hạn')+'</button>'}).join('')+'</div>'
+    +'<p id="tlnote"><b>Hôm nay bé đã chơi '+tlFmt(S.tday===todayStr()?S.tsec:0)+(S.limMin?' / '+S.limMin+' phút':'')+'.</b></p></div>'
     +'<div class="setcard"><h3>🌐 Ngôn ngữ<i>Language</i></h3><div class="langs">'+langs+'</div></div>'
     +'<div class="setcard"><h3>🎂 Độ tuổi của bé<i>Age</i></h3><div class="levels">'+lv+'</div></div>'
     +'<div class="setcard"><h3>💾 Sao lưu<i>Backup</i></h3>'
@@ -5710,6 +5775,7 @@ view.addEventListener('click',function(e){
   if(S.mode==='song'&&sgClick(t))return;
   var lv=t.closest('[data-level]');
   if(lv){S.level=+lv.getAttribute('data-level');S.adj={};S.hist={};save();sfx('pop');if(S.mode==='settings')showSettings();else showHome();return}
+  var tl=t.closest('[data-lim]');if(tl){S.limMin=+tl.getAttribute('data-lim');TL.warned=false;save();sfx('pop');showSettings();return}
   var lg=t.closest('button[data-lang]');if(lg){sfx('pop');setLang(lg.getAttribute('data-lang'));return}
   var pc=t.closest('[data-pc]');if(pc){paintColor(pc);return}
   var pt2=t.closest('[data-pcat]');if(pt2){PT.cat=pt2.getAttribute('data-pcat');sfx('pop');showPaintMenu();return}
@@ -5858,7 +5924,8 @@ document.addEventListener('click',wake,{once:true});
 document.addEventListener('gesturestart',function(e){e.preventDefault()});
 document.addEventListener('dblclick',function(e){e.preventDefault()});
 
-if(/[?&]debug/.test(location.search)){window.__bvh={getD:function(){return D},sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showPaintMenu:showPaintMenu,PT:PT,showLine:showLine,getLF:function(){return LF},showPaint:showPaint,tkData:function(){return {TKSORT:TKSORT,TKSORT3:TKSORT3,TKSTORY:TKSTORY,TRSETS:TRSETS,TRG:TRG}},tkStart:tkStart,trStart:trStart,getTK:function(){return TK},getTR:function(){return TR},TRG:TRG,effLevel:effLevel,PAINT:PAINT,paintSVG:paintSVG,qCount:qCount,driveOpen:driveOpen,showLock:showLock,showAlbum:showAlbum,openShowroom:openShowroom,showEnd:showEnd,goNext:goNext}}
+timeStart();
+if(/[?&]debug/.test(location.search)){window.__bvh={getD:function(){return D},sayPrompt:sayPrompt,PRAISE:PRAISE,chatLines:chatLines,NUM_VI:NUM_VI,NUM_EN:NUM_EN,HEROES:HEROES,COLORS:COLORS,TOPICS:TOPICS,MISSIONS:MISSIONS,make3DCar:make3DCar,carSVG:carSVG,S:S,POOL:POOL,TOPIC_IDS:TOPIC_IDS,CARS:CARS,CARIDS:CARIDS,ALBUM:ALBUM,startGame:startGame,showPaintMenu:showPaintMenu,PT:PT,showLine:showLine,getLF:function(){return LF},showPaint:showPaint,tkData:function(){return {TKSORT:TKSORT,TKSORT3:TKSORT3,TKSTORY:TKSTORY,TRSETS:TRSETS,TRG:TRG}},tkStart:tkStart,trStart:trStart,getTK:function(){return TK},getTR:function(){return TR},TRG:TRG,effLevel:effLevel,PAINT:PAINT,paintSVG:paintSVG,qCount:qCount,driveOpen:driveOpen,showLock:showLock,showAlbum:showAlbum,openShowroom:openShowroom,showSettings:showSettings,showEnd:showEnd,goNext:goNext}}
 /* English-only mode: drop the Vietnamese half of "vi + en" texts */
 var LETRE=/[A-Za-zÀ-ỹ]/;
 function localize(root){

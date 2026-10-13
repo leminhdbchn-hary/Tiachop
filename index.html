@@ -1008,7 +1008,7 @@ function load(){
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
     S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;S.plays=Math.max(0,Math.min(99,+d.plays||0));S.adj=(d.adj&&typeof d.adj==='object')?d.adj:{};S.hist=(d.hist&&typeof d.hist==='object')?d.hist:{};
   }catch(e){}
-  S.stickers=['car:chop'].concat(S.stickers.filter(function(x){return x!=='car:chop'}));
+  S.stickers=['car:chop','car:storm'].concat(S.stickers.filter(function(x){return x!=='car:chop'&&x!=='car:storm'}));/* Harry và Storm luôn có sẵn ở ô 1 và ô 2 */
 }
 function save(){
   try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0,plays:S.plays||0,adj:S.adj||{},hist:S.hist||{}}))}catch(e){}
@@ -1721,7 +1721,7 @@ function heroSVG(id){
 }
 
 var SECTIONS=[
- {vi:'Xe ô tô',en:'Cars',items:['car:chop'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim','car:storm'])},
+ {vi:'Xe ô tô',en:'Cars',items:['car:chop','car:storm'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim'])},
  {vi:'Bạn siêu nhân',en:'Hero friends',items:Object.keys(HEROES).map(function(h){return 'hero:'+h})},
  {vi:'Thú vật',en:'Animals',items:['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳']},
  {vi:'Thú cưng và nông trại',en:'Pets and farm',items:['🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥']},
@@ -3631,7 +3631,6 @@ function showEnd(){
   if(S.mday!==todayStr()&&(S.mode===ms[0]||S.mode==='mix')){missionNow=true;S.mday=todayStr();S.mtotal=(S.mtotal||0)+1;S.stars+=3}
   if(missionNow&&!owned('car:chop')){st='car:chop'}
   else if(nCars>=10&&!owned('car:kim')){st='car:kim'}
-  else if(nCars>=20&&!owned('car:storm')){st='car:storm'}
   else if(!fresh.length){st=pick(ALBUM.filter(function(x){return !spec(x)}))}
   else{st=pick(fresh)}
   var isNew=!owned(st);
@@ -3642,7 +3641,6 @@ function showEnd(){
   var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
   if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Harry Tia Chớp làm bạn với bé!';gotEn='Special sticker! Harry is your friend now!'}
-  else if(st==='car:storm'&&isNew){gotVi='Sticker đặc biệt! Siêu xe đen Storm!';gotEn='Special sticker! Storm the black super car!'}
   else if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}

@@ -1191,7 +1191,8 @@ var CARS={
  pu:{name:'Pu',kind:'fire',color:'#FF3B3B',iris:'#2E7D4F',cvi:'đỏ',cen:'red',vi:'xe cứu hỏa',en:'fire truck',honk:'Pu pu!',img:'img/car-fire.webp',iw:600,ih:498},
  ro:{name:'Rô',kind:'dump',color:'#2FBF5B',iris:'#6B3F1D',cvi:'xanh lá',cen:'green',vi:'xe ben',en:'dump truck',honk:'Rô rô!'},
  mit:{name:'Mít',kind:'conv',color:'#FF7EB6',iris:'#8E4DFF',cvi:'hồng',cen:'pink',vi:'xe mui trần',en:'convertible',honk:'Mít mít!'},
- kim:{name:'Kim',kind:'race',color:'#FFC93C',iris:'#2BA8E0',cvi:'vàng kim',cen:'gold',vi:'siêu xe vàng',en:'golden super car',honk:'Kim kim!',special:true,img:'img/car-race.webp',iw:600,ih:452}};
+ kim:{name:'Kim',kind:'race',color:'#FFC93C',iris:'#2BA8E0',cvi:'vàng kim',cen:'gold',vi:'siêu xe vàng',en:'golden super car',honk:'Kim kim!',special:true,img:'img/car-race.webp',iw:600,ih:452},
+ storm:{name:'Storm',kind:'race',color:'#1B2350',iris:'#2B6BE0',cvi:'đen xanh',cen:'black and blue',vi:'siêu xe đen',en:'black super car',honk:'Vù vù!',special:true,img:'img/car-storm.webp',iw:640,ih:350}};
 var CARIDS=['bim','bon','tit','pu','ro','mit'];
 /* silhouette family: taxi and police look alike in shadow */
 var SIL={race:'race',taxi:'sedan',police:'sedan',fire:'fire',dump:'dump',conv:'conv'};
@@ -1720,7 +1721,7 @@ function heroSVG(id){
 }
 
 var SECTIONS=[
- {vi:'Xe ô tô',en:'Cars',items:['car:chop'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim'])},
+ {vi:'Xe ô tô',en:'Cars',items:['car:chop'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim','car:storm'])},
  {vi:'Bạn siêu nhân',en:'Hero friends',items:Object.keys(HEROES).map(function(h){return 'hero:'+h})},
  {vi:'Thú vật',en:'Animals',items:['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳']},
  {vi:'Thú cưng và nông trại',en:'Pets and farm',items:['🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥']},
@@ -3336,6 +3337,21 @@ var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc th
  ['obj','chơi bài Đồ vật trong nhà','play Things at home'],['job','chơi bài Nghề nghiệp','play Jobs'],['school','chơi bài Trường học','play School'],['room','chơi bài Các phòng trong nhà','play Rooms at home']];
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
+/* Ban ngày Harry đứng ở màn hình chính. Buổi tối (18h–6h) Harry và Storm thay phiên nhau mỗi 5 phút */
+function mascotWho(){return isNight()&&Math.floor(Date.now()/300000)%2===1?'storm':'chop'}
+function mascotHTML(){
+  var who=mascotWho(),nm=who==='storm'?'Storm':'Harry';
+  return (S.mday===todayStr()?'<div class="bubble2 mission done">✅ '+nm+': xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
+    :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ '+nm+' nhờ bé: '+todayMission()[1]+'<small>'+nm+' asks you to '+todayMission()[2]+'</small></button>')
+    +(who==='storm'?'<img class="rk carimg" data-who="storm" src="img/car-storm.webp" alt="Storm" draggable="false">':carSVG('chop'));
+}
+function mascotSwap(){
+  var mc=$('.home .mascot');if(!mc)return;
+  var cur=$('img[data-who="storm"]',mc)?'storm':'chop';
+  if(cur===mascotWho())return;
+  mc.innerHTML=mascotHTML();
+}
+var mascotTimer=0;
 function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
@@ -3353,13 +3369,13 @@ function showHome(){pfsExit();
   view.innerHTML='<section class="home">'
     +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Little':'Bé Vui')+'</div><div class="st2">'+(S.lang==='en'?'Learners':'Học')+'</div>'
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
-    +'<div class="mascot">'+(S.mday===todayStr()?'<div class="bubble2 mission done">✅ Harry: xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
-      :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ Harry nhờ bé: '+todayMission()[1]+'<small>Harry asks you to '+todayMission()[2]+'</small></button>')+carSVG('chop')+'</div></div>'
+    +'<div class="mascot">'+mascotHTML()+'</div></div>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
   checkNote();
+  clearInterval(mascotTimer);mascotTimer=setInterval(function(){if(!$('.home .mascot')){clearInterval(mascotTimer);return}mascotSwap()},20000);
   [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }
 
@@ -3383,7 +3399,7 @@ function showAlbum(sec,page){pfsExit();
   page=Math.max(0,Math.min(pages-1,page||0));S.albSec=sec;S.albPage=page;
   function cell(x,feat){
     var own=has(x),isCar=x.indexOf('car:')===0,nm=stkName(x),k=own?mine.indexOf(x)+1:0;
-    return '<button class="acell'+(feat?' feat':'')+(own?'':' lock')+((x==='car:kim'||x==='car:chop')?' special':'')+(own&&isCar?' new':'')+'"'
+    return '<button class="acell'+(feat?' feat':'')+(own?'':' lock')+((x==='car:kim'||x==='car:chop'||x==='car:storm')?' special':'')+(own&&isCar?' new':'')+'"'
       +(own&&isCar?' data-car="'+x.slice(4)+'"':'')+(own&&!isCar?' data-stk="'+x+'"':'')+(own&&!feat?' data-k="'+k+'"':'')
       +' aria-label="'+(own?nm[0]:'Chưa có')+'">'+stkHTML(x)+'</button>';
   }
@@ -3456,10 +3472,14 @@ function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:b
 var RK_HI=[[['Xin chào bé! Mình là Harry Tia Chớp.','vi'],['Hello! I am Harry.','en']],
   [['Xe màu đỏ là bạn Harry. Vút vút!','vi'],['Harry is red. Honk honk!','en']],
   [['Mình là Harry Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Harry! I have a mission for you today!','en']]];
+var STORM_HI=[[['Xin chào bé! Mình là Storm, siêu xe đen.','vi'],['Hello! I am Storm, the black super car.','en']],
+  [['Xe màu đen xanh là bạn Storm. Vù vù!','vi'],['Storm is black and blue. Vroom vroom!','en']],
+  [['Mình là Storm! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Storm! I have a mission for you today!','en']]];
 function rookieHi(mc){
   mc.classList.remove('hop');void mc.offsetWidth;mc.classList.add('hop');sfx('pop');
   clearTimeout(S.rkT);S.rkT=setTimeout(function(){mc.classList.remove('hop')},750);
-  S.rkHi=((S.rkHi||0)+1)%RK_HI.length;speakNow(RK_HI[S.rkHi]);
+  var hi=$('img[data-who="storm"]',mc)?STORM_HI:RK_HI;
+  S.rkHi=((S.rkHi||0)+1)%hi.length;speakNow(hi[S.rkHi]);
 }
 function startGame(mode){pfsExit();
   stop3D();
@@ -3603,7 +3623,7 @@ function showEnd(){
   var qWas=driveOpen();qBump();var qNow=!qWas&&driveOpen();
   var owned=function(x){return S.stickers.indexOf(x)>=0};
   var isCarSt=function(x){return x.indexOf('car:')===0};
-  var spec=function(x){return x==='car:kim'||x==='car:chop'};
+  var spec=function(x){return x==='car:kim'||x==='car:chop'||x==='car:storm'};
   var nCars=ALBUM.filter(function(x){return isCarSt(x)&&!spec(x)&&owned(x)}).length;
   var fresh=ALBUM.filter(function(x){return !spec(x)&&!owned(x)});
   var freshCars=fresh.filter(isCarSt),st;
@@ -3611,6 +3631,7 @@ function showEnd(){
   if(S.mday!==todayStr()&&(S.mode===ms[0]||S.mode==='mix')){missionNow=true;S.mday=todayStr();S.mtotal=(S.mtotal||0)+1;S.stars+=3}
   if(missionNow&&!owned('car:chop')){st='car:chop'}
   else if(nCars>=10&&!owned('car:kim')){st='car:kim'}
+  else if(nCars>=20&&!owned('car:storm')){st='car:storm'}
   else if(!fresh.length){st=pick(ALBUM.filter(function(x){return !spec(x)}))}
   else{st=pick(fresh)}
   var isNew=!owned(st);
@@ -3621,6 +3642,7 @@ function showEnd(){
   var both=S.lang==='both',en1=S.lang==='en',car=st.indexOf('car:')===0?CARS[st.slice(4)]:null;
   var gotVi,gotEn;
   if(st==='car:chop'&&isNew){gotVi='Sticker đặc biệt! Harry Tia Chớp làm bạn với bé!';gotEn='Special sticker! Harry is your friend now!'}
+  else if(st==='car:storm'&&isNew){gotVi='Sticker đặc biệt! Siêu xe đen Storm!';gotEn='Special sticker! Storm the black super car!'}
   else if(st==='car:kim'&&isNew){gotVi='Sticker đặc biệt! Siêu xe vàng Kim!';gotEn='Special sticker! Kim the golden super car!'}
   else if(car){gotVi='Bé nhận được chú xe '+car.name+'!';gotEn='You got '+car.name+' the '+car.en+'!'}
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}

@@ -99,7 +99,6 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .st2{font-size:clamp(46px,12vmin,86px);font-weight:800;line-height:.9;color:#E8332A;text-shadow:0 3px 0 #fff,0 5px 0 #A51D16;letter-spacing:.02em}
 .sign-p{display:inline-block;margin-top:8px;background:#FFE27A;border:3px solid #E0A800;border-radius:999px;padding:1px 12px;font-size:clamp(12px,2.8vmin,17px);font-weight:800;line-height:1.35}
 .mascot{position:relative;padding-top:50px}
-.hgl{position:relative;width:100%;max-width:75vh;height:0;padding-bottom:min(75%,56vh);margin:0 auto;cursor:pointer}.hgl canvas{position:absolute;left:0;top:0;width:100%!important;height:100%!important;display:block}
 .mascot svg{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18))}
 .bubble2{
   position:absolute;left:-6px;right:0;top:0;background:#fff;border:3px solid var(--line);border-radius:20px;padding:4px 10px;
@@ -156,7 +155,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .holdtip{position:fixed;z-index:50;max-width:220px;background:#25234A;color:#fff;font-size:14px;font-weight:700;line-height:1.3;padding:8px 12px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.25);opacity:0;transform:translateY(-6px);transition:opacity .2s,transform .2s;pointer-events:none}
 .holdtip.on{opacity:1;transform:none}
 .mascot>svg,.mascot img.rk{cursor:pointer}
-.mascot.hop>svg,.mascot.hop>.hgl,.mascot.hop img.rk{animation:hop .7s cubic-bezier(.3,1.6,.5,1)}
+.mascot.hop>svg,.mascot.hop img.rk{animation:hop .7s cubic-bezier(.3,1.6,.5,1)}
 @keyframes hop{0%{transform:none}35%{transform:translateY(-22px) rotate(-5deg)}60%{transform:translateY(0) rotate(3deg) scaleY(.94)}80%{transform:scaleY(1.03)}100%{transform:none}}
 .home .tile .glyph{animation:invite 19s ease-in-out infinite;transform-origin:50% 80%}
 @keyframes invite{0%,92%,100%{transform:none}93.5%{transform:rotate(-7deg) scale(1.08)}95%{transform:rotate(6deg) scale(1.08)}96.5%{transform:rotate(-3deg)}98%{transform:none}}
@@ -164,6 +163,12 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 #replay.nudge{animation:nudge .8s ease 3}
 @keyframes nudge{50%{transform:scale(1.18) rotate(-6deg);box-shadow:0 0 0 8px rgba(255,201,60,.45),0 4px 0 #E0A21B}}
 @media (prefers-reduced-motion:reduce){.home .tile .glyph,#replay.nudge,.mascot.hop>svg,.mascot.hop img.rk,#setBtn.wig{animation:none}}
+.hturn{position:relative;flex:1;min-height:260px;max-height:500px;border-radius:26px;overflow:hidden;touch-action:pan-y;cursor:grab;
+  background:linear-gradient(180deg,#9ED8FA 0%,#D9F0FF 62%,#BFE8A8 62.2%,#8FD47A 100%);box-shadow:inset 0 0 0 4px rgba(255,255,255,.55),0 8px 18px var(--soft)}
+.hturn:active{cursor:grabbing}
+.hpad{position:absolute;left:50%;bottom:9%;width:78%;max-width:520px;height:15%;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(ellipse at 50% 40%,#fff 0,#f1f4fb 55%,#c8d0e6 100%);box-shadow:0 10px 0 #25234A,0 18px 24px rgba(0,0,0,.28)}
+.hcar{position:absolute;left:50%;bottom:calc(9% + 5%);transform-origin:50% 100%;user-select:none;-webkit-user-drag:none;pointer-events:none;filter:drop-shadow(0 12px 8px rgba(0,0,0,.25))}
 .hsec{margin:8px 4px -4px}
 .vnote{margin:0;text-align:center;font-size:14px;font-weight:600;color:var(--bgtext);opacity:.85}
 
@@ -295,6 +300,7 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .giftstage .sticker{position:absolute;left:50%;bottom:20%;z-index:2;opacity:0;transform:translateX(-50%) scale(.1);animation:none;margin:0}
 .giftstage .sticker svg,.giftstage .sticker img.rk{width:clamp(150px,40vmin,260px)}
 .giftstage .sticker .em{animation:none}
+.stk3d{position:relative;width:clamp(190px,50vmin,320px);height:0;padding-bottom:clamp(142px,37.5vmin,240px)}.stk3d canvas{position:absolute;left:0;top:0;width:100%!important;height:100%!important;display:block}
 .giftstage.opening .gift{animation:giftshake .9s ease-in-out both}
 .giftstage.quick.opening .gift{animation:none}
 @keyframes giftshake{0%{transform:none}10%{transform:rotate(-9deg) scale(1.03)}20%{transform:rotate(9deg) scale(1.05)}30%{transform:rotate(-11deg) scale(1.06)}40%{transform:rotate(11deg) scale(1.08)}50%{transform:rotate(-8deg) scale(1.1)}60%{transform:rotate(8deg) scale(1.12)}70%{transform:rotate(-4deg) scale(1.14)}85%{transform:rotate(3deg) scale(1.16)}100%{transform:scale(1.18)}}
@@ -2712,7 +2718,21 @@ var V3={
  roller:['heavy',[['y','s',[.8,2.0],[0,.8,1.5],[0,0,1.5708]]]],
  loader:['heavy',[['b','s',[2.6,.7,.9],[0,.7,2.1],0,.1]],1.25]
 };
-/* ---- Harry Tia Chớp: mô hình 3D thật (models/harry.glb, đã giảm còn ~16k tam giác). Tải một lần, mỗi xe là một bản sao ---- */
+/* ---- Harry xoay 3D bằng ảnh: ghép 6 góc nhìn (trước, 3/4, bên, sau, bên, 3/4 lật) và ép ngang khi chuyển góc ---- */
+var HV={front:'img/harry-v-front.webp',hero:'img/harry-hero.webp',side:'img/harry-v-side.webp',back:'img/harry-v-back.webp'};
+var HV_SZ={front:[514,433],hero:[640,450],side:[640,363],back:[469,388]};
+var HFR=[[0,'front',0],[45,'hero',0],[90,'side',1],[180,'back',0],[270,'side',0],[315,'hero',1]];/* [góc, ảnh, lật ngang] */
+function harryFrame(deg){
+  deg=((deg%360)+360)%360;
+  var best=0,bd=1e9,i,d;
+  for(i=0;i<HFR.length;i++){d=Math.abs(((deg-HFR[i][0]+540)%360)-180);if(d<bd){bd=d;best=i}}
+  var f=HFR[best],prev=HFR[(best+HFR.length-1)%HFR.length][0],next=HFR[(best+1)%HFR.length][0];
+  var toNext=((next-f[0]+360)%360)/2,toPrev=((f[0]-prev+360)%360)/2;
+  var off=((deg-f[0]+540)%360)-180,edge=off>=0?toNext-off:toPrev+off;/* còn cách ranh giới bao nhiêu độ */
+  var t=Math.max(0,Math.min(1,edge/10));
+  return {key:f[1],flip:f[2]?-1:1,squash:.7+.3*(t*t*(3-2*t))};
+}
+/* ---- Harry Tia Chớp: mô hình 3D thật (chỉ dùng ở màn đua) (models/harry.glb, đã giảm còn ~16k tam giác). Tải một lần, mỗi xe là một bản sao ---- */
 var HARRY_GLB='models/harry.glb',HARRY_LEN=3.7;/* chiều dài xe trong game */
 var HG={state:0,scene:null,cbs:[]};/* 0 chưa tải, 1 đang tải, 2 xong, 3 lỗi */
 function loadHarry(cb){
@@ -2737,7 +2757,7 @@ function loadHarry(cb){
     },undefined,function(){HG.state=3;flushHarry(false)});
   }catch(e){HG.state=3;flushHarry(false)}
 }
-setTimeout(function(){loadHarry()},2500);/* tải sẵn khi máy rảnh */
+setTimeout(function(){loadHarry()},2500);/* tải sẵn mô hình cho màn đua */
 function flushHarry(ok){var l=HG.cbs;HG.cbs=[];l.forEach(function(f){try{f(ok)}catch(e){}})}
 function makeHarry3D(){
   var T=THREE,g=new T.Group();
@@ -3113,14 +3133,46 @@ function initDrive(){
 }
 
 /* ---------- Showroom: spin the car, change its colour, honk ---------- */
+function openHarryShowroom(id){
+  stop3D();clearTimeout(S.timer);stopSpeech();
+  S.mode='show';S.cur=null;setProgress(0,0);syncControls();
+  var c=CARS[id];
+  view.innerHTML='<section class="show3d">'
+    +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+' Tia Chớp</b> · '+c.vi+'<small>'+c.en+'</small></div>'
+    +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
+    +'<div class="hturn" id="hturn"><div class="hpad"></div><img class="hcar" id="hcar" alt="Harry Tia Chớp" draggable="false"></div>'
+    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to spin</div></section>';
+  var el=$('#hturn'),im=$('#hcar'),st={run:true,raf:0,renderer:null,onResize:function(){},onKey:function(){}};D=st;
+  var ang=20,drag=false,lx=0,moved=0,bump=0,spin=48,last=performance.now(),cur='';
+  Object.keys(HV).forEach(function(k){(new Image()).src=HV[k]});
+  function paint(){
+    var f=harryFrame(ang),z=HV_SZ[f.key],k=Math.min(el.clientHeight*.7/430,el.clientWidth*.8/640);/* cùng một tỉ lệ cho mọi góc; góc bên dài nhất vẫn vừa khung */
+    if(cur!==f.key){im.src=HV[f.key];cur=f.key}
+    var h=z[1]*k,w=z[0]*k;
+    im.style.height=h+'px';im.style.width=w+'px';
+    im.style.transform='translateX(-50%) translateY('+(-Math.sin(bump*30)*bump*28)+'px) scale('+(f.flip*f.squash)+',1)';
+  }
+  el.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;moved=0;try{el.setPointerCapture(e.pointerId)}catch(_){}});
+  el.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);ang-=dx*.55});
+  el.addEventListener('pointerup',function(){drag=false;if(moved<8){sfx('honk');bump=.5;speakNow([[c.honk,'vi',true]])}});
+  function frame(now){
+    if(D!==st||!st.run)return;
+    var dt=Math.min(.05,(now-last)/1000);last=now;
+    if(!drag&&!reduce)ang+=dt*spin;
+    if(bump>0)bump=Math.max(0,bump-dt*1.6);
+    paint();st.raf=requestAnimationFrame(frame);
+  }
+  st.raf=requestAnimationFrame(frame);
+  setTimeout(function(){speakNow([['Xin chào bé! Mình là '+c.name+'.','vi'],[c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']])},300);
+}
 function openShowroom(id){
+  if(id==='chop'){openHarryShowroom(id);return}
   stop3D();clearTimeout(S.timer);stopSpeech();
   S.mode='show';S.cur=null;setProgress(0,0);syncControls();
   var c=CARS[id];
   var sw=COLORS.slice(0,7).map(function(x){
     return '<button class="sw" data-hex="'+x.hex+'" data-vi="'+x.vi+'" data-en="'+x.en+'" style="background:'+x.hex+'" aria-label="'+x.vi+'"></button>';
   }).join('');
-  if(id==='chop')sw='';/* Harry giữ nguyên màu đỏ của mô hình 3D */
   view.innerHTML='<section class="show3d">'
     +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+'</b> · '+c.vi+'<small>'+c.en+'</small></div>'
     +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
@@ -3281,38 +3333,6 @@ var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc th
  ['obj','chơi bài Đồ vật trong nhà','play Things at home'],['job','chơi bài Nghề nghiệp','play Jobs'],['school','chơi bài Trường học','play School'],['room','chơi bài Các phòng trong nhà','play Rooms at home']];
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
-/* Harry 3D ở màn hình chính: thay hình SVG khi mô hình đã tải xong (chưa xong hoặc lỗi thì giữ hình cũ). Xoay nhẹ qua lại, dừng khi tab ẩn */
-function homeHarry3D(){
-  var mc=$('.home .mascot');if(!mc||!window.THREE||!THREE.GLTFLoader)return;
-  var home=$('.home');
-  loadHarry(function(ok){
-    if(!ok||D||!home.isConnected||$('.hgl',mc))return;
-    var svg=$('img.rk',mc)||$('svg',mc),T=THREE,el=document.createElement('div');el.className='hgl';mc.appendChild(el);
-    try{
-      var r=new T.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
-      el.appendChild(r.domElement);
-      var scene=new T.Scene(),cam=new T.PerspectiveCamera(32,1,.1,60);
-      scene.add(new T.AmbientLight(0xffffff,.6));scene.add(new T.HemisphereLight(0xffffff,0x9db4d8,.4));
-      var dl=new T.DirectionalLight(0xffffff,.6);dl.position.set(4,8,7);scene.add(dl);
-      var car=HG.scene.clone();scene.add(car);
-      var st={run:true,raf:0,renderer:r,onResize:fit,onKey:function(){}};
-      function fit(){
-        var w=Math.max(el.clientWidth,50),h=Math.max(el.clientHeight,50);r.setSize(w,h);cam.aspect=w/h;
-        var d=7.4*Math.max(1,1.33/(w/h));
-        cam.position.set(0,d*.18,d);cam.lookAt(0,1.0,0);cam.updateProjectionMatrix();
-      }
-      D=st;fit();window.addEventListener('resize',fit);
-      if(svg)svg.style.display='none';
-      var t0=performance.now();
-      (function frame(now){
-        if(D!==st||!st.run)return;
-        if(!document.hidden)car.rotation.y=.55+(reduce?0:Math.sin((now-t0)/1700)*.5);
-        if(!document.hidden)r.render(scene,cam);
-        st.raf=requestAnimationFrame(frame);
-      })(performance.now());
-    }catch(e){if(el.parentNode)el.parentNode.removeChild(el);if(svg)svg.style.display='';D=null}
-  });
-}
 function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
@@ -3336,7 +3356,7 @@ function showHome(){pfsExit();
     +tiles
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
-  checkNote();homeHarry3D();
+  checkNote();
   [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }
 
@@ -3625,6 +3645,7 @@ function showEnd(){
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
     +'<div class="endbtns">'+btns+'</div></div></section>';
   try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}
+  window.__giftStk=st;if(st==='car:chop'||st==='img:harry')giftHarry3D();
   /* bước 1: hộp quà lắc nhẹ chờ bé chạm; bước 2: bé chạm thì mở quà, sticker bay lên, rồi hiện lời khen */
   sfx('ok');
   var gst=$('#giftstage'),gb=$('#gift'),opened=false,gr=gst.getBoundingClientRect();
@@ -3660,6 +3681,34 @@ function showEnd(){
   }
   gb.addEventListener('click',openGift);
   gst.addEventListener('click',function(e){if(!opened&&e.target!==gb&&!gb.contains(e.target))openGift()});
+}
+/* Sticker Harry trong hộp quà: mô hình 3D xoay nhẹ (chưa tải xong hoặc lỗi thì giữ ảnh 2D) */
+function giftHarry3D(){
+  loadHarry(function(ok){
+    var box=$('#gsticker');
+    if(!ok||!box||D||!$('#giftstage')||$('.stk3d',box))return;
+    var T=THREE,el=document.createElement('div');el.className='stk3d';
+    try{
+      var r=new T.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      el.appendChild(r.domElement);box.innerHTML='';box.appendChild(el);
+      var scene=new T.Scene(),cam=new T.PerspectiveCamera(32,1,.1,60);
+      scene.add(new T.AmbientLight(0xffffff,.6));scene.add(new T.HemisphereLight(0xffffff,0x9db4d8,.4));
+      var dl=new T.DirectionalLight(0xffffff,.6);dl.position.set(4,8,7);scene.add(dl);
+      var car=HG.scene.clone();scene.add(car);
+      var st={run:true,raf:0,renderer:r,onResize:fit,onKey:function(){}};
+      function fit(){
+        var w=Math.max(el.clientWidth,50),h=Math.max(el.clientHeight,50);r.setSize(w,h);cam.aspect=w/h;
+        var d=7.4*Math.max(1,1.33/(w/h));cam.position.set(0,d*.18,d);cam.lookAt(0,1.0,0);cam.updateProjectionMatrix();
+      }
+      D=st;fit();window.addEventListener('resize',fit);
+      var t0=performance.now();
+      (function frame(now){
+        if(D!==st||!st.run)return;
+        car.rotation.y=reduce?.55:(now-t0)/1400+.4;
+        r.render(scene,cam);st.raf=requestAnimationFrame(frame);
+      })(performance.now());
+    }catch(e){if(el.parentNode)el.parentNode.removeChild(el);box.innerHTML=stkHTML(window.__giftStk||'img:harry');D=null}
+  });
 }
 var GIFT_COLS=[['#FF7BAE','#E23C7C','#FFE27A'],['#6BB8FF','#2F7BFF','#FFD93B'],['#A58BFF','#6A3FE0','#FF9ECF'],['#55D98A','#1FA55B','#FFE27A'],['#FFAE5C','#F57C1F','#7CC4FF']];
 

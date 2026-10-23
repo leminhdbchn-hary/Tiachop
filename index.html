@@ -941,7 +941,7 @@ img.fe{display:inline-block!important;width:1.15em!important;height:1.15em!impor
 .dfdots i.on{background:#2FBF5B;border-color:#1F9A47;transform:scale(1.2)}
 .dfpanels{display:flex;gap:12px;align-items:center;justify-content:center}
 .dfpanels.v{flex-direction:column}
-.dfs{display:grid;grid-template-columns:repeat(var(--c),var(--cs));grid-template-rows:repeat(var(--r),var(--cs));padding:6px;background:#F3FAE8;border:4px solid #A9D58B;border-radius:20px;box-shadow:0 4px 0 #8DBF6B}
+.dfs{display:grid;grid-template-columns:repeat(var(--c),var(--cs));grid-template-rows:repeat(var(--r),var(--cs));padding:6px;border:4px solid #A9D58B;border-radius:20px;box-shadow:0 4px 0 #8DBF6B}
 .dfc{position:relative;border:0;background:none;padding:0;font:inherit;font-size:calc(var(--cs)*.68);line-height:1;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
 .dfc.ok::after{content:'';position:absolute;inset:4%;border:5px solid #2FBF5B;border-radius:50%;background:rgba(47,191,91,.14)}
 .dfc.wrong{animation:shake .45s ease}
@@ -3362,6 +3362,8 @@ var TOPICS=[
  {id:'drive',glyph:'@3d',vi:'Lái xe 3D',en:'3D driving',c:'#FFD866',d:'#D9A21B'},
  {id:'paint',glyph:'🎨🖍️',vi:'Tô màu',en:'Coloring',c:'#FF9ECF',d:'#D95A9B'},
  {id:'think',glyph:'🧠🧩',vi:'Trò chơi tư duy',en:'Brain games',c:'#A9A3FF',d:'#6F66E0'},
+ {id:'diff',glyph:'🔍🖼️',vi:'Tìm điểm khác nhau',en:'Spot the difference',c:'#7FD3FF',d:'#3E9BD6'},
+ {id:'spell',glyph:'🔤',vi:'Đánh vần',en:'Spelling',c:'#FFC46B',d:'#D98B1F'},
  {id:'trace',glyph:'✍️',vi:'Tập viết',en:'Tracing',c:'#8EE0A8',d:'#3FAE6A'},
  {id:'song',glyph:'🎵📖',vi:'Hát &amp; Thơ',en:'Songs &amp; poems',c:'#FFB0D9',d:'#D9629E'},
  {id:'col',glyph:'🔴🔺',vi:'Màu và hình',en:'Colors &amp; shapes',c:'#FFB36B',d:'#D9791F'},
@@ -3378,8 +3380,8 @@ var TOPICS=[
  {id:'job',glyph:'👩‍⚕️👨‍🚒',vi:'Nghề nghiệp',en:'Jobs',c:'#F5A3E0',d:'#C45FAA'},
  {id:'mix',glyph:'🎲',vi:'Chơi ngẫu nhiên',en:'Surprise me!',c:'#FFAE70',d:'#D97A2B'}];
 var TOPIC_GROUPS=[
- {vi:'📚 Học chữ và số',en:'Letters &amp; numbers',ids:['num','let','trace','eng','col','cmp']},
- {vi:'🎮 Vui chơi',en:'Play',ids:['drive','paint','think','song','mat','mix']},
+ {vi:'📚 Học chữ và số',en:'Letters &amp; numbers',ids:['num','let','spell','trace','eng','col','cmp']},
+ {vi:'🎮 Vui chơi',en:'Play',ids:['drive','paint','think','diff','song','mat','mix']},
  {vi:'🌍 Khám phá thế giới',en:'Explore the world',ids:['veh','ani','food','body','emo','obj','room','school','job']}];
 var PALS=[['#2F7BFF','#E4F1FF'],['#E5A400','#FFF5D1'],['#E5568A','#FFE8F0'],['#2FA84F','#E3F7E6'],['#8E4DFF','#EEE6FF'],['#F57C1F','#FFEBD9']];
 
@@ -3569,6 +3571,7 @@ function startGame(mode){pfsExit();
   if(mode==='drive'){if(!driveOpen()){showLock();return}if((S.plays||0)>0)S.plays--;else{S.qn=Math.max(0,qCount()-NEEDQ);S.qday=todayStr()}save();ensureAC();startDrive();return}
   if(mode==='paint'){ensureAC();showPaintMenu();return}
   if(mode==='think'){ensureAC();showThinkMenu();return}
+  if(mode==='diff'||mode==='spell'){ensureAC();S.homeTk=mode;tkStart(mode);return}
   if(mode==='trace'){ensureAC();showTraceMenu();return}
   if(mode==='song'){ensureAC();showSongMenu();return}
   S.mode=mode;S.round=0;S.total=totalFor(mode);S.lastTopic=null;S.used={};S.usedQ={};S.usedA={};S.lastFn=null;S.car=rand(2)?'chop':pick(CAR_W);
@@ -4842,11 +4845,9 @@ var TKGAMES=[
  ['maze','🌀','Mê cung','Maze','Lập kế hoạch tìm đường'],
  ['ord','🔢','Xếp thứ tự','Put in order','Trước, sau, bé, lớn'],
  ['sort','🧺','Phân loại','Sort it out','Nhóm đồ vật'],
- ['puz','🧩','Ghép hình','Jigsaw','Nhìn hình, tìm mảnh'],
- ['diff','🔍','Tìm điểm khác nhau','Spot the difference','Quan sát thật kĩ'],
- ['spell','🔤','Đánh vần','Spelling','Ghép chữ thành tiếng']];
+ ['puz','🧩','Ghép hình','Jigsaw','Nhìn hình, tìm mảnh']];
 function showThinkMenu(){pfsExit();
-  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='think';S.cur=null;TK=null;setProgress(0,0);syncControls();
+  stop3D();clearTimeout(S.timer);stopSpeech();S.mode='think';S.homeTk=null;S.cur=null;TK=null;setProgress(0,0);syncControls();
   var g=TKGAMES.map(function(x){return '<button type="button" class="pcard tkcard" data-tk="'+x[0]+'" aria-label="'+x[2]+'"><span class="tkem">'+x[1]+'</span><b>'+x[2]+'</b><i>'+x[3]+'</i></button>'}).join('');
   view.innerHTML='<section class="paintv tkm"><h2>🧠 Trò chơi tư duy<small>Brain games</small></h2><div class="pgrid">'+g+'</div></section>';
   window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
@@ -5153,8 +5154,9 @@ function tkPuz(){
 
 /* ---------- 6. TÌM ĐIỂM KHÁC NHAU ---------- */
 var DFTH=[['🐶','🐱','🐰','🐻','🐼','🦊','🐸','🐵'],['🚗','🚒','🚓','🚑','🚌','🚲','🚀','🚜'],['🍎','🍌','🍓','🍇','🍉','🍊','🍐','🍑'],['🌳','🌸','🌻','🍄','⭐','🌈','🦋','🐝']];
+var DFBG=['linear-gradient(#BFE6FF 0 58%,#A5E08A 58%)','linear-gradient(#D5D9E8 0 100%)','linear-gradient(#FFE9B8,#F4C77E)','linear-gradient(#C9ECFF 0 70%,#B5E69A 70%)'];
 function tkDiff(){
-  var tk=TK,lv=effLevel('t_diff'),cols=[3,4,4][lv-1],rows=3+(lv===3?1:0),N=cols*rows,nd=[3,4,5][lv-1],th=pick(DFTH),i;
+  var tk=TK,lv=effLevel('t_diff'),cols=[3,4,4][lv-1],rows=3+(lv===3?1:0),N=cols*rows,nd=[3,4,5][lv-1],thi=rand(DFTH.length),th=DFTH[thi],i,rot=[];
   var A=[],B=[],idx=shuffle(Array.apply(null,Array(N)).map(function(_,q){return q})).slice(0,nd),isD={};
   for(i=0;i<N;i++){A.push(pick(th));B.push({e:A[i],c:''})}
   idx.forEach(function(q,n){
@@ -5163,11 +5165,12 @@ function tkDiff(){
     else if(t===1)B[q]={e:'',c:''};
     else B[q]={e:A[q],c:'mini'};
   });
-  function cell(e,q,mini){return '<button type="button" class="dfc" data-i="'+q+'" aria-label="Hình">'+(e?'<span'+(mini?' style="display:inline-block;transform:scale(.55)"':'')+'>'+e+'</span>':'')+'</button>'}
+  for(i=0;i<N;i++)rot.push(rand(17)-8);
+  function cell(e,q,mini){return '<button type="button" class="dfc" data-i="'+q+'" aria-label="Hình">'+(e?'<span style="display:inline-block;transform:rotate('+rot[q]+'deg)'+(mini?' scale(.55)':'')+'">'+e+'</span>':'')+'</button>'}
   var pa='',pb='';for(i=0;i<N;i++){pa+=cell(A[i],i);pb+=cell(B[i].e,i,B[i].c==='mini')}
   var dots='';for(i=0;i<nd;i++)dots+='<i></i>';
   tkShell('Tìm điểm khác nhau giữa hai bức tranh!','Find the differences between the two pictures!',
-    '<div class="dfwrap"><div class="dfdots" id="dfdots">'+dots+'</div><div class="dfpanels" id="dfpn"><div class="dfs" style="--c:'+cols+';--r:'+rows+'">'+pa+'</div><div class="dfs" style="--c:'+cols+';--r:'+rows+'">'+pb+'</div></div></div>');
+    '<div class="dfwrap"><div class="dfdots" id="dfdots">'+dots+'</div><div class="dfpanels" id="dfpn"><div class="dfs" style="--c:'+cols+';--r:'+rows+';background:'+DFBG[thi]+'">'+pa+'</div><div class="dfs" style="--c:'+cols+';--r:'+rows+';background:'+DFBG[thi]+'">'+pb+'</div></div></div>');
   var g=tk.gen,found=0,wrong=0,errs=0,done={};
   function lay(){
     var b=$('#tkbody'),pn=$('#dfpn');if(!b||!pn)return;
@@ -5204,22 +5207,24 @@ var SPW=[['🐟','cá','c','á'],['🐔','gà','g','à'],['🐘','voi','v','oi']
  ['🐯','hổ','h','ổ'],['🍦','kem','k','em'],['🎈','bóng','b','óng'],['🐶','chó','ch','ó'],['🐰','thỏ','th','ỏ'],['🏠','nhà','nh','à'],['🐵','khỉ','kh','ỉ'],['🐃','trâu','tr','âu'],
  ['🍜','phở','ph','ở'],['🌸','hoa','h','oa'],['🐜','kiến','k','iến']];
 function tkSpell(){
-  var tk=TK,lv=effLevel('t_spell'),pool=SPW.filter(function(w){return lv===1?w[2].length===1:true}).filter(function(w){return !(tk.used||[]).includes(w[1])});
+  var tk=TK,lv=effLevel('t_spell'),pool=SPW.filter(function(w){return lv===1?(w[2].length===1&&w[3].length<=3):true}).filter(function(w){return !(tk.used||[]).includes(w[1])});
   if(!pool.length)pool=SPW;var w=pick(pool);tk.used=(tk.used||[]).concat(w[1]);
   var eo=[1,2,2][lv-1],er=[1,2,3][lv-1];
   var ons=SPW.map(function(x){return x[2]}).filter(function(v,q,a){return a.indexOf(v)===q&&v!==w[2]&&(lv>1||v.length===1)});
   var rms=SPW.map(function(x){return x[3]}).filter(function(v,q,a){return a.indexOf(v)===q&&v!==w[3]});
-  var tiles=shuffle(shuffle(ons).slice(0,eo).map(function(v){return {t:'o',v:v}}).concat(shuffle(rms).slice(0,er).map(function(v){return {t:'r',v:v}}),[{t:'o',v:w[2]},{t:'r',v:w[3]}]));
+  var tiles=lv===1?[{t:'o',v:w[2]},{t:'r',v:w[3]}]:shuffle(shuffle(ons).slice(0,eo).map(function(v){return {t:'o',v:v}}).concat(shuffle(rms).slice(0,er).map(function(v){return {t:'r',v:v}}),[{t:'o',v:w[2]},{t:'r',v:w[3]}]));
   var tr=tiles.map(function(x,q){return '<button type="button" class="spt '+x.t+'" data-t="'+x.t+'" data-v="'+x.v+'" aria-label="Chữ">'+x.v+'</button>'}).join('');
   tkShell('Bé đánh vần chữ '+w[1]+' nhé!','Let us spell it together!',
     '<button type="button" class="sppic" id="sppic" aria-label="Nghe">'+w[0]+'</button><div class="spslots"><div class="spslot o" id="spo"></div><div class="spslot r" id="spr"></div></div><div class="sptray">'+tr+'</div>','spb');
   var g=tk.gen,got={o:0,r:0},errs=0,wrong=0;
+  function nextGlow(){if(lv!==1)return;[].forEach.call(document.querySelectorAll('.spt.glow'),function(x){x.classList.remove('glow')});var n=document.querySelector('.spt:not(.used)');if(n)n.classList.add('glow')}
+  nextGlow();
   $('#sppic').addEventListener('click',function(){speakNow([[w[1],'vi']])});
   $('.sptray').addEventListener('click',function(e){
     var b=e.target.closest('.spt');if(!b||tk.done||!tkAlive(tk,g)||b.classList.contains('used'))return;
     var t=b.getAttribute('data-t'),v=b.getAttribute('data-v');
     if(v===(t==='o'?w[2]:w[3])&&!got[t]){
-      got[t]=1;wrong=0;b.classList.add('used');sfx('pop');
+      got[t]=1;wrong=0;b.classList.add('used');sfx('pop');b.classList.remove('glow');nextGlow();
       var sl=$(t==='o'?'#spo':'#spr');sl.textContent=v;sl.classList.add('on');
       speakNow([[t==='o'?SPN[v]:v,'vi']]);
       if(got.o&&got.r){
@@ -5983,7 +5988,7 @@ view.addEventListener('click',function(e){
   var act=t.closest('[data-act]');
   if(act){
     var a=act.getAttribute('data-act');
-    if(a==='again')startGame(S.mode);
+    if(a==='again')startGame(S.homeTk||S.mode);
     else if(a==='home'){if(S.mode==='paint')paintSave();showHome()}
     else if(a==='gallery'){PT.cat='mine';showPaintMenu()}
     else if(a==='album')showAlbum();

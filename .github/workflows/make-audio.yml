@@ -36,5 +36,13 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git add -A cars audio
           git diff --cached --quiet || git commit -m "Cập nhật ảnh ô tô và giọng đọc AI"
-          git pull --rebase
-          git push
+          # workflow giọng Ngọc Linh có thể đẩy lên cùng lúc: kéo về, dựng lại danh sách câu rồi thử lại
+          for i in 1 2 3 4 5 6; do
+            git pull -q --rebase -X theirs || { git rebase --abort || true; git pull -q --no-rebase -X ours --no-edit || true; }
+            python3 tools/make_audio.py --manifest-only
+            git add -A audio/manifest.json
+            git diff --cached --quiet || git commit -q -m "Cập nhật danh sách câu có giọng"
+            git push && exit 0
+            sleep $((i*10))
+          done
+          exit 1

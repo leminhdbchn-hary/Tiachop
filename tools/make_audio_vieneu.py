@@ -106,7 +106,7 @@ def main():
     print("Giọng:", label, flush=True)
     t0, n, bad, since = time.time(), 0, [], 0
     for cid in todo:
-        text = spoken(seen[cid])
+        text = spoken(seen[cid], "vi")
         ok = False
         for attempt in range(3):
             try:

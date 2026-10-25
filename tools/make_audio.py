@@ -65,8 +65,14 @@ def clip_id(text, lang):  # phải khớp hàm clipId() trong index.html (FNV-1a
     return "%08x" % h
 
 
-def spoken(text):  # bỏ dấu ngoặc kép để giọng đọc không đọc ra thành tiếng
+PRON_VI = {"Francesco": "Phờ-ran-chét-xờ-cô"}  # tên nước ngoài: viết lại theo cách đọc của người Việt cho giọng tiếng Việt
+
+
+def spoken(text, lang=None):  # bỏ dấu ngoặc kép để giọng đọc không đọc ra thành tiếng
     t = re.sub(r"[“”\"«»]", "", text).replace("’", "'")
+    if lang == "vi":
+        for k, v in PRON_VI.items():
+            t = t.replace(k, v)
     return re.sub(r"\s+", " ", t).strip()
 
 
@@ -107,7 +113,7 @@ FAIL = {"run": 0, "stop": False}  # đếm số câu lỗi liên tiếp; lỗi h
 
 async def make(sem, text, lang, path):
     voice, rate, pitch = VOICES[lang]
-    text = spoken(text)
+    text = spoken(text, lang)
     async with sem:
         if FAIL["stop"]:
             return False
@@ -139,7 +145,7 @@ def google_save(text, lang, path):
     tmp = path + ".tmp"
     for attempt in range(4):
         try:
-            gTTS(spoken(text), lang=lang).save(tmp)
+            gTTS(spoken(text, lang), lang=lang).save(tmp)
             if os.path.getsize(tmp) > 500:
                 os.replace(tmp, path)
                 return True

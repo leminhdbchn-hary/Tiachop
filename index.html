@@ -1262,7 +1262,7 @@ var CARS={
  mit:{name:'Mít',kind:'conv',color:'#FF7EB6',iris:'#8E4DFF',cvi:'hồng',cen:'pink',vi:'xe mui trần',en:'convertible',honk:'Mít mít!'},
  kim:{name:'Kim',kind:'race',color:'#FFC93C',iris:'#2BA8E0',cvi:'vàng kim',cen:'gold',vi:'siêu xe vàng',en:'golden super car',honk:'Kim kim!',special:true,img:'img/car-race.webp',iw:600,ih:452},
  storm:{name:'Storm',kind:'race',color:'#1B2350',iris:'#2B6BE0',cvi:'đen xanh',cen:'black and blue',vi:'siêu xe đen',en:'black super car',honk:'Vù vù!',special:true,img:'img/car-storm.webp',iw:640,ih:350},
- francesco:{name:'Francesco',kind:'race',color:'#E53935',iris:'#6B3F1D',cvi:'đỏ xanh lá',cen:'red and green',vi:'siêu xe Ý',en:'Italian super car',honk:'Ciao!',special:true,img:'img/car-francesco.webp',iw:640,ih:416}};
+ francesco:{name:'Francesco',kind:'race',color:'#E53935',iris:'#6B3F1D',cvi:'đỏ xanh lá',cen:'red and green',vi:'siêu xe Ý',en:'super car from Italy',honk:'Chao chao!',special:true,img:'img/car-francesco.webp',iw:640,ih:416}};
 var CARIDS=['bim','bon','tit','pu','ro','mit'];
 /* silhouette family: taxi and police look alike in shadow */
 var SIL={race:'race',taxi:'sedan',police:'sedan',fire:'fire',dump:'dump',conv:'conv'};
@@ -1801,11 +1801,21 @@ var SECTIONS=[
  {vi:'Món ngon',en:'Yummy food',items:['🍎','🍌','🍓','🍉','🍇','🍊','🍍','🥭','🍒','🍑','🥕','🌽','🍦','🍰','🍪','🍩','🧁','🍕','🍔','🍭','🍫','🍿']},
  {vi:'Phương tiện',en:'Vehicles',items:['img:race1','img:harry','🚒','🚑','🚓','🚌','🚜','🚂','✈️','🚁','🚲','🛵','🚢','🛶','🏎️','🚤','⛵']},
  {vi:'Đồ chơi và vui nhộn',en:'Toys and fun',items:['⚽','🏀','🎈','🎁','🧸','🪁','🎨','🎸','🥁','🎺','🎠','🎡','🎂','🎉','👑','🏆','💎','❤️']},
- {vi:'Thiên nhiên',en:'Nature',items:['🌻','🌸','🌷','🌳','🍄','☀️','☁️','⛄','❄️','🌵','🌊']}];
+ {vi:'Thiên nhiên',en:'Nature',items:['🌻','🌸','🌷','🌳','🍄','☀️','☁️','⛄','❄️','🌵','🌊']},
+ {vi:'Trái cây và rau củ',en:'Fruits and veggies',items:['🍋','🍐','🥝','🍅','🥥','🥑','🍆','🥔','🥒','🥦']},
+ {vi:'Bữa ăn của bé',en:'Mealtime',items:['🍞','🥐','🧀','🥚','🥞','🍗','🌭','🍜','🍙','🥟']},
+ {vi:'Đồ ngọt và nước uống',en:'Sweets and drinks',items:['🍨','🍧','🍬','🍯','🥛','🧃','🍵','☕','🥤','🍮']},
+ {vi:'Nghề nghiệp và nhân vật',en:'People and jobs',items:['👮','👷','💂','🕵️','👸','🤴','🎅','🤶','👶','🤡']},
+ {vi:'Xe và tàu',en:'Wheels and trains',items:['🚕','🚙','🚛','🚐','🚎','🏍️','🚄','🚠','🛴','🛹']},
+ {vi:'Thời tiết',en:'Weather',items:['⛅','🌧️','⛈️','🌪️','☂️','⚡','🔥','💧','🌋','🌅']},
+ {vi:'Thể thao',en:'Sports',items:['⚾','🎾','🏐','🏈','🏓','🏸','🥊','⛸️','🥇','🎯']},
+ {vi:'Âm nhạc và trò chơi',en:'Music and games',items:['🎹','🎻','🎷','🎤','🎧','🎲','🧩','♟️','🎮','🔔']},
+ {vi:'Đồ dùng hằng ngày',en:'Everyday things',items:['⏰','📚','✏️','🎒','👓','🧢','👟','🧦','🔑','🔦']},
+ {vi:'Nhà cửa và nơi chốn',en:'Places',items:['🏠','🏫','🏥','⛺','🏰','🗼','🌉','⛲','🎪','🏡']}];
 var ALBUM=[];
 SECTIONS.forEach(function(sec){sec.items.forEach(function(x){if(ALBUM.indexOf(x)<0)ALBUM.push(x)})});
 function stkHTML(s){if(s==='img:harry')return '<img class="rk" src="img/sticker-harry.webp" alt="Harry Mía" draggable="false">';if(s==='img:race1')return '<img class="rk" src="img/sticker-race1.webp" alt="Xe đua số 1" draggable="false">';return s.indexOf('car:')===0?carSVG(s.slice(4)):(s.indexOf('hero:')===0?heroSVG(s.slice(5)):'<span class="em">'+s+'</span>')}
-var STKN={'🦄':['con kỳ lân','unicorn'],'🐯':['con hổ','tiger'],'🐼':['gấu trúc','panda'],'🦊':['con cáo','fox'],'🐨':['gấu koala','koala'],'🐙':['con bạch tuộc','octopus'],'🐧':['chim cánh cụt','penguin'],'🦉':['con cú','owl'],'🐢':['con rùa','turtle'],'🦀':['con cua','crab'],'🐬':['cá heo','dolphin'],'🐿️':['con sóc','squirrel'],'🦁':['sư tử','lion'],'🐘':['con voi','elephant'],'🦒':['hươu cao cổ','giraffe'],'🦓':['ngựa vằn','zebra'],'🦘':['chuột túi','kangaroo'],'🦔':['con nhím','hedgehog'],'🦩':['chim hồng hạc','flamingo'],'🦜':['con vẹt','parrot'],'🐊':['cá sấu','crocodile'],'🦥':['con lười','sloth'],'🦦':['rái cá','otter'],'🐺':['chó sói','wolf'],'🦕':['khủng long cổ dài','long neck dinosaur'],'🐳':['cá voi','whale'],'🐶':['chó con','puppy'],'🐱':['mèo con','kitten'],'🐭':['con chuột','mouse'],'🐹':['chuột hamster','hamster'],'🐰':['con thỏ','rabbit'],'🐻':['con gấu','bear'],'🐷':['con heo','pig'],'🐮':['con bò','cow'],'🐸':['con ếch','frog'],'🐵':['con khỉ','monkey'],'🐔':['con gà','chicken'],'🐴':['con ngựa','horse'],'🐑':['con cừu','sheep'],'🦆':['con vịt','duck'],'🐤':['gà con','chick'],'🐥':['gà con vàng','baby chick'],'🐠':['cá nhiệt đới','tropical fish'],'🐟':['con cá','fish'],'🦈':['cá mập','shark'],'🐡':['cá nóc','pufferfish'],'🦭':['hải cẩu','seal'],'🦑':['con mực','squid'],'🦞':['tôm hùm','lobster'],'🐚':['vỏ sò','seashell'],'🐋':['cá voi xanh','blue whale'],'🦋':['con bướm','butterfly'],'🐞':['bọ rùa','ladybug'],'🐝':['con ong','bee'],'🐛':['con sâu','caterpillar'],'🐌':['ốc sên','snail'],'🦗':['con dế','cricket'],'🐜':['con kiến','ant'],'🕷️':['con nhện','spider'],'🕸️':['mạng nhện','spider web'],'🐉':['con rồng','dragon'],'🦖':['khủng long','T rex'],'🧚':['bà tiên','fairy'],'🧜':['nàng tiên cá','mermaid'],'🧙':['phù thủy','wizard'],'🤖':['rô-bốt','robot'],'👽':['người ngoài hành tinh','alien'],'🦸':['siêu nhân','superhero'],'🚀':['tên lửa','rocket'],'🛸':['đĩa bay','flying saucer'],'🌙':['mặt trăng','moon'],'⭐':['ngôi sao','star'],'🪐':['sao Thổ','Saturn'],'🌈':['cầu vồng','rainbow'],'☄️':['sao chổi','comet'],'🌟':['ngôi sao sáng','shining star'],'🍎':['quả táo','apple'],'🍌':['quả chuối','banana'],'🍓':['dâu tây','strawberry'],'🍉':['dưa hấu','watermelon'],'🍇':['chùm nho','grapes'],'🍊':['quả cam','orange'],'🍍':['quả dứa','pineapple'],'🥭':['quả xoài','mango'],'🍒':['quả anh đào','cherries'],'🍑':['quả đào','peach'],'🥕':['củ cà rốt','carrot'],'🌽':['bắp ngô','corn'],'🍦':['cây kem','ice cream'],'🍰':['bánh kem','cake'],'🍪':['bánh quy','cookie'],'🍩':['bánh vòng','donut'],'🧁':['bánh cupcake','cupcake'],'🍕':['bánh pizza','pizza'],'🍔':['bánh hamburger','burger'],'🍭':['kẹo mút','lollipop'],'🍫':['sô-cô-la','chocolate'],'🍿':['bắp rang','popcorn'],'🚒':['xe cứu hỏa','fire truck'],'🚑':['xe cứu thương','ambulance'],'🚓':['xe cảnh sát','police car'],'🚌':['xe buýt','bus'],'🚜':['máy cày','tractor'],'🚂':['tàu hỏa','train'],'✈️':['máy bay','airplane'],'🚁':['trực thăng','helicopter'],'🚲':['xe đạp','bicycle'],'🛵':['xe máy','scooter'],'🚢':['tàu thủy','ship'],'🛶':['ca nô','canoe'],'🏎️':['xe đua','race car'],'🚤':['xuồng máy','speedboat'],'⛵':['thuyền buồm','sailboat'],'⚽':['quả bóng đá','soccer ball'],'🏀':['quả bóng rổ','basketball'],'🎈':['bóng bay','balloon'],'🎁':['hộp quà','gift'],'🧸':['gấu bông','teddy bear'],'🪁':['con diều','kite'],'🎨':['bảng màu','paint palette'],'🎸':['đàn ghi-ta','guitar'],'🥁':['cái trống','drum'],'🎺':['cái kèn','trumpet'],'🎠':['ngựa quay','carousel'],'🎡':['vòng đu quay','ferris wheel'],'🎂':['bánh sinh nhật','birthday cake'],'🎉':['pháo giấy','party popper'],'👑':['vương miện','crown'],'🏆':['chiếc cúp','trophy'],'💎':['viên kim cương','diamond'],'❤️':['trái tim','heart'],'🌻':['hoa hướng dương','sunflower'],'🌸':['hoa anh đào','cherry blossom'],'🌷':['hoa tulip','tulip'],'🌳':['cái cây','tree'],'🍄':['cây nấm','mushroom'],'☀️':['mặt trời','sun'],'☁️':['đám mây','cloud'],'⛄':['người tuyết','snowman'],'❄️':['bông tuyết','snowflake'],'🌵':['cây xương rồng','cactus'],'🌊':['sóng biển','ocean wave']};
+var STKN={'🍋':['quả chanh','lemon'],'🍐':['quả lê','pear'],'🥝':['quả kiwi','kiwi'],'🍅':['quả cà chua','tomato'],'🥥':['quả dừa','coconut'],'🥑':['quả bơ','avocado'],'🍆':['quả cà tím','eggplant'],'🥔':['củ khoai tây','potato'],'🥒':['quả dưa chuột','cucumber'],'🥦':['súp lơ xanh','broccoli'],'🍞':['ổ bánh mì','bread'],'🥐':['bánh sừng bò','croissant'],'🧀':['miếng phô mai','cheese'],'🥚':['quả trứng','egg'],'🥞':['bánh kếp','pancakes'],'🍗':['đùi gà','chicken leg'],'🌭':['xúc xích','hot dog'],'🍜':['tô mì','noodle bowl'],'🍙':['nắm cơm','rice ball'],'🥟':['bánh bao','dumpling'],'🍨':['ly kem','ice cream cup'],'🍧':['đá bào','shaved ice'],'🍬':['cái kẹo','candy'],'🍯':['hũ mật ong','honey pot'],'🥛':['ly sữa','glass of milk'],'🧃':['hộp nước trái cây','juice box'],'🍵':['tách trà','cup of tea'],'☕':['tách cà phê','coffee cup'],'🥤':['cốc nước ngọt','soda cup'],'🍮':['bánh flan','pudding'],'👮':['chú công an','police officer'],'👷':['chú thợ xây','builder'],'💂':['chú lính gác','guard'],'🕵️':['thám tử','detective'],'👸':['công chúa','princess'],'🤴':['hoàng tử','prince'],'🎅':['ông già Nô-en','Santa Claus'],'🤶':['bà già Nô-en','Mrs Claus'],'👶':['em bé','baby'],'🤡':['chú hề','clown'],'🚕':['xe taxi','taxi'],'🚙':['xe địa hình','SUV'],'🚛':['xe tải lớn','big truck'],'🚐':['xe khách nhỏ','minibus'],'🚎':['xe buýt điện','trolleybus'],'🏍️':['xe máy','motorbike'],'🚄':['tàu cao tốc','bullet train'],'🚠':['cáp treo','cable car'],'🛴':['xe trượt scooter','scooter'],'🛹':['ván trượt','skateboard'],'⛅':['trời có mây','partly cloudy'],'🌧️':['mưa','rain'],'⛈️':['giông bão','thunderstorm'],'🌪️':['lốc xoáy','tornado'],'☂️':['cái ô','umbrella'],'⚡':['tia chớp','lightning'],'🔥':['ngọn lửa','fire'],'💧':['giọt nước','water drop'],'🌋':['núi lửa','volcano'],'🌅':['bình minh','sunrise'],'⚾':['bóng chày','baseball'],'🎾':['quần vợt','tennis'],'🏐':['bóng chuyền','volleyball'],'🏈':['bóng bầu dục','football'],'🏓':['bóng bàn','ping pong'],'🏸':['cầu lông','badminton'],'🥊':['găng đấm bốc','boxing glove'],'⛸️':['giày trượt băng','ice skate'],'🥇':['huy chương vàng','gold medal'],'🎯':['bia phi tiêu','dart board'],'🎹':['đàn piano','piano'],'🎻':['đàn vi-ô-lông','violin'],'🎷':['kèn xa-xô-phôn','saxophone'],'🎤':['cái micro','microphone'],'🎧':['tai nghe','headphones'],'🎲':['con xúc xắc','dice'],'🧩':['mảnh ghép','puzzle piece'],'♟️':['quân cờ','chess pawn'],'🎮':['tay cầm chơi game','game controller'],'🔔':['cái chuông','bell'],'⏰':['đồng hồ báo thức','alarm clock'],'📚':['chồng sách','books'],'✏️':['cây bút chì','pencil'],'🎒':['cặp sách','backpack'],'👓':['kính mắt','glasses'],'🧢':['mũ lưỡi trai','cap'],'👟':['giày thể thao','sneaker'],'🧦':['đôi tất','socks'],'🔑':['chìa khóa','key'],'🔦':['đèn pin','flashlight'],'🏠':['ngôi nhà','house'],'🏫':['trường học','school'],'🏥':['bệnh viện','hospital'],'⛺':['cái lều','tent'],'🏰':['lâu đài','castle'],'🗼':['tòa tháp','tower'],'🌉':['cây cầu','bridge'],'⛲':['đài phun nước','fountain'],'🎪':['rạp xiếc','circus tent'],'🏡':['nhà có vườn','house with garden'],'🦄':['con kỳ lân','unicorn'],'🐯':['con hổ','tiger'],'🐼':['gấu trúc','panda'],'🦊':['con cáo','fox'],'🐨':['gấu koala','koala'],'🐙':['con bạch tuộc','octopus'],'🐧':['chim cánh cụt','penguin'],'🦉':['con cú','owl'],'🐢':['con rùa','turtle'],'🦀':['con cua','crab'],'🐬':['cá heo','dolphin'],'🐿️':['con sóc','squirrel'],'🦁':['sư tử','lion'],'🐘':['con voi','elephant'],'🦒':['hươu cao cổ','giraffe'],'🦓':['ngựa vằn','zebra'],'🦘':['chuột túi','kangaroo'],'🦔':['con nhím','hedgehog'],'🦩':['chim hồng hạc','flamingo'],'🦜':['con vẹt','parrot'],'🐊':['cá sấu','crocodile'],'🦥':['con lười','sloth'],'🦦':['rái cá','otter'],'🐺':['chó sói','wolf'],'🦕':['khủng long cổ dài','long neck dinosaur'],'🐳':['cá voi','whale'],'🐶':['chó con','puppy'],'🐱':['mèo con','kitten'],'🐭':['con chuột','mouse'],'🐹':['chuột hamster','hamster'],'🐰':['con thỏ','rabbit'],'🐻':['con gấu','bear'],'🐷':['con heo','pig'],'🐮':['con bò','cow'],'🐸':['con ếch','frog'],'🐵':['con khỉ','monkey'],'🐔':['con gà','chicken'],'🐴':['con ngựa','horse'],'🐑':['con cừu','sheep'],'🦆':['con vịt','duck'],'🐤':['gà con','chick'],'🐥':['gà con vàng','baby chick'],'🐠':['cá nhiệt đới','tropical fish'],'🐟':['con cá','fish'],'🦈':['cá mập','shark'],'🐡':['cá nóc','pufferfish'],'🦭':['hải cẩu','seal'],'🦑':['con mực','squid'],'🦞':['tôm hùm','lobster'],'🐚':['vỏ sò','seashell'],'🐋':['cá voi xanh','blue whale'],'🦋':['con bướm','butterfly'],'🐞':['bọ rùa','ladybug'],'🐝':['con ong','bee'],'🐛':['con sâu','caterpillar'],'🐌':['ốc sên','snail'],'🦗':['con dế','cricket'],'🐜':['con kiến','ant'],'🕷️':['con nhện','spider'],'🕸️':['mạng nhện','spider web'],'🐉':['con rồng','dragon'],'🦖':['khủng long','T rex'],'🧚':['bà tiên','fairy'],'🧜':['nàng tiên cá','mermaid'],'🧙':['phù thủy','wizard'],'🤖':['rô-bốt','robot'],'👽':['người ngoài hành tinh','alien'],'🦸':['siêu nhân','superhero'],'🚀':['tên lửa','rocket'],'🛸':['đĩa bay','flying saucer'],'🌙':['mặt trăng','moon'],'⭐':['ngôi sao','star'],'🪐':['sao Thổ','Saturn'],'🌈':['cầu vồng','rainbow'],'☄️':['sao chổi','comet'],'🌟':['ngôi sao sáng','shining star'],'🍎':['quả táo','apple'],'🍌':['quả chuối','banana'],'🍓':['dâu tây','strawberry'],'🍉':['dưa hấu','watermelon'],'🍇':['chùm nho','grapes'],'🍊':['quả cam','orange'],'🍍':['quả dứa','pineapple'],'🥭':['quả xoài','mango'],'🍒':['quả anh đào','cherries'],'🍑':['quả đào','peach'],'🥕':['củ cà rốt','carrot'],'🌽':['bắp ngô','corn'],'🍦':['cây kem','ice cream'],'🍰':['bánh kem','cake'],'🍪':['bánh quy','cookie'],'🍩':['bánh vòng','donut'],'🧁':['bánh cupcake','cupcake'],'🍕':['bánh pizza','pizza'],'🍔':['bánh hamburger','burger'],'🍭':['kẹo mút','lollipop'],'🍫':['sô-cô-la','chocolate'],'🍿':['bắp rang','popcorn'],'🚒':['xe cứu hỏa','fire truck'],'🚑':['xe cứu thương','ambulance'],'🚓':['xe cảnh sát','police car'],'🚌':['xe buýt','bus'],'🚜':['máy cày','tractor'],'🚂':['tàu hỏa','train'],'✈️':['máy bay','airplane'],'🚁':['trực thăng','helicopter'],'🚲':['xe đạp','bicycle'],'🛵':['xe máy','scooter'],'🚢':['tàu thủy','ship'],'🛶':['ca nô','canoe'],'🏎️':['xe đua','race car'],'🚤':['xuồng máy','speedboat'],'⛵':['thuyền buồm','sailboat'],'⚽':['quả bóng đá','soccer ball'],'🏀':['quả bóng rổ','basketball'],'🎈':['bóng bay','balloon'],'🎁':['hộp quà','gift'],'🧸':['gấu bông','teddy bear'],'🪁':['con diều','kite'],'🎨':['bảng màu','paint palette'],'🎸':['đàn ghi-ta','guitar'],'🥁':['cái trống','drum'],'🎺':['cái kèn','trumpet'],'🎠':['ngựa quay','carousel'],'🎡':['vòng đu quay','ferris wheel'],'🎂':['bánh sinh nhật','birthday cake'],'🎉':['pháo giấy','party popper'],'👑':['vương miện','crown'],'🏆':['chiếc cúp','trophy'],'💎':['viên kim cương','diamond'],'❤️':['trái tim','heart'],'🌻':['hoa hướng dương','sunflower'],'🌸':['hoa anh đào','cherry blossom'],'🌷':['hoa tulip','tulip'],'🌳':['cái cây','tree'],'🍄':['cây nấm','mushroom'],'☀️':['mặt trời','sun'],'☁️':['đám mây','cloud'],'⛄':['người tuyết','snowman'],'❄️':['bông tuyết','snowflake'],'🌵':['cây xương rồng','cactus'],'🌊':['sóng biển','ocean wave']};
 var ANIMALS=['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳','🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥','🐠','🐟','🦈','🐡','🦭','🦑','🦞','🐚','🐋','🦋','🐞','🐝','🐛','🐌','🦗','🐜','🕷️','🕸️','🐉','🦖'];
 function stkName(x){
   if(x==='img:harry')return ['Harry Mía','Harry Mia'];
@@ -2887,8 +2897,67 @@ function makeHarry3D(){
   g.userData={wheels:[],body:new T.MeshBasicMaterial(),harry:true,setAngle:function(deg){g.rotation.y=deg*Math.PI/180}};
   return g;
 }
+/* Francesco Bernoulli: xe đua công thức 1 màu đỏ, sườn xanh lá, cánh gió ba màu cờ Ý, số 1 trên mũi, mắt trên kính */
+function makeFrancesco3D(){
+  var T=THREE,c=CARS.francesco,g=new T.Group();
+  function mat(col,sh){return new T.MeshPhongMaterial({color:col,shininess:sh||70,specular:0x888888})}
+  var red=mat(0xe03a32,110),green=mat(0x1f8f4e,90),white=mat(0xfafafa,70),dark=mat(0x23232e,30),black=mat(0x15151c,20),glass=mat(0x203040,140),flagRed=mat(0xe03a32,80),irisM=mat(0x6b3f1d,40),silver=mat(0x9aa0b0,60);
+  function rb(w,h,d,x,y,z,m,r,rx){var o=rbox(T,w,h,d,r===undefined?.1:r,m);o.position.set(x,y,z);if(rx)o.rotation.x=rx;g.add(o);return o}
+  function sph(r,x,y,z,m,sy){var o=new T.Mesh(new T.SphereGeometry(r,20,16),m);o.position.set(x,y,z);if(sy)o.scale.y=sy;g.add(o);return o}
+  /* bóng dưới xe */
+  var sh=new T.Mesh(new T.CircleGeometry(1,28),new T.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.22,depthWrite:false}));sh.rotation.x=-Math.PI/2;sh.position.y=.03;sh.scale.set(1.9,3.3,1);g.add(sh);
+  /* thân: sàn xe, thân giữa, mũi thon dài */
+  rb(1.3,.16,4.2,0,.34,-.1,dark,.05);
+  rb(1.25,.6,2.5,0,.74,-.1,red,.22);
+  rb(.92,.46,1.7,0,.68,1.45,red,.2);
+  rb(.62,.32,.8,0,.56,2.12,red,.14);
+  /* buồng lái nhô lên, kính và đôi mắt */
+  rb(.95,.5,1.0,0,1.17,.35,red,.22);
+  rb(.8,.22,.06,0,1.2,.88,glass,.03,-.35);
+  [-1,1].forEach(function(sd){
+    sph(.2,sd*.24,1.2,.88,white,1.12);sph(.12,sd*.24,1.19,1.0,irisM);sph(.065,sd*.24,1.19,1.08,black);sph(.03,sd*.24+.04,1.24,1.12,white);
+  });
+  /* mũi cười + số 1 */
+  var smile=new T.Mesh(new T.TorusGeometry(.2,.04,8,18,Math.PI),mat(0x4a1d2e,40));smile.position.set(0,.52,2.54);smile.rotation.z=Math.PI;g.add(smile);
+  var cv=document.createElement('canvas');cv.width=cv.height=128;var cx=cv.getContext('2d');
+  cx.fillStyle='#fff';cx.beginPath();cx.arc(64,64,60,0,6.283);cx.fill();cx.lineWidth=6;cx.strokeStyle='#222';cx.stroke();cx.fillStyle='#111';cx.font='bold 84px Arial,sans-serif';cx.textAlign='center';cx.textBaseline='middle';cx.fillText('1',64,70);
+  var disc=new T.Mesh(new T.PlaneGeometry(.55,.55),new T.MeshBasicMaterial({map:new T.CanvasTexture(cv),transparent:true}));disc.rotation.x=-Math.PI/2+.12;disc.position.set(0,.93,1.5);g.add(disc);
+  /* cờ Ý nhỏ trên mũi */
+  rb(.14,.01,.08,-.14,.9,2.05,green,.005);rb(.14,.01,.08,0,.9,2.05,white,.005);rb(.14,.01,.08,.14,.9,2.05,flagRed,.005);
+  /* hộp gió + nắp động cơ xanh lá */
+  rb(.55,.62,.7,0,1.42,-.75,green,.16);
+  rb(.7,.4,1.6,0,.98,-1.35,green,.12);
+  /* hai thùng bên xanh lá có sọc trắng */
+  [-1,1].forEach(function(sd){
+    rb(.5,.52,1.6,sd*.88,.72,-.15,green,.16);
+    rb(.52,.08,1.62,sd*.88,.95,-.15,white,.03);
+    rb(.14,.16,.5,sd*.72,.9,.78,white,.05);
+  });
+  /* cánh trước: trắng, giữa xanh lá, hai tấm chắn */
+  rb(2.6,.09,.65,0,.27,2.58,white,.03);rb(1.1,.1,.66,0,.28,2.58,green,.03);
+  [-1,1].forEach(function(sd){rb(.08,.36,.8,sd*1.3,.4,2.58,white,.03)});
+  rb(.1,.2,.1,-.25,.38,2.2,white,.02);rb(.1,.2,.1,.25,.38,2.2,white,.02);
+  /* cánh sau ba màu cờ Ý */
+  [-1,1].forEach(function(sd){rb(.1,.8,.12,sd*.4,1.05,-2.0,white,.03)});
+  rb(.78,.1,.62,-.75,1.5,-2.1,green,.03);rb(.78,.1,.62,0,1.5,-2.1,white,.03);rb(.78,.1,.62,.75,1.5,-2.1,flagRed,.03);
+  [-1,1].forEach(function(sd){rb(.07,.55,.72,sd*1.15,1.4,-2.1,sd<0?green:flagRed,.03)});
+  rb(.5,.06,.4,0,.46,-2.08,black,.02);
+  /* bánh slick đen, vành đỏ; bánh sau to hơn; cần treo */
+  var wheels=[];
+  [[1.28,1.45,.5,.44],[-1.28,1.45,.5,.44],[1.3,-1.4,.58,.56],[-1.3,-1.4,.58,.56]].forEach(function(p){
+    var r=p[2],wd=p[3],geo=new T.CylinderGeometry(r,r,wd,26);geo.rotateZ(Math.PI/2);
+    var w=new T.Mesh(geo,black);w.position.set(p[0],r,p[1]);
+    var hub=new T.CylinderGeometry(r*.55,r*.55,wd+.03,18);hub.rotateZ(Math.PI/2);w.add(new T.Mesh(hub,red));
+    var cap=new T.CylinderGeometry(r*.14,r*.14,wd+.07,10);cap.rotateZ(Math.PI/2);w.add(new T.Mesh(cap,silver));
+    g.add(w);wheels.push(w);
+    rb(Math.abs(p[0])-.5,.06,.1,p[0]/2+(p[0]>0?.12:-.12)*0,r+.02,p[1],dark,.02);
+  });
+  var outer=new T.Group();g.scale.setScalar(1.22);g.position.y=.05;outer.add(g);outer.userData={wheels:wheels,body:red};
+  return outer;
+}
 function make3DCar(id,hex,blocky){
   if(id==='chop'&&!blocky)return makeHarry3D();
+  if(id==='francesco')return makeFrancesco3D();
   var T=THREE,c=CARS[id],g=new T.Group();
   function mat(col,sh){return new T.MeshPhongMaterial({color:col,shininess:sh||70,specular:0x777777})}
   var bodyMat=mat(hex||c.color,95),glass=mat(0xbfe8ff,120),dark=mat(0x2b2b3a,30),white=mat(0xffffff,60),grey=mat(0x949bb0,35);

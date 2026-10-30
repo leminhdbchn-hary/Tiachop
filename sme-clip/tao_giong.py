@@ -3,7 +3,7 @@
 Đọc sme-clip/loi_doc.json (chỉ lời thuyết minh chung, không có dữ liệu khách hàng), ghi sme-clip/audio/<giọng>/<số>.mp3"""
 import json, os, shutil, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-GIONG = ["Minh Đức"]
+GIONG = ["Quốc Tuấn"]
 SPEED = 0.95
 
 def load():

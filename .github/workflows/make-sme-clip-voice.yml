@@ -6,6 +6,7 @@ on:
     paths:
       - "sme-clip/loi_doc.json"
       - "sme-clip/tao_giong.py"
+      - "sme-clip/nghe_thu.py"
       - ".github/workflows/make-sme-clip-voice.yml"
 permissions:
   contents: write
@@ -20,12 +21,12 @@ jobs:
           python-version: "3.12"
       - run: sudo apt-get install -y ffmpeg
       - run: pip install vieneu
-      - run: python3 sme-clip/tao_giong.py
+      - run: if [ -f sme-clip/CHI_NGHE_THU ]; then python3 sme-clip/nghe_thu.py; else python3 sme-clip/tao_giong.py; fi
       - name: Lưu giọng vào repo
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add sme-clip/audio
+          git add sme-clip/audio sme-clip/nghe_thu
           git diff --cached --quiet || git commit -m "Giọng thuyết minh clip SME (VieNeu)"
           for i in 1 2 3 4 5; do git pull -q --rebase -X theirs && git push && exit 0; sleep 5; done
           exit 1

@@ -1,0 +1,133 @@
+{
+ "cau": [
+  "Bước 2: Tab Giấy nhận nợ, gõ tên hoặc CIF để chọn khách hàng.",
+  "Kết quả: Thông báo tác nghiệp điền sẵn, xem trước cùng dữ liệu trước khi tải file Word."
+ ],
+ "giong": [
+  {
+   "n": 0,
+   "label": "⭐ Adam bựa — Nam · Bắc · Phong cách tự nhiên",
+   "id": "Adam bựa"
+  },
+  {
+   "n": 1,
+   "label": "⭐ Trúc Ly — Nữ · Bắc · Phong cách tự nhiên",
+   "id": "Trúc Ly"
+  },
+  {
+   "n": 2,
+   "label": "⭐ Thiện Minh — Nam · Bắc · Phong cách kể chuyện",
+   "id": "Thiện Minh"
+  },
+  {
+   "n": 3,
+   "label": "⭐ Mai Anh — Nữ · Bắc · Phong cách tin tức",
+   "id": "Mai Anh"
+  },
+  {
+   "n": 4,
+   "label": "⭐ Hải Đăng — Nam · Bắc · Phong cách tự nhiên",
+   "id": "Hải Đăng"
+  },
+  {
+   "n": 5,
+   "label": "⭐ Thùy Dung — Nữ · Nam · Phong cách tin tức",
+   "id": "Thùy Dung"
+  },
+  {
+   "n": 6,
+   "label": "⭐ Thiền Tâm Đức — Nam · Bắc · Phong cách kể chuyện",
+   "id": "Thiền Tâm Đức"
+  },
+  {
+   "n": 7,
+   "label": "⭐ Ngọc Huyền — Nữ · Bắc · Giọng đọc tự nhiên",
+   "id": "Ngọc Huyền"
+  },
+  {
+   "n": 8,
+   "label": "⭐ Quang Sơn — Nam · Trung · Phong cách tự nhiên",
+   "id": "Quang Sơn"
+  },
+  {
+   "n": 9,
+   "label": "⭐ Ngọc Trân — Nữ · Trung · Phong cách tự nhiên",
+   "id": "Ngọc Trân"
+  },
+  {
+   "n": 10,
+   "label": "Minh Đức — Nam · Bắc · Phong cách tin tức",
+   "id": "Minh Đức"
+  },
+  {
+   "n": 11,
+   "label": "Phạm Tuyên — Nam · Bắc · Phong cách tự nhiên",
+   "id": "Phạm Tuyên"
+  },
+  {
+   "n": 12,
+   "label": "Thái Sơn — Nam · Nam · Phong cách kể chuyện",
+   "id": "Thái Sơn"
+  },
+  {
+   "n": 13,
+   "label": "Xuân Vĩnh — Nam · Bắc · Phong cách tự nhiên",
+   "id": "Xuân Vĩnh"
+  },
+  {
+   "n": 14,
+   "label": "Thanh Bình — Nam · Bắc · Phong cách kể chuyện",
+   "id": "Thanh Bình"
+  },
+  {
+   "n": 15,
+   "label": "Ngọc Linh — Nữ · Bắc · Phong cách kể chuyện",
+   "id": "Ngọc Linh"
+  },
+  {
+   "n": 16,
+   "label": "Đoan Trang — Nữ · Bắc · Phong cách tự nhiên",
+   "id": "Đoan Trang"
+  },
+  {
+   "n": 17,
+   "label": "Thục Đoan — Nữ · Nam · Phong cách kể chuyện",
+   "id": "Thục Đoan"
+  },
+  {
+   "n": 18,
+   "label": "Minh Triết — Nam · Nam · Phong cách tin tức",
+   "id": "Minh Triết"
+  },
+  {
+   "n": 19,
+   "label": "Mỹ Duyên — Nữ · Nam · Phong cách đọc truyện",
+   "id": "Mỹ Duyên"
+  },
+  {
+   "n": 20,
+   "label": "Quỳnh Anh — Nữ · Bắc · Phong cách đọc truyện",
+   "id": "Quỳnh Anh"
+  },
+  {
+   "n": 21,
+   "label": "Đức Trí — Nam · Nam · Phong cách đọc truyện",
+   "id": "Đức Trí"
+  },
+  {
+   "n": 22,
+   "label": "Kim Thanh — Nữ · Nam · Phong cách đọc truyện",
+   "id": "Kim Thanh"
+  },
+  {
+   "n": 23,
+   "label": "Adam — Nam · Nam · Giọng đọc tự nhiên",
+   "id": "Adam"
+  },
+  {
+   "n": 24,
+   "label": "Quốc Tuấn — Nam · Bắc · Phong cách tự nhiên",
+   "id": "Quốc Tuấn"
+  }
+ ]
+}

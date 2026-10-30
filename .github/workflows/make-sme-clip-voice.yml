@@ -1,0 +1,31 @@
+name: Giọng thuyết minh clip SME (VieNeu)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "sme-clip/loi_doc.json"
+      - "sme-clip/tao_giong.py"
+      - ".github/workflows/make-sme-clip-voice.yml"
+permissions:
+  contents: write
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get install -y ffmpeg
+      - run: pip install vieneu
+      - run: python3 sme-clip/tao_giong.py
+      - name: Lưu giọng vào repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add sme-clip/audio
+          git diff --cached --quiet || git commit -m "Giọng thuyết minh clip SME (VieNeu)"
+          for i in 1 2 3 4 5; do git pull -q --rebase -X theirs && git push && exit 0; sleep 5; done
+          exit 1

@@ -45,8 +45,10 @@ body{
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation;overflow:hidden;
 }
-@supports (height:100dvh){html,body{height:100dvh}}
-html,body{height:var(--appH,100%)}
+@supports (height:100dvh){html{height:100dvh}}
+html{height:var(--appH,100%)}
+/* html đã chừa vùng an toàn (tai thỏ + thanh home) bằng padding, nên body chỉ cao bằng phần còn lại, không tràn xuống dưới màn hình */
+body{height:100%}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;-webkit-appearance:none;appearance:none}
 button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 

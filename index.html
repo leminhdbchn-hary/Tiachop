@@ -1124,12 +1124,55 @@ main{background:linear-gradient(170deg,rgba(244,248,255,.96),rgba(213,218,255,.9
 @media(max-width:600px){.home .hero{padding:9px;gap:8px;min-height:155px}.home .sign{padding:8px 4px;border-radius:16px}.home .st2{margin-top:6px;font-size:clamp(14px,3.8vw,21px)}.home .tile{padding:6px;border-radius:18px}.home .tiles{gap:9px}.top{padding:5px 8px;border-radius:18px}.home .tlabel b{font-size:clamp(15px,4vw,20px)}.home .tlabel i{font-size:clamp(10px,2.8vw,13px)}}
 @media(orientation:landscape) and (max-height:520px){.home .hero{min-height:150px}.top{min-height:40px}.stage .promptcard{border-width:2px}.stage .opt{border-width:2px}}
 
+
+/* Kingdom 6: reference-inspired interactive home and quiz */
+body{background:linear-gradient(165deg,#328eea,#9dd9ff 32%,#9b94df 75%,#6a69c9)}
+#app{gap:9px}
+main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff}
+.top{background:linear-gradient(#7478ea,#343baf);border:2px solid #e7e7ff}
+.k-brand{font-size:clamp(17px,4vw,28px);font-weight:800;color:#ffe681;text-shadow:0 2px 0 #863124;line-height:1;white-space:nowrap}
+.k-stars{font-size:clamp(16px,4vw,23px);font-weight:800;background:#242a83;border:2px solid #aeb7ff;border-radius:999px;padding:5px 12px;white-space:nowrap;color:#fff}
+.home .hero{min-height:clamp(235px,42vw,440px);grid-template-columns:1fr 1fr;align-items:end;padding:16px}
+.home .sign{grid-column:1/-1;align-self:start;justify-self:center;width:min(92%,470px);padding:0;background:none;border:0;box-shadow:none}
+.home .st1{font-size:clamp(48px,11vw,94px);color:#ffdc41;line-height:1.08;letter-spacing:-.045em;-webkit-text-stroke:1.5px #a41c24;text-shadow:0 3px 0 #fa9e20,0 6px 0 #a9242c,0 9px 0 #701c39,0 12px 12px #25326766}
+.home .st2{margin:3px auto 0;width:max-content;max-width:100%;border:2px solid #e1ebff;border-radius:999px;padding:5px 18px;background:linear-gradient(#398ce9,#1741a4);font-size:clamp(17px,4vw,30px);box-shadow:0 4px 0 #182975}
+.home .sign-p{display:none}
+.home .mascot{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;padding:0;gap:10px}
+.home .mascot .bubble2{position:relative;left:auto;right:auto;top:auto;grid-column:2;grid-row:1;align-self:center;background:linear-gradient(#fff9cf,#ffd36d);border:2px solid #fff7dc;box-shadow:0 4px 0 #c78a35;color:#583519;padding:10px}
+.home .mascot .bubble2::after{display:none}
+.home .mascot>.rk,.home .mascot>svg{grid-column:1;grid-row:1;width:100%;max-height:190px;object-fit:contain;align-self:end}
+.home .tiles.k-feature{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.home .tile.k-feature-tile{height:auto;min-height:0;aspect-ratio:1.75;display:block;padding:0;border-radius:24px;position:relative;background:radial-gradient(ellipse at 70% 10%,#fff9 0 8%,transparent 9%),linear-gradient(180deg,#60baff 0%,#bde9ff 48%,#8bd45f 49%,#a9d477 72%,#737da4 73%,#9c9dbd 100%);border:4px solid #fff;box-shadow:0 5px 0 #837bc8,0 9px 16px #4a448b44}
+.home .tile.k-feature-tile:before{display:none}
+.k-feature-tile .glyph{position:absolute;inset:24% 8% 3%;display:flex;align-items:center;justify-content:center;width:auto;min-height:0;animation:none}
+.k-feature-tile .glyph img,.k-feature-tile .glyph svg{max-height:100%;max-width:86%;width:auto;height:100%;object-fit:contain;filter:drop-shadow(0 6px 3px #34466144)}
+.k-feature-tile .tlabel{position:absolute;left:8px;top:8px;width:auto;max-width:94%;padding:4px 13px;border:1px solid #fff9;border-radius:999px;text-align:left;background:linear-gradient(color-mix(in srgb,var(--cd) 78%,white),var(--cd));box-shadow:0 3px 0 #34446e66}
+.k-feature-tile .tlabel b{font-size:clamp(17px,4.3vw,32px);line-height:1.1;color:white;text-shadow:0 2px 0 #253c6877}
+.k-feature-tile .tlabel i{font-size:clamp(10px,2.3vw,15px)}
+.k-play{position:absolute;right:7px;bottom:7px;width:clamp(28px,7vw,48px);aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:linear-gradient(#fff,#dcdcff);border:2px solid white;box-shadow:0 3px 0 #7772bc;color:#4444a2;font-size:clamp(15px,3vw,24px)}
+.k-nav{display:flex;justify-content:space-around;gap:4px;background:linear-gradient(#6469da,#353ba8);border:2px solid #e5e5ff;border-radius:20px;padding:6px;box-shadow:0 4px 0 #2d307e;position:sticky;bottom:0;z-index:5}
+.k-nav button{flex:1;min-width:0;color:#fff;display:flex;flex-direction:column;align-items:center;line-height:1.1;padding:5px 1px;font-size:clamp(10px,2.5vw,16px)}
+.k-nav button span{font-size:clamp(20px,5vw,36px);line-height:1.2}
+.k-nav button:first-child{background:linear-gradient(#ffe878,#f6b83a);color:#683917;border-radius:14px}
+.k-feature-title{color:#30397e;margin:4px 0;font-size:clamp(18px,4vw,25px)}
+.stage .promptcard{border:4px solid #eee9ff;background:linear-gradient(#fffaf3,#ffead3);box-shadow:0 5px 0 #7770c1,0 0 0 2px #8171d1;border-radius:28px}
+.stage .pvi{color:#172c86}
+.stage .pen{color:#514b93}
+.stage .opt{background:linear-gradient(#8ed0ff,#d5f2ff 58%,#a0d978 59%,#d2e5a2 72%,#8c94b3 73%);border:4px solid #fff;box-shadow:0 5px 0 #8580c9;border-radius:23px}
+.stage .opt.right{border-color:#ffe34c;box-shadow:0 0 0 3px #ffbf33,0 0 20px #ffea76}
+.stage .opt.right::after{background:#ffe35a;border:2px solid white;border-radius:50%;padding:6px;color:#218336;box-shadow:0 2px 0 #d7a12b}
+.stage .next{background:linear-gradient(#8bea39,#32a91d);color:#fff;border:2px solid #e7ffbc;box-shadow:0 4px 0 #247a19}
+.stage .opt .nm{background:#fffdf0;border-radius:10px;padding:3px 6px}
+.stage .opts.n4{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(min-width:850px){.home .tiles.k-feature{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.home .hero{min-height:230px;padding:8px;gap:4px}.home .sign{padding:0}.home .mascot>.rk,.home .mascot>svg{max-height:125px}.home .mascot .bubble2{font-size:12px;padding:6px}.home .tile.k-feature-tile{border-width:3px;border-radius:18px}.k-feature-tile .tlabel{top:5px;left:5px;padding:3px 9px}.k-feature-tile .tlabel b{font-size:clamp(14px,4vw,23px)}.k-feature-tile .tlabel i{font-size:10px}.k-brand{white-space:normal}.k-stars{padding:4px 8px}}
+@media(orientation:landscape) and (max-height:520px){.home .hero{min-height:200px}.home .st1{font-size:50px}.home .mascot>.rk,.home .mascot>svg{max-height:100px}}
 </style>
 </head>
 <body>
 <div id="app">
   <header class="top">
-    <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button>
+    <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button><span class="k-brand">⚡ Tia Chớp</span><span class="k-stars" id="kingdomStars" aria-label="Số sao">⭐ 0</span>
     <div class="progress" id="progress" aria-hidden="true"></div>
     <button class="icon pill" id="langBtn" aria-label="Đổi ngôn ngữ" hidden>Việt + Anh</button>
     <button class="icon" id="setBtn" aria-label="Cài đặt (ba mẹ giữ nút để mở)">⚙️</button>
@@ -3596,7 +3639,7 @@ function syncControls(){
   $('#soundBtn').textContent=S.sound?'🔊':'🔇';
   $('#langBtn').textContent=S.lang==='en'?'English':(S.lang==='vi'?'Tiếng Việt':'Việt + Anh');
   document.body.setAttribute('data-lang',S.lang);document.documentElement.lang=S.lang==='en'?'en':'vi';
-  document.title=S.lang==='en'?'Little Learners':'Bé Vui Học';
+  document.title=S.lang==='en'?'Lightning – Car Kingdom':'Tia Chớp – Vương quốc xe hơi';var ks=$('#kingdomStars');if(ks)ks.textContent='⭐ '+S.stars;
   $('#homeBtn').hidden=!S.mode;
 }
 
@@ -3658,7 +3701,9 @@ function citySVG(night){
 
 var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
 function glyphHTML(g,id){
-  if(id==='veh')return carSVG('pu');
+  if(id==='veh')return kingdomCarHTML('tit');
+  if(id==='num')return kingdomCarHTML('beo')+'<span style="position:absolute;right:0;bottom:0;font-size:clamp(25px,6vw,52px);color:#e95826;text-shadow:0 2px white">123</span>';
+  if(id==='eng')return kingdomCarHTML('bon')+'<span style="position:absolute;right:0;bottom:0;font-size:clamp(24px,6vw,50px);color:#2857bb;text-shadow:0 2px white">ABC</span>';
   if(id==='drive')return '<span class="badge3d">3D</span>'+kingdomCarHTML('tit');
   if(PREMIUM_TOPICS[id]){var art=photoHTML({en:PREMIUM_TOPICS[id],e:g},'topic-art');if(art)return art;}
   if(g==='@car')return carSVG('pu');
@@ -3690,23 +3735,26 @@ var mascotTimer=0;
 function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
-  function tile(t){
+  function tile(t,featured){
     var lk=(t.id==='drive'&&!driveOpen());
-    return '<button class="tile'+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span></button>';
+    return '<button class="tile'+(featured?' k-feature-tile':'')+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span>'+(featured?'<span class="k-play" aria-hidden="true">▶</span>':'')+'</button>';
   }
   /* chia chủ đề thành nhóm để ba mẹ và bé dễ tìm; chủ đề chưa xếp nhóm vẫn hiện ở nhóm cuối */
-  var used={},tiles=TOPIC_GROUPS.map(function(g,i){
+  var featuredIds=['veh','ani','col','num','emo','eng'],featured=featuredIds.map(function(id){return TOPICS.filter(function(t){return t.id===id})[0]}).filter(Boolean),used={},tiles=TOPIC_GROUPS.map(function(g,i){
     var ts=g.ids.map(function(id){used[id]=1;return TOPICS.filter(function(t){return t.id===id})[0]}).filter(Boolean);
     if(i===TOPIC_GROUPS.length-1)ts=ts.concat(TOPICS.filter(function(t){return !used[t.id]}));
-    return '<h3 class="asec hsec"><span>'+g.vi+'</span><i>'+g.en+'</i></h3><div class="tiles">'+ts.map(tile).join('')+'</div>';
+    return '<h3 class="asec hsec"><span>'+g.vi+'</span><i>'+g.en+'</i></h3><div class="tiles">'+ts.map(function(t){return tile(t,false)}).join('')+'</div>';
   }).join('');
   var owned=ALBUM.filter(function(x){return S.stickers.indexOf(x)>=0}).length;
   view.innerHTML='<section class="home">'
     +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Lightning':'Tia Chớp')+'</div><div class="st2">'+(S.lang==='en'?'Car Kingdom':'Vương quốc xe hơi')+'</div>'
     +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
     +'<div class="mascot">'+mascotHTML()+'</div></div>'
+    + '<div class="tiles k-feature">'+featured.map(function(t){return tile(t,true)}).join('')+'</div>'
+    +'<h3 class="k-feature-title" id="kingdomAll">'+(S.lang==='en'?'Explore all adventures':'Khám phá mọi khu vực')+'</h3>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
+    +'<nav class="k-nav" aria-label="Điều hướng"><button data-act="home"><span>🏠</span>'+ (S.lang==='en'?'Home':'Trang chủ')+'</button><button data-mode="mix"><span>🎮</span>'+(S.lang==='en'?'Play':'Trò chơi')+'</button><button data-act="kingdomExplore"><span>🗺️</span>'+(S.lang==='en'?'Explore':'Khám phá')+'</button><button data-act="album"><span>🏆</span>'+(S.lang==='en'?'Rewards':'Thành tích')+'</button><button data-mode="drive"><span>🚗</span>'+(S.lang==='en'?'Garage':'Gara của bé')+'</button></nav>'
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
   checkNote();setTimeout(updApply,500);
@@ -6331,6 +6379,7 @@ view.addEventListener('click',function(e){
     else if(a==='home'){if(S.mode==='paint')paintSave();showHome()}
     else if(a==='gallery'){PT.cat='mine';showPaintMenu()}
     else if(a==='album')showAlbum();
+    else if(a==='kingdomExplore'){var ka=$('#kingdomAll');if(ka)ka.scrollIntoView({block:'start'});}
     else if(a==='count')countStickers();
     else if(a==='snd'){S.sound=!S.sound;if(!S.sound)stopSpeech();save();syncControls();showSettings()}
     else if(a==='sndtest')doSndTest();

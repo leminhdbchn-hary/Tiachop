@@ -46,6 +46,7 @@ body{
   touch-action:manipulation;overflow:hidden;
 }
 @supports (height:100dvh){html,body{height:100dvh}}
+html,body{height:var(--appH,100%)}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;-webkit-appearance:none;appearance:none}
 button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 
@@ -1068,7 +1069,7 @@ main{border-radius:30px;background:rgba(255,255,255,.82)}
 .premium-sticker{width:100%;max-width:190px;aspect-ratio:1;object-fit:contain;border-radius:20px}.sticker .premium-sticker{width:clamp(130px,36vmin,240px)}
 .opt{border:1px solid #dce6f4;background:#fff;box-shadow:0 8px 22px #324c7815}.phwrap{padding:8px;min-height:0}.phbox{flex:1 1 auto;min-height:0;max-height:75%;width:100%;max-width:220px;border:0;box-shadow:none;background:#f4f8fd;border-radius:18px}.ph{object-fit:contain}.phbox.big{flex:none;max-height:none;width:clamp(100px,28vmin,260px);max-width:none}.itemphoto{width:clamp(35px,9vmin,70px);height:clamp(35px,9vmin,70px);border:0}.itemphoto img{object-fit:contain}.promptcard{border:1px solid #dce6f4}.opt .nm{flex:none}.spk{box-shadow:0 3px 8px #a87d2530;border:1px solid #f0c75b}
 :root[data-theme="dark"] body{background:linear-gradient(145deg,#22254c,#3e497b)}
-@media(max-width:600px){#app{padding:8px;gap:6px}main{padding:8px;border-radius:22px}.home .hero{padding:8px;gap:6px}.tile{min-height:125px}.topic-art{width:clamp(65px,20vmin,105px)}.phwrap{padding:5px}.opt:has(.phwrap){min-height:110px}}
+@media(max-width:600px){#app{padding:8px 8px max(10px,var(--sab));gap:6px}main{padding:8px;border-radius:22px}.home .hero{padding:8px;gap:6px}.tile{min-height:125px}.topic-art{width:clamp(65px,20vmin,105px)}.phwrap{padding:5px}.opt:has(.phwrap){min-height:110px}}
 
 /* Premium 4 - visual refresh, existing game state and sticker art unchanged */
 .home .tile{background:radial-gradient(ellipse at 50% 18%,#ffffff 0%,transparent 72%),linear-gradient(155deg,#fff,color-mix(in srgb,var(--c) 68%,white));border-color:color-mix(in srgb,var(--cd) 38%,white);box-shadow:0 5px 0 color-mix(in srgb,var(--cd) 42%,white),0 12px 23px #243c6320}
@@ -1188,7 +1189,8 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .top #setBtn:not(.holding){background:url(img/ui-gear.webp) center/contain no-repeat;border:0;box-shadow:none;color:transparent;font-size:0;width:clamp(46px,11.5vw,66px);height:clamp(46px,11.5vw,66px);min-width:0;padding:0;filter:drop-shadow(0 3px 0 #1d2272)}
 /* thanh menu dưới: không để nội dung lộ ra quanh thanh; chừa chỗ cuối trang */
 .home{padding-bottom:0}
-.home .k-nav{bottom:-8px;margin:0 -2px}
+.home .k-nav{bottom:0;margin:0 -2px}
+.k-nav::after{content:"";position:absolute;left:-1px;right:-1px;top:100%;height:12px;background:#ada5e4;border-radius:0 0 18px 18px;pointer-events:none}
 .k-feature-tile .tlabel i{display:none}
 .k-nav button span img{height:clamp(30px,8.2vw,56px);width:auto;display:block;margin:0 auto;filter:drop-shadow(0 2px 2px #0004)}
 .k-nav button span{display:block;line-height:1}
@@ -3642,6 +3644,9 @@ function openShowroom(id){
    VIEWS & GAME FLOW
    ===================================================================== */
 var view=$('#view');
+/* chiều cao vùng nhìn thấy thật của trình duyệt (trừ thanh địa chỉ/thanh điều hướng) để thanh menu dưới không bị che */
+(function(){var r=document.documentElement,f=function(){try{var h=Math.round((window.visualViewport&&visualViewport.height)||window.innerHeight);if(h>200)r.style.setProperty('--appH',h+'px')}catch(e){}};
+f();window.addEventListener('resize',f);window.addEventListener('orientationchange',function(){setTimeout(f,300)});try{window.visualViewport&&visualViewport.addEventListener('resize',f)}catch(e){}})();
 /* ---- Bầu trời theo giờ của máy: 6h–18h có mặt trời và mây, buổi tối có trăng, sao và nhà sáng đèn ---- */
 function isNight(){var h=new Date().getHours();return h<6||h>=18}
 function skyHTML(night){

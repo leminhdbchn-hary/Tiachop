@@ -3811,16 +3811,18 @@ var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc th
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
 /* Ban ngày Harry đứng ở màn hình chính. Buổi tối (18h–6h) Harry và Storm thay phiên nhau mỗi 5 phút */
+var MASCOTS={chop:['McQueen','img/car-mcqueen.webp'],storm:['Jackson Storm','img/car-jackson.webp'],mater:['Mater','img/car-mater.webp']},MASCOT_ORDER=['chop','storm','mater'];
+function mascotNext(){var i=MASCOT_ORDER.indexOf(mascotWho());S.mascotPick=MASCOT_ORDER[(i+1)%MASCOT_ORDER.length]}
 function mascotWho(){if(S.mascotPick)return S.mascotPick;return isNight()&&Math.floor(Date.now()/300000)%2===1?'storm':'chop'}
 function mascotHTML(){
-  var who=mascotWho(),nm=who==='storm'?'Jackson Storm':'McQueen';
+  var who=mascotWho(),nm=MASCOTS[who][0];
   return (S.mday===todayStr()?'<div class="bubble2 mission done">✅ '+nm+': xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
     :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ '+nm+' nhờ bé: '+todayMission()[1]+'<small>'+nm+' asks you to '+todayMission()[2]+'</small></button>')
-    +(who==='storm'?'<img class="rk carimg" data-who="storm" src="img/car-jackson.webp" alt="Jackson Storm" draggable="false">':'<img class="rk carimg" data-who="chop" src="img/car-mcqueen.webp" alt="McQueen" draggable="false">');
+    +'<img class="rk carimg" data-who="'+who+'" src="'+MASCOTS[who][1]+'" alt="'+nm+'" draggable="false">';
 }
 function mascotSwap(){
   var mc=$('.home .mascot');if(!mc)return;
-  var cur=$('img[data-who="storm"]',mc)?'storm':'chop';
+  var im=$('img[data-who]',mc),cur=im?im.getAttribute('data-who'):'chop';
   if(cur===mascotWho())return;
   mc.innerHTML=mascotHTML();
 }
@@ -3951,10 +3953,13 @@ var RK_HI=[[['Xin chào bé! Mình là McQueen.','vi'],['Hello! I am McQueen.','
 var STORM_HI=[[['Xin chào bé! Mình là Jackson Storm.','vi'],['Hello! I am Jackson Storm.','en']],
   [['Xe màu đen xanh là bạn Jackson Storm. Vù vù!','vi'],['Jackson Storm is black and blue. Honk honk!','en']],
   [['Mình là Jackson Storm! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Jackson Storm! I have a mission for you today!','en']]];
+var MATER_HI=[[['Xin chào bé! Mình là Mater.','vi'],['Hello! I am Mater.','en']],
+  [['Xe màu nâu gỉ là bạn Mater. Bíp bíp!','vi'],['Mater is rusty brown. Honk honk!','en']],
+  [['Mình là Mater! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Mater! I have a mission for you today!','en']]];
 function rookieHi(mc){
   mc.classList.remove('hop');void mc.offsetWidth;mc.classList.add('hop');sfx('pop');
   clearTimeout(S.rkT);S.rkT=setTimeout(function(){mc.classList.remove('hop')},750);
-  var hi=$('img[data-who="storm"]',mc)?STORM_HI:RK_HI;
+  var wh=$('img[data-who]',mc),hi=wh&&wh.getAttribute('data-who')==='storm'?STORM_HI:(wh&&wh.getAttribute('data-who')==='mater'?MATER_HI:RK_HI);
   S.rkHi=((S.rkHi||0)+1)%hi.length;speakNow(hi[S.rkHi]);
 }
 function startGame(mode){pfsExit();
@@ -6463,7 +6468,7 @@ view.addEventListener('click',function(e){
   var db=t.closest('[data-dbg]');if(db){showDraw(+db.getAttribute('data-dbg'));return}
   var pp=t.closest('[data-pic]');if(pp){showPaint(+pp.getAttribute('data-pic'));return}
   var rg=t.closest('.rg');if(rg&&S.mode==='paint'){paintFill(rg);return}
-  var mc=t.closest('.mascot');if(mc&&!t.closest('.bubble2')){S.mascotPick=mascotWho()==='storm'?'chop':'storm';mc.innerHTML=mascotHTML();rookieHi(mc);return}
+  var mc=t.closest('.mascot');if(mc&&!t.closest('.bubble2')){mascotNext();mc.innerHTML=mascotHTML();rookieHi(mc);return}
   var m=t.closest('[data-mode]');if(m){sfx('pop');startGame(m.getAttribute('data-mode'));return}
   var act=t.closest('[data-act]');
   if(act){

@@ -1173,6 +1173,7 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .home .sign-p{display:inline-block;margin-top:8px;background:linear-gradient(#fff3b8,#ffd56a);color:#7a4a12;border:2px solid #fff;box-shadow:0 3px 0 #c98a2c;border-radius:999px;padding:3px 14px;font-size:clamp(10px,2.7vw,16px);font-weight:800;line-height:1.25}
 .home .hero.k-hero-art{min-height:clamp(340px,92vw,520px)}
 .home .mascot{position:relative}
+.home .tile .glyph .charcar{width:clamp(110px,30vw,190px);height:auto;max-height:clamp(90px,24vw,150px);object-fit:contain;filter:drop-shadow(0 6px 4px #1d2a6a55)}
 .item .charcar{width:100%;height:auto;max-height:100%;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(0,0,0,.18))}
 .sz .charcar{width:100%;height:auto}
 .opt .charcar{max-width:90%;max-height:80%;object-fit:contain}
@@ -3783,7 +3784,18 @@ function citySVG(night){
 }
 
 var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
+/* Nhân vật cho từng ô chủ đề nhỏ: 'c:<mã xe>' = ảnh nhân vật trong kho sticker, còn lại = tranh minh họa trên Cloudinary */
+var KTILE={drive:'c:mcqueen',veh:'c:mater',num:'c:luigi',eng:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',abc:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',
+ let:'c:flo',spell:'c:cruz',trace:'c:boost',col:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',paint:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',cmp:'c:chick',
+ think:'c:darrell',diff:'c:bob',song:'c:dj',mat:'c:king',mix:'c:wingo',ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',food:'c:tractor',body:'c:red',
+ emo:'u:1795775352/cam_xuc',obj:'c:fred',room:'c:sally',school:'c:fritter',job:'c:sheriff'};
+function tileArtHTML(id){
+  var k=KTILE[id];if(!k)return '';
+  if(k.indexOf('c:')===0){var cid=k.slice(2);return CARS[cid]&&CARS[cid].img?charCarHTML(cid):''}
+  var v=k.slice(2).split('/');return '<img class="rk carimg kingdom-car charcar" src="'+kUrl(v[0],v[1],360)+'" alt="" draggable="false" onerror="this.style.display=\'none\'">';
+}
 function glyphHTML(g,id){
+  var ta=tileArtHTML(id);if(ta)return (id==='drive'?'<span class="badge3d">3D</span>':'')+ta;
   if(id==='veh'&&CARS.mater)return charCarHTML('mater');
   if(id==='veh')return kingdomCarHTML('tit');
   if(id==='num')return (CARS.luigi?charCarHTML('luigi'):kingdomCarHTML('beo'))+'<span style="position:absolute;right:0;bottom:0;font-size:clamp(25px,6vw,52px);color:#e95826;text-shadow:0 2px white">123</span>';

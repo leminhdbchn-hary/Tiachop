@@ -1164,6 +1164,24 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .stage .next{background:linear-gradient(#8bea39,#32a91d);color:#fff;border:2px solid #e7ffbc;box-shadow:0 4px 0 #247a19}
 .stage .opt .nm{background:#fffdf0;border-radius:10px;padding:3px 6px}
 .stage .opts.n4{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.home .hero.k-hero-art{background:var(--hbg) center top/cover no-repeat,#8bd2ff}
+.k-hello{display:flex;align-items:center;gap:8px;background:linear-gradient(#4a4fc8,#2a2f94);border:2px solid #cfd3ff;border-radius:999px;padding:3px 16px 3px 4px;box-shadow:0 2px 0 #1d2272;color:#fff;line-height:1.05;min-width:0}
+.k-hello img{width:clamp(34px,9vw,52px);height:clamp(34px,9vw,52px);border-radius:50%;border:2px solid #ffe681;object-fit:cover;flex:none}
+.k-hello small{display:block;font-size:clamp(10px,2.6vw,14px);font-weight:600;opacity:.9}
+.k-hello b{display:block;font-size:clamp(14px,3.8vw,22px);font-weight:800;white-space:nowrap}
+.home .sign-p{display:inline-block;margin-top:8px;background:linear-gradient(#fff3b8,#ffd56a);color:#7a4a12;border:2px solid #fff;box-shadow:0 3px 0 #c98a2c;border-radius:999px;padding:3px 14px;font-size:clamp(10px,2.7vw,16px);font-weight:800;line-height:1.25}
+.home .hero.k-hero-art{min-height:clamp(300px,78vw,470px)}
+.k-feature-tile.k-full .tlabel,.k-feature-tile.k-full .k-play,.k-feature-tile.k-full .glyph{display:none}
+.k-feature-tile .tlabel i{display:none}
+.k-nav button span img{height:clamp(30px,8.2vw,56px);width:auto;display:block;margin:0 auto;filter:drop-shadow(0 2px 2px #0004)}
+.k-nav button span{display:block;line-height:1}
+.home .hero.k-hero-art:before,.home .hero.k-hero-art:after{display:none}
+.home .tile.k-feature-tile.k-art{background:var(--kbg) center/cover no-repeat,#8cc9f5}
+.k-feature-tile.k-art .glyph{inset:16% 0 0 0;align-items:flex-end;justify-content:center}
+.k-feature-tile.k-art .glyph img.k-char{max-height:100%;max-width:92%;width:auto;height:100%;object-fit:contain;filter:drop-shadow(0 6px 4px #2a3c6a55);animation:kbob 3.4s ease-in-out infinite;transform-origin:50% 90%}
+.k-feature-tile.k-art:nth-child(even) .glyph img.k-char{animation-delay:-1.7s}
+@keyframes kbob{50%{transform:translateY(-3%) scale(1.025)}}
+@media (prefers-reduced-motion:reduce){.k-feature-tile.k-art .glyph img.k-char{animation:none}}
 @media(min-width:850px){.home .tiles.k-feature{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.home .hero{min-height:230px;padding:8px;gap:4px}.home .sign{padding:0}.home .mascot>.rk,.home .mascot>svg{max-height:125px}.home .mascot .bubble2{font-size:12px;padding:6px}.home .tile.k-feature-tile{border-width:3px;border-radius:18px}.k-feature-tile .tlabel{top:5px;left:5px;padding:3px 9px}.k-feature-tile .tlabel b{font-size:clamp(14px,4vw,23px)}.k-feature-tile .tlabel i{font-size:10px}.k-brand{white-space:normal}.k-stars{padding:4px 8px}}
 @media(orientation:landscape) and (max-height:520px){.home .hero{min-height:200px}.home .st1{font-size:50px}.home .mascot>.rk,.home .mascot>svg{max-height:100px}}
@@ -1172,7 +1190,7 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 <body>
 <div id="app">
   <header class="top">
-    <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button><span class="k-brand">⚡ Tia Chớp</span><span class="k-stars" id="kingdomStars" aria-label="Số sao">⭐ 0</span>
+    <button class="icon" id="homeBtn" aria-label="Về nhà" hidden>🏠</button><span class="k-hello"><img src="img/avatar.webp" alt="" draggable="false"><span><small>Xin chào,</small><b>Bạn Nhỏ!</b></span></span><span class="k-stars" id="kingdomStars" aria-label="Số sao">⭐ 0</span>
     <div class="progress" id="progress" aria-hidden="true"></div>
     <button class="icon pill" id="langBtn" aria-label="Đổi ngôn ngữ" hidden>Việt + Anh</button>
     <button class="icon" id="setBtn" aria-label="Cài đặt (ba mẹ giữ nút để mở)">⚙️</button>
@@ -3710,6 +3728,32 @@ function glyphHTML(g,id){
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;
 }
+/* Tranh minh họa các ô chủ đề: ảnh lưu ở Cloudinary (tự thu nhỏ, đổi WebP/AVIF, nén). Chưa tải được (mất mạng) thì ô giữ hình cũ. */
+var KCDN='https://res.cloudinary.com/wrxxg3fm/image/upload/';
+function kUrl(v,n,w){return KCDN+'f_auto,q_auto,w_'+w+'/v'+v+'/'+n+'.png'}
+var KART={
+ veh:{bg:kUrl('1795774144','22736ac2-c340-47cb-b6f2-e14540610a08',640),ch:kUrl('1795774143','f18456eb-8959-4b36-a5c6-4a2afaf06676',560)},
+ ani:{bg:kUrl('1795774142','35d44aa4-a63d-4d08-a5a2-9714a029b7a1',640),ch:kUrl('1795774141','9fc95233-6a6c-448d-9fb4-d2d07ff5812a',560)},
+ col:{bg:kUrl('1795774142','b97400b9-7f66-44bf-8875-66b24729b1f9',640),ch:kUrl('1795774141','4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',560)},
+ num:{bg:kUrl('1795774145','ac624a48-28dd-4ec7-863e-61d711dd7d24',640),ch:kUrl('1795774141','8ca973e0-f529-4e0e-bbe6-f55d7a3477f1',560)},
+ emo:{bg:kUrl('1795774142','35d44aa4-a63d-4d08-a5a2-9714a029b7a1',640),ch:kUrl('1795775352','cam_xuc',560)}
+};
+var KLAB={veh:['Xe cộ','Vehicles','#3a86e8'],ani:['Con vật','Animals','#3db04d'],col:['Màu sắc','Colors','#8a4be0'],num:['Đếm số','Numbers','#f2791f'],emo:['Cảm xúc','Feelings','#e5457f'],eng:['Tiếng Anh','English','#2f6fd6']};
+var KHERO=KCDN+'ar_1.0,c_fill,g_north,w_900,f_auto,q_auto/v1795774142/58985fe6-9736-41f6-9dc3-110f257b577a.png';
+function kArtLoad(){
+  var hero=view.querySelector('.home .hero');
+  if(hero){var hi=new Image();hi.onload=function(){if(!document.body.contains(hero))return;hero.style.setProperty('--hbg','url("'+KHERO+'")');hero.classList.add('k-hero-art')};hi.src=KHERO}
+  [].forEach.call(view.querySelectorAll('.k-feature-tile'),function(el){
+    var m=el.getAttribute('data-mode');
+    if(m==='eng'){var fi=new Image();fi.onload=function(){if(!document.body.contains(el))return;el.style.setProperty('--kbg','url("img/kt-eng.webp")');el.classList.add('k-art','k-full');el.setAttribute('aria-label','Tiếng Anh · English')};fi.src='img/kt-eng.webp';return}
+    var a=KART[m];if(!a)return;
+    var n=0,b=new Image(),c=new Image();
+    function go(){if(++n<2||!document.body.contains(el))return;
+      el.style.setProperty('--kbg','url("'+a.bg+'")');el.classList.add('k-art');
+      var gl=el.querySelector('.glyph');if(gl){gl.innerHTML='';gl.appendChild(c)}}
+    c.className='k-char';c.alt='';c.draggable=false;b.onload=go;c.onload=go;b.src=a.bg;c.src=a.ch;
+  });
+}
 /* daily mission from Harry */
 var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc thơ hoặc vỗ tay đồng dao','read a poem or clap a rhyme'],['think','chơi Trò chơi tư duy','play Brain games'],['trace','tập viết chữ và số','trace letters and numbers'],['eng','chơi bài Học tiếng Anh','play English fun'],['ani','chơi bài Con vật','play Animals'],
 ['col','chơi bài Màu và hình','play Colors and shapes'],['veh','chơi bài Xe cộ','play Vehicles'],
@@ -3736,7 +3780,7 @@ function showHome(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode=null;S.cur=null;
   setProgress(0,0);syncControls();
   function tile(t,featured){
-    var lk=(t.id==='drive'&&!driveOpen());
+    var lk=(t.id==='drive'&&!driveOpen()),kl=featured&&KLAB[t.id];if(kl)t=Object.assign({},t,{vi:kl[0],en:kl[1],d:kl[2]});
     return '<button class="tile'+(featured?' k-feature-tile':'')+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span>'+(featured?'<span class="k-play" aria-hidden="true">▶</span>':'')+'</button>';
   }
   /* chia chủ đề thành nhóm để ba mẹ và bé dễ tìm; chủ đề chưa xếp nhóm vẫn hiện ở nhóm cuối */
@@ -3747,17 +3791,17 @@ function showHome(){pfsExit();
   }).join('');
   var owned=ALBUM.filter(function(x){return S.stickers.indexOf(x)>=0}).length;
   view.innerHTML='<section class="home">'
-    +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Lightning':'Tia Chớp')+'</div><div class="st2">'+(S.lang==='en'?'Car Kingdom':'Vương quốc xe hơi')+'</div>'
-    +'<div class="sign-p">'+(S.lang==='en'?(TOPICS.length-1)+' topics · Ages 3–5':(TOPICS.length-1)+' chủ đề · Bé 3–5 tuổi')+'</div></div>'
+    +'<div class="hero"><div class="sign"><div class="st1">'+(S.lang==='en'?'Lightning':'Tia Chớp')+'</div><div class="st2">'+(S.lang==='en'?'Car Kingdom':'Vương Quốc Xe Cộ')+'</div>'
+    +'<div class="sign-p">'+(S.lang==='en'?'Learn – Explore – Play in the world of cars!':'Học – Khám phá – Vui chơi cùng thế giới xe diệu kỳ!')+'</div></div>'
     +'<div class="mascot">'+mascotHTML()+'</div></div>'
     + '<div class="tiles k-feature">'+featured.map(function(t){return tile(t,true)}).join('')+'</div>'
     +'<h3 class="k-feature-title" id="kingdomAll">'+(S.lang==='en'?'Explore all adventures':'Khám phá mọi khu vực')+'</h3>'
     +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
-    +'<nav class="k-nav" aria-label="Điều hướng"><button data-act="home"><span>🏠</span>'+ (S.lang==='en'?'Home':'Trang chủ')+'</button><button data-mode="mix"><span>🎮</span>'+(S.lang==='en'?'Play':'Trò chơi')+'</button><button data-act="kingdomExplore"><span>🗺️</span>'+(S.lang==='en'?'Explore':'Khám phá')+'</button><button data-act="album"><span>🏆</span>'+(S.lang==='en'?'Rewards':'Thành tích')+'</button><button data-mode="drive"><span>🚗</span>'+(S.lang==='en'?'Garage':'Gara của bé')+'</button></nav>'
+    +'<nav class="k-nav" aria-label="Điều hướng"><button data-act="home"><span><img src="img/nav-home.webp" alt="" draggable="false"></span>'+ (S.lang==='en'?'Home':'Trang chủ')+'</button><button data-mode="mix"><span><img src="img/nav-game.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Play':'Trò chơi')+'</button><button data-act="kingdomExplore"><span><img src="img/nav-map.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Explore':'Khám phá')+'</button><button data-act="album"><span><img src="img/nav-trophy.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Rewards':'Thành tích')+'</button><button data-mode="drive"><span><img src="img/nav-garage.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Garage':'Gara của bé')+'</button></nav>'
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
     +'</section>';
-  checkNote();setTimeout(updApply,500);
+  kArtLoad();checkNote();setTimeout(updApply,500);
   clearInterval(mascotTimer);mascotTimer=setInterval(function(){if(!$('.home .mascot')){clearInterval(mascotTimer);return}mascotSwap()},20000);
   [].forEach.call(view.querySelectorAll('.home .tile .glyph'),function(g,i){g.style.animationDelay=(1.5+i*0.9)+'s'});
 }

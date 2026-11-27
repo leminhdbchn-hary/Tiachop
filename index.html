@@ -1069,6 +1069,21 @@ main{border-radius:30px;background:rgba(255,255,255,.82)}
 .opt{border:1px solid #dce6f4;background:#fff;box-shadow:0 8px 22px #324c7815}.phwrap{padding:8px;min-height:0}.phbox{flex:1 1 auto;min-height:0;max-height:75%;width:100%;max-width:220px;border:0;box-shadow:none;background:#f4f8fd;border-radius:18px}.ph{object-fit:contain}.phbox.big{flex:none;max-height:none;width:clamp(100px,28vmin,260px);max-width:none}.itemphoto{width:clamp(35px,9vmin,70px);height:clamp(35px,9vmin,70px);border:0}.itemphoto img{object-fit:contain}.promptcard{border:1px solid #dce6f4}.opt .nm{flex:none}.spk{box-shadow:0 3px 8px #a87d2530;border:1px solid #f0c75b}
 :root[data-theme="dark"] body{background:linear-gradient(145deg,#22254c,#3e497b)}
 @media(max-width:600px){#app{padding:8px;gap:6px}main{padding:8px;border-radius:22px}.home .hero{padding:8px;gap:6px}.tile{min-height:125px}.topic-art{width:clamp(65px,20vmin,105px)}.phwrap{padding:5px}.opt:has(.phwrap){min-height:110px}}
+
+/* Premium 4 - visual refresh, existing game state and sticker art unchanged */
+.home .tile{background:radial-gradient(ellipse at 50% 18%,#ffffff 0%,transparent 72%),linear-gradient(155deg,#fff,color-mix(in srgb,var(--c) 68%,white));border-color:color-mix(in srgb,var(--cd) 38%,white);box-shadow:0 5px 0 color-mix(in srgb,var(--cd) 42%,white),0 12px 23px #243c6320}
+.home .tile:active{transform:translateY(3px);box-shadow:0 2px 0 color-mix(in srgb,var(--cd) 42%,white)}
+.home .topic-art{background:rgba(255,255,255,.92);border:1px solid #ffffff;box-shadow:0 5px 15px #263d6816;object-fit:contain}
+.home .tlabel{background:rgba(255,255,255,.82);border-radius:14px;padding:6px 3px;color:#253858}
+.home .tlabel i{color:#465b7a;opacity:1}
+.home .hsec{border-left:4px solid #6da3e9;padding-left:10px;margin-top:13px}
+.home .hero{background:radial-gradient(ellipse at 85% 15%,#fff7d7,transparent 65%),linear-gradient(135deg,#bce4ff,#e8f5ff);border:1px solid #fff;box-shadow:0 9px 24px #264a7714}
+.opt:not(.good):not(.bad){border-color:#d4e2f4;box-shadow:0 5px 0 #d9e5f5,0 12px 22px #253b6714}
+.opt .phbox{background:#f6f9ff;border-radius:20px}
+button:focus-visible{outline:3px solid #2266b5;outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.home .tile:hover{transform:translateY(-3px);box-shadow:0 7px 0 color-mix(in srgb,var(--cd) 42%,white),0 15px 28px #243c6325}}
+@media(prefers-reduced-motion:reduce){.home .tile,.opt{transition:none}}
+
 </style>
 </head>
 <body>
@@ -1156,7 +1171,7 @@ function photoKey(v){
   return '';
 }
 var PREMIUM_ANIMALS=["dog", "cat", "cow", "chicken", "duck", "pig", "frog", "sheep", "horse", "bee", "bird", "lion", "elephant", "rabbit", "butterfly", "fish"];
-function photoSrc(v){var k=photoKey(v);return PREMIUM_ANIMALS.indexOf(k)>=0?'assets/premium/'+k+'.webp':(k&&PHOTO_IDX[k]?'photos/'+PHOTO_IDX[k]:'')}
+function photoSrc(v){var k=photoKey(v);var vehicleArt={'fire truck':'img/car-fire.webp','race car':'img/car-race.webp'};if(vehicleArt[k])return vehicleArt[k];return PREMIUM_ANIMALS.indexOf(k)>=0?'assets/premium/'+k+'.webp':(k&&PHOTO_IDX[k]?'photos/'+PHOTO_IDX[k]:'')}
 function hasPhoto(v){return !!photoSrc(v)}
 function photoHTML(v,cls){var src=photoSrc(v);return src?'<img class="'+(cls||'ph')+'" src="'+src+'" alt="" draggable="false">':''}
 function thingOptionHTML(v,vi,en){

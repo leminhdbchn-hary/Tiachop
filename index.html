@@ -3785,10 +3785,10 @@ function citySVG(night){
 
 var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
 /* Nhân vật cho từng ô chủ đề nhỏ: 'c:<mã xe>' = ảnh nhân vật trong kho sticker, còn lại = tranh minh họa trên Cloudinary */
-var KTILE={drive:'c:mcqueen',veh:'c:mater',num:'c:luigi',eng:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',abc:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',
- let:'c:flo',spell:'c:cruz',trace:'c:boost',col:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',paint:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',cmp:'c:chick',
- think:'c:darrell',diff:'c:bob',song:'c:dj',mat:'c:king',mix:'c:wingo',ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',food:'c:tractor',body:'c:red',
- emo:'u:1795775352/cam_xuc',obj:'c:fred',room:'c:sally',school:'c:fritter',job:'c:sheriff'};
+var KTILE={drive:'c:mcqueen',veh:'c:mater',num:'u:1795774141/8ca973e0-f529-4e0e-bbe6-f55d7a3477f1',
+ eng:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',abc:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',
+ col:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',paint:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',
+ ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',emo:'u:1795775352/cam_xuc'};/* chỉ những ô mà tranh xe hợp chủ đề; ô khác giữ hình gốc (bút chì, sách nhạc, kính lúp...) */
 function tileArtHTML(id){
   var k=KTILE[id];if(!k)return '';
   if(k.indexOf('c:')===0){var cid=k.slice(2);return CARS[cid]&&CARS[cid].img?charCarHTML(cid):''}

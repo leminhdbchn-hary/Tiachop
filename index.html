@@ -1171,13 +1171,17 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .k-hello b{display:block;font-size:clamp(14px,3.8vw,22px);font-weight:800;white-space:nowrap}
 .home .sign-p{display:inline-block;margin-top:8px;background:linear-gradient(#fff3b8,#ffd56a);color:#7a4a12;border:2px solid #fff;box-shadow:0 3px 0 #c98a2c;border-radius:999px;padding:3px 14px;font-size:clamp(10px,2.7vw,16px);font-weight:800;line-height:1.25}
 .home .hero.k-hero-art{min-height:clamp(340px,92vw,520px)}
-.k-logo{display:block;margin:0 auto;width:min(80%,440px);height:auto;filter:drop-shadow(0 6px 4px #1d2a6a55)}
+.k-logo{display:block;margin:-6px auto 0;width:min(60%,340px);height:auto;filter:drop-shadow(0 6px 4px #1d2a6a55)}
+.home .hero.k-logo-art{position:relative}
+.home .hero.k-logo-art .sign{position:static}
+.home .hero.k-logo-art .sign-p{position:absolute;right:3%;bottom:30%;margin:0;max-width:52%;text-align:center;font-size:clamp(10px,2.9vw,17px);padding:5px 14px;z-index:2}
+.home .hero.k-logo-art .mascot .bubble2{align-self:end;margin-bottom:6px;max-width:100%}
 .home .hero.k-logo-art .st1,.home .hero.k-logo-art .st2{display:none}
 .home .hero.k-logo-art .sign-p{margin-top:2px}
 .k-stars{background:url(img/ui-stars.webp) center/100% 100% no-repeat;border:0;border-radius:0;color:#fff;font-weight:800;text-shadow:0 2px 0 #1d2272;padding:clamp(6px,1.6vw,10px) clamp(38px,9vw,56px) clamp(6px,1.6vw,10px) clamp(34px,8vw,50px);min-width:clamp(92px,24vw,150px);text-align:center;filter:drop-shadow(0 3px 0 #1d2272)}
 #homeBtn:not([hidden])~.k-hello{display:none}
 .top .progress{min-width:0}
-@media(max-width:600px){.k-hello{padding-right:clamp(24px,6vw,34px)}.k-hello small{display:none}.k-hello b{font-size:clamp(12px,3.2vw,16px)}.k-stars{min-width:clamp(78px,21vw,110px);padding-left:clamp(30px,7vw,40px);padding-right:clamp(30px,7vw,40px)}}
+@media(max-width:600px){.k-hello{padding-right:clamp(24px,6vw,34px)}.k-stars{min-width:clamp(78px,21vw,110px);padding-left:clamp(30px,7vw,40px);padding-right:clamp(30px,7vw,40px)}}
 .top #setBtn:not(.holding){background:url(img/ui-gear.webp) center/contain no-repeat;border:0;box-shadow:none;color:transparent;font-size:0;width:clamp(46px,11.5vw,66px);height:clamp(46px,11.5vw,66px);min-width:0;padding:0;filter:drop-shadow(0 3px 0 #1d2272)}
 /* thanh menu dưới: không để nội dung lộ ra quanh thanh; chừa chỗ cuối trang */
 .home{padding-bottom:0}

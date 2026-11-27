@@ -18,10 +18,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#25234A; --sky:#8ED6FA; --sky2:#E6F6FF; --paper:#FFFFFF;
-  --line:#BCD0F0; --lineD:#9DB8E6; --soft:rgba(40,70,140,.14);
-  --yellow:#FFC93C; --green:#4CD07D; --blue:#6BB8FF;
-  --bgtext:#25234A;
+  --ink:#20304F; --sky:#F4F9FF; --sky2:#E2F0FF; --paper:#FFFFFF;
+  --line:#D8E5FA; --lineD:#A4BDE8; --soft:rgba(32,59,111,.12);
+  --yellow:#FFC857; --green:#53CF82; --blue:#5EA8FF;
+  --bgtext:#20304F;
+  --panel:rgba(255,255,255,.62); --panel2:rgba(255,255,255,.84);
   --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
   --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
   box-sizing:border-box;
@@ -37,7 +38,10 @@ body{
   margin:0;height:100%;
   font-family:"Baloo 2","Nunito","Arial Rounded MT Bold",system-ui,-apple-system,sans-serif;
   font-weight:700;color:var(--ink);
-  background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 70%);
+  background:
+    radial-gradient(circle at 15% 15%, rgba(255,255,255,.96) 0 8%, transparent 9%),
+    radial-gradient(circle at 85% 12%, rgba(255,226,122,.35) 0 8%, transparent 9%),
+    linear-gradient(180deg,#F6FBFF 0%,#EBF4FF 38%,#E1EEFF 100%);
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation;overflow:hidden;
 }
@@ -59,20 +63,20 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){#sky .sun .rays,#sky .moon,#sky .cloud,#sky .star{animation:none}}
 #city{position:fixed;left:0;right:0;bottom:0;height:36vh;max-height:340px;pointer-events:none;z-index:0}
 #city svg{width:100%;height:100%;display:block}
-#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:980px;margin:0 auto;padding:max(10px,calc(var(--sat) * .25)) 14px max(14px,calc(var(--sab) * .35))}
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;max-width:1180px;margin:0 auto;padding:max(14px,calc(var(--sat) * .3)) 18px max(18px,calc(var(--sab) * .4))}
 .top #langBtn{margin-left:auto}
-.top{display:flex;align-items:center;gap:10px;min-height:60px;margin-top:clamp(14px,3vh,30px)}
+.top{display:flex;align-items:center;gap:12px;min-height:64px;margin-top:clamp(14px,3vh,28px);padding:10px 14px;border-radius:26px;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.62));border:1px solid rgba(255,255,255,.82);box-shadow:0 10px 24px rgba(55,82,129,.10)}
 .icon{
-  min-width:56px;height:56px;border-radius:18px;background:linear-gradient(180deg,#fff,#EEF5FF);
-  border:3px solid var(--lineD);box-shadow:0 4px 0 var(--lineD),0 8px 14px var(--soft);
-  font-size:28px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;
+  min-width:58px;height:58px;border-radius:20px;background:linear-gradient(180deg,#FFFFFF,#F4F8FF);
+  border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 18px rgba(54,85,134,.12), inset 0 -2px 0 rgba(164,189,232,.5);
+  font-size:28px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px;
 }
 .icon:active{transform:translateY(3px);box-shadow:0 1px 0 var(--lineD)}
 .icon.pill{font-size:16px;font-weight:800}
-.icon.big{min-width:64px;height:64px;font-size:30px;background:linear-gradient(180deg,#FFE27A,#FFC93C);border-color:#E0A21B;box-shadow:0 4px 0 #E0A21B,0 8px 14px var(--soft);flex:none}
+.icon.big{min-width:66px;height:66px;font-size:31px;background:linear-gradient(180deg,#FFE899,#FFC857);border-color:#F2D07C;box-shadow:0 12px 18px rgba(226,162,27,.22), inset 0 -3px 0 rgba(180,129,18,.2);flex:none}
 .icon[hidden]{display:none}
 .progress{flex:1;min-width:0;padding-top:18px}
-.road{position:relative;height:36px;border:3px solid #fff;border-radius:16px;background:repeating-linear-gradient(90deg,#fff 0 12px,transparent 12px 26px) 0 50%/100% 4px no-repeat,linear-gradient(180deg,#6A6F8E,#4A4F6C);box-shadow:0 4px 10px var(--soft);visibility:hidden}
+.road{position:relative;height:38px;border:1px solid rgba(255,255,255,.92);border-radius:18px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.95) 0 14px,transparent 14px 30px) 0 50%/100% 4px no-repeat,linear-gradient(180deg,#7784AA,#586486);box-shadow:0 12px 20px rgba(55,86,136,.14), inset 0 1px 0 rgba(255,255,255,.22);visibility:hidden}
 .road.on{visibility:visible}
 .roadcar{position:absolute;left:0;top:-28px;width:66px;transition:left .7s ease;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
 .roadcar svg{width:100%;height:auto;display:block}
@@ -83,15 +87,15 @@ button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
   #langBtn{margin-left:auto}
 }
 
-main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
+main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid rgba(255,255,255,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:34px;padding:12px 14px;box-shadow:0 18px 40px rgba(48,77,131,.12), inset 0 1px 0 rgba(255,255,255,.85)}
 
 /* ---------- Home ---------- */
-.home{display:flex;flex-direction:column;gap:14px;padding:14px 2px 24px}
+.home{display:flex;flex-direction:column;gap:16px;padding:10px 2px 26px}
 .hero{display:grid;grid-template-columns:1.3fr 1fr;align-items:end;gap:6px}
 .sign{
-  position:relative;text-align:center;padding:12px 10px 12px;border-radius:24px;
-  background:linear-gradient(180deg,#F4CC8A 0%,#E2A55A 100%);border:5px solid #B27431;
-  box-shadow:0 7px 0 #8A5521,0 14px 22px var(--soft);
+  position:relative;text-align:center;padding:16px 14px 14px;border-radius:30px;
+  background:linear-gradient(180deg,#FFF0BF 0%,#FFD88C 46%,#F4B866 100%);border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 16px 26px rgba(143,98,39,.18), inset 0 -4px 0 rgba(145,96,34,.14), inset 0 1px 0 rgba(255,255,255,.78);
 }
 .sign::before,.sign::after{content:"";position:absolute;top:9px;width:9px;height:9px;border-radius:50%;background:#8A5521;box-shadow:inset 0 2px 0 rgba(255,255,255,.4)}
 .sign::before{left:10px}.sign::after{right:10px}
@@ -101,8 +105,8 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .mascot{position:relative;padding-top:50px}
 .mascot svg{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18))}
 .bubble2{
-  position:absolute;left:-6px;right:0;top:0;background:#fff;border:3px solid var(--line);border-radius:20px;padding:4px 10px;
-  text-align:center;font-size:clamp(13px,2.9vmin,18px);font-weight:800;line-height:1.1;box-shadow:0 4px 10px var(--soft)
+  position:absolute;left:-6px;right:0;top:0;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,.84));border:1px solid rgba(255,255,255,.92);border-radius:22px;padding:6px 12px;
+  text-align:center;font-size:clamp(13px,2.9vmin,18px);font-weight:800;line-height:1.1;box-shadow:0 12px 22px rgba(53,83,131,.12)
 }
 .bubble2 small{display:block;font-weight:600;opacity:.7;font-size:.82em}
 .bubble2::after{content:"";position:absolute;left:62%;bottom:-11px;width:16px;height:16px;background:#fff;border-right:3px solid var(--line);border-bottom:3px solid var(--line);transform:rotate(45deg) skew(10deg,10deg)}
@@ -113,16 +117,16 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .chopline svg{width:clamp(90px,22vmin,150px);height:auto;display:block;margin:0 auto}
 .levels{display:flex;gap:10px;justify-content:center}
 .lv{
-  flex:1;max-width:210px;background:linear-gradient(180deg,#fff,#EEF5FF);border:3px solid var(--lineD);border-radius:22px;box-shadow:0 5px 0 var(--lineD),0 10px 16px var(--soft);
-  padding:6px 8px;display:flex;align-items:center;gap:8px;justify-content:center;line-height:1;min-height:62px;
+  flex:1;max-width:210px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(241,247,255,.95));border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 14px 22px rgba(50,80,128,.10), inset 0 -2px 0 rgba(164,189,232,.42);
+  padding:8px 10px;display:flex;align-items:center;gap:8px;justify-content:center;line-height:1;min-height:66px;
 }
 .lv .n{font-size:clamp(32px,7.4vmin,46px);font-weight:800}
 .lv .t{font-size:clamp(12px,2.6vmin,16px);font-weight:700;text-align:left;line-height:1.1}
 .lv .t i{display:block;font-style:normal;font-weight:600;opacity:.75}
 .lv.on{background:linear-gradient(180deg,#FFE88F,#FFC93C);border-color:#E0A21B;box-shadow:0 2px 0 #E0A21B,0 8px 14px var(--soft);transform:translateY(3px)}
 .albumbar{
-  display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#fff,#F4F0FF);border:3px solid #C3B2F5;border-radius:26px;box-shadow:0 5px 0 #C3B2F5,0 10px 16px var(--soft);
-  padding:8px 16px;text-align:left;
+  display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#FFFFFF,#F8F3FF);border:1px solid rgba(255,255,255,.92);border-radius:28px;box-shadow:0 16px 24px rgba(110,88,191,.10), inset 0 -2px 0 rgba(195,178,245,.38);
+  padding:10px 16px;text-align:left;
 }
 .albumbar:active{transform:translateY(4px);box-shadow:0 1px 0 #C3B2F5}
 .albumbar .ab-i{font-size:clamp(34px,8vmin,50px);line-height:1}
@@ -132,9 +136,9 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media (min-width:640px){.tiles{grid-template-columns:repeat(3,1fr)}}
 .tile{
-  position:relative;background:var(--c);border:4px solid var(--cd);border-radius:28px;box-shadow:0 7px 0 var(--cd),0 14px 20px var(--soft);
+  position:relative;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,.10)), var(--c);border:1px solid rgba(255,255,255,.72);border-radius:30px;box-shadow:0 18px 26px rgba(48,78,127,.14), inset 0 -3px 0 color-mix(in srgb,var(--cd) 45%, white);
   display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  padding:12px 10px 10px;gap:8px;min-height:clamp(140px,24vmin,200px);overflow:hidden;
+  padding:14px 12px 12px;gap:8px;min-height:clamp(150px,24vmin,208px);overflow:hidden;
 }
 .tile::before{content:"";position:absolute;left:0;right:0;top:0;height:48%;background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0));pointer-events:none}
 .tile:active{transform:translateY(5px);box-shadow:0 2px 0 var(--cd)}
@@ -173,8 +177,8 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .vnote{margin:0;text-align:center;font-size:14px;font-weight:600;color:var(--bgtext);opacity:.85}
 
 /* ---------- Round ---------- */
-.stage{--ac:#2F7BFF;--acb:#E4F1FF;flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;padding:6px 2px}
-.promptcard{display:flex;align-items:center;gap:12px;background:var(--acb);border:3px solid var(--ac);border-radius:26px;padding:10px 12px 10px 12px;box-shadow:0 5px 0 var(--ac),0 12px 20px var(--soft);position:relative}
+.stage{--ac:#5B8DFF;--acb:#EFF5FF;flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding:8px 4px}
+.promptcard{display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#FFFFFF,var(--acb));border:1px solid rgba(255,255,255,.88);border-radius:28px;padding:12px 14px;box-shadow:0 14px 24px rgba(53,85,138,.12), inset 0 -2px 0 rgba(91,141,255,.18);position:relative}
 .qn{flex:none;width:50px;height:50px;border-radius:50%;background:var(--ac);color:#fff;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -5px 0 rgba(0,0,0,.18),0 3px 6px var(--soft);line-height:1}
 .ptxt{flex:1}
 .pvi{font-size:clamp(22px,5vmin,36px);font-weight:800;line-height:1.1}
@@ -200,8 +204,8 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .item.pick.sel{background:#fff;border:3px solid var(--ac);box-shadow:0 4px 0 var(--ac);transform:translateY(-4px)}
 .hint{font-size:clamp(14px,2.8vmin,18px);font-weight:600;color:var(--bgtext);opacity:.8}
 .bubble{
-  background:#fff;border:3px solid var(--ac);border-radius:36px;box-shadow:0 5px 0 var(--ac),0 12px 20px var(--soft);
-  padding:12px 26px;font-size:clamp(34px,9vmin,64px);font-weight:800;line-height:1.1;
+  background:linear-gradient(180deg,#FFFFFF,#F6FAFF);border:1px solid rgba(255,255,255,.92);border-radius:38px;box-shadow:0 16px 24px rgba(53,85,138,.12), inset 0 -2px 0 rgba(91,141,255,.2);
+  padding:14px 28px;font-size:clamp(34px,9vmin,64px);font-weight:800;line-height:1.1;
 }
 .bubble small{display:block;font-size:.42em;font-weight:600;opacity:.75}
 .bubble:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ac)}
@@ -218,10 +222,10 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .card{position:relative}
 .opt{
   position:relative;height:clamp(140px,38vmin,280px);width:100%;
-  background:linear-gradient(180deg,#FFFFFF,#EAF3FF);border:3px solid var(--line);border-radius:26px;
-  box-shadow:0 6px 0 var(--line),0 12px 20px var(--soft);
+  background:linear-gradient(180deg,#FFFFFF,#F3F8FF);border:1px solid rgba(255,255,255,.94);border-radius:28px;
+  box-shadow:0 14px 22px rgba(52,83,132,.12), inset 0 -2px 0 rgba(164,189,232,.38);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  transition:opacity .2s;line-height:1.05;overflow:hidden;
+  transition:opacity .2s, transform .15s, box-shadow .15s;line-height:1.05;overflow:hidden;
 }
 .opts.n2 .opt{height:clamp(160px,44vmin,300px)}
 .opt:active:not(:disabled){transform:translateY(5px);box-shadow:0 1px 0 var(--line)}
@@ -247,6 +251,17 @@ main{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-ove
 .L{font-size:clamp(46px,13vmin,92px);font-weight:800;line-height:1}
 .l{font-size:clamp(20px,5vmin,34px);font-weight:700;opacity:.7;line-height:1}
 .emo{font-size:clamp(62px,18vmin,150px);line-height:1;filter:drop-shadow(0 4px 3px rgba(0,0,0,.15))}
+.phwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:100%;height:100%}
+.phbox{width:min(90%,180px);aspect-ratio:1;border-radius:22px;overflow:hidden;background:#fff;border:3px solid rgba(0,0,0,.12);box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.phbox.big{width:min(86vw,300px);border-radius:28px;box-shadow:0 8px 18px rgba(0,0,0,.14)}
+.ph{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
+.bigthing{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.bigthing .nm{font-size:clamp(18px,3.6vmin,24px)}
+.bigthing .nm i{font-size:.8em}
+.opt .phwrap .nm{padding:0 6px}
+.itemphoto{width:clamp(58px,14vmin,96px);height:clamp(58px,14vmin,96px);border-radius:18px;overflow:hidden;border:3px solid rgba(0,0,0,.14);background:#fff;display:inline-block;vertical-align:middle;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+.itemphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.bigemoji.visualicon{font-size:clamp(90px,26vmin,180px)}
 .grp{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;font-size:clamp(20px,5.2vmin,34px);line-height:1.1;padding:4px 8px;max-width:100%}
 .seq .grp{font-size:clamp(34px,9vmin,58px);max-width:40vw}
 .hbar{display:block;height:26%;border-radius:999px;border:3px solid rgba(0,0,0,.3);box-shadow:inset 0 -6px 0 rgba(0,0,0,.14),inset 0 5px 0 rgba(255,255,255,.35)}
@@ -1039,6 +1054,21 @@ img.fe{display:inline-block!important;width:1.15em!important;height:1.15em!impor
   .sgl{font-size:clamp(20px,6.4vh,30px);margin:2px 0}
   .sgclapbtn{width:96px;height:96px;font-size:56px}
 }
+
+/* Premium 3: illustration-first responsive surfaces */
+:root{--soft:rgba(42,68,112,.10)}
+body{background:radial-gradient(ellipse at 10% 0%,#dff3ff,transparent 55%),radial-gradient(ellipse at 95% 20%,#fff0d3,transparent 50%),linear-gradient(145deg,#f5fbff,#e7efff)}
+#city{opacity:.35} #sky{opacity:.55}
+#app{gap:10px;max-width:1200px} .top{margin-top:4px;flex-shrink:0}
+main{border-radius:30px;background:rgba(255,255,255,.82)}
+.home .hero{align-items:center;gap:18px;padding:14px;border-radius:30px;background:linear-gradient(135deg,#dbeeff,#fef1ce);box-shadow:inset 0 0 0 1px #fff}
+.sign{background:none;box-shadow:none;border:0}.sign:before,.sign:after{display:none}.st1{color:#244776;text-shadow:none}.st2{color:#e45135;text-shadow:0 3px 0 white}
+.tiles{gap:14px}.tile{background:linear-gradient(150deg,#fff,color-mix(in srgb,var(--c) 40%,white));border:1px solid color-mix(in srgb,var(--cd) 24%,white);box-shadow:0 8px 20px rgba(35,60,110,.09);min-height:160px;padding:10px}
+.tile:before{display:none}.tlabel{border:0;background:transparent;padding:4px}.glyph{justify-content:center;width:100%;min-height:0}.topic-art{display:block;width:clamp(85px,23vmin,155px);aspect-ratio:1;object-fit:contain;border-radius:22px;box-shadow:0 6px 14px #25385b19}
+.premium-sticker{width:100%;max-width:190px;aspect-ratio:1;object-fit:contain;border-radius:20px}.sticker .premium-sticker{width:clamp(130px,36vmin,240px)}
+.opt{border:1px solid #dce6f4;background:#fff;box-shadow:0 8px 22px #324c7815}.phwrap{padding:8px;min-height:0}.phbox{flex:1 1 auto;min-height:0;max-height:75%;width:100%;max-width:220px;border:0;box-shadow:none;background:#f4f8fd;border-radius:18px}.ph{object-fit:contain}.phbox.big{flex:none;max-height:none;width:clamp(100px,28vmin,260px);max-width:none}.itemphoto{width:clamp(35px,9vmin,70px);height:clamp(35px,9vmin,70px);border:0}.itemphoto img{object-fit:contain}.promptcard{border:1px solid #dce6f4}.opt .nm{flex:none}.spk{box-shadow:0 3px 8px #a87d2530;border:1px solid #f0c75b}
+:root[data-theme="dark"] body{background:linear-gradient(145deg,#22254c,#3e497b)}
+@media(max-width:600px){#app{padding:8px;gap:6px}main{padding:8px;border-radius:22px}.home .hero{padding:8px;gap:6px}.tile{min-height:125px}.topic-art{width:clamp(65px,20vmin,105px)}.phwrap{padding:5px}.opt:has(.phwrap){min-height:110px}}
 </style>
 </head>
 <body>
@@ -1102,6 +1132,44 @@ function numEN(n){
   if(n<100){var u=n%10;return EN_T[Math.floor(n/10)]+(u?' '+NUM_EN[u]:'')}
   var r=n%100,o=NUM_EN[Math.floor(n/100)]+' hundred';return r?o+' '+numEN(r):o;
 }
+
+/* Real photo lookup: use bundled photos/ assets whenever available */
+var PHOTO_IDX={"dog":"dog.jpg","cat":"cat.jpg","cow":"cow.jpg","chicken":"chicken.jpg","duck":"duck.jpg","pig":"pig.jpg","frog":"frog.jpg","sheep":"sheep.jpg","horse":"horse.jpg","bee":"bee.jpg","bird":"bird.jpg","lion":"lion.jpg","elephant":"elephant.jpg","rabbit":"rabbit.jpg","butterfly":"butterfly.jpg","fish":"fish.jpg","dolphin":"dolphin.jpg","whale":"whale.jpg","eagle":"eagle.jpg","tiger":"tiger.jpg","monkey":"monkey.jpg","turtle":"turtle.jpg","apple":"apple.jpg","banana":"banana.jpg","orange":"orange.jpg","grapes":"grapes.jpg","strawberry":"strawberry.jpg","watermelon":"watermelon.jpg","pineapple":"pineapple.jpg","mango":"mango.jpg","pear":"pear.jpg","peach":"peach.jpg","lemon":"lemon.jpg","carrot":"carrot.jpg","corn":"corn.jpg","tomato":"tomato.jpg","broccoli":"broccoli.jpg","bed":"bed.jpg","chair":"chair.jpg","table":"table.jpg","door":"door.jpg","window":"window.jpg","sofa":"sofa.jpg","TV":"tv.jpg","light":"light.jpg","mirror":"mirror.jpg","toilet":"toilet.jpg","bathtub":"bathtub.jpg","shower":"shower.jpg","toothbrush":"toothbrush.jpg","soap":"soap.jpg","fridge":"fridge.jpg","pan":"pan.jpg","bowl":"bowl.jpg","spoon":"spoon.jpg","wardrobe":"wardrobe.jpg","broom":"broom.jpg","book":"book.jpg","pencil":"pencil.jpg","crayon":"crayon.jpg","school bag":"school_bag.jpg","ruler":"ruler.jpg","scissors":"scissors.jpg","notebook":"notebook.jpg","bell":"bell.jpg","school":"school.jpg","teacher":"teacher.jpg","board":"board.jpg","doctor":"doctor.jpg","firefighter":"firefighter.jpg","police officer":"police_officer.jpg","chef":"chef.jpg","farmer":"farmer.jpg","pilot":"pilot.jpg","mechanic":"mechanic.jpg","artist":"artist.jpg","builder":"builder.jpg","astronaut":"astronaut.jpg","driver":"driver.jpg","bedroom":"bedroom.jpg","kitchen":"kitchen.jpg","bathroom":"bathroom.jpg","living room":"living_room.jpg","dining room":"dining_room.jpg","garden":"garden.jpg","car":"car.jpg","bus":"bus.jpg","police car":"police_car.jpg","fire truck":"fire_truck.jpg","taxi":"taxi.jpg","tractor":"tractor.jpg","race car":"race_car.jpg","train":"train.jpg","airplane":"airplane.jpg","boat":"boat.jpg","bike":"bike.jpg","helicopter":"helicopter.jpg","rocket":"rocket.jpg","truck":"truck.jpg","ball":"ball.jpg","teddy bear":"teddy_bear.jpg","bag":"bag.jpg","key":"key.jpg","umbrella":"umbrella.jpg","clock":"clock.jpg","hat":"hat.jpg","shoe":"shoe.jpg","socks":"socks.jpg","shirt":"shirt.jpg","glasses":"glasses.jpg","gift":"gift.jpg","bread":"bread.jpg","egg":"egg.jpg","cake":"cake.jpg","cookie":"cookie.jpg","milk":"milk.jpg","house":"house.jpg","sun":"sun.jpg","moon":"moon.jpg","cloud":"cloud.jpg","rain":"rain.jpg","rainbow":"rainbow.jpg","tree":"tree.jpg","flower":"flower.jpg","snow":"snow.jpg","mountain":"mountain.jpg","happy":"happy.png","sad":"sad.png","angry":"angry.png","sleepy":"sleepy.png","scared":"scared.png","loved":"loved.png","surprised":"surprised.png","neutral":"neutral.png","eyes":"eyes.png","ear":"ear.png","nose":"nose.png","mouth":"mouth.png","hand":"hand.png","foot":"foot.png","tongue":"tongue.png","face":"face.png"};
+var PHOTO_ALIAS={tv:'TV',light:'light','light bulb':'light','school bag':'school bag','police':'police officer','policeman':'police officer','policewoman':'police officer','fireman':'firefighter','bus driver':'driver','living':'living room','dining':'dining room','bicycle':'bike','sailboat':'boat','gift box':'gift'};
+function photoKey(v){
+  if(!v)return '';
+  if(typeof v==='string'){
+    var k=String(v).trim();
+    if(PHOTO_IDX[k])return k;
+    var lk=k.toLowerCase();
+    return (PHOTO_ALIAS[lk]&&PHOTO_IDX[PHOTO_ALIAS[lk]])?PHOTO_ALIAS[lk]:(PHOTO_IDX[lk]?lk:'');
+  }
+  if(v.photoKey&&PHOTO_IDX[v.photoKey])return v.photoKey;
+  var cands=[v.en,v.s,v.ten,v.toolEn,v.name];
+  for(var i=0;i<cands.length;i++){
+    var c=cands[i]; if(!c) continue;
+    if(PHOTO_IDX[c]) return c;
+    var lc=String(c).toLowerCase();
+    if(PHOTO_IDX[lc]) return lc;
+    if(PHOTO_ALIAS[lc]&&PHOTO_IDX[PHOTO_ALIAS[lc]]) return PHOTO_ALIAS[lc];
+  }
+  return '';
+}
+var PREMIUM_ANIMALS=["dog", "cat", "cow", "chicken", "duck", "pig", "frog", "sheep", "horse", "bee", "bird", "lion", "elephant", "rabbit", "butterfly", "fish"];
+function photoSrc(v){var k=photoKey(v);return PREMIUM_ANIMALS.indexOf(k)>=0?'assets/premium/'+k+'.webp':(k&&PHOTO_IDX[k]?'photos/'+PHOTO_IDX[k]:'')}
+function hasPhoto(v){return !!photoSrc(v)}
+function photoHTML(v,cls){var src=photoSrc(v);return src?'<img class="'+(cls||'ph')+'" src="'+src+'" alt="" draggable="false">':''}
+function thingOptionHTML(v,vi,en){
+  var p=photoHTML(v,'ph');
+  if(p)return '<span class="phwrap"><span class="phbox">'+p+'</span><span class="nm">'+vi+'<i>'+en+'</i></span></span>';
+  return '<span class="emo">'+(v&&v.e?v.e:v)+'</span><span class="nm">'+vi+'<i>'+en+'</i></span>';
+}
+function bigThing(v,vi,en){
+  var p=photoHTML(v,'ph');
+  if(p)return '<div class="bigthing"><span class="phbox big">'+p+'</span>'+(vi?'<span class="nm">'+vi+(en?'<i>'+en+'</i>':'')+'</span>':'')+'</div>';
+  return '<div class="bigemoji'+((v&&v.iconClass)?' '+v.iconClass:'')+'">'+(v&&v.e?v.e:v)+'</div>'+(vi?'<div class="enw">'+vi+(en?'<br>'+en:'')+'</div>':'');
+}
+function itemCountHTML(v){var p=photoHTML(v,'ph');return p?'<span class="itemphoto">'+p+'</span>':(v&&v.e?v.e:v)}
 
 /* Things to count / pick (vehicles first: the child loves cars) */
 var OBJS_VEH=[
@@ -1814,7 +1882,8 @@ var SECTIONS=[
  {vi:'Nhà cửa và nơi chốn',en:'Places',items:['🏠','🏫','🏥','⛺','🏰','🗼','🌉','⛲','🎪','🏡']}];
 var ALBUM=[];
 SECTIONS.forEach(function(sec){sec.items.forEach(function(x){if(ALBUM.indexOf(x)<0)ALBUM.push(x)})});
-function stkHTML(s){if(s==='img:harry')return '<img class="rk" src="img/sticker-harry.webp" alt="Harry Mía" draggable="false">';if(s==='img:race1')return '<img class="rk" src="img/sticker-race1.webp" alt="Xe đua số 1" draggable="false">';return s.indexOf('car:')===0?carSVG(s.slice(4)):(s.indexOf('hero:')===0?heroSVG(s.slice(5)):'<span class="em">'+s+'</span>')}
+var PREMIUM_STICKERS={"🐶": "dog", "🐱": "cat", "🐮": "cow", "🐔": "chicken", "🦆": "duck", "🐷": "pig", "🐸": "frog", "🐑": "sheep", "🐴": "horse", "🐝": "bee", "🐦": "bird", "🦁": "lion", "🐘": "elephant", "🐰": "rabbit", "🦋": "butterfly", "🐟": "fish"};
+function stkHTML(s){if(PREMIUM_STICKERS[s])return photoHTML(PREMIUM_STICKERS[s],'premium-sticker');if(s==='img:harry')return '<img class="rk" src="img/sticker-harry.webp" alt="Harry Mía" draggable="false">';if(s==='img:race1')return '<img class="rk" src="img/sticker-race1.webp" alt="Xe đua số 1" draggable="false">';return s.indexOf('car:')===0?carSVG(s.slice(4)):(s.indexOf('hero:')===0?heroSVG(s.slice(5)):'<span class="em">'+s+'</span>')}
 var STKN={'🍋':['quả chanh','lemon'],'🍐':['quả lê','pear'],'🥝':['quả kiwi','kiwi'],'🍅':['quả cà chua','tomato'],'🥥':['quả dừa','coconut'],'🥑':['quả bơ','avocado'],'🍆':['quả cà tím','eggplant'],'🥔':['củ khoai tây','potato'],'🥒':['quả dưa chuột','cucumber'],'🥦':['súp lơ xanh','broccoli'],'🍞':['ổ bánh mì','bread'],'🥐':['bánh sừng bò','croissant'],'🧀':['miếng phô mai','cheese'],'🥚':['quả trứng','egg'],'🥞':['bánh kếp','pancakes'],'🍗':['đùi gà','chicken leg'],'🌭':['xúc xích','hot dog'],'🍜':['tô mì','noodle bowl'],'🍙':['nắm cơm','rice ball'],'🥟':['bánh bao','dumpling'],'🍨':['ly kem','ice cream cup'],'🍧':['đá bào','shaved ice'],'🍬':['cái kẹo','candy'],'🍯':['hũ mật ong','honey pot'],'🥛':['ly sữa','glass of milk'],'🧃':['hộp nước trái cây','juice box'],'🍵':['tách trà','cup of tea'],'☕':['tách cà phê','coffee cup'],'🥤':['cốc nước ngọt','soda cup'],'🍮':['bánh flan','pudding'],'👮':['chú công an','police officer'],'👷':['chú thợ xây','builder'],'💂':['chú lính gác','guard'],'🕵️':['thám tử','detective'],'👸':['công chúa','princess'],'🤴':['hoàng tử','prince'],'🎅':['ông già Nô-en','Santa Claus'],'🤶':['bà già Nô-en','Mrs Claus'],'👶':['em bé','baby'],'🤡':['chú hề','clown'],'🚕':['xe taxi','taxi'],'🚙':['xe địa hình','SUV'],'🚛':['xe tải lớn','big truck'],'🚐':['xe khách nhỏ','minibus'],'🚎':['xe buýt điện','trolleybus'],'🏍️':['xe máy','motorbike'],'🚄':['tàu cao tốc','bullet train'],'🚠':['cáp treo','cable car'],'🛴':['xe trượt scooter','scooter'],'🛹':['ván trượt','skateboard'],'⛅':['trời có mây','partly cloudy'],'🌧️':['mưa','rain'],'⛈️':['giông bão','thunderstorm'],'🌪️':['lốc xoáy','tornado'],'☂️':['cái ô','umbrella'],'⚡':['tia chớp','lightning'],'🔥':['ngọn lửa','fire'],'💧':['giọt nước','water drop'],'🌋':['núi lửa','volcano'],'🌅':['bình minh','sunrise'],'⚾':['bóng chày','baseball'],'🎾':['quần vợt','tennis'],'🏐':['bóng chuyền','volleyball'],'🏈':['bóng bầu dục','football'],'🏓':['bóng bàn','ping pong'],'🏸':['cầu lông','badminton'],'🥊':['găng đấm bốc','boxing glove'],'⛸️':['giày trượt băng','ice skate'],'🥇':['huy chương vàng','gold medal'],'🎯':['bia phi tiêu','dart board'],'🎹':['đàn piano','piano'],'🎻':['đàn vi-ô-lông','violin'],'🎷':['kèn xa-xô-phôn','saxophone'],'🎤':['cái micro','microphone'],'🎧':['tai nghe','headphones'],'🎲':['con xúc xắc','dice'],'🧩':['mảnh ghép','puzzle piece'],'♟️':['quân cờ','chess pawn'],'🎮':['tay cầm chơi game','game controller'],'🔔':['cái chuông','bell'],'⏰':['đồng hồ báo thức','alarm clock'],'📚':['chồng sách','books'],'✏️':['cây bút chì','pencil'],'🎒':['cặp sách','backpack'],'👓':['kính mắt','glasses'],'🧢':['mũ lưỡi trai','cap'],'👟':['giày thể thao','sneaker'],'🧦':['đôi tất','socks'],'🔑':['chìa khóa','key'],'🔦':['đèn pin','flashlight'],'🏠':['ngôi nhà','house'],'🏫':['trường học','school'],'🏥':['bệnh viện','hospital'],'⛺':['cái lều','tent'],'🏰':['lâu đài','castle'],'🗼':['tòa tháp','tower'],'🌉':['cây cầu','bridge'],'⛲':['đài phun nước','fountain'],'🎪':['rạp xiếc','circus tent'],'🏡':['nhà có vườn','house with garden'],'🦄':['con kỳ lân','unicorn'],'🐯':['con hổ','tiger'],'🐼':['gấu trúc','panda'],'🦊':['con cáo','fox'],'🐨':['gấu koala','koala'],'🐙':['con bạch tuộc','octopus'],'🐧':['chim cánh cụt','penguin'],'🦉':['con cú','owl'],'🐢':['con rùa','turtle'],'🦀':['con cua','crab'],'🐬':['cá heo','dolphin'],'🐿️':['con sóc','squirrel'],'🦁':['sư tử','lion'],'🐘':['con voi','elephant'],'🦒':['hươu cao cổ','giraffe'],'🦓':['ngựa vằn','zebra'],'🦘':['chuột túi','kangaroo'],'🦔':['con nhím','hedgehog'],'🦩':['chim hồng hạc','flamingo'],'🦜':['con vẹt','parrot'],'🐊':['cá sấu','crocodile'],'🦥':['con lười','sloth'],'🦦':['rái cá','otter'],'🐺':['chó sói','wolf'],'🦕':['khủng long cổ dài','long neck dinosaur'],'🐳':['cá voi','whale'],'🐶':['chó con','puppy'],'🐱':['mèo con','kitten'],'🐭':['con chuột','mouse'],'🐹':['chuột hamster','hamster'],'🐰':['con thỏ','rabbit'],'🐻':['con gấu','bear'],'🐷':['con heo','pig'],'🐮':['con bò','cow'],'🐸':['con ếch','frog'],'🐵':['con khỉ','monkey'],'🐔':['con gà','chicken'],'🐴':['con ngựa','horse'],'🐑':['con cừu','sheep'],'🦆':['con vịt','duck'],'🐤':['gà con','chick'],'🐥':['gà con vàng','baby chick'],'🐠':['cá nhiệt đới','tropical fish'],'🐟':['con cá','fish'],'🦈':['cá mập','shark'],'🐡':['cá nóc','pufferfish'],'🦭':['hải cẩu','seal'],'🦑':['con mực','squid'],'🦞':['tôm hùm','lobster'],'🐚':['vỏ sò','seashell'],'🐋':['cá voi xanh','blue whale'],'🦋':['con bướm','butterfly'],'🐞':['bọ rùa','ladybug'],'🐝':['con ong','bee'],'🐛':['con sâu','caterpillar'],'🐌':['ốc sên','snail'],'🦗':['con dế','cricket'],'🐜':['con kiến','ant'],'🕷️':['con nhện','spider'],'🕸️':['mạng nhện','spider web'],'🐉':['con rồng','dragon'],'🦖':['khủng long','T rex'],'🧚':['bà tiên','fairy'],'🧜':['nàng tiên cá','mermaid'],'🧙':['phù thủy','wizard'],'🤖':['rô-bốt','robot'],'👽':['người ngoài hành tinh','alien'],'🦸':['siêu nhân','superhero'],'🚀':['tên lửa','rocket'],'🛸':['đĩa bay','flying saucer'],'🌙':['mặt trăng','moon'],'⭐':['ngôi sao','star'],'🪐':['sao Thổ','Saturn'],'🌈':['cầu vồng','rainbow'],'☄️':['sao chổi','comet'],'🌟':['ngôi sao sáng','shining star'],'🍎':['quả táo','apple'],'🍌':['quả chuối','banana'],'🍓':['dâu tây','strawberry'],'🍉':['dưa hấu','watermelon'],'🍇':['chùm nho','grapes'],'🍊':['quả cam','orange'],'🍍':['quả dứa','pineapple'],'🥭':['quả xoài','mango'],'🍒':['quả anh đào','cherries'],'🍑':['quả đào','peach'],'🥕':['củ cà rốt','carrot'],'🌽':['bắp ngô','corn'],'🍦':['cây kem','ice cream'],'🍰':['bánh kem','cake'],'🍪':['bánh quy','cookie'],'🍩':['bánh vòng','donut'],'🧁':['bánh cupcake','cupcake'],'🍕':['bánh pizza','pizza'],'🍔':['bánh hamburger','burger'],'🍭':['kẹo mút','lollipop'],'🍫':['sô-cô-la','chocolate'],'🍿':['bắp rang','popcorn'],'🚒':['xe cứu hỏa','fire truck'],'🚑':['xe cứu thương','ambulance'],'🚓':['xe cảnh sát','police car'],'🚌':['xe buýt','bus'],'🚜':['máy cày','tractor'],'🚂':['tàu hỏa','train'],'✈️':['máy bay','airplane'],'🚁':['trực thăng','helicopter'],'🚲':['xe đạp','bicycle'],'🛵':['xe máy','scooter'],'🚢':['tàu thủy','ship'],'🛶':['ca nô','canoe'],'🏎️':['xe đua','race car'],'🚤':['xuồng máy','speedboat'],'⛵':['thuyền buồm','sailboat'],'⚽':['quả bóng đá','soccer ball'],'🏀':['quả bóng rổ','basketball'],'🎈':['bóng bay','balloon'],'🎁':['hộp quà','gift'],'🧸':['gấu bông','teddy bear'],'🪁':['con diều','kite'],'🎨':['bảng màu','paint palette'],'🎸':['đàn ghi-ta','guitar'],'🥁':['cái trống','drum'],'🎺':['cái kèn','trumpet'],'🎠':['ngựa quay','carousel'],'🎡':['vòng đu quay','ferris wheel'],'🎂':['bánh sinh nhật','birthday cake'],'🎉':['pháo giấy','party popper'],'👑':['vương miện','crown'],'🏆':['chiếc cúp','trophy'],'💎':['viên kim cương','diamond'],'❤️':['trái tim','heart'],'🌻':['hoa hướng dương','sunflower'],'🌸':['hoa anh đào','cherry blossom'],'🌷':['hoa tulip','tulip'],'🌳':['cái cây','tree'],'🍄':['cây nấm','mushroom'],'☀️':['mặt trời','sun'],'☁️':['đám mây','cloud'],'⛄':['người tuyết','snowman'],'❄️':['bông tuyết','snowflake'],'🌵':['cây xương rồng','cactus'],'🌊':['sóng biển','ocean wave']};
 var ANIMALS=['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳','🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥','🐠','🐟','🦈','🐡','🦭','🦑','🦞','🐚','🐋','🦋','🐞','🐝','🐛','🐌','🦗','🐜','🕷️','🕸️','🐉','🦖'];
 function stkName(x){
@@ -2019,13 +2088,13 @@ function numOpt(k,withName){
   return {label:String(k),say:sp(NUM_VI[k],NUM_EN[k]),
     html:'<span class="digit">'+k+'</span>'+(withName?'<span class="nm">'+NUM_VI[k]+'<i>'+NUM_EN[k]+'</i></span>':'')};
 }
-function emoOpt(e,vi,en){return {label:vi,say:sp(vi,en),html:'<span class="emo">'+e+'</span><span class="nm">'+vi+'<i>'+en+'</i></span>'}}
+function emoOpt(e,vi,en){var ref=(typeof e==='object'&&e)?e:{e:e,en:en};return {label:vi,say:sp(vi,en),html:thingOptionHTML(ref,vi,en)}}
 
 /* ---------- 1. NUMBERS ---------- */
 function numberRound(forceCar){
   var maxN=S.level===1?5:10,n=1+rand(maxN),useCar=forceCar||rand(100)<40,o,html;
   if(useCar){var id=pick(CAR_W);o={vi:'chú xe',s:'car',p:'cars'};html=carSVG(id)}
-  else{o=pick(rand(100)<60?OBJS_VEH:OBJS_OTHER);html=o.e}
+  else{o=pick(rand(100)<60?OBJS_VEH:OBJS_OTHER);html=itemCountHTML(o)}
   var set=[n],tries=0;
   while(set.length<nopt()&&tries++<100){var k=Math.max(1,Math.min(maxN,n+rand(7)-3));if(set.indexOf(k)<0)set.push(k)}
   set=shuffle(set);
@@ -2040,7 +2109,7 @@ function vehCountRound(){return numberRound(true)}
 function giveRound(){
   var maxN=S.level===1?3:(S.level===2?6:9);
   var n=1+rand(maxN),o=pick(OBJS_ALL),total=Math.min(12,n+2+rand(3)),items='';
-  for(var i=0;i<total;i++)items+='<button class="item pick" aria-label="Chọn">'+o.e+'</button>';
+  for(var i=0;i<total;i++)items+='<button class="item pick" aria-label="Chọn">'+itemCountHTML(o)+'</button>';
   return {type:'give',key:'give:'+n+o.e,
     vi:'Bé lấy '+NUM_VI[n]+' '+o.vi+' nhé!',en:'Take '+n+' '+(n===1?o.s:o.p)+'!',
     visual:'<div class="items">'+items+'</div><div class="hint">Chạm để chọn, chạm lại để bỏ ra · Tap to pick</div>',
@@ -2306,7 +2375,7 @@ function letInitRound(){
   var set=distinctWith(letters,w.L,nopt(),function(x){return x}),chars=Array.from(w.w);
   return {type:'letinit',key:'init:'+w.w,
     vi:(w.w.indexOf(' ')>=0?'Từ':'Tiếng')+' “'+w.w+'” bắt đầu bằng chữ gì?',en:'What letter does “'+w.en+'” start with?',
-    visual:'<div class="bigemoji">'+w.e+'</div><div class="word"><span class="blank">'+chars[0]+'</span>'+chars.slice(1).join('')+'</div><div class="enw">'+w.en+'</div>',
+    visual:bigThing(w)+'<div class="word"><span class="blank">'+chars[0]+'</span>'+chars.slice(1).join('')+'</div><div class="enw">'+w.en+'</div>',
     opts:set.map(function(x){return letOpt(x,false)}),correct:set.indexOf(w.L),
     win:{vi:cap(w.w)+' bắt đầu bằng chữ '+LN[w.L]+'.',en:'That is the right letter!'}};
 }
@@ -2323,7 +2392,7 @@ function letCaseRound(){
 }
 
 /* ---------- 6. ANIMALS ---------- */
-function aniOpt(a){return emoOpt(a.e,a.vi,a.en)}
+function aniOpt(a){return emoOpt(a,a.vi,a.en)}
 function aniNameRound(){
   var a=pick(ANI),set=distinctWith(ANI,a,nopt(),function(x){return x.e});
   return {type:'aniname',key:'aniname:'+a.e,
@@ -2436,7 +2505,7 @@ function emoSitRound(){
   var s=pick(SITS),f=EMO.filter(function(x){return x.en===s.a})[0],pool=EMO.filter(function(x){return x===f||(s.x||[]).indexOf(x.en)<0}),set=distinctWith(pool,f,nopt(),function(x){return x.e});
   return {type:'emosit',key:'emosit:'+s.a,
     vi:s.vi+' Bé thấy thế nào?',en:s.en+' How do you feel?',
-    visual:'<div class="bigemoji">'+s.h+'</div>',
+    visual:bigThing({e:s.h,iconClass:'visualicon'},'', ''),
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(f),
     win:{vi:'Bé cảm thấy '+f.vi+'.',en:'You feel '+f.en+'.'}};
 }
@@ -2478,8 +2547,8 @@ function engPool(){
   if(L>=3){add(ENGX.action);add(EMO.map(mk))}
   return out;
 }
-function engPic(w){return w.cid?carSVG(w.cid):'<span class="emo">'+w.e+'</span>'}
-function engBig(w){return w.cid?'<div class="target">'+carSVG(w.cid)+'</div>':'<div class="bigemoji">'+w.e+'</div>'}
+function engPic(w){return w.cid?carSVG(w.cid):(hasPhoto(w)?'<span class="phwrap"><span class="phbox">'+photoHTML(w,'ph')+'</span></span>':'<span class="emo">'+w.e+'</span>')}
+function engBig(w){return w.cid?'<div class="target">'+carSVG(w.cid)+'</div>':bigThing(w)}
 function engSay(en,vi){return vi?[[en,'en',true],[vi,'vi']]:[[en,'en',true]]}
 function engWordOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:'<span class="engw">'+w.en+'</span><span class="engv">'+w.vi+'</span>'}}
 function engPicOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:engPic(w)}}
@@ -2677,7 +2746,7 @@ function objRoomRound(){
   var o=pick(OBJ.filter(function(x){return ['door','window','chair','table','light','broom','spoon','bowl','mirror'].indexOf(x.en)<0})),r=ROOM.filter(function(x){return x.id===o.room})[0],set=distinctWith(ROOM,r,nopt(),function(x){return x.id});
   return {type:'objroom',key:'objroom:'+o.en,
     vi:cap(o.vi)+' thường ở phòng nào?',en:'Which room is the '+o.en+' usually in?',
-    visual:'<div class="bigemoji">'+o.e+'</div>',
+    visual:bigThing(o),
     opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(r),
     win:{vi:cap(o.vi)+' thường ở '+r.vi+'.',en:'The '+o.en+' is usually in the '+r.en+'.'}};
 }
@@ -2734,8 +2803,8 @@ function proToolRound(){
   var p=pick(PRO),set=distinctWith(PRO,p,nopt(),function(x){return x.tool});
   return {type:'protool',key:'protool:'+p.en,
     vi:cap(p.vi)+' cần dùng gì?',en:'What does '+enA(p.en)+' use?',
-    visual:'<div class="bigemoji">'+p.e+'</div>',
-    opts:set.map(function(x){return emoOpt(x.tool,x.tvi,x.ten)}),correct:set.indexOf(p),
+    visual:bigThing(p),
+    opts:set.map(function(x){return emoOpt(typeof x.tool==='object'?x.tool:{e:x.tool,en:x.ten},x.tvi,x.ten)}),correct:set.indexOf(p),
     win:{vi:cap(p.vi)+' dùng '+p.tvi+'.',en:enCap(enA(p.en))+' uses '+enA(p.ten)+'.'}};
 }
 /* ---- Ảnh ô tô thật: thư mục cars/ (danh sách tự tạo trong cars/cars.json) ---- */
@@ -3509,7 +3578,9 @@ function citySVG(night){
   return s+'</svg>';
 }
 
-function glyphHTML(g){
+var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
+function glyphHTML(g,id){
+  if(PREMIUM_TOPICS[id])return photoHTML(PREMIUM_TOPICS[id],'topic-art');
   if(g==='@car')return carSVG('pu');
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;
@@ -3541,7 +3612,7 @@ function showHome(){pfsExit();
   setProgress(0,0);syncControls();
   function tile(t){
     var lk=(t.id==='drive'&&!driveOpen());
-    return '<button class="tile'+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span></button>';
+    return '<button class="tile'+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span></button>';
   }
   /* chia chủ đề thành nhóm để ba mẹ và bé dễ tìm; chủ đề chưa xếp nhóm vẫn hiện ở nhóm cuối */
   var used={},tiles=TOPIC_GROUPS.map(function(g,i){

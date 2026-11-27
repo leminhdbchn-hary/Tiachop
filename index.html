@@ -1199,6 +1199,12 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .k-feature-tile.k-art:nth-child(even) .glyph img.k-char{animation-delay:-1.7s}
 @keyframes kbob{50%{transform:translateY(-3%) scale(1.025)}}
 @media (prefers-reduced-motion:reduce){.k-feature-tile.k-art .glyph img.k-char{animation:none}}
+.home .tile.k-small.k-art-s{background:linear-gradient(180deg,rgba(255,255,255,0) 40%,rgba(20,30,80,.28)),var(--kbg) center/cover no-repeat,#8cc9f5;border:3px solid #fff;box-shadow:0 5px 0 color-mix(in srgb,var(--cd) 55%,white),0 10px 20px #24305d33;min-height:clamp(150px,38vw,230px)}
+.home .tile.k-small.k-art-s .topic-art{background:rgba(255,255,255,.88);box-shadow:0 6px 14px #1d2a6a55}
+.home .tile.k-small.k-art-s .glyph{filter:drop-shadow(0 4px 3px #1d2a6a44)}
+.home .tile.k-small.k-art-s .tlabel{background:linear-gradient(color-mix(in srgb,var(--cd) 70%,white),var(--cd));border:1px solid #fff9;border-radius:999px;box-shadow:0 3px 0 #34446e66;padding:3px 10px}
+.home .tile.k-small.k-art-s .tlabel b{color:#fff;text-shadow:0 2px 0 #253c6877}
+.home .tile.k-small.k-art-s .tlabel i{color:#fff;opacity:.95}
 /* Ban đêm: vẫn giữ khung nội dung sáng, chữ đậm màu để không bị mất chữ */
 :root[data-theme="dark"],:root:not([data-theme="light"]){--bgtext:#20304F}
 :root[data-theme="dark"] main,:root:not([data-theme="light"]) main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);color:var(--ink);border:2px solid #f4f4ff}
@@ -3761,6 +3767,8 @@ var KART={
  emo:{bg:kUrl('1795776874','anh_nen_cau_vong',640),ch:kUrl('1795775352','cam_xuc',560)},
  eng:{bg:kUrl('1795774142','35d44aa4-a63d-4d08-a5a2-9714a029b7a1',640),ch:kUrl('1795777179','dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',560),pos:'12% 80%',size:'165%'}
 };
+var KBGS={road:kUrl('1795774144','22736ac2-c340-47cb-b6f2-e14540610a08',480),meadow:kUrl('1795774142','35d44aa4-a63d-4d08-a5a2-9714a029b7a1',480),rainbow:kUrl('1795774142','b97400b9-7f66-44bf-8875-66b24729b1f9',480),pink:kUrl('1795776874','anh_nen_cau_vong',480),podium:kUrl('1795774145','ac624a48-28dd-4ec7-863e-61d711dd7d24',480)};
+var KSMALL={drive:'road',veh:'road',job:'road',obj:'pink',room:'pink',school:'meadow',ani:'meadow',food:'meadow',body:'meadow',paint:'rainbow',col:'rainbow',song:'rainbow',trace:'rainbow',emo:'pink',let:'pink',spell:'pink',abc:'pink',eng:'meadow',num:'podium',cmp:'podium',mat:'podium',think:'podium',diff:'podium',mix:'rainbow'};
 var KLAB={veh:['Xe cộ','Vehicles','#3a86e8'],ani:['Con vật','Animals','#3db04d'],col:['Màu sắc','Colors','#8a4be0'],num:['Đếm số','Numbers','#f2791f'],emo:['Cảm xúc','Feelings','#e5457f'],eng:['Tiếng Anh','English','#2f6fd6']};
 var KLOGO=KCDN+'f_auto,q_auto,w_800/v1795777822/Anh_vuong_quoc_xe_co.png';
 var KBLIMP=KCDN+'f_auto,q_auto,w_360/v1795778591/a37cf95c-0f50-417b-81cd-de60fb122918.png';
@@ -3770,6 +3778,10 @@ function kArtLoad(){
   var bl=view.querySelector('.home .k-blimp');if(bl&&hero){bl.onload=function(){if(document.body.contains(hero))bl.hidden=false};bl.src=KBLIMP}
   var lg=view.querySelector('.home .k-logo');if(lg&&hero){lg.onload=function(){if(!document.body.contains(hero))return;lg.alt=(S.lang==='en'?'Lightning – Car Kingdom':'Tia Chớp – Vương Quốc Xe Cộ');lg.hidden=false;hero.classList.add('k-logo-art')};lg.src=KLOGO}
   if(hero){var hi=new Image();hi.onload=function(){if(!document.body.contains(hero))return;hero.style.setProperty('--hbg','url("'+KHERO+'")');hero.classList.add('k-hero-art')};hi.src=KHERO}
+  [].forEach.call(view.querySelectorAll('.tile.k-small'),function(el){
+    var u=KBGS[KSMALL[el.getAttribute('data-mode')]||'meadow'],im=new Image();
+    im.onload=function(){if(!document.body.contains(el))return;el.style.setProperty('--kbg','url("'+u+'")');el.classList.add('k-art-s')};im.src=u;
+  });
   [].forEach.call(view.querySelectorAll('.k-feature-tile'),function(el){
     var m=el.getAttribute('data-mode');
     var a=KART[m];if(!a)return;
@@ -3807,7 +3819,7 @@ function showHome(){pfsExit();
   setProgress(0,0);syncControls();
   function tile(t,featured){
     var lk=(t.id==='drive'&&!driveOpen()),kl=featured&&KLAB[t.id];if(kl)t=Object.assign({},t,{vi:kl[0],en:kl[1],d:kl[2]});
-    return '<button class="tile'+(featured?' k-feature-tile':'')+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span>'+(featured?'<span class="k-play" aria-hidden="true">▶</span>':'')+'</button>';
+    return '<button class="tile'+(featured?' k-feature-tile':' k-small')+(lk?' locked':'')+'" data-mode="'+t.id+'" style="--c:'+t.c+';--cd:'+t.d+'">'+(lk?'<span class="lockb">🔒 '+qCount()+'/'+NEEDQ+'</span>':'')+'<span class="glyph">'+glyphHTML(t.glyph,t.id)+'</span><span class="tlabel"><b>'+t.vi+'</b><i>'+t.en+'</i></span>'+(featured?'<span class="k-play" aria-hidden="true">▶</span>':'')+'</button>';
   }
   /* chia chủ đề thành nhóm để ba mẹ và bé dễ tìm; chủ đề chưa xếp nhóm vẫn hiện ở nhóm cuối */
   var featuredIds=['veh','ani','col','num','emo','eng'],featured=featuredIds.map(function(id){return TOPICS.filter(function(t){return t.id===id})[0]}).filter(Boolean),used={},tiles=TOPIC_GROUPS.map(function(g,i){

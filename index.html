@@ -1154,29 +1154,33 @@ function numEN(n){
 /* Real photo lookup: use bundled photos/ assets whenever available */
 var PHOTO_IDX={"dog":"dog.jpg","cat":"cat.jpg","cow":"cow.jpg","chicken":"chicken.jpg","duck":"duck.jpg","pig":"pig.jpg","frog":"frog.jpg","sheep":"sheep.jpg","horse":"horse.jpg","bee":"bee.jpg","bird":"bird.jpg","lion":"lion.jpg","elephant":"elephant.jpg","rabbit":"rabbit.jpg","butterfly":"butterfly.jpg","fish":"fish.jpg","dolphin":"dolphin.jpg","whale":"whale.jpg","eagle":"eagle.jpg","tiger":"tiger.jpg","monkey":"monkey.jpg","turtle":"turtle.jpg","apple":"apple.jpg","banana":"banana.jpg","orange":"orange.jpg","grapes":"grapes.jpg","strawberry":"strawberry.jpg","watermelon":"watermelon.jpg","pineapple":"pineapple.jpg","mango":"mango.jpg","pear":"pear.jpg","peach":"peach.jpg","lemon":"lemon.jpg","carrot":"carrot.jpg","corn":"corn.jpg","tomato":"tomato.jpg","broccoli":"broccoli.jpg","bed":"bed.jpg","chair":"chair.jpg","table":"table.jpg","door":"door.jpg","window":"window.jpg","sofa":"sofa.jpg","TV":"tv.jpg","light":"light.jpg","mirror":"mirror.jpg","toilet":"toilet.jpg","bathtub":"bathtub.jpg","shower":"shower.jpg","toothbrush":"toothbrush.jpg","soap":"soap.jpg","fridge":"fridge.jpg","pan":"pan.jpg","bowl":"bowl.jpg","spoon":"spoon.jpg","wardrobe":"wardrobe.jpg","broom":"broom.jpg","book":"book.jpg","pencil":"pencil.jpg","crayon":"crayon.jpg","school bag":"school_bag.jpg","ruler":"ruler.jpg","scissors":"scissors.jpg","notebook":"notebook.jpg","bell":"bell.jpg","school":"school.jpg","teacher":"teacher.jpg","board":"board.jpg","doctor":"doctor.jpg","firefighter":"firefighter.jpg","police officer":"police_officer.jpg","chef":"chef.jpg","farmer":"farmer.jpg","pilot":"pilot.jpg","mechanic":"mechanic.jpg","artist":"artist.jpg","builder":"builder.jpg","astronaut":"astronaut.jpg","driver":"driver.jpg","bedroom":"bedroom.jpg","kitchen":"kitchen.jpg","bathroom":"bathroom.jpg","living room":"living_room.jpg","dining room":"dining_room.jpg","garden":"garden.jpg","car":"car.jpg","bus":"bus.jpg","police car":"police_car.jpg","fire truck":"fire_truck.jpg","taxi":"taxi.jpg","tractor":"tractor.jpg","race car":"race_car.jpg","train":"train.jpg","airplane":"airplane.jpg","boat":"boat.jpg","bike":"bike.jpg","helicopter":"helicopter.jpg","rocket":"rocket.jpg","truck":"truck.jpg","ball":"ball.jpg","teddy bear":"teddy_bear.jpg","bag":"bag.jpg","key":"key.jpg","umbrella":"umbrella.jpg","clock":"clock.jpg","hat":"hat.jpg","shoe":"shoe.jpg","socks":"socks.jpg","shirt":"shirt.jpg","glasses":"glasses.jpg","gift":"gift.jpg","bread":"bread.jpg","egg":"egg.jpg","cake":"cake.jpg","cookie":"cookie.jpg","milk":"milk.jpg","house":"house.jpg","sun":"sun.jpg","moon":"moon.jpg","cloud":"cloud.jpg","rain":"rain.jpg","rainbow":"rainbow.jpg","tree":"tree.jpg","flower":"flower.jpg","snow":"snow.jpg","mountain":"mountain.jpg","happy":"happy.png","sad":"sad.png","angry":"angry.png","sleepy":"sleepy.png","scared":"scared.png","loved":"loved.png","surprised":"surprised.png","neutral":"neutral.png","eyes":"eyes.png","ear":"ear.png","nose":"nose.png","mouth":"mouth.png","hand":"hand.png","foot":"foot.png","tongue":"tongue.png","face":"face.png"};
 var PHOTO_ALIAS={tv:'TV',light:'light','light bulb':'light','school bag':'school bag','police':'police officer','policeman':'police officer','policewoman':'police officer','fireman':'firefighter','bus driver':'driver','living':'living room','dining':'dining room','bicycle':'bike','sailboat':'boat','gift box':'gift'};
+/* Semantic review: only visually approved artwork can enter a learning question. */
+var PREMIUM_ANIMALS=["dog","cat","cow","chicken","duck","pig","frog","sheep","horse","bee","bird","lion","elephant","rabbit","butterfly","fish"];
+var REVIEWED_PHOTOS=["dolphin","whale","eagle","tiger","monkey","turtle","strawberry","scissors","board","toilet","bathtub","toothbrush","broom","train","helicopter","teddy bear","ball","key","shoe","sun","tree","house","happy","sad","angry","sleepy","scared","loved","surprised","neutral","eyes","ear","nose","mouth","hand","foot","tongue","face"];
 function photoKey(v){
   if(!v)return '';
-  if(typeof v==='string'){
-    var k=String(v).trim();
-    if(PHOTO_IDX[k])return k;
-    var lk=k.toLowerCase();
-    return (PHOTO_ALIAS[lk]&&PHOTO_IDX[PHOTO_ALIAS[lk]])?PHOTO_ALIAS[lk]:(PHOTO_IDX[lk]?lk:'');
-  }
-  if(v.photoKey&&PHOTO_IDX[v.photoKey])return v.photoKey;
-  var cands=[v.en,v.s,v.ten,v.toolEn,v.name];
-  for(var i=0;i<cands.length;i++){
-    var c=cands[i]; if(!c) continue;
-    if(PHOTO_IDX[c]) return c;
-    var lc=String(c).toLowerCase();
-    if(PHOTO_IDX[lc]) return lc;
-    if(PHOTO_ALIAS[lc]&&PHOTO_IDX[PHOTO_ALIAS[lc]]) return PHOTO_ALIAS[lc];
-  }
+  var key=typeof v==='string'?v:(v.en||v.s||v.photoKey||'');
+  key=String(key).trim().toLowerCase();
+  return key;
+}
+function photoSrc(v){
+  var k=photoKey(v);
+  if(PREMIUM_ANIMALS.indexOf(k)>=0)return 'assets/premium/'+k+'.webp';
+  if(REVIEWED_PHOTOS.indexOf(k)>=0&&PHOTO_IDX[k])return 'photos/'+PHOTO_IDX[k];
   return '';
 }
-var PREMIUM_ANIMALS=["dog", "cat", "cow", "chicken", "duck", "pig", "frog", "sheep", "horse", "bee", "bird", "lion", "elephant", "rabbit", "butterfly", "fish"];
-function photoSrc(v){var k=photoKey(v);var vehicleArt={'fire truck':'img/car-fire.webp','race car':'img/car-race.webp'};if(vehicleArt[k])return vehicleArt[k];return PREMIUM_ANIMALS.indexOf(k)>=0?'assets/premium/'+k+'.webp':(k&&PHOTO_IDX[k]?'photos/'+PHOTO_IDX[k]:'')}
 function hasPhoto(v){return !!photoSrc(v)}
-function photoHTML(v,cls){var src=photoSrc(v);return src?'<img class="'+(cls||'ph')+'" src="'+src+'" alt="" draggable="false">':''}
+function photoHTML(v,cls){
+  var src=photoSrc(v);if(!src)return '';
+  var fallback=typeof v==='object'&&v.e?v.e:'';
+  if(typeof fallback!=='string'||fallback.indexOf('<')>=0)fallback='';
+  var safe=fallback.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  return '<img class="'+(cls||'ph')+'" src="'+src+'" alt="" draggable="false" data-fallback="'+safe+'" onerror="reviewedPhotoFallback(this)">';
+}
+function reviewedPhotoFallback(el){
+  var span=document.createElement('span');span.className='emo';span.textContent=el.getAttribute('data-fallback')||'';
+  el.replaceWith(span);
+}
 function thingOptionHTML(v,vi,en){
   var p=photoHTML(v,'ph');
   if(p)return '<span class="phwrap"><span class="phbox">'+p+'</span><span class="nm">'+vi+'<i>'+en+'</i></span></span>';
@@ -1187,7 +1191,7 @@ function bigThing(v,vi,en){
   if(p)return '<div class="bigthing"><span class="phbox big">'+p+'</span>'+(vi?'<span class="nm">'+vi+(en?'<i>'+en+'</i>':'')+'</span>':'')+'</div>';
   return '<div class="bigemoji'+((v&&v.iconClass)?' '+v.iconClass:'')+'">'+(v&&v.e?v.e:v)+'</div>'+(vi?'<div class="enw">'+vi+(en?'<br>'+en:'')+'</div>':'');
 }
-function itemCountHTML(v){var p=photoHTML(v,'ph');return p?'<span class="itemphoto">'+p+'</span>':(v&&v.e?v.e:v)}
+function itemCountHTML(v){return v&&v.e?v.e:v}
 
 /* Things to count / pick (vehicles first: the child loves cars) */
 var OBJS_VEH=[
@@ -2455,7 +2459,7 @@ function premiumCarHTML(id){
 }
 function carOpt(id,byColor,classic){
   var c=CARS[id];
-  return {label:byColor?c.cvi:c.vi,say:byColor?sp('màu '+c.cvi,c.cen):sp(c.vi,c.en),html:classic?carSVG(id):premiumCarHTML(id)};
+  return {label:byColor?c.cvi:c.vi,say:byColor?sp('màu '+c.cvi,c.cen):sp(c.vi,c.en),html:carSVG(id)};
 }
 function vehNameRound(){
   var a=pick(CAR_TEACH_W),c=CARS[a],set=distinctWith(CAR_TEACH_W,a,nopt(),function(x){return CARS[x].vi});
@@ -2520,7 +2524,7 @@ function foodColorRound(){
   set=shuffle(set);var col=FCOL[f.c];
   return {type:'foodcolor',key:'foodcol:'+f.e,
     vi:'Cái nào màu '+col.vi+'?',en:'Which one is '+col.en+'?',visual:'',
-    opts:set.map(function(x){return emoOpt(x.e,x.vi,x.en)}),correct:set.indexOf(f),
+    opts:set.map(function(x){return {label:x.vi,say:sp(x.vi,x.en),html:'<span class="emo">'+x.e+'</span><span class="nm">'+x.vi+'<i>'+x.en+'</i></span>'}}),correct:set.indexOf(f),
     win:{vi:cap(f.vi)+' màu '+col.vi+'.',en:'The '+f.en+enIs(f.en)+col.en+'.'}};
 }
 
@@ -2578,8 +2582,8 @@ function engPool(){
   if(L>=3){add(ENGX.action);add(EMO.map(mk))}
   return out;
 }
-function engPic(w){return w.cid?premiumCarHTML(w.cid):(hasPhoto(w)?'<span class="phwrap"><span class="phbox">'+photoHTML(w,'ph')+'</span></span>':'<span class="emo">'+w.e+'</span>')}
-function engBig(w){return w.cid?'<div class="target">'+premiumCarHTML(w.cid)+'</div>':bigThing(w)}
+function engPic(w){return w.cid?carSVG(w.cid):(hasPhoto(w)?'<span class="phwrap"><span class="phbox">'+photoHTML(w,'ph')+'</span></span>':'<span class="emo">'+w.e+'</span>')}
+function engBig(w){return w.cid?'<div class="target">'+carSVG(w.cid)+'</div>':bigThing(w)}
 function engSay(en,vi){return vi?[[en,'en',true],[vi,'vi']]:[[en,'en',true]]}
 function engWordOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:'<span class="engw">'+w.en+'</span><span class="engv">'+w.vi+'</span>'}}
 function engPicOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:engPic(w)}}
@@ -3611,8 +3615,8 @@ function citySVG(night){
 
 var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
 function glyphHTML(g,id){
-  if(id==='veh')return premiumCarHTML('pu');
-  if(PREMIUM_TOPICS[id])return photoHTML(PREMIUM_TOPICS[id],'topic-art');
+  if(id==='veh')return carSVG('pu');
+  if(PREMIUM_TOPICS[id]){var art=photoHTML({en:PREMIUM_TOPICS[id],e:g},'topic-art');if(art)return art;}
   if(g==='@car')return carSVG('pu');
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');
   return g;

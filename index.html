@@ -1199,6 +1199,10 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .k-feature-tile.k-art:nth-child(even) .glyph img.k-char{animation-delay:-1.7s}
 @keyframes kbob{50%{transform:translateY(-3%) scale(1.025)}}
 @media (prefers-reduced-motion:reduce){.k-feature-tile.k-art .glyph img.k-char{animation:none}}
+/* Ban đêm: vẫn giữ khung nội dung sáng, chữ đậm màu để không bị mất chữ */
+:root[data-theme="dark"],:root:not([data-theme="light"]){--bgtext:#20304F}
+:root[data-theme="dark"] main,:root:not([data-theme="light"]) main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);color:var(--ink);border:2px solid #f4f4ff}
+:root[data-theme="dark"] .stage .opt,:root[data-theme="dark"] .stage .opt *{color:var(--ink)}
 @media(min-width:850px){.home .tiles.k-feature{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.home .hero{min-height:230px;padding:8px;gap:4px}.home .sign{padding:0}.home .mascot>.rk,.home .mascot>svg{max-height:125px}.home .mascot .bubble2{font-size:12px;padding:6px}.home .tile.k-feature-tile{border-width:3px;border-radius:18px}.k-feature-tile .tlabel{top:5px;left:5px;padding:3px 9px}.k-feature-tile .tlabel b{font-size:clamp(14px,4vw,23px)}.k-feature-tile .tlabel i{font-size:10px}.k-brand{white-space:normal}.k-stars{padding:4px 8px}}
 @media(orientation:landscape) and (max-height:520px){.home .hero{min-height:200px}.home .st1{font-size:50px}.home .mascot>.rk,.home .mascot>svg{max-height:100px}}
@@ -3786,7 +3790,7 @@ function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()
 /* Ban ngày Harry đứng ở màn hình chính. Buổi tối (18h–6h) Harry và Storm thay phiên nhau mỗi 5 phút */
 function mascotWho(){return isNight()&&Math.floor(Date.now()/300000)%2===1?'storm':'chop'}
 function mascotHTML(){
-  var who=mascotWho(),nm=who==='storm'?'Storm':'Harry';
+  var who=mascotWho(),nm=who==='storm'?'Storm':'McQueen';
   return (S.mday===todayStr()?'<div class="bubble2 mission done">✅ '+nm+': xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
     :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ '+nm+' nhờ bé: '+todayMission()[1]+'<small>'+nm+' asks you to '+todayMission()[2]+'</small></button>')
     +(who==='storm'?'<img class="rk carimg" data-who="storm" src="img/car-storm.webp" alt="Storm" draggable="false">':'<img class="rk carimg" data-who="chop" src="img/car-mcqueen.webp" alt="McQueen" draggable="false">');
@@ -3918,9 +3922,9 @@ function countStickers(){
 
 function totalFor(mode){var base=[0,5,6,8][S.level];return mode==='mix'?base+3:base}
 /* chạm vào Harry ở trang chủ: Harry nhảy lên và chào bé */
-var RK_HI=[[['Xin chào bé! Mình là Harry Tia Chớp.','vi'],['Hello! I am Harry.','en']],
-  [['Xe màu đỏ là bạn Harry. Vút vút!','vi'],['Harry is red. Honk honk!','en']],
-  [['Mình là Harry Tia Chớp! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Harry! I have a mission for you today!','en']]];
+var RK_HI=[[['Xin chào bé! Mình là McQueen.','vi'],['Hello! I am McQueen.','en']],
+  [['Xe màu đỏ là bạn McQueen. Ka chao!','vi'],['McQueen is red. Honk honk!','en']],
+  [['Mình là McQueen! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am McQueen! I have a mission for you today!','en']]];
 var STORM_HI=[[['Xin chào bé! Mình là Storm, siêu xe đen.','vi'],['Hello! I am Storm, the black super car.','en']],
   [['Xe màu đen xanh là bạn Storm. Vù vù!','vi'],['Storm is black and blue. Vroom vroom!','en']],
   [['Mình là Storm! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Storm! I have a mission for you today!','en']]];
@@ -4114,7 +4118,7 @@ function showEnd(){
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
     +'<p class="cname">'+(en1?gotEn:gotVi+(both?' · '+gotEn:''))+'</p>'
-    +(missionNow?'<p class="mdone">🎉 '+(en1?'Harry’s mission complete! +3 stars':'Xong nhiệm vụ của Harry! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
+    +(missionNow?'<p class="mdone">🎉 '+(en1?'McQueen’s mission complete! +3 stars':'Xong nhiệm vụ của McQueen! +3 sao'+(both?' · Mission complete! +3 stars':''))+'</p>':'')
     +(qNow?'<p class="mdone">🔓 '+(en1?'3D driving is open!':'Bé đã mở khoá lái xe 3D!'+(both?' · 3D driving is open!':''))+'</p>'
       :(driveOpen()?'':'<p class="qline">🚗 '+(en1?'Missions today: ':'Nhiệm vụ hôm nay: ')+qCount()+'/'+NEEDQ+(both?' · Unlock 3D driving':'')+'</p>'))
     +'<div class="endbtns">'+btns+'</div></div></section>';

@@ -1253,7 +1253,7 @@ var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').mat
 /* ---------- State (saved on this device only) ---------- */
 var S={adj:{},hist:{},sound:true,lang:'both',level:2,stars:0,stickers:[],mode:null,round:0,total:5,cur:null,locked:false,
        timer:null,count:0,sel:0,lastTopic:null,car:'bim',used:{}};
-var KPIN=['car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo'];/* sticker nhân vật mở sẵn (không vào vòng đổi xe ở màn hình đầu) */
+var KPIN=['car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo','car:claude','car:dale','car:johnny','car:mario','car:michael','car:tex'];/* sticker nhân vật mở sẵn (không vào vòng đổi xe ở màn hình đầu) */
 function load(){
   try{
     var d=JSON.parse(localStorage.getItem('behuihoc')||'{}');
@@ -1261,7 +1261,7 @@ function load(){
     S.level=(d.level>=1&&d.level<=3)?d.level:2;
     S.pin=/^\d{4}$/.test(String(d.pin||''))?String(d.pin):'';S.qday=d.qday||'';S.qn=d.qn||0;S.plays=Math.max(0,Math.min(99,+d.plays||0));S.limMin=[0,15,20,30,45,60].indexOf(d.limMin)>=0?d.limMin:30;S.tday=d.tday||'';S.tsec=Math.max(0,+d.tsec||0);S.tgrant=Math.max(0,+d.tgrant||0);S.adj=(d.adj&&typeof d.adj==='object')?d.adj:{};S.hist=(d.hist&&typeof d.hist==='object')?d.hist:{};
   }catch(e){}
-  S.stickers=['car:mcqueen','car:jackson','car:mater','car:chick','car:hudson','car:cruz','car:sheriff','car:fritter','car:flo','car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo','car:chop','car:francesco','car:storm'].concat(S.stickers.filter(function(x){return KPIN.indexOf(x)<0&&x!=='car:flo'&&x!=='car:mcqueen'&&x!=='car:jackson'&&x!=='car:mater'&&x!=='car:chick'&&x!=='car:hudson'&&x!=='car:cruz'&&x!=='car:sheriff'&&x!=='car:fritter'&&x!=='car:chop'&&x!=='car:francesco'&&x!=='car:storm'}));/* Harry, Francesco, Storm luôn có sẵn ở ô 1, 2, 3 */
+  S.stickers=['car:mcqueen','car:jackson','car:mater','car:chick','car:hudson','car:cruz','car:sheriff','car:fritter','car:flo','car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo','car:claude','car:dale','car:johnny','car:mario','car:michael','car:tex','car:chop','car:francesco','car:storm'].concat(S.stickers.filter(function(x){return KPIN.indexOf(x)<0&&x!=='car:flo'&&x!=='car:mcqueen'&&x!=='car:jackson'&&x!=='car:mater'&&x!=='car:chick'&&x!=='car:hudson'&&x!=='car:cruz'&&x!=='car:sheriff'&&x!=='car:fritter'&&x!=='car:chop'&&x!=='car:francesco'&&x!=='car:storm'}));/* Harry, Francesco, Storm luôn có sẵn ở ô 1, 2, 3 */
 }
 function save(){
   try{localStorage.setItem('behuihoc',JSON.stringify({stars:S.stars,stickers:S.stickers,mday:S.mday,mtotal:S.mtotal,sound:S.sound,lang:S.lang,level:S.level,pin:S.pin||'',qday:S.qday||'',qn:S.qn||0,plays:S.plays||0,limMin:S.limMin,tday:S.tday||'',tsec:S.tsec||0,tgrant:S.tgrant||0,adj:S.adj||{},hist:S.hist||{}}))}catch(e){}
@@ -1510,7 +1510,13 @@ var CARS={
  darrell:{name:'Darrell Cartrip',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'nhiều màu',cen:'colorful',vi:'xe bình luận viên vui vẻ',en:'fun announcer car',honk:'Bíp bíp!',special:true,img:'img/car-darrell.webp',iw:720,ih:348},
  dj:{name:'DJ',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'xanh dương',cen:'blue',vi:'xe phát nhạc',en:'music car',honk:'Bùm bùm!',special:true,img:'img/car-dj.webp',iw:720,ih:520},
  boost:{name:'Boost',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'xám tím',cen:'gray and purple',vi:'xe độ tốc độ',en:'tuner car',honk:'Vèo vèo!',special:true,img:'img/car-boost.webp',iw:720,ih:361},
- wingo:{name:'Wingo',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'tím xanh lá',cen:'purple and green',vi:'xe có cánh gió cao',en:'car with a tall spoiler',honk:'Vèo vèo!',special:true,img:'img/car-wingo.webp',iw:617,ih:550}};
+ wingo:{name:'Wingo',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'tím xanh lá',cen:'purple and green',vi:'xe có cánh gió cao',en:'car with a tall spoiler',honk:'Vèo vèo!',special:true,img:'img/car-wingo.webp',iw:617,ih:550},
+ claude:{name:'Claude Scruggs',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'vàng đen',cen:'yellow and black',vi:'xe đua số 52',en:'race car number 52',honk:'Vù vù!',special:true,img:'img/car-claude.webp',iw:720,ih:281},
+ dale:{name:'Dale',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'đỏ',cen:'red',vi:'xe đua số 8',en:'race car number 8',honk:'Vù vù!',special:true,img:'img/car-dale.webp',iw:720,ih:317},
+ johnny:{name:'Johnny Blamer',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'vàng cam',cen:'yellow and orange',vi:'xe đua số 54',en:'race car number 54',honk:'Vù vù!',special:true,img:'img/car-johnny.webp',iw:720,ih:304},
+ mario:{name:'Mario Andretti',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'xanh rêu',cen:'teal',vi:'xe đua cổ số 11',en:'vintage race car number 11',honk:'Pốp pốp!',special:true,img:'img/car-mario.webp',iw:670,ih:295},
+ michael:{name:'Michael',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'đỏ',cen:'red',vi:'siêu xe đỏ',en:'red super car',honk:'Vèo vèo!',special:true,img:'img/car-michael.webp',iw:714,ih:336},
+ tex:{name:'Tex',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'vàng đồng',cen:'gold',vi:'xe cổ có sừng bò',en:'old car with horns',honk:'Bíp bíp!',special:true,img:'img/car-tex.webp',iw:720,ih:274}};
 var CARIDS=['bim','bon','tit','pu','ro','mit'];
 /* silhouette family: taxi and police look alike in shadow */
 var SIL={race:'race',taxi:'sedan',police:'sedan',fire:'fire',dump:'dump',conv:'conv'};
@@ -2039,7 +2045,7 @@ function heroSVG(id){
 }
 
 var SECTIONS=[
- {vi:'Xe ô tô',en:'Cars',items:['car:mcqueen','car:jackson','car:mater','car:chick','car:hudson','car:cruz','car:sheriff','car:fritter','car:flo','car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo','car:chop','car:francesco','car:storm'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim'])},
+ {vi:'Xe ô tô',en:'Cars',items:['car:mcqueen','car:jackson','car:mater','car:chick','car:hudson','car:cruz','car:sheriff','car:fritter','car:flo','car:sally','car:luigi','car:ramone','car:red','car:mack','car:king','car:fred','car:tractor','car:bob','car:darrell','car:dj','car:boost','car:wingo','car:claude','car:dale','car:johnny','car:mario','car:michael','car:tex','car:chop','car:francesco','car:storm'].concat(CARIDS.filter(function(c){return c!=='chop'}).map(function(c){return 'car:'+c})).concat(['car:kim'])},
  {vi:'Bạn siêu nhân',en:'Hero friends',items:Object.keys(HEROES).map(function(h){return 'hero:'+h})},
  {vi:'Thú vật',en:'Animals',items:['🦄','🐯','🐼','🦊','🐨','🐙','🐧','🦉','🐢','🦀','🐬','🐿️','🦁','🐘','🦒','🦓','🦘','🦔','🦩','🦜','🐊','🦥','🦦','🐺','🦕','🐳']},
  {vi:'Thú cưng và nông trại',en:'Pets and farm',items:['🐶','🐱','🐭','🐹','🐰','🐻','🐷','🐮','🐸','🐵','🐔','🐴','🐑','🦆','🐤','🐥']},
@@ -3789,7 +3795,7 @@ var KTILE={drive:'c:mcqueen',veh:'c:mater',num:'u:1795774141/8ca973e0-f529-4e0e-
  eng:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',abc:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',
  col:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',paint:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',
  ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',emo:'u:1795775352/cam_xuc',
- spell:'i:tile-spell',let:'i:tile-let',trace:'i:tile-trace',cmp:'i:tile-cmp',mat:'i:tile-mat',mix:'i:tile-mix',song:'i:tile-song',think:'i:tile-think',body:'i:tile-body',diff:'i:tile-diff'};/* chỉ những ô mà tranh xe hợp chủ đề; ô khác giữ hình gốc (bút chì, sách nhạc, kính lúp...) */
+ spell:'i:tile-spell',let:'i:tile-let',trace:'i:tile-trace',cmp:'i:tile-cmp',mat:'i:tile-mat',mix:'i:tile-mix',song:'i:tile-song',think:'i:tile-think',body:'i:tile-body',diff:'i:tile-diff',job:'i:tile-job',food:'i:tile-food',room:'i:tile-room',school:'i:tile-school',obj:'i:tile-obj'};/* chỉ những ô mà tranh xe hợp chủ đề; ô khác giữ hình gốc (bút chì, sách nhạc, kính lúp...) */
 function tileArtHTML(id){
   var k=KTILE[id];if(!k)return '';
   if(k.indexOf('i:')===0)return '<img class="rk carimg kingdom-car charcar" src="img/'+k.slice(2)+'.webp" alt="" draggable="false">';

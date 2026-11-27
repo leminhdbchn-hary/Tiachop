@@ -3788,9 +3788,11 @@ var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy
 var KTILE={drive:'c:mcqueen',veh:'c:mater',num:'u:1795774141/8ca973e0-f529-4e0e-bbe6-f55d7a3477f1',
  eng:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',abc:'u:1795777179/dda6acc0-84c4-4c8d-b5b6-8d6b930d9034',
  col:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',paint:'u:1795774141/4a7ade8c-4c3b-417f-a6f5-d8246cef20ff',
- ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',emo:'u:1795775352/cam_xuc'};/* chỉ những ô mà tranh xe hợp chủ đề; ô khác giữ hình gốc (bút chì, sách nhạc, kính lúp...) */
+ ani:'u:1795774141/9fc95233-6a6c-448d-9fb4-d2d07ff5812a',emo:'u:1795775352/cam_xuc',
+ spell:'i:tile-spell',let:'i:tile-let',trace:'i:tile-trace',cmp:'i:tile-cmp',mat:'i:tile-mat',mix:'i:tile-mix',song:'i:tile-song',think:'i:tile-think',body:'i:tile-body',diff:'i:tile-diff'};/* chỉ những ô mà tranh xe hợp chủ đề; ô khác giữ hình gốc (bút chì, sách nhạc, kính lúp...) */
 function tileArtHTML(id){
   var k=KTILE[id];if(!k)return '';
+  if(k.indexOf('i:')===0)return '<img class="rk carimg kingdom-car charcar" src="img/'+k.slice(2)+'.webp" alt="" draggable="false">';
   if(k.indexOf('c:')===0){var cid=k.slice(2);return CARS[cid]&&CARS[cid].img?charCarHTML(cid):''}
   var v=k.slice(2).split('/');return '<img class="rk carimg kingdom-car charcar" src="'+kUrl(v[0],v[1],360)+'" alt="" draggable="false" onerror="this.style.display=\'none\'">';
 }

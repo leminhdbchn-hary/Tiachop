@@ -45,10 +45,8 @@ body{
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;
   touch-action:manipulation;overflow:hidden;
 }
-@supports (height:100dvh){html{height:100dvh}}
-html{height:var(--appH,100%)}
-/* html đã chừa vùng an toàn (tai thỏ + thanh home) bằng padding, nên body chỉ cao bằng phần còn lại, không tràn xuống dưới màn hình */
-body{height:100%}
+@supports (height:100dvh){html,body{height:100dvh}}
+html,body{height:var(--appH,100%)}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;-webkit-appearance:none;appearance:none}
 button:focus-visible{outline:5px solid var(--yellow);outline-offset:3px}
 
@@ -1193,6 +1191,9 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .home{padding-bottom:0}
 .home .k-nav{bottom:0;margin:0 -2px}
 .k-nav::after{content:"";position:absolute;left:-1px;right:-1px;top:100%;height:12px;background:#ada5e4;border-radius:0 0 18px 18px;pointer-events:none}
+/* nâng riêng thanh menu lên khỏi thanh home của iPhone, phần còn lại giữ nguyên */
+.home .k-nav{bottom:calc(var(--sab) + 16px);margin-bottom:calc(var(--sab) + 16px)}
+.home .k-nav::after{height:calc(var(--sab) + 60px)}
 .k-feature-tile .tlabel i{display:none}
 .k-nav button span img{height:clamp(30px,8.2vw,56px);width:auto;display:block;margin:0 auto;filter:drop-shadow(0 2px 2px #0004)}
 .k-nav button span{display:block;line-height:1}

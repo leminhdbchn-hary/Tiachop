@@ -3813,7 +3813,7 @@ var MISSIONS=[['num','chơi bài Đếm số','play Numbers'],['song','đọc th
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function todayMission(){var d=new Date();return MISSIONS[Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)%MISSIONS.length]}
 /* Ban ngày Harry đứng ở màn hình chính. Buổi tối (18h–6h) Harry và Storm thay phiên nhau mỗi 5 phút */
-var MASCOTS={chop:['McQueen','img/car-mcqueen.webp'],storm:['Jackson Storm','img/car-jackson.webp'],mater:['Mater','img/car-mater.webp'],chick:['Chick Hicks','img/car-chick.webp']},MASCOT_ORDER=['chop','storm','mater','chick'];
+var MASCOTS={chop:['McQueen','img/car-mcqueen.webp'],storm:['Jackson Storm','img/car-jackson.webp'],mater:['Mater','img/car-mater.webp'],chick:['Chick Hicks','img/car-chick.webp'],hudson:['Hudson','img/car-hudson.webp']},MASCOT_ORDER=['chop','storm','mater','chick','hudson'];
 function mascotNext(){var i=MASCOT_ORDER.indexOf(mascotWho());S.mascotPick=MASCOT_ORDER[(i+1)%MASCOT_ORDER.length]}
 function mascotWho(){if(S.mascotPick)return S.mascotPick;return isNight()&&Math.floor(Date.now()/300000)%2===1?'storm':'chop'}
 function mascotHTML(){
@@ -3955,6 +3955,9 @@ var RK_HI=[[['Xin chào bé! Mình là McQueen.','vi'],['Hello! I am McQueen.','
 var STORM_HI=[[['Xin chào bé! Mình là Jackson Storm.','vi'],['Hello! I am Jackson Storm.','en']],
   [['Xe màu đen xanh là bạn Jackson Storm. Vù vù!','vi'],['Jackson Storm is black and blue. Honk honk!','en']],
   [['Mình là Jackson Storm! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Jackson Storm! I have a mission for you today!','en']]];
+var HUDSON_HI=[[['Xin chào bé! Mình là Hudson.','vi'],['Hello! I am Hudson.','en']],
+  [['Xe màu xanh đậm là bạn Hudson. Pốp pốp!','vi'],['Hudson is dark blue. Honk honk!','en']],
+  [['Mình là Hudson! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Hudson! I have a mission for you today!','en']]];
 var CHICK_HI=[[['Xin chào bé! Mình là Chick Hicks.','vi'],['Hello! I am Chick Hicks.','en']],
   [['Xe màu xanh lá là bạn Chick Hicks. Chíu chíu!','vi'],['Chick Hicks is green. Honk honk!','en']],
   [['Mình là Chick Hicks! Hôm nay mình có nhiệm vụ cho bé đó!','vi'],['I am Chick Hicks! I have a mission for you today!','en']]];
@@ -3964,7 +3967,7 @@ var MATER_HI=[[['Xin chào bé! Mình là Mater.','vi'],['Hello! I am Mater.','e
 function rookieHi(mc){
   mc.classList.remove('hop');void mc.offsetWidth;mc.classList.add('hop');sfx('pop');
   clearTimeout(S.rkT);S.rkT=setTimeout(function(){mc.classList.remove('hop')},750);
-  var wh=$('img[data-who]',mc),hi=wh&&wh.getAttribute('data-who')==='storm'?STORM_HI:(wh&&wh.getAttribute('data-who')==='mater'?MATER_HI:(wh&&wh.getAttribute('data-who')==='chick'?CHICK_HI:RK_HI));
+  var wh=$('img[data-who]',mc),hi=wh&&wh.getAttribute('data-who')==='storm'?STORM_HI:(wh&&wh.getAttribute('data-who')==='mater'?MATER_HI:(wh&&wh.getAttribute('data-who')==='chick'?CHICK_HI:(wh&&wh.getAttribute('data-who')==='hudson'?HUDSON_HI:RK_HI)));
   S.rkHi=((S.rkHi||0)+1)%hi.length;speakNow(hi[S.rkHi]);
 }
 function startGame(mode){pfsExit();

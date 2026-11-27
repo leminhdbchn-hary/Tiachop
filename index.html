@@ -1084,6 +1084,9 @@ button:focus-visible{outline:3px solid #2266b5;outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.home .tile:hover{transform:translateY(-3px);box-shadow:0 7px 0 color-mix(in srgb,var(--cd) 42%,white),0 15px 28px #243c6325}}
 @media(prefers-reduced-motion:reduce){.home .tile,.opt{transition:none}}
 
+.premium-car-art{object-fit:contain;border-radius:16px}
+.glyph .premium-car-art{width:clamp(85px,23vmin,155px);max-width:100%;height:auto}
+@media(max-width:600px){.glyph .premium-car-art{width:clamp(65px,20vmin,105px)}}
 </style>
 </head>
 <body>
@@ -2437,9 +2440,22 @@ function aniAbilityRound(){
 }
 
 /* ---------- 7. VEHICLES ---------- */
-function carOpt(id,byColor){
+/* Premium 4 vehicle illustrations: independent of CARS.img, rewards and paint logic. */
+var PREMIUM4_CARS=["beo","bi","bim","boc","bon","bon2","bong","cau","cay","co","dao","dau","dien","go","hop","kem","kem2","keo","khung","kim","lan","li","may","mit","nam","nang","pu","ro","sach","sang","sao","su","thu","ti","tit","toc","tron","tuyet","ui","van","xoay","xoi","xuc"], PREMIUM4_FAILED={};
+function premiumCarFallback(el){
+  var id=el.getAttribute('data-car');
+  PREMIUM4_FAILED[id]=true;
+  el.onerror=null;
+  el.outerHTML=carSVG(id);
+}
+function premiumCarHTML(id){
+  if(PREMIUM4_CARS.indexOf(id)<0||PREMIUM4_FAILED[id]||!CARS[id])return carSVG(id);
   var c=CARS[id];
-  return {label:byColor?c.cvi:c.vi,say:byColor?sp('màu '+c.cvi,c.cen):sp(c.vi,c.en),html:carSVG(id)};
+  return '<img class="rk carimg premium-car-art" src="premium4-cars/'+id+'.webp" data-car="'+id+'" alt="'+c.vi+' '+c.name+'" draggable="false" onerror="premiumCarFallback(this)">';
+}
+function carOpt(id,byColor,classic){
+  var c=CARS[id];
+  return {label:byColor?c.cvi:c.vi,say:byColor?sp('màu '+c.cvi,c.cen):sp(c.vi,c.en),html:classic?carSVG(id):premiumCarHTML(id)};
 }
 function vehNameRound(){
   var a=pick(CAR_TEACH_W),c=CARS[a],set=distinctWith(CAR_TEACH_W,a,nopt(),function(x){return CARS[x].vi});
@@ -2562,8 +2578,8 @@ function engPool(){
   if(L>=3){add(ENGX.action);add(EMO.map(mk))}
   return out;
 }
-function engPic(w){return w.cid?carSVG(w.cid):(hasPhoto(w)?'<span class="phwrap"><span class="phbox">'+photoHTML(w,'ph')+'</span></span>':'<span class="emo">'+w.e+'</span>')}
-function engBig(w){return w.cid?'<div class="target">'+carSVG(w.cid)+'</div>':bigThing(w)}
+function engPic(w){return w.cid?premiumCarHTML(w.cid):(hasPhoto(w)?'<span class="phwrap"><span class="phbox">'+photoHTML(w,'ph')+'</span></span>':'<span class="emo">'+w.e+'</span>')}
+function engBig(w){return w.cid?'<div class="target">'+premiumCarHTML(w.cid)+'</div>':bigThing(w)}
 function engSay(en,vi){return vi?[[en,'en',true],[vi,'vi']]:[[en,'en',true]]}
 function engWordOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:'<span class="engw">'+w.en+'</span><span class="engv">'+w.vi+'</span>'}}
 function engPicOpt(w){return {label:w.en,say:engSay(w.en,w.vi),html:engPic(w)}}
@@ -2655,7 +2671,7 @@ function chopFindRound(){
   var set=distinctWith(CAR_W.concat(['chop']),'chop',nopt(),function(x){return x});
   return {type:'chopfind',key:'chopfind',
     vi:'Đâu là Harry?',en:'Which one is Harry?',visual:'',
-    opts:set.map(function(id){return carOpt(id,false)}),correct:set.indexOf('chop'),
+    opts:set.map(function(id){return carOpt(id,false,true)}),correct:set.indexOf('chop'),
     win:{vi:'Đây là Harry Tia Chớp! Xe đua màu đỏ, có tia chớp vàng. Vút vút!',en:'This is Harry! A red race car with a yellow lightning bolt. Zoom zoom!'}};
 }
 function chopCountRound(){
@@ -3595,6 +3611,7 @@ function citySVG(night){
 
 var PREMIUM_TOPICS={"ani": "dog", "food": "apple", "body": "eyes", "emo": "happy", "obj": "sofa", "room": "house", "school": "school", "job": "firefighter", "cmp": "elephant", "trace": "pencil", "paint": "crayon", "song": "book", "veh": "fire truck", "drive": "race car"};
 function glyphHTML(g,id){
+  if(id==='veh')return premiumCarHTML('pu');
   if(PREMIUM_TOPICS[id])return photoHTML(PREMIUM_TOPICS[id],'topic-art');
   if(g==='@car')return carSVG('pu');
   if(g==='@3d')return '<span class="badge3d">3D</span>'+carSVG('tit');

@@ -3789,7 +3789,7 @@ function mascotHTML(){
   var who=mascotWho(),nm=who==='storm'?'Storm':'Harry';
   return (S.mday===todayStr()?'<div class="bubble2 mission done">✅ '+nm+': xong nhiệm vụ rồi, giỏi quá!<small>Mission complete, great job!</small></div>'
     :'<button class="bubble2 mission" data-mode="'+todayMission()[0]+'">⭐ '+nm+' nhờ bé: '+todayMission()[1]+'<small>'+nm+' asks you to '+todayMission()[2]+'</small></button>')
-    +(who==='storm'?'<img class="rk carimg" data-who="storm" src="img/car-storm.webp" alt="Storm" draggable="false">':carSVG('chop'));
+    +(who==='storm'?'<img class="rk carimg" data-who="storm" src="img/car-storm.webp" alt="Storm" draggable="false">':'<img class="rk carimg" data-who="chop" src="img/car-mcqueen.webp" alt="McQueen" draggable="false">');
 }
 function mascotSwap(){
   var mc=$('.home .mascot');if(!mc)return;

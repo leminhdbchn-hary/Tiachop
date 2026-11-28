@@ -1210,6 +1210,12 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .albumv .acell.lock > *{visibility:hidden}
 .albumv .ahint,.albumv .atitle{background:rgba(255,255,255,.88);border-radius:16px;padding:6px 12px;box-shadow:0 3px 8px #0001}
 .albumv .atitle{align-self:flex-start}
+#view:has(> .paintv),#view:has(> .abcv){background:url(img/ui-menubg.webp) center top/cover no-repeat,#fde9ef}
+.paintv>h2,.abcv>h2{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px 10px;background:rgba(255,255,255,.88);border-radius:22px;padding:6px 16px;box-shadow:0 3px 10px #0001;align-self:center}
+.paintv>h2 small,.abcv>h2 small{flex-basis:100%;text-align:center}
+.mhi{height:clamp(46px,12vw,72px);width:auto;filter:drop-shadow(0 3px 3px #0002)}
+.mhs{height:clamp(34px,9vw,48px);width:auto;vertical-align:middle;margin-right:6px}
+.paintv .asec{background:rgba(255,255,255,.85);border-radius:14px;padding:4px 12px;align-self:flex-start}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -5104,7 +5110,7 @@ function showPaintMenu(){pfsExit();
   }else if(PT.cat==='mine'){var mine=artLoad().reverse();
     g=mine.length?mine.map(function(x){if(x.lart!=null)return '<div class="pcard wide"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+LART[x.lart].vi+'">'+(x.th?'<img src="'+x.th+'" alt="">':'<img src="'+LART[x.lart].src+'" alt="">')+'<b>🖍️ '+LART[x.lart].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>';if(x.draw)return '<div class="pcard wide"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+DBG[x.bg].vi+'">'+drawSVG(x.bg,x.W||420,x.p,false)+'<b>✏️ '+DBG[x.bg].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>';return '<div class="pcard'+(PAINT[x.pic].w>300?' wide':'')+'"><button type="button" class="pcopen" data-art="'+x.id+'" aria-label="'+PAINT[x.pic].vi+'">'+paintSVG(x.pic,false,x.f)+'<b>'+PAINT[x.pic].vi+'</b></button><button type="button" class="pcdel" data-adel="'+x.id+'" aria-label="Xoá">🗑️</button></div>'}).join(''):'<p class="pempty">Bé chưa có bức tranh nào.<small>Hãy tô một bức rồi bấm ✔ nhé!</small></p>';
   }else g=LART.map(function(L,k){return L.cat.indexOf(PT.cat)>=0?'<button class="pcard wide" data-lart="'+k+'" aria-label="'+L.vi+'"><img src="'+L.src+'" alt="" loading="lazy"><b>'+L.vi+'</b><i>'+L.en+'</i></button>':''}).join('')+PAINT.map(function(p,i){return p.cat===PT.cat?'<button class="pcard'+(p.w>300?' wide':'')+'" data-pic="'+i+'" aria-label="'+p.vi+'">'+paintSVG(i,false)+'<b>'+p.vi+'</b><i>'+p.en+'</i></button>':''}).join('');
-  view.innerHTML='<section class="paintv pmv"><h2>🎨 Tô màu<small>Coloring</small></h2><div class="ptabs">'+tabs+'</div><div class="pgrid">'+g+'</div></section>';
+  view.innerHTML='<section class="paintv pmv"><h2><img class="mhi" src="img/ui-palette.webp" alt="">Tô màu<small>Coloring</small></h2><div class="ptabs">'+tabs+'</div><div class="pgrid">'+g+'</div></section>';
   window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
   if(PT.cat==='draw')speakNow([['Bé chọn hình nền để vẽ nhé!','vi'],['Pick a background to draw on!','en']]);else speakNow([['Bé chọn một bức tranh để tô nhé!','vi'],['Pick a picture to color!','en']]);
 }
@@ -5349,7 +5355,7 @@ var TKGAMES=[
 function showThinkMenu(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='think';S.homeTk=null;S.cur=null;TK=null;setProgress(0,0);syncControls();
   var g=TKGAMES.map(function(x){return '<button type="button" class="pcard tkcard" data-tk="'+x[0]+'" aria-label="'+x[2]+'"><span class="tkem">'+x[1]+'</span><b>'+x[2]+'</b><i>'+x[3]+'</i></button>'}).join('');
-  view.innerHTML='<section class="paintv tkm"><h2>🧠 Trò chơi tư duy<small>Brain games</small></h2><div class="pgrid">'+g+'</div></section>';
+  view.innerHTML='<section class="paintv tkm"><h2><img class="mhi" src="img/tile-think.webp" alt="">Trò chơi tư duy<small>Brain games</small></h2><div class="pgrid">'+g+'</div></section>';
   window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
   speakNow([['Bé chọn một trò chơi nhé!','vi'],['Pick a game!','en']]);
 }
@@ -5665,7 +5671,7 @@ function abcSay(k){var a=ABC[k];speakNow([[LN[a[0]],'vi'],[a[3],'vi']])}
 function showAbc(k){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='abc';S.cur=null;S.abcK=k;S.abcAuto=0;setProgress(0,0);syncControls();
   var chips=ABC.map(function(a,q){return '<button type="button" class="abcchip" data-k="'+q+'" style="--c:'+ABCC[q%ABCC.length]+'" aria-label="Chữ '+a[0]+'">'+a[0]+'<small>'+a[0].toLowerCase()+'</small></button>'}).join('');
-  view.innerHTML='<section class="abcv"><h2>🔤 Bảng chữ cái<small>Vietnamese alphabet</small></h2>'
+  view.innerHTML='<section class="abcv"><h2><img class="mhi" src="img/ui-blocks.webp" alt="">Bảng chữ cái<small>Vietnamese alphabet</small></h2>'
     +'<div class="abcbody"><div class="abccard" id="abccard"></div>'
     +'<div class="abcside"><div class="abcnav"><button type="button" class="abcb" data-ab="prev" aria-label="Chữ trước">◀</button>'
     +'<button type="button" class="abcb play" data-ab="auto" id="abcauto" aria-label="Đọc cả bảng">▶ Đọc cả bảng<small>Read all</small></button>'
@@ -5915,7 +5921,7 @@ function showTraceMenu(){pfsExit();
   stop3D();clearTimeout(S.timer);stopSpeech();S.mode='trace';S.cur=null;TR=null;setProgress(0,0);syncControls();
   var g=[['num','123','Tập viết số','Trace numbers'],['up','ABC','Chữ in hoa','Capital letters'],['low','abc','Chữ thường & dấu','Small letters']].map(function(x){
     return '<button type="button" class="pcard tkcard" data-tr="'+x[0]+'" aria-label="'+x[2]+'"><span class="tkem tkgl">'+x[1]+'</span><b>'+x[2]+'</b><i>'+x[3]+'</i></button>'}).join('');
-  view.innerHTML='<section class="paintv tkm"><h2>✍️ Tập viết<small>Trace and write</small></h2><div class="pgrid">'+g+'</div></section>';
+  view.innerHTML='<section class="paintv tkm"><h2><img class="mhi" src="img/tile-trace.webp" alt="">Tập viết<small>Trace and write</small></h2><div class="pgrid">'+g+'</div></section>';
   window.scrollTo(0,0);try{view.scrollTop=0}catch(e){}
   speakNow([['Bé chọn bài tập viết nhé!','vi'],['Pick what to trace!','en']]);
 }
@@ -6150,9 +6156,9 @@ function showSongMenu(){pfsExit();
     +(x.img?'<img class="sgthumb" src="'+x.img+'" alt="" draggable="false">':'<span class="tkem">'+x.e+'</span>')+'<b>'+x.vi+'</b><i>'+x.en.replace(/^Folk rhyme: /,'')+'</i></button>'}
   var dd=SONGS.filter(function(x){return x.kind==='dd'}).map(card).join('');
   var po=SONGS.filter(function(x){return x.kind==='poem'}).map(card).join('');
-  view.innerHTML='<section class="paintv tkm sgm"><h2>🎵 Hát &amp; Thơ<small>Songs &amp; poems</small></h2>'
+  view.innerHTML='<section class="paintv tkm sgm"><h2><img class="mhi" src="img/ui-mic.webp" alt="">Hát &amp; Thơ<small>Songs &amp; poems</small></h2>'
     +'<h3 class="asec"><span>👏 Đồng dao</span><i>Folk rhymes · clap along</i></h3><div class="pgrid">'+dd+'</div>'
-    +'<h3 class="asec"><span>📖 Thơ của Harry</span><i>Harry\'s poems</i></h3><div class="pgrid">'+po+'</div>'
+    +'<h3 class="asec"><span><img class="mhs" src="img/ui-poem.webp" alt="">Thơ của Harry</span><i>Harry\'s poems</i></h3><div class="pgrid">'+po+'</div>'
     +'<h3 class="asec"><span>🎙️ Bài của nhà mình</span><i>Our own songs</i></h3><div class="pgrid" id="sgmine"><p class="pempty">Đang tải…</p></div>'
     +'<button type="button" class="next alt sgadd" data-sgact="add">➕ Bố mẹ thêm bài hát<small>Parents: record a song</small></button>'
     +'</section>';

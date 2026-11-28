@@ -1188,6 +1188,15 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .endhero .eh-car{animation:ehbounce 1.4s ease-in-out infinite}.endhero .eh-cup{animation:ehbounce 1.4s ease-in-out -.7s infinite}
 @keyframes ehbounce{50%{transform:translateY(-8px)}}
 @media (prefers-reduced-motion:reduce){.okstar,.trytoast,.endhero img{animation:none}.okstar{display:none}}
+#view:has(> .end){background:url(img/ui-endbg.webp) center top/cover no-repeat,#f6d9e6}
+.gift.k-img{background:url(img/ui-gift.webp) center bottom/contain no-repeat}
+.gift.k-img .gbody,.gift.k-img .glid,.gift.k-img .bow{display:none}
+#replay,#tkreplay{background:none!important;border:0!important;box-shadow:none!important;padding:0}
+#replay .spki,#tkreplay .spki{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 3px #0003)}
+.spk{background:none!important;border:0!important;box-shadow:none!important;padding:0}
+.spk .spki{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 2px #0003)}
+.next .nexti{height:1.6em;width:auto;vertical-align:middle;margin:-.3em .35em -.2em -.2em;filter:drop-shadow(0 2px 2px #0003)}
+.albumbar .ab-i img{height:clamp(46px,11vmin,64px);width:auto;display:block;filter:drop-shadow(0 3px 3px #0002)}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -3905,7 +3914,7 @@ function showHome(){pfsExit();
     +'<div class="mascot">'+mascotHTML()+'</div></div>'
     + '<div class="tiles k-feature">'+featured.map(function(t){return tile(t,true)}).join('')+'</div>'
     +'<h3 class="k-feature-title" id="kingdomAll">'+(S.lang==='en'?'Explore all adventures':'Khám phá mọi khu vực')+'</h3>'
-    +'<button class="albumbar" data-act="album"><span class="ab-i">📒</span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
+    +'<button class="albumbar" data-act="album"><span class="ab-i"><img src="img/ui-album.webp" alt=""></span><span class="ab-t">Album sticker của bé<i>My sticker book</i></span><span class="ab-n">'+owned+'/'+ALBUM.length+'</span></button>'
     +tiles
     +'<nav class="k-nav" aria-label="Điều hướng"><button data-act="home"><span><img src="img/nav-home.webp" alt="" draggable="false"></span>'+ (S.lang==='en'?'Home':'Trang chủ')+'</button><button data-mode="mix"><span><img src="img/nav-game.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Play':'Trò chơi')+'</button><button data-act="kingdomExplore"><span><img src="img/nav-map.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Explore':'Khám phá')+'</button><button data-act="album"><span><img src="img/nav-trophy.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Rewards':'Thành tích')+'</button><button data-mode="drive"><span><img src="img/nav-garage.webp" alt="" draggable="false"></span>'+(S.lang==='en'?'Garage':'Gara của bé')+'</button></nav>'
     +'<p class="vnote" id="voiceNote" hidden>Nếu máy không đọc được tiếng Việt, ba mẹ hãy cài giọng đọc tiếng Việt trong phần cài đặt của thiết bị.</p>'
@@ -4104,15 +4113,15 @@ function renderRound(r){
   var showEn=S.lang==='both',n=r.opts.length;
   var cards=r.opts.map(function(o,i){
     return '<div class="card"><button class="opt" data-i="'+i+'" aria-label="'+o.label+'">'+o.html+'</button>'
-      +(o.say?'<button class="spk" data-s="'+i+'" aria-label="Nghe">🔊</button>':'')+'</div>';
+      +(o.say?'<button class="spk" data-s="'+i+'" aria-label="Nghe"><img class="spki" src="img/ui-speaker.webp" alt=""></button>':'')+'</div>';
   }).join('');
   var pal=PALS[S.round%PALS.length];
   view.innerHTML='<section class="stage" style="--ac:'+pal[0]+';--acb:'+pal[1]+'">'
     +'<div class="promptcard"><div class="qn">'+(S.round+1)+'</div><div class="ptxt"><div class="pvi">'+(S.lang==='en'?(r.en||r.vi):r.vi)+'</div>'+(showEn?'<div class="pen">'+r.en+'</div>':'')+'</div>'
-    +'<button class="icon big" id="replay" aria-label="Nghe lại">🔊</button></div>'
+    +'<button class="icon big" id="replay" aria-label="Nghe lại"><img class="spki" src="img/ui-speaker.webp" alt=""></button></div>'
     +(banner?'<div class="lvnote">'+banner+'</div>':'')+'<div class="visual">'+(r.visual||'')+'</div>'
     +(n?'<div class="opts n'+n+'" style="--n:'+n+'">'+cards+'</div>':'')
-    +'<div class="nextrow"><button class="next" id="next" hidden>Tiếp tục ▶<small>Next</small></button></div>'
+    +'<div class="nextrow"><button class="next" id="next" hidden><img class="nexti" src="img/ui-next.webp" alt="">Tiếp tục<small>Next</small></button></div>'
     +'</section>';
   try{view.scrollTop=0;window.scrollTo(0,0)}catch(e){}/* bé cuộn xuống chọn chủ đề thì câu hỏi vẫn hiện từ trên cùng */
   setTimeout(function(){if(S.cur===r)speakNow(pre.concat(sayPrompt(r)))},250);
@@ -4216,7 +4225,7 @@ function showEnd(){
   view.innerHTML='<section class="end gifting" id="endsec">'
     +'<div class="giftstage" id="giftstage" style="--g1:'+GP[0]+';--g2:'+GP[1]+';--rb:'+GP[2]+'">'
     +'<div class="giftrays" aria-hidden="true"></div><div class="giftflash" aria-hidden="true"></div>'
-    +'<button type="button" class="gift" id="gift" aria-label="Mở hộp quà"><span class="gbody"></span><span class="glid"></span>'
+    +'<button type="button" class="gift k-img" id="gift" aria-label="Mở hộp quà"><span class="gbody"></span><span class="glid"></span>'
     +'<span class="bow"><i class="bl"></i><i class="br"></i><i class="bk"></i></span></button>'
     +'<i class="gtw t1"></i><i class="gtw t2"></i><i class="gtw t3"></i><i class="gtw t4"></i>'
     +'<div class="sticker" id="gsticker" aria-hidden="true">'+stkHTML(st)+'</div></div>'
@@ -5350,10 +5359,10 @@ function tkShell(vi,en,body,cls){
   else if(note==='down'){pre=[['Mình học chậm lại một chút nhé!','vi'],['Let us go a little slower!','en']];banner='🐢 Học chậm lại nào'}
   view.innerHTML='<section class="stage tkg" style="--ac:'+pal[0]+';--acb:'+pal[1]+'">'
     +'<div class="promptcard"><div class="qn">'+(tk.round+1)+'</div><div class="ptxt"><div class="pvi">'+(S.lang==='en'?en:vi)+'</div>'+(showEn?'<div class="pen">'+en+'</div>':'')+'</div>'
-    +'<button type="button" class="icon big" id="tkreplay" aria-label="Nghe lại">🔊</button></div>'
+    +'<button type="button" class="icon big" id="tkreplay" aria-label="Nghe lại"><img class="spki" src="img/ui-speaker.webp" alt=""></button></div>'
     +(banner?'<div class="lvnote">'+banner+'</div>':'')
     +'<div class="tkbody '+(cls||'')+'" id="tkbody">'+body+'</div>'
-    +'<div class="nextrow tknext"><button type="button" class="next" id="tknext" hidden>Tiếp tục ▶<small>Next</small></button></div></section>';
+    +'<div class="nextrow tknext"><button type="button" class="next" id="tknext" hidden><img class="nexti" src="img/ui-next.webp" alt="">Tiếp tục<small>Next</small></button></div></section>';
   tk.say=[[vi,'vi'],[en,'en']];
   $('#tkreplay').addEventListener('click',function(){speakNow(tk.say)});
   $('#tknext').addEventListener('click',function(){tkNext()});
@@ -5924,7 +5933,7 @@ function trRound(){
     +'<div class="tkbody trb" id="tkbody"><div class="trbox"><svg id="trsvg" class="trsvg" viewBox="0 0 100 170" preserveAspectRatio="xMidYMid meet">'
     +'<g id="trguide">'+paths+'</g><g id="trdone"></g><g id="trcen">'+dots+'</g><path id="trink" class="trink" d=""/><g id="trstart"></g><circle id="trhand" class="trhand" r="6" cx="-20" cy="-20"/></svg></div>'
     +'<div class="trtools"><button type="button" class="ptool" id="trclear" aria-label="Xoá nét">🧽</button></div></div>'
-    +'<div class="nextrow tknext"><button type="button" class="next" id="tknext" hidden>Tiếp tục ▶<small>Next</small></button></div></section>';
+    +'<div class="nextrow tknext"><button type="button" class="next" id="tknext" hidden><img class="nexti" src="img/ui-next.webp" alt="">Tiếp tục<small>Next</small></button></div></section>';
   var say=[[vi,'vi'],[en,'en']];
   setProgress(t.round,t.total);syncControls();
   $('#trreplay').addEventListener('click',function(){speakNow(say)});

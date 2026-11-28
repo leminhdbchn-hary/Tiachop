@@ -1233,10 +1233,11 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .setv h2,.settingsv h2{display:flex;align-items:center;gap:8px}
 .k-gearc{height:clamp(46px,12vw,66px);width:auto;vertical-align:middle;margin-right:8px;filter:drop-shadow(0 3px 3px #0003)}
 .s2stage{position:relative;flex:1;min-height:260px;border:4px solid #fff;border-radius:26px;overflow:hidden;touch-action:none;box-shadow:0 10px 24px var(--soft);display:flex;align-items:flex-end;justify-content:center}
-.s2car{position:absolute;left:0;right:0;margin:0 auto;bottom:14%;width:min(78%,420px);display:flex;justify-content:center;align-items:flex-end;pointer-events:none;transform-origin:50% 100%}
+.s2car{position:absolute;left:0;right:0;margin:0 auto;bottom:30%;width:78%;display:flex;justify-content:center;align-items:flex-end;pointer-events:none;transform-origin:50% 100%}
 .s2car .charcar,.s2car svg{width:100%;height:auto;max-height:46vh;object-fit:contain;filter:drop-shadow(0 10px 8px #0003)}
 .s2car.pop{animation:s2pop .5s cubic-bezier(.3,1.6,.5,1)}
 @keyframes s2pop{from{opacity:0;margin-bottom:-40px}to{opacity:1;margin-bottom:0}}
+@media (min-aspect-ratio:12/10){.s2stage{flex:none;height:min(70vh,640px);aspect-ratio:3/4;align-self:center;min-height:0}.show2d .hint{display:none}}
 .s2nav{position:absolute;top:42%;z-index:2;width:clamp(48px,13vw,66px);height:clamp(48px,13vw,66px);padding:0;border:0;background:url(img/ui-arrow.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px #0003)}
 .s2nav.l{left:8px;transform:scaleX(-1)}.s2nav.r{right:8px}
 .s2nav:active{opacity:.8}
@@ -1554,11 +1555,11 @@ var CARS={
  francesco:{name:'Francesco',kind:'race',color:'#E53935',iris:'#6B3F1D',cvi:'đỏ xanh lá',cen:'red and green',vi:'siêu xe Ý',en:'super car from Italy',honk:'Chao chao!',special:true,img:'img/car-francesco.webp',iw:640,ih:416},
  mcqueen:{name:'McQueen',kind:'race',color:'#E3262A',iris:'#2B7FA8',cvi:'đỏ',cen:'red',vi:'siêu xe đua đỏ',en:'red race car',honk:'Ka chao!',special:true,img:'img/car-mcqueen.webp',iw:663,ih:394},
  jackson:{name:'Jackson Storm',kind:'race',color:'#1B2350',iris:'#2B6BE0',cvi:'đen xanh',cen:'black and blue',vi:'siêu xe đua xanh đen',en:'black and blue race car',honk:'Vù vù!',special:true,img:'img/car-jackson.webp',iw:720,ih:317},
- mater:{name:'Mater',kind:'race',color:'#A8542B',iris:'#4F7A2E',cvi:'nâu gỉ',cen:'rusty brown',vi:'xe cứu hộ vui nhộn',en:'funny tow truck',honk:'Bíp bíp!',special:true,img:'img/car-mater.webp',iw:640,ih:532},
+ mater:{name:'Mater',kind:'race',color:'#A8542B',iris:'#4F7A2E',cvi:'nâu gỉ',cen:'rusty brown',vi:'xe cứu hộ vui nhộn',en:'funny tow truck',honk:'Bíp bíp!',special:true,img:'img/car-mater.webp',iw:615,ih:471},
  chick:{name:'Chick Hicks',kind:'race',color:'#5BBF2A',iris:'#8A4B22',cvi:'xanh lá',cen:'green',vi:'xe đua xanh lá',en:'green race car',honk:'Chíu chíu!',special:true,img:'img/car-chick.webp',iw:720,ih:364},
  hudson:{name:'Hudson',kind:'race',color:'#26357A',iris:'#2B8FD6',cvi:'xanh đậm',cen:'dark blue',vi:'xe đua cổ xanh đậm',en:'vintage blue race car',honk:'Pốp pốp!',special:true,img:'img/car-hudson.webp',iw:720,ih:350},
- cruz:{name:'Cruz',kind:'race',color:'#F2A31B',iris:'#7A4A22',cvi:'vàng cam',cen:'orange',vi:'xe đua vàng cam',en:'orange race car',honk:'Ù ù!',special:true,img:'img/car-cruz.webp',iw:720,ih:438},
- sheriff:{name:'Sheriff',kind:'race',color:'#1D1F2A',iris:'#2B6BE0',cvi:'đen trắng',cen:'black and white',vi:'xe cảnh sát cổ',en:'vintage police car',honk:'Ò e ò e!',special:true,img:'img/car-sheriff.webp',iw:720,ih:374},
+ cruz:{name:'Cruz',kind:'race',color:'#F2A31B',iris:'#7A4A22',cvi:'vàng cam',cen:'orange',vi:'xe đua vàng cam',en:'orange race car',honk:'Ù ù!',special:true,img:'img/car-cruz.webp',iw:653,ih:396},
+ sheriff:{name:'Sheriff',kind:'race',color:'#1D1F2A',iris:'#2B6BE0',cvi:'đen trắng',cen:'black and white',vi:'xe cảnh sát cổ',en:'vintage police car',honk:'Ò e ò e!',special:true,img:'img/car-sheriff.webp',iw:666,ih:365},
  fritter:{name:'Miss Fritter',kind:'race',color:'#F2B21B',iris:'#2B8FD6',cvi:'vàng',cen:'yellow',vi:'xe buýt trường học',en:'school bus',honk:'Kít kít!',special:true,img:'img/car-fritter.webp',iw:720,ih:649},
  flo:{name:'Flo',kind:'race',color:'#58C2B0',iris:'#2E9B4E',cvi:'xanh ngọc',cen:'turquoise',vi:'xe cổ xanh ngọc',en:'turquoise vintage car',honk:'Tu tu!',special:true,img:'img/car-flo.webp',iw:720,ih:324},
  sally:{name:'Sally',kind:'race',color:'#888888',iris:'#2B6BE0',cvi:'xanh da trời',cen:'light blue',vi:'xe thể thao xanh',en:'blue sports car',honk:'Pin pin!',special:true,img:'img/car-sally.webp',iw:720,ih:387},
@@ -3707,11 +3708,11 @@ function openShowroom(id){
     +(list.length>1?'<button type="button" class="s2nav l" id="s2prev" aria-label="Xe trước"></button><button type="button" class="s2nav r" id="s2next" aria-label="Xe sau"></button>':'')
     +'<button type="button" class="k-horn" id="hornBtn" aria-label="Bấm còi"><img src="img/ui-horn.webp" alt=""></button></div>'
     +'<div class="palette" id="s2pal">'+sw+'</div>'
-    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to turn</div></section>';
+    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để đổi xe · Tap to honk, swipe to switch</div></section>';
   D=st;
   var stage=$('#s2stage'),box=$('#s2car');
   function show(first){
-    id=list[idx];c=CARS[id];color=null;ang=0;
+    id=list[idx];c=CARS[id];color=null;
     $('#s2n').textContent=c.name+' · '+c.vi;$('#s2s').textContent=c.en;
     box.innerHTML=c.img?charCarHTML(id):carSVG(id);
     $('#s2pal').style.display=c.img?'none':'';
@@ -3720,20 +3721,24 @@ function openShowroom(id){
   }
   function honk(){sfx('honk');bump=.5;speakNow([[c.honk,'vi',true]])}
   stage.addEventListener('pointerdown',function(e){if(e.target.closest('button'))return;drag=true;lx=e.clientX;moved=0;try{stage.setPointerCapture(e.pointerId)}catch(_){}});
-  stage.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);ang-=dx*.012});
-  stage.addEventListener('pointerup',function(){var was=drag;drag=false;if(was&&moved<8)honk()});
+  var sx0=0;
+  stage.addEventListener('pointerdown',function(e){sx0=e.clientX});
+  stage.addEventListener('pointermove',function(e){if(!drag)return;moved=Math.max(moved,Math.abs(e.clientX-sx0))});
+  stage.addEventListener('pointerup',function(e){var was=drag;drag=false;if(!was)return;var dx=e.clientX-sx0;if(Math.abs(dx)>50&&list.length>1)go(dx<0?1:-1);else if(moved<8)honk()});
   var hb=$('#hornBtn');hb.addEventListener('pointerdown',function(e){e.stopPropagation()});hb.addEventListener('click',function(e){e.stopPropagation();honk()});
   function go(d){idx=(idx+list.length+d)%list.length;sfx('pop');show()}
   var pv=$('#s2prev'),nx=$('#s2next');
   if(pv){pv.addEventListener('click',function(e){e.stopPropagation();go(-1)});nx.addEventListener('click',function(e){e.stopPropagation();go(1)})}
   st.recolor=function(hex){if(c.img)return;color=hex;box.innerHTML=carSVG(id,hex)};
+  /* đặt xe đúng lên mặt bục trong ảnh nền (ảnh 720x1279, mặt bục rộng ~660px, chân xe chạm ở y≈905) */
+  function place(){var W=stage.clientWidth,H=stage.clientHeight;if(!W||!H)return;var k=Math.max(W/720,H/1279);
+    box.style.bottom=Math.round(364*k)+'px';box.style.width=Math.round(Math.min(560*k,W*.92))+'px'}
+  place();setTimeout(place,80);window.addEventListener('resize',place);st.onResize=place;
   (function frame(now){
     if(D!==st||!st.run)return;
     var dt=Math.min(.05,(now-last)/1000);last=now;
-    if(!drag&&!reduce)ang+=dt*.5;
     if(bump>0)bump=Math.max(0,bump-dt*1.6);
-    var sx=Math.cos(ang),sq=Math.abs(sx)<.12?(sx<0?-.12:.12):sx;
-    box.style.transform='translateY('+(-Math.sin(bump*30)*bump*26)+'px) scale('+sq+',1)';
+    box.style.transform=bump>0?'translateY('+(-Math.sin(bump*30)*bump*26)+'px)':'none';
     st.raf=requestAnimationFrame(frame);
   })(last);
   show(true);

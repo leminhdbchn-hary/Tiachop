@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: sudo apt-get install -y ffmpeg
+      - run: sudo apt-get update -q && sudo apt-get install -y --fix-missing ffmpeg  # cập nhật danh sách gói trước, tránh lỗi 404 do gói cũ bị xóa
       - run: pip install vieneu
       - run: if [ -f sme-clip/CHI_NGHE_THU ]; then python3 sme-clip/nghe_thu.py; else python3 sme-clip/tao_giong.py; fi
       - name: Lưu giọng vào repo

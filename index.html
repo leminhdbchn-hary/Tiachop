@@ -1216,6 +1216,16 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .mhi{height:clamp(46px,12vw,72px);width:auto;filter:drop-shadow(0 3px 3px #0002)}
 .mhs{height:clamp(34px,9vw,48px);width:auto;vertical-align:middle;margin-right:6px}
 .paintv .asec{background:rgba(255,255,255,.85);border-radius:14px;padding:4px 12px;align-self:flex-start}
+#gl.k-show,.hturn{background:url(img/ui-showbg.webp) center bottom/cover no-repeat,#f3e6d0!important}
+#gl.k-show canvas{position:relative;z-index:1}
+.k-horn{position:absolute;z-index:2;right:10px;bottom:10px;width:clamp(64px,17vw,96px);height:clamp(64px,17vw,96px);padding:0;background:none;border:0}
+.k-horn img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 4px #0003)}
+.k-horn:active{transform:scale(.9)}
+.ctl.k-steer{background:url(img/ui-steer.webp) center/contain no-repeat!important;border:0!important;box-shadow:none!important;filter:drop-shadow(0 5px 4px #0004)}
+.ctl.r.k-steer{transform:scaleX(-1)}
+.ctl.l.k-steer:active{transform:scale(.9)}.ctl.r.k-steer:active{transform:scaleX(-1) scale(.9)}
+.rbflag img{height:clamp(34px,9vw,52px);width:auto;display:block}
+.hturn .hpad{display:none}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -3363,8 +3373,8 @@ function make3DCar(id,hex,blocky){
   g.userData={wheels:wheels,body:bodyMat};
   return g;
 }
-function mkRenderer(el){
-  var T=THREE,r=new T.WebGLRenderer({antialias:true});
+function mkRenderer(el,alpha){
+  var T=THREE,r=new T.WebGLRenderer({antialias:true,alpha:!!alpha});if(alpha)r.setClearColor(0x000000,0);
   r.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   r.setSize(el.clientWidth,el.clientHeight);
   el.appendChild(r.domElement);
@@ -3388,9 +3398,9 @@ function startDrive(){
   view.innerHTML='<section class="drive"><div id="gl"></div>'
     +'<div class="hud3d"><div class="slots">⭐ <b id="starN">0</b></div><button class="icon big" id="drvSay" aria-label="Nghe lại">🔊</button></div>'
     +'<div class="racebar" id="racebar"><div class="rbrow"><span class="rbname">Bé<i>You</i></span><div class="rbtrack"><span class="rc" id="rcMe"></span></div></div>'
-    +'<div class="rbrow"><span class="rbname">Máy<i>CPU</i></span><div class="rbtrack"><span class="rc" id="rcCpu"></span></div></div><span class="rbflag">🏁</span></div>'
+    +'<div class="rbrow"><span class="rbname">Máy<i>CPU</i></span><div class="rbtrack"><span class="rc" id="rcCpu"></span></div></div><span class="rbflag"><img src="img/ui-finish.webp" alt="Đích"></span></div>'
     +'<div class="cdn" id="cdn"></div>'
-    +'<button class="ctl l" id="ctlL" aria-label="Sang trái">◀</button><button class="ctl r" id="ctlR" aria-label="Sang phải">▶</button></section>';
+    +'<button class="ctl l k-steer" id="ctlL" aria-label="Sang trái"></button><button class="ctl r k-steer" id="ctlR" aria-label="Sang phải"></button></section>';
   if(!window.THREE){noGL();return}
   try{initDrive()}catch(e){noGL()}
 }
@@ -3677,12 +3687,12 @@ function openShowroom(id){
   view.innerHTML='<section class="show3d">'
     +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+'</b> · '+c.vi+'<small>'+c.en+'</small></div>'
     +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
-    +'<div id="gl"></div><div class="palette">'+sw+'</div>'
+    +'<div id="gl" class="k-show"><button type="button" class="k-horn" id="hornBtn" aria-label="Bấm còi"><img src="img/ui-horn.webp" alt=""></button></div><div class="palette">'+sw+'</div>'
     +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to spin</div></section>';
   if(!window.THREE){noGL();return}
   try{
-    var T=THREE,el=$('#gl'),renderer=mkRenderer(el);
-    var scene=new T.Scene();scene.background=new T.Color(0xbfe6ff);
+    var T=THREE,el=$('#gl'),renderer=mkRenderer(el,true);
+    var scene=new T.Scene();
     var cam=new T.PerspectiveCamera(45,1,.1,100);
     function fit(){
       var w=Math.max(el.clientWidth,50),h=Math.max(el.clientHeight,50),asp=w/h;
@@ -3692,8 +3702,6 @@ function openShowroom(id){
     }
     scene.add(new T.AmbientLight(0xffffff,.5));scene.add(new T.HemisphereLight(0xffffff,0x9db4d8,.45));
     var dl=new T.DirectionalLight(0xffffff,.65);dl.position.set(5,9,7);scene.add(dl);
-    var plat=new T.Mesh(new T.CylinderGeometry(3.6,3.6,.25,40),new T.MeshLambertMaterial({color:0xffffff}));plat.position.y=-.12;scene.add(plat);
-    var ring=new T.Mesh(new T.CylinderGeometry(3.9,3.9,.2,40),new T.MeshLambertMaterial({color:0x25234a}));ring.position.y=-.22;scene.add(ring);
     var car=make3DCar(id);car.rotation.y=.5;scene.add(car);
     var st={run:true,raf:0,renderer:renderer,onResize:fit,bump:0,drag:false,spin:.7};
     D=st;fit();window.addEventListener('resize',fit);
@@ -3704,6 +3712,7 @@ function openShowroom(id){
       st.drag=false;
       if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,'vi',true]])}
     });
+    var hb=$('#hornBtn');if(hb){hb.addEventListener('pointerdown',function(e){e.stopPropagation()});hb.addEventListener('click',function(e){e.stopPropagation();sfx('honk');st.bump=.22;speakNow([[c.honk,'vi',true]])})}
     var last=performance.now();
     function frame(now){
       if(D!==st||!st.run)return;

@@ -1197,6 +1197,16 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .spk .spki{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 2px #0003)}
 .next .nexti{height:1.6em;width:auto;vertical-align:middle;margin:-.3em .35em -.2em -.2em;filter:drop-shadow(0 2px 2px #0003)}
 .albumbar .ab-i img{height:clamp(46px,11vmin,64px);width:auto;display:block;filter:drop-shadow(0 3px 3px #0002)}
+#view:has(> .albumv){background:url(img/ui-albumbg.webp) center top/cover no-repeat,#f3dcc0}
+.albumv .bpage{background:url(img/ui-page.webp) center/100% 100% no-repeat,#fff7e6}
+.albumv .barrow{background:url(img/ui-arrow.webp) center/contain no-repeat!important;border:0!important;box-shadow:none!important;border-radius:50%;filter:drop-shadow(0 3px 3px #0003)}
+.albumv .barrow::after{display:none}
+.albumv .barrow.prev{transform:scaleX(-1)}
+.albumv .barrow:active{transform:scale(.92)}.albumv .barrow.prev:active{transform:scaleX(-1) scale(.92)}
+.albumv .acell.lock{background:url(img/ui-mystery.webp) center/78% no-repeat!important}
+.albumv .acell.lock > *{visibility:hidden}
+.albumv .ahint,.albumv .atitle{background:rgba(255,255,255,.88);border-radius:16px;padding:6px 12px;box-shadow:0 3px 8px #0001}
+.albumv .atitle{align-self:flex-start}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -3968,7 +3978,7 @@ function showAlbum(sec,page){pfsExit();
     +'<div class="bgrid">'+items.slice(page*ALB_PER,(page+1)*ALB_PER).map(function(x){return cell(x)}).join('')+'</div>'
     +'</div></div></div>'
     +'<p class="ahint">Chạm vào nhãn dán để nghe tên, chạm vào chú xe để xem xe 3D. Vuốt hoặc bấm ◀ ▶ để lật trang. · Tap a sticker to hear its name. Swipe to turn the page.</p>'
-    +'<button class="next alt countbtn" data-act="count">🔢 Đếm nhãn dán<small>Count stickers</small></button>'
+    +'<button class="next alt countbtn" data-act="count"><img class="nexti" src="img/ui-abacus.webp" alt="">Đếm nhãn dán<small>Count stickers</small></button>'
     +'</section>';
   var pg=view.querySelector('.bpage'),x0=null;
   if(pg){

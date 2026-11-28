@@ -1216,7 +1216,7 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .mhi{height:clamp(46px,12vw,72px);width:auto;filter:drop-shadow(0 3px 3px #0002)}
 .mhs{height:clamp(34px,9vw,48px);width:auto;vertical-align:middle;margin-right:6px}
 .paintv .asec{background:rgba(255,255,255,.85);border-radius:14px;padding:4px 12px;align-self:flex-start}
-#gl.k-show,.hturn{background:url(img/ui-showbg.webp) center bottom/cover no-repeat,#f3e6d0!important}
+#gl.k-show,.s2stage,.hturn{background:url(img/ui-showbg.webp) center bottom/cover no-repeat,#f3e6d0!important}
 #gl.k-show canvas{position:relative;z-index:1}
 .k-horn{position:absolute;z-index:2;right:10px;bottom:10px;width:clamp(64px,17vw,96px);height:clamp(64px,17vw,96px);padding:0;background:none;border:0}
 .k-horn img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 4px #0003)}
@@ -1232,6 +1232,14 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .pinic .k-lock{width:clamp(96px,28vw,150px);height:auto;filter:drop-shadow(0 5px 5px #0003)}
 .setv h2,.settingsv h2{display:flex;align-items:center;gap:8px}
 .k-gearc{height:clamp(46px,12vw,66px);width:auto;vertical-align:middle;margin-right:8px;filter:drop-shadow(0 3px 3px #0003)}
+.s2stage{position:relative;flex:1;min-height:260px;border:4px solid #fff;border-radius:26px;overflow:hidden;touch-action:none;box-shadow:0 10px 24px var(--soft);display:flex;align-items:flex-end;justify-content:center}
+.s2car{position:absolute;left:0;right:0;margin:0 auto;bottom:14%;width:min(78%,420px);display:flex;justify-content:center;align-items:flex-end;pointer-events:none;transform-origin:50% 100%}
+.s2car .charcar,.s2car svg{width:100%;height:auto;max-height:46vh;object-fit:contain;filter:drop-shadow(0 10px 8px #0003)}
+.s2car.pop{animation:s2pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes s2pop{from{opacity:0;margin-bottom:-40px}to{opacity:1;margin-bottom:0}}
+.s2nav{position:absolute;top:42%;z-index:2;width:clamp(48px,13vw,66px);height:clamp(48px,13vw,66px);padding:0;border:0;background:url(img/ui-arrow.webp) center/contain no-repeat;filter:drop-shadow(0 3px 3px #0003)}
+.s2nav.l{left:8px;transform:scaleX(-1)}.s2nav.r{right:8px}
+.s2nav:active{opacity:.8}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -3686,51 +3694,49 @@ function openShowroom(id){
   if(id==='chop'){openHarryShowroom(id);return}
   stop3D();clearTimeout(S.timer);stopSpeech();
   S.mode='show';S.cur=null;setProgress(0,0);syncControls();
-  var c=CARS[id];
+  var list=S.stickers.filter(function(x){return x.indexOf('car:')===0&&x!=='car:chop'&&CARS[x.slice(4)]}).map(function(x){return x.slice(4)});
+  if(list.indexOf(id)<0)list.unshift(id);
+  var idx=list.indexOf(id),color=null,c=CARS[id],ang=0,drag=false,lx=0,moved=0,bump=0,last=performance.now(),st={run:true,raf:0,onResize:function(){},onKey:function(){}};
   var sw=COLORS.slice(0,7).map(function(x){
     return '<button class="sw" data-hex="'+x.hex+'" data-vi="'+x.vi+'" data-en="'+x.en+'" style="background:'+x.hex+'" aria-label="'+x.vi+'"></button>';
   }).join('');
-  view.innerHTML='<section class="show3d">'
-    +'<div class="sname"><div class="nmt"><b class="nmn">'+c.name+'</b> · '+c.vi+'<small>'+c.en+'</small></div>'
-    +'<button class="icon" data-act="album" aria-label="Album">📒</button></div>'
-    +'<div id="gl" class="k-show"><button type="button" class="k-horn" id="hornBtn" aria-label="Bấm còi"><img src="img/ui-horn.webp" alt=""></button></div><div class="palette">'+sw+'</div>'
-    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to spin</div></section>';
-  if(!window.THREE){noGL();return}
-  try{
-    var T=THREE,el=$('#gl'),renderer=mkRenderer(el,true);
-    var scene=new T.Scene();
-    var cam=new T.PerspectiveCamera(45,1,.1,100);
-    function fit(){
-      var w=Math.max(el.clientWidth,50),h=Math.max(el.clientHeight,50),asp=w/h;
-      renderer.setSize(w,h);cam.aspect=asp;
-      var dist=Math.max(9.5,Math.min(22,4.6/(Math.tan(22.5*Math.PI/180)*asp)));
-      cam.position.set(0,dist*.32,dist);cam.lookAt(0,1.05,0);cam.updateProjectionMatrix();
-    }
-    scene.add(new T.AmbientLight(0xffffff,.5));scene.add(new T.HemisphereLight(0xffffff,0x9db4d8,.45));
-    var dl=new T.DirectionalLight(0xffffff,.65);dl.position.set(5,9,7);scene.add(dl);
-    var car=make3DCar(id);car.rotation.y=.5;scene.add(car);
-    var st={run:true,raf:0,renderer:renderer,onResize:fit,bump:0,drag:false,spin:.7};
-    D=st;fit();window.addEventListener('resize',fit);
-    var gl=$('#gl'),lx=0,moved=0;
-    gl.addEventListener('pointerdown',function(e){st.drag=true;lx=e.clientX;moved=0;try{gl.setPointerCapture(e.pointerId)}catch(_){}});
-    gl.addEventListener('pointermove',function(e){if(!st.drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);car.rotation.y+=dx*.012});
-    gl.addEventListener('pointerup',function(){
-      st.drag=false;
-      if(moved<8){sfx('honk');st.bump=.22;speakNow([[c.honk,'vi',true]])}
-    });
-    var hb=$('#hornBtn');if(hb){hb.addEventListener('pointerdown',function(e){e.stopPropagation()});hb.addEventListener('click',function(e){e.stopPropagation();sfx('honk');st.bump=.22;speakNow([[c.honk,'vi',true]])})}
-    var last=performance.now();
-    function frame(now){
-      if(D!==st||!st.run)return;
-      var dt=Math.min(.05,(now-last)/1000);last=now;
-      if(!st.drag)car.rotation.y+=dt*st.spin*(reduce?0:1);
-      if(st.bump>0){st.bump=Math.max(0,st.bump-dt*.8);car.scale.setScalar(1+Math.sin(st.bump*28)*st.bump*.6)}
-      renderer.render(scene,cam);st.raf=requestAnimationFrame(frame);
-    }
+  view.innerHTML='<section class="show3d show2d">'
+    +'<div class="sname"><div class="nmt"><b class="nmn" id="s2n"></b><small id="s2s"></small></div>'
+    +'<button class="icon" data-act="album" aria-label="Album"><img class="spki" src="img/ui-album.webp" alt="" style="width:100%;height:100%;object-fit:contain"></button></div>'
+    +'<div id="s2stage" class="k-show s2stage"><div class="s2car" id="s2car"></div>'
+    +(list.length>1?'<button type="button" class="s2nav l" id="s2prev" aria-label="Xe trước"></button><button type="button" class="s2nav r" id="s2next" aria-label="Xe sau"></button>':'')
+    +'<button type="button" class="k-horn" id="hornBtn" aria-label="Bấm còi"><img src="img/ui-horn.webp" alt=""></button></div>'
+    +'<div class="palette" id="s2pal">'+sw+'</div>'
+    +'<div class="hint" style="text-align:center;background:rgba(255,255,255,.88);border-radius:14px;padding:2px 10px;opacity:1">Chạm xe để bấm còi · Vuốt để xoay · Tap to honk, swipe to turn</div></section>';
+  D=st;
+  var stage=$('#s2stage'),box=$('#s2car');
+  function show(first){
+    id=list[idx];c=CARS[id];color=null;ang=0;
+    $('#s2n').textContent=c.name+' · '+c.vi;$('#s2s').textContent=c.en;
+    box.innerHTML=c.img?charCarHTML(id):carSVG(id);
+    $('#s2pal').style.display=c.img?'none':'';
+    box.classList.remove('pop');void box.offsetWidth;box.classList.add('pop');
+    speakNow([['Xin chào bé! Mình là '+c.name+'.','vi'],[c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']]);
+  }
+  function honk(){sfx('honk');bump=.5;speakNow([[c.honk,'vi',true]])}
+  stage.addEventListener('pointerdown',function(e){if(e.target.closest('button'))return;drag=true;lx=e.clientX;moved=0;try{stage.setPointerCapture(e.pointerId)}catch(_){}});
+  stage.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx;lx=e.clientX;moved+=Math.abs(dx);ang-=dx*.012});
+  stage.addEventListener('pointerup',function(){var was=drag;drag=false;if(was&&moved<8)honk()});
+  var hb=$('#hornBtn');hb.addEventListener('pointerdown',function(e){e.stopPropagation()});hb.addEventListener('click',function(e){e.stopPropagation();honk()});
+  function go(d){idx=(idx+list.length+d)%list.length;sfx('pop');show()}
+  var pv=$('#s2prev'),nx=$('#s2next');
+  if(pv){pv.addEventListener('click',function(e){e.stopPropagation();go(-1)});nx.addEventListener('click',function(e){e.stopPropagation();go(1)})}
+  st.recolor=function(hex){if(c.img)return;color=hex;box.innerHTML=carSVG(id,hex)};
+  (function frame(now){
+    if(D!==st||!st.run)return;
+    var dt=Math.min(.05,(now-last)/1000);last=now;
+    if(!drag&&!reduce)ang+=dt*.5;
+    if(bump>0)bump=Math.max(0,bump-dt*1.6);
+    var sx=Math.cos(ang),sq=Math.abs(sx)<.12?(sx<0?-.12:.12):sx;
+    box.style.transform='translateY('+(-Math.sin(bump*30)*bump*26)+'px) scale('+sq+',1)';
     st.raf=requestAnimationFrame(frame);
-    st.car=car;
-    setTimeout(function(){speakNow([['Xin chào bé! Mình là '+c.name+'.','vi'],[c.honk,'vi'],['Hello! I am '+c.name+' the '+c.en+'.','en']])},300);
-  }catch(e){noGL()}
+  })(last);
+  show(true);
 }
 
 /* =====================================================================
@@ -4252,7 +4258,7 @@ function showEnd(){
   else if(st.indexOf('hero:')===0){var hr=HEROES[st.slice(5)];gotVi='Bé nhận được '+hr.vi+'!';gotEn='You got '+hr.en+'!'}
   else{gotVi='Bé nhận được nhãn dán mới!';gotEn='You won a new sticker!'}
   var btns='<button class="next" data-act="again">Chơi tiếp ▶<small>Play again</small></button>';
-  if(car)btns+='<button class="next blue" data-act="show3d" data-car="'+st.slice(4)+'">🚗 Xem xe 3D<small>See it in 3D</small></button>';
+  if(car)btns+='<button class="next blue" data-act="show3d" data-car="'+st.slice(4)+'">🚗 Xem xe<small>See the car</small></button>';
   btns+='<button class="next alt" data-act="album">📒 Album<small>Sticker book</small></button>'
        +'<button class="next alt" data-act="home">🏠 Về nhà<small>Home</small></button>';
   var GP=pick(GIFT_COLS);
@@ -4388,9 +4394,9 @@ function openCarChat(id){
   closeChat();CHATID=id;var c=CARS[id];
   var d=document.createElement('div');d.id='chatov';d.className='chatov';d.setAttribute('data-act','chatclose');
   d.innerHTML='<div class="chatcard" data-act="chatmore"><div class="cbub" data-act="chatmore"><span class="cexp" id="cexp">😀</span><div class="ctxt" id="ctxt"></div></div>'
-    +'<div class="cart" id="cart" data-act="chatmore">'+(id==='chop'?rkFaceHTML('happy'):carSVG(id))+'</div>'
+    +'<div class="cart" id="cart" data-act="chatmore">'+(id==='chop'?rkFaceHTML('happy'):(CARS[id]&&CARS[id].img?charCarHTML(id):carSVG(id)))+'</div>'
     +'<div class="cbtns"><button class="next" data-act="chatmore">💬 Nói tiếp<small>Talk more</small></button>'
-    +'<button class="next blue" data-act="show3d" data-car="'+id+'">🚗 Xem xe 3D<small>See it in 3D</small></button>'
+    +'<button class="next blue" data-act="show3d" data-car="'+id+'">🚗 Xem xe<small>See the car</small></button>'
     +'<button class="next" data-act="chatclose" style="background:#EEF0F8;color:var(--ink)">✖ Đóng<small>Close</small></button></div></div>';
   view.appendChild(d);chatSay(id,false);
 }
@@ -6630,6 +6636,7 @@ view.addEventListener('click',function(e){
   var sk=t.closest('[data-stk]');if(sk){stkTap(sk);return}
   var ac=t.closest('[data-car]');if(ac){openCarChat(ac.getAttribute('data-car'));return}
   var sw=t.closest('.sw');
+  if(sw&&D&&D.recolor){D.recolor(sw.getAttribute('data-hex'));sfx('pop');speakNow([['màu '+sw.getAttribute('data-vi'),'vi'],[sw.getAttribute('data-en'),'en']]);return}
   if(sw&&D&&D.car){
     D.car.userData.body.color.set(sw.getAttribute('data-hex'));
     sfx('pop');speakNow([['màu '+sw.getAttribute('data-vi'),'vi'],[sw.getAttribute('data-en'),'en']]);return;

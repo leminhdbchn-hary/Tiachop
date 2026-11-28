@@ -1177,6 +1177,17 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .item .charcar{width:100%;height:auto;max-height:100%;object-fit:contain;filter:drop-shadow(0 3px 2px rgba(0,0,0,.18))}
 .sz .charcar{width:100%;height:auto}
 .opt .charcar{max-width:90%;max-height:80%;object-fit:contain}
+#view:has(> .stage){background:url(img/ui-quizbg.webp) center top/cover no-repeat,#cfe3b8}
+.okstar{position:fixed;left:50%;top:42%;width:min(42vw,220px);height:auto;transform:translate(-50%,-50%) scale(.2);z-index:60;pointer-events:none;filter:drop-shadow(0 8px 10px #0003);animation:okstar 1.25s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes okstar{0%{transform:translate(-50%,-50%) scale(.2) rotate(-20deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.05) rotate(6deg);opacity:1}70%{transform:translate(-50%,-55%) scale(1) rotate(0);opacity:1}100%{transform:translate(-50%,-90%) scale(.7);opacity:0}}
+.trytoast{position:fixed;left:50%;bottom:calc(var(--sab) + 18px);transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:8px;background:#fff;border:3px solid #9fc4ff;border-radius:999px;padding:4px 18px 4px 6px;box-shadow:0 6px 14px #23305e33;font-weight:800;font-size:clamp(16px,4.4vw,22px);color:#2a3f8f;pointer-events:none;white-space:nowrap;animation:trytoast 1.8s ease forwards}
+.trytoast img{width:clamp(54px,15vw,80px);height:auto}
+@keyframes trytoast{0%{opacity:0;transform:translate(-50%,30px)}12%{opacity:1;transform:translate(-50%,0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,10px)}}
+.endhero{display:flex;justify-content:center;align-items:flex-end;gap:4px;margin:-4px 0 2px}
+.endhero img{height:clamp(90px,24vw,150px);width:auto;filter:drop-shadow(0 6px 6px #0002)}
+.endhero .eh-car{animation:ehbounce 1.4s ease-in-out infinite}.endhero .eh-cup{animation:ehbounce 1.4s ease-in-out -.7s infinite}
+@keyframes ehbounce{50%{transform:translateY(-8px)}}
+@media (prefers-reduced-motion:reduce){.okstar,.trytoast,.endhero img{animation:none}.okstar{display:none}}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -4115,6 +4126,9 @@ function renderRound(r){
   },15000)})();
   setTimeout(function(){if(S.cur!==r)return;var l=[];r.opts.forEach(function(o){if(o.say)l=l.concat(o.say)});l=l.concat([[r.win.vi,'vi'],[r.win.en,'en']],PRAISE.reduce(function(a,p){return a.concat([[p[0],'vi'],[p[1],'en']])},[]),r.wx||[]);preload(l.filter(function(x){return x[2]===true||(x[1]==='vi'?S.lang!=='en':S.lang!=='vi')}))},700);
 }
+/* hiệu ứng: ngôi sao khi đúng, xe xanh khích lệ khi sai */
+function okStar(){try{var im=document.createElement('img');im.className='okstar';im.src='img/ui-star.webp';im.alt='';document.body.appendChild(im);setTimeout(function(){im.remove()},1300)}catch(e){}}
+function tryToast(){try{var o=document.querySelector('.trytoast');if(o)o.remove();var d=document.createElement('div');d.className='trytoast';d.innerHTML='<img src="img/ui-cartry.webp" alt=""><span>'+(S.lang==='en'?'Try again!':'Bé thử lại nhé!')+'</span>';document.body.appendChild(d);setTimeout(function(){d.remove()},1800)}catch(e){}}
 function succeed(el){
   var r=S.cur;S.locked=true;sfx('ok');clearTimeout(S.gt);
   document.querySelectorAll('.opt.glow').forEach(function(o){o.classList.remove('glow')});
@@ -4124,6 +4138,7 @@ function succeed(el){
     document.querySelectorAll('.opt').forEach(function(o){if(o!==el)o.classList.add('dim')});
     var b=el.getBoundingClientRect();confetti(b.left+b.width/2,b.top+b.height/2,false);
   }else{confetti(window.innerWidth/2,window.innerHeight/2.4,false)}
+  okStar();
   if(r.onCorrect)r.onCorrect();
   var p=pick(PRAISE);
   speakNow([[p[0],'vi'],[r.win.vi,'vi'],[p[1],'en'],[r.win.en,'en']].concat(S.lang==='vi'&&r.wx?r.wx:[]));
@@ -4152,7 +4167,7 @@ function answer(i,el){
   var r=S.cur;
   if(i===r.correct){succeed(el);return}
   S.wrong=(S.wrong||0)+1;
-  sfx('no');el.classList.add('wrong','dim');el.disabled=true;
+  sfx('no');tryToast();el.classList.add('wrong','dim');el.disabled=true;
   setTimeout(function(){el.classList.remove('wrong')},500);
   if(!r._redo&&!S.redo&&S.round<S.total-1){S.redo=r;S.redoAt=S.round}
   clearTimeout(S.gt);
@@ -4207,6 +4222,7 @@ function showEnd(){
     +'<div class="sticker" id="gsticker" aria-hidden="true">'+stkHTML(st)+'</div></div>'
     +'<p class="gifttip" id="gifttip">'+(en1?'Tap the gift to open it!':'Chạm vào hộp quà để mở nhé!'+(both?'<small>Tap the gift to open it!</small>':''))+'</p>'
     +'<div class="after" id="after">'
+    +'<div class="endhero" aria-hidden="true"><img class="eh-car" src="img/ui-carwin.webp" alt=""><img class="eh-cup" src="img/ui-trophy.webp" alt=""></div>'
     +'<h2>'+(en1?'Hooray! You did it!':'Hoan hô! Bé giỏi quá!')+'</h2>'
     +(both?'<p>Hooray! You did it!</p>':'')
     +'<div class="stars" aria-label="Sao">'+stars+'</div>'
@@ -5349,7 +5365,7 @@ function tkSay(vi,en){speakNow([[vi,'vi'],[en,'en']])}
 /* kết thúc một vòng */
 function tkWin(win,ok){
   var tk=TK;if(!tk||tk.done)return;tk.done=1;clearTimeout(tk.h);
-  sfx('ok');var b=$('#tkbody');if(b){var r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/3,false)}
+  sfx('ok');okStar();var b=$('#tkbody');if(b){var r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/3,false)}
   var p=pick(PRAISE);speakNow([[p[0],'vi'],[win.vi,'vi'],[p[1],'en'],[win.en,'en']]);
   recordResult('t_'+tk.kind,ok);
   if(ok)tk.ok++;
@@ -5991,7 +6007,7 @@ function trSetup(t,g,strokes){
 function tkSayTr(vi,en){speakNow([[vi,'vi'],[en,'en']])}
 function trWin(ch,ok){
   var t=TR;if(!t||t.done)return;t.done=1;
-  sfx('ok');var b=$('#tkbody');if(b){var r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/3,false)}
+  sfx('ok');okStar();var b=$('#tkbody');if(b){var r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top+r.height/3,false)}
   var D=TRSETS[t.set],p=pick(PRAISE);
   speakNow([[p[0],'vi'],['Đây là '+D.prefix[0]+' '+ch+'.','vi'],[p[1],'en'],['This is '+D.prefix[1]+' '+ch+'.','en']]);
   recordResult('t_trace',ok);

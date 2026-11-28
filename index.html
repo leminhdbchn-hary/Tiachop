@@ -1226,6 +1226,12 @@ main{background:linear-gradient(160deg,#c4d4ff,#ada5e4);border:2px solid #f4f4ff
 .ctl.l.k-steer:active{transform:scale(.9)}.ctl.r.k-steer:active{transform:scaleX(-1) scale(.9)}
 .rbflag img{height:clamp(34px,9vw,52px);width:auto;display:block}
 .hturn .hpad{display:none}
+.top .road{background:url(img/ui-road.webp) center/100% 100% no-repeat,#4b5280!important;border:2px solid #fff!important;overflow:visible}
+.top .flag{display:none}
+.tlimg.k-moon{width:clamp(120px,34vw,190px);height:auto;filter:drop-shadow(0 6px 6px #0003)}
+.pinic .k-lock{width:clamp(96px,28vw,150px);height:auto;filter:drop-shadow(0 5px 5px #0003)}
+.setv h2,.settingsv h2{display:flex;align-items:center;gap:8px}
+.k-gearc{height:clamp(46px,12vw,66px);width:auto;vertical-align:middle;margin-right:8px;filter:drop-shadow(0 3px 3px #0003)}
 .k-blimp{position:absolute;left:3%;top:15%;width:clamp(70px,21vw,130px);height:auto;z-index:3;pointer-events:none;filter:drop-shadow(0 6px 4px #1d2a6a55);animation:kfloat 5s ease-in-out infinite}
 @keyframes kfloat{50%{transform:translate(8px,-9px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.k-blimp{animation:none}}
@@ -3761,7 +3767,7 @@ function updateSky(){
   var c=$('#city');if(c)c.innerHTML=citySVG(n);
 }
 updateSky();setInterval(updateSky,60000);
-$('#progress').innerHTML='<div class="road" id="road"><div class="roadcar" id="roadcar"></div><span class="flag">🏁</span></div>';
+$('#progress').innerHTML='<div class="road" id="road"><div class="roadcar" id="roadcar"></div><span class="flag"></span></div>';
 
 var roadFor=null;
 function setProgress(done,total){
@@ -4463,7 +4469,7 @@ function unlockDrive(){
 function showLock(){
   var n=qCount(),left=NEEDQ-n,stars='';
   for(var i=0;i<NEEDQ;i++)stars+=(i<n?'⭐':'☆');
-  var d=pinShell('<div class="pinic">🔒</div><h2>Lái xe 3D<small>3D driving</small></h2><div class="pinstars">'+stars+'</div>'
+  var d=pinShell('<div class="pinic"><img class="k-lock" src="img/ui-lock.webp" alt=""></div><h2>Lái xe 3D<small>3D driving</small></h2><div class="pinstars">'+stars+'</div>'
     +'<p>Bé còn '+left+' nhiệm vụ nữa là được lái xe!<small>'+left+' more mission'+(left>1?'s':'')+' to go before you can drive!</small></p>'
     +'<p class="pinnote">Chơi xong một bài là được 1 nhiệm vụ. Đủ 5 nhiệm vụ (5 sticker) là được lái 1 lượt.</p>'
     +'<div class="pinbtns"><button type="button" class="next alt" data-pk="parent">🔑 Ba mẹ mở khoá<small>Parents: unlock</small></button>'
@@ -4495,7 +4501,7 @@ function tlLock(){
   if(TL.locked)return;TL.locked=true;
   stop3D();stopSpeech();clearTimeout(S.timer);
   var d=document.createElement('div');d.id='timeov';d.className='chatov timeov';
-  d.innerHTML='<div class="pincard"><img class="tlimg" src="img/harry-pose-2.webp" alt="" draggable="false">'
+  d.innerHTML='<div class="pincard"><img class="tlimg k-moon" src="img/ui-moon.webp" alt="" draggable="false">'
     +'<h2>Hết giờ chơi hôm nay rồi!<small>Time is up for today!</small></h2>'
     +'<p>Bé nghỉ ngơi nhé: uống nước, nhìn ra xa, chạy nhảy một chút. Mai mình chơi tiếp!</p>'
     +'<p class="pinnote">Bé đã chơi '+tlFmt(S.tsec)+' hôm nay.</p>'
@@ -6489,7 +6495,7 @@ function showSettings(){pfsExit();
   var st=bkStamp(),stTxt='Chưa sao lưu lần nào. Nên sao lưu để không mất nhãn dán của bé nhé!';
   if(st){try{var dt=new Date(st);stTxt='Sao lưu gần nhất: '+dt.toLocaleDateString('vi-VN')+' '+dt.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}catch(e){}}
   view.innerHTML='<section class="setp">'
-    +'<h2>⚙️ Cài đặt<small style="font-size:.55em;font-weight:600;opacity:.7;margin-left:8px">Settings</small></h2>'
+    +'<h2><img class="k-gearc" src="img/ui-gearchar.webp" alt="">Cài đặt<small style="font-size:.55em;font-weight:600;opacity:.7;margin-left:8px">Settings</small></h2>'
     +'<div class="setcard"><h3>🔊 Âm thanh<i>Sound</i></h3><div class="setrow"><button class="next'+(S.sound?'':' alt')+'" data-act="snd">'+(S.sound?'🔊 Đang bật':'🔇 Đang tắt')+'<small>'+(S.sound?'Sound on':'Sound off')+'</small></button>'
     +'<button class="next blue" data-act="sndtest">🔔 Thử loa<small>Test speaker</small></button></div>'
     +'<div class="setmsg" id="sndMsg" role="status"></div></div>'
